@@ -1,0 +1,10 @@
+.vscode/
+pyrfuniverse.egg-info/
+.idea/
+**/*.pyc
+**/__pycache__/
+tests/videos/
+tests/image/images/
+tests/drawer_images*
+demos/headless_mode/CameraTest*
+demos/headless_mode/images/
