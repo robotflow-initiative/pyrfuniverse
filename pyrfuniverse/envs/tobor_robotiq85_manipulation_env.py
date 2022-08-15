@@ -17,18 +17,25 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
         super().__init__(
             executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/RFUniverse.x86_64',
             scene_file=scene_file,
-            articulation_channel=True,
-            obi_cloth_channel=True,
-            game_object_channel=True,
-            rigidbody_channel=True
         )
-
+        self.instance_channel.set_action(
+            'EnabledNativeIK',
+            id=9874610,
+            enabled=False
+        )
+        self.instance_channel.set_action(
+            'EnabledNativeIK',
+            id=9874611,
+            enabled=False
+        )
+        self._step()
         self.ik_controller = RFUniverseToborController(
             urdf_folder='../URDF/tobor',
             left_hand='robotiq85',
             right_hand='robotiq85',
             left_init_joint_positions=left_init_joint_positions,
             right_init_joint_positions=right_init_joint_positions,
+            revise=True
         )
 
         # Init joint positions
@@ -48,10 +55,10 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
     def step(self, mode, position: np.ndarray, orientation=None):
         if mode == 'left':
             # Robotiq85
-            current_position = np.array(self.articulation_channel.data[98746100]['positions'][7])
+            current_position = np.array(self.instance_channel.data[98746100]['positions'][7])
         else:
             # Robotiq85
-            current_position = np.array(self.articulation_channel.data[98746110]['positions'][7])
+            current_position = np.array(self.instance_channel.data[98746110]['positions'][7])
 
         distance = position - current_position
         time_steps = int(np.abs(distance / 0.05).max()) + 1
@@ -68,7 +75,7 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
             if mode == 'left':
                 self.left_joint_positions = joint_positions
                 if not self.only_calculate:
-                    self.articulation_channel.set_action(
+                    self.instance_channel.set_action(
                         'SetJointPosition',
                         id=9874610,
                         joint_positions=list(joint_positions),
@@ -76,7 +83,7 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
             else:
                 self.right_joint_positions = joint_positions
                 if not self.only_calculate:
-                    self.articulation_channel.set_action(
+                    self.instance_channel.set_action(
                         'SetJointPosition',
                         id=9874611,
                         joint_positions=list(joint_positions),
@@ -89,11 +96,11 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
 
 
     def double_step(self, left_pos, right_pos, left_orn=None, right_orn=None):
-        left_current_pos = np.array(self.articulation_channel.data[98746100]['positions'][7])
+        left_current_pos = np.array(self.instance_channel.data[98746100]['positions'][7])
         left_distance = left_pos - left_current_pos
         left_time_steps = int(np.abs(left_distance / 0.05).max()) + 1
 
-        right_current_pos = np.array(self.articulation_channel.data[98746110]['positions'][7])
+        right_current_pos = np.array(self.instance_channel.data[98746110]['positions'][7])
         right_distance = right_pos - right_current_pos
         right_time_steps = int(np.abs(right_distance / 0.05).max()) + 1
 
@@ -118,13 +125,13 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
             self.right_joint_positions = right_joint_positions
 
             if not self.only_calculate:
-                self.articulation_channel.set_action(
+                self.instance_channel.set_action(
                     'SetJointPosition',
                     id=9874610,
                     joint_positions=list(left_joint_positions),
                 )
                 self._step()
-                self.articulation_channel.set_action(
+                self.instance_channel.set_action(
                     'SetJointPosition',
                     id=9874611,
                     joint_positions=list(right_joint_positions),
@@ -137,14 +144,14 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
 
     def double_close(self):
         if not self.only_calculate:
-            self.articulation_channel.set_action(
+            self.instance_channel.set_action(
                 'SetJointPosition',
                 id=98746100,
                 joint_positions=[50, 50],
             )
             self.left_gripper_open = False
             self._step()
-            self.articulation_channel.set_action(
+            self.instance_channel.set_action(
                 'SetJointPosition',
                 id=98746110,
                 joint_positions=[50, 50],
@@ -159,14 +166,14 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
 
     def double_open(self):
         if not self.only_calculate:
-            self.articulation_channel.set_action(
+            self.instance_channel.set_action(
                 'SetJointPosition',
                 id=98746100,
                 joint_positions=[0, 0],
             )
             self.left_gripper_open = True
             self._step()
-            self.articulation_channel.set_action(
+            self.instance_channel.set_action(
                 'SetJointPosition',
                 id=98746110,
                 joint_positions=[0, 0],
@@ -181,13 +188,13 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
 
     def reset(self):
         self.env.reset()
-        self.articulation_channel.set_action(
+        self.instance_channel.set_action(
             'SetJointPositionDirectly',
             id=9874610,
             joint_positions=self.left_init_joint_positions
         )
         self._step()
-        self.articulation_channel.set_action(
+        self.instance_channel.set_action(
             'SetJointPositionDirectly',
             id=9874611,
             joint_positions=self.right_init_joint_positions
@@ -197,14 +204,14 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
     def close_gripper(self, mode):
         if not self.only_calculate:
             if mode == 'left':
-                self.articulation_channel.set_action(
+                self.instance_channel.set_action(
                     'SetJointPosition',
                     id=98746100,
                     joint_positions=[50, 50],
                 )
                 self.left_gripper_open = False
             else:
-                self.articulation_channel.set_action(
+                self.instance_channel.set_action(
                     'SetJointPosition',
                     id=98746110,
                     joint_positions=[50, 50],
@@ -219,14 +226,14 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
     def open_gripper(self, mode):
         if not self.only_calculate:
             if mode == 'left':
-                self.articulation_channel.set_action(
+                self.instance_channel.set_action(
                     'SetJointPosition',
                     id=98746100,
                     joint_positions=[0, 0],
                 )
                 self.left_gripper_open = True
             else:
-                self.articulation_channel.set_action(
+                self.instance_channel.set_action(
                     'SetJointPosition',
                     id=98746110,
                     joint_positions=[0, 0],
@@ -273,7 +280,7 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
 
     def get_current_position(self, mode):
         if mode == 'left':
-            return np.array(self.articulation_channel.data[98746100]['positions'][7])
+            return np.array(self.instance_channel.data[98746100]['positions'][7])
         elif mode == 'right':
-            return np.array(self.articulation_channel.data[98746110]['positions'][7])
+            return np.array(self.instance_channel.data[98746110]['positions'][7])
 

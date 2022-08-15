@@ -20,7 +20,9 @@ class RFUniverseToborController:
             render=False,
             left_init_joint_positions=[0] * 7,
             right_init_joint_positions=[0] * 7,
+            revise=False
     ):
+        self.revise = revise
         if render:
             p.connect(p.GUI)
         else:
@@ -52,8 +54,8 @@ class RFUniverseToborController:
         self.link_ids = list(range(8))
 
         # revise_factor: fix the positive or negative joint position between pybullet and Unity.
-        self.revise_factor = np.array([-1, 1, -1, 1, -1, 1, -1])
-
+        self.revise_factor_old = np.array([-1, 1, -1, 1, -1, 1, -1])
+        self.revise_factor = np.array([1, 1, 1, 1, 1, 1, 1])
         self.init_joint_positions = {
             'left': self.get_pybullet_joint_pos_from_unity(left_init_joint_positions),
             'right': self.get_pybullet_joint_pos_from_unity(right_init_joint_positions),
@@ -74,14 +76,20 @@ class RFUniverseToborController:
     def get_unity_joint_pos_from_pybullet(self, pybullet_joint_pos: tuple) -> list:
         pybullet_joint_pos = list(pybullet_joint_pos)[:self.num_dof]
         pybullet_joint_pos = np.array(pybullet_joint_pos)
-        unity_joint_pos = self.revise_factor * pybullet_joint_pos * 180 / math.pi
+        if self.revise is True:
+            unity_joint_pos = self.revise_factor_old * pybullet_joint_pos * 180 / math.pi
+        else:
+            unity_joint_pos = self.revise_factor * pybullet_joint_pos * 180 / math.pi
 
         return unity_joint_pos
 
     def get_pybullet_joint_pos_from_unity(self, unity_joint_pos: list) -> list:
         unity_joint_pos = list(unity_joint_pos)[:self.num_dof]
         unity_joint_pos = np.array(unity_joint_pos)
-        pybullet_joint_pos = self.revise_factor * unity_joint_pos * math.pi / 180
+        if self.revise is True:
+            pybullet_joint_pos = self.revise_factor_old * unity_joint_pos * math.pi / 180
+        else:
+            pybullet_joint_pos = self.revise_factor * unity_joint_pos * math.pi / 180
 
         return pybullet_joint_pos
 

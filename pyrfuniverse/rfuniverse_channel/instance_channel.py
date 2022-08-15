@@ -3,7 +3,7 @@ from pyrfuniverse.side_channel.side_channel import (
     OutgoingMessage,
 )
 from pyrfuniverse.rfuniverse_channel import RFUniverseChannel
-
+import base64
 
 class InstanceChannel(RFUniverseChannel):
 
@@ -17,42 +17,108 @@ class InstanceChannel(RFUniverseChannel):
         assert title == 'Instance Info', \
             'The information %s is not for game_object, please check uuid to avoid repeat.' % title
         count = msg.read_int32()
+
         for i in range(count):
-            type = msg.read_string()
-            if type == 'GameObject':
-                self.env.game_object_channel._parse_message(msg)
-            elif type == 'Rigidbody':
-                self.env.rigidbody_channel._parse_message(msg)
-            elif type == 'Controller':
-                self.env.articulation_channel._parse_message(msg)
-            elif type == 'Camera':
-                self.env.camera_channel._parse_message(msg)
-            elif type == 'Cloth':
-                self.env.obi_cloth_channel._parse_message(msg)
-            elif type == 'ClothWithGrasping':
-                self.env.obi_cloth_with_grasping_channel._parse_message(msg)
-            elif type == 'Softbody':
-                self.env.obi_softbody_channel._parse_message(msg)
-            elif type == 'HumanDressing':
-                self.env.human_dressing_channel._parse_message(msg)
-            elif type == 'JointInverseDynamicsForce':
-                data = {}
-                data['gravity_forces'] = msg.read_float32_list()
-                data['coriolis_centrifugal_forces'] = msg.read_float32_list()
-                data['drive_forces'] = msg.read_float32_list()
-                self.data['inverse_dynamics_force'] = data
-            elif type == 'ResultWorldPoint':
-                data = [0, 0, 0]
-                data[0] = msg.read_float32()
-                data[1] = msg.read_float32()
-                data[2] = msg.read_float32()
-                self.data['result_world_point'] = data
-            elif type == 'ResultLocalPoint':
-                data = [0, 0, 0]
-                data[0] = msg.read_float32()
-                data[1] = msg.read_float32()
-                data[2] = msg.read_float32()
-                self.data['result_local_point'] = data
+            this_object_id = msg.read_int32()
+            this_object_data = {}
+            this_object_data['name'] = msg.read_string()
+            this_object_data['type'] = msg.read_string()
+            this_object_data['position'] = [msg.read_float32() for _ in range(3)]
+            this_object_data['rotation'] = [msg.read_float32() for _ in range(3)]
+            this_object_data['quaternion'] = [msg.read_float32() for _ in range(4)]
+            if msg.read_bool() is True:
+                this_object_data['result_local_point'] = msg.read_float32_list()
+            if msg.read_bool() is True:
+                this_object_data['result_world_point'] = msg.read_float32_list()
+
+            #if this_object_data['type'] == 'GameObject':
+            if this_object_data['type'] == 'Rigidbody':
+                this_object_data['velocity'] = [msg.read_float32() for i in range(3)]
+                this_object_data['angular_vel'] = [msg.read_float32() for i in range(3)]
+            elif this_object_data['type'] == 'Controller':
+                this_object_data['number_of_joints'] = msg.read_int32()
+                # Position
+                this_object_data['positions'] = self._parse_raw_list_3(msg.read_float32_list())
+                # RotationEuler
+                this_object_data['rotations'] = self._parse_raw_list_3(msg.read_float32_list())
+                # RotationQuaternion
+                this_object_data['quaternion'] = self._parse_raw_list_4(msg.read_float32_list())
+                # Velocity
+                this_object_data['velocities'] = self._parse_raw_list_3(msg.read_float32_list())
+                # Each joint position
+                this_object_data['joint_positions'] = msg.read_float32_list()
+                # Each joint velocity
+                this_object_data['joint_velocities'] = msg.read_float32_list()
+                # Whether all parts are stable
+                this_object_data['all_stable'] = msg.read_bool()
+                if msg.read_bool() is True:
+                    this_object_data['gravity_forces'] = msg.read_float32_list()
+                    this_object_data['coriolis_centrifugal_forces'] = msg.read_float32_list()
+                    this_object_data['drive_forces'] = msg.read_float32_list()
+            elif this_object_data['type'] == 'Camera':
+                this_object_data['near_plane'] = msg.read_float32()
+                this_object_data['far_plane'] = msg.read_float32()
+                this_object_data['FOV'] = msg.read_float32()
+                this_object_data['target_display'] = msg.read_int32()
+                this_object_data['width'] = msg.read_int32()
+                this_object_data['height'] = msg.read_int32()
+                if msg.read_bool() is True:
+                    this_object_data['rgb'] = base64.b64decode(msg.read_string())
+                if msg.read_bool() is True:
+                    this_object_data['normal'] = base64.b64decode(msg.read_string())
+                if msg.read_bool() is True:
+                    this_object_data['id'] = base64.b64decode(msg.read_string())
+                if msg.read_bool() is True:
+                    this_object_data['depth'] = base64.b64decode(msg.read_string())
+                if msg.read_bool() is True:
+                    this_object_data['depth_exr'] = base64.b64decode(msg.read_string())
+            #elif this_object_data['type'] == 'Cloth':
+            #elif this_object_data['type'] == 'ClothWithGrasping':
+            elif this_object_data['type'] == 'Softbody':
+                # Number of particles
+                this_object_data['number_of_particles'] = msg.read_int32()
+                # Average Positions
+                this_object_data['position'] = [msg.read_float32() for i in range(3)]
+                this_object_data['orientation'] = [msg.read_float32() for i in range(4)]
+                this_object_data['velocity'] = [msg.read_float32() for i in range(3)]
+                this_object_data['angular_vel'] = [msg.read_float32() for i in range(3)]
+            elif this_object_data['type'] == 'HumanDressing':
+                # Grasp point position
+                this_object_data['grasp_position'] = [msg.read_float32() for i in range(3)]
+                # Grasp point rotation
+                this_object_data['grasp_rotation'] = [msg.read_float32() for i in range(3)]
+                # Grasp point velocity
+                this_object_data['grasp_velocity'] = [msg.read_float32() for i in range(3)]
+                # Grasp point angular velocity
+                this_object_data['grasp_angular_vel'] = [msg.read_float32() for i in range(3)]
+                # Target position
+                this_object_data['target_position'] = [msg.read_float32() for i in range(3)]
+                # Target rotation
+                this_object_data['target_rotation'] = [msg.read_float32() for i in range(3)]
+
+            self.data[this_object_id] = this_object_data
+
+    def _parse_raw_list_3(self, raw_list):
+        length = len(raw_list)
+        assert length % 3 == 0
+        number_of_parts = length // 3
+        norm_list = []
+        for j in range(number_of_parts):
+            transform = [raw_list[3 * j], raw_list[3 * j + 1], raw_list[3 * j + 2]]
+            norm_list.append(transform)
+
+        return norm_list
+
+    def _parse_raw_list_4(self, raw_list):
+        length = len(raw_list)
+        assert length % 4 == 0
+        number_of_parts = length // 4
+        norm_list = []
+        for j in range(number_of_parts):
+            transform = [raw_list[4 * j], raw_list[4 * j + 1], raw_list[4 * j + 2], raw_list[4 * j + 3]]
+            norm_list.append(transform)
+
+        return norm_list
 
     def SetTransform(self, kwargs: dict) -> None:
         """Set the transform of a object, specified by id.
@@ -195,7 +261,7 @@ class InstanceChannel(RFUniverseChannel):
         self.send_message(msg)
 
     def GetLoaclPointFromWorld(self, kwargs: dict) -> None:
-        compulsory_params = ['id', 'x', 'y', 'z']
+        compulsory_params = ['id', 'point']
         optional_params = []
         self._check_kwargs(kwargs, compulsory_params)
 
@@ -203,13 +269,13 @@ class InstanceChannel(RFUniverseChannel):
 
         msg.write_int32(kwargs['id'])
         msg.write_string('GetLoaclPointFromWorld')
-        msg.write_float32(kwargs['x'])
-        msg.write_float32(kwargs['y'])
-        msg.write_float32(kwargs['z'])
+        msg.write_float32(kwargs['point'][0])
+        msg.write_float32(kwargs['point'][1])
+        msg.write_float32(kwargs['point'][2])
         self.send_message(msg)
 
     def GetWorldPointFromLocal(self, kwargs: dict) -> None:
-        compulsory_params = ['id', 'x', 'y', 'z']
+        compulsory_params = ['id', 'point']
         optional_params = []
         self._check_kwargs(kwargs, compulsory_params)
 
@@ -217,11 +283,12 @@ class InstanceChannel(RFUniverseChannel):
 
         msg.write_int32(kwargs['id'])
         msg.write_string('GetWorldPointFromLocal')
-        msg.write_float32(kwargs['x'])
-        msg.write_float32(kwargs['y'])
-        msg.write_float32(kwargs['z'])
+        msg.write_float32(kwargs['point'][0])
+        msg.write_float32(kwargs['point'][1])
+        msg.write_float32(kwargs['point'][2])
         self.send_message(msg)
 
+    # GameObject
     def Translate(self, kwargs: dict) -> None:
         """Translate a game object by a given distance, in meter format. Note that this command will translate the
            object relative to the current position.
@@ -275,6 +342,7 @@ class InstanceChannel(RFUniverseChannel):
 
         self.send_message(msg)
 
+    # Controller
     def SetJointPosition(self, kwargs: dict) -> None:
         """Set the target positions for each joint in a specified articulation body.
         Args:
@@ -428,9 +496,13 @@ class InstanceChannel(RFUniverseChannel):
         self.send_message(msg)
 
     # only work on unity 2022.1+
-    def GetJointInverseDynamicsForce(self, object_id: int) -> None:
+    def GetJointInverseDynamicsForce(self, kwargs: dict) -> None:
+        compulsory_params = ['id']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
         msg = OutgoingMessage()
-        msg.write_int32(object_id)
+        msg.write_int32(kwargs['id'])
         msg.write_string('GetJointInverseDynamicsForce')
         self.send_message(msg)
 
@@ -445,6 +517,18 @@ class InstanceChannel(RFUniverseChannel):
         msg.write_bool(kwargs['immovable'])
         self.send_message(msg)
 
+    def EnabledNativeIK(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'enabled']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+        msg.write_int32(kwargs['id'])
+        msg.write_string('EnabledNativeIK')
+        msg.write_bool(kwargs['enabled'])
+        self.send_message(msg)
+
+    # Rigidbody
     def AddForce(self, kwargs: dict):
         """Add a constant force on a rigidbody. The rigidbody must be loaded into the scene and
         is distinguished by index.
@@ -488,44 +572,67 @@ class InstanceChannel(RFUniverseChannel):
 
         self.send_message(msg)
 
-    def GetImages(self, kwargs: dict) -> None:
-        """Get images from cameras in Unity. Users can specify camera's id, image width and height. If the width or
-        height is not specified, Unity will send resolution of the original camera by default.
-        Args:
-            Compulsory:
-            rendering_params: A list of rendering_param. rendering_param is a 1-d or 3-d list inferring rendering
-                parameters. If it is 1-d, you must specify the [camera_index] and the image resolution will be camera's
-                original resolution. If it is 3-d, you must specify [camera_index, width, height].
-        """
-        compulsory_params = ['rendering_params']
+    # camera
+    def GetRGB(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'width', 'height']
         optional_params = []
         self._check_kwargs(kwargs, compulsory_params)
 
         msg = OutgoingMessage()
-        num_images = len(kwargs['rendering_params'])
 
-        # Action name
-        msg.write_int32(-1)
-        msg.write_string('GetImages')
-        # Action arguments
-        msg.write_int32(num_images)
-        for i in range(num_images):
-            rendering_param = kwargs['rendering_params'][i]
-            assert type(rendering_param) is list, \
-                'Wrong type: Each element in rendering params should be a list.'
-            assert len(rendering_param) == 1 or len(rendering_param) == 3, \
-                'Wrong length: Each element in rendering params should be 1-d or 3-d.'
-            msg.write_int32(rendering_param[0])
-            if len(rendering_param) == 3:
-                msg.write_int32(rendering_param[1])
-                msg.write_int32(rendering_param[2])
-            else:
-                msg.write_int32(-1)
-                msg.write_int32(-1)
+        msg.write_int32(kwargs['id'])
+        msg.write_string('GetRGB')
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
+
+        self.send_message(msg)
+
+    def GetNormal(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'width', 'height']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(kwargs['id'])
+        msg.write_string('GetNormal')
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
+
+        self.send_message(msg)
+
+    def GetDepth(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'width', 'height', 'zero_dis', 'one_dis']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(kwargs['id'])
+        msg.write_string('GetDepth')
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
+        msg.write_int32(kwargs['zero_dis'])
+        msg.write_int32(kwargs['one_dis'])
+
+        self.send_message(msg)
+
+    def GetDepthEXR(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'width', 'height']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(kwargs['id'])
+        msg.write_string('GetDepthEXR')
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
 
         self.send_message(msg)
 
 
+    # human_dressing
     def SetTargetX(self, kwargs: dict) -> None:
         compulsory_params = ['targetx']
         self._check_kwargs(kwargs, compulsory_params)

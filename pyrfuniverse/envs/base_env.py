@@ -2,14 +2,6 @@ import time
 from abc import ABC
 from pyrfuniverse.environment import UnityEnvironment
 from pyrfuniverse.side_channel.environment_parameters_channel import EnvironmentParametersChannel
-from pyrfuniverse.rfuniverse_channel import RigidbodyChannel
-from pyrfuniverse.rfuniverse_channel import CameraChannel
-from pyrfuniverse.rfuniverse_channel import ArticulationChannel
-from pyrfuniverse.rfuniverse_channel import GameObjectChannel
-from pyrfuniverse.rfuniverse_channel import ObiClothChannel
-from pyrfuniverse.rfuniverse_channel import ObiClothWithGraspingChannel
-from pyrfuniverse.rfuniverse_channel import ObiSoftbodyChannel
-from pyrfuniverse.rfuniverse_channel import HumanDressingChannel
 from pyrfuniverse.rfuniverse_channel import AssetChannel
 from pyrfuniverse.rfuniverse_channel import InstanceChannel
 from pyrfuniverse.rfuniverse_channel import DebugChannel
@@ -152,81 +144,6 @@ class RFUniverseBaseEnv(ABC):
         self.channels.append(self.asset_channel)
         self.channels.append(self.instance_channel)
         self.channels.append(self.debug_channel)
-
-        if 'camera_channel' in kwargs.keys():
-            if kwargs['camera_channel'] is True or type(kwargs['camera_channel']) is str:
-                self.camera_channel = CameraChannel(self.instance_channel)
-            else:
-                self.camera_channel = None
-        else:
-            self.camera_channel = None
-
-        if 'rigidbody_channel' in kwargs.keys():
-            if kwargs['rigidbody_channel'] is True or type(kwargs['rigidbody_channel']) is str:
-                self.rigidbody_channel = RigidbodyChannel(self.instance_channel)
-            else:
-                self.rigidbody_channel = None
-        else:
-            self.rigidbody_channel = None
-
-        if 'articulation_channel' in kwargs.keys():
-            if kwargs['articulation_channel'] is True or type(kwargs['articulation_channel']) is str:
-                self.articulation_channel = ArticulationChannel(self.instance_channel)
-            else:
-                self.articulation_channel = None
-        else:
-            self.articulation_channel = None
-
-        if 'game_object_channel' in kwargs.keys():
-            if kwargs['game_object_channel'] is True or type(kwargs['game_object_channel']) is str:
-                self.game_object_channel = GameObjectChannel(self.instance_channel)
-            else:
-                self.game_object_channel = None
-        else:
-            self.game_object_channel = None
-
-        if 'obi_cloth_channel' in kwargs.keys():
-            if kwargs['obi_cloth_channel'] is True or type(kwargs['obi_cloth_channel']) is str:
-                self.obi_cloth_channel = ObiClothChannel(self.instance_channel)
-            else:
-                self.obi_cloth_channel = None
-        else:
-            self.obi_cloth_channel = None
-
-        if 'obi_cloth_with_grasping_channel' in kwargs.keys():
-            if kwargs['obi_cloth_with_grasping_channel'] is True or type(kwargs['obi_cloth_with_grasping_channel']) is str:
-                self.obi_cloth_with_grasping_channel = ObiClothWithGraspingChannel(self.instance_channel)
-            else:
-                self.obi_cloth_with_grasping_channel = None
-        else:
-            self.obi_cloth_with_grasping_channel = None
-
-        if 'obi_softbody_channel' in kwargs.keys():
-            if kwargs['obi_softbody_channel'] is True or type(kwargs['obi_softbody_channel']) is str:
-                self.obi_softbody_channel = ObiSoftbodyChannel(self.instance_channel)
-            else:
-                self.obi_softbody_channel = None
-        else:
-            self.obi_softbody_channel = None
-
-        if 'human_dressing_channel' in kwargs.keys():
-            if kwargs['human_dressing_channel'] is True or type(kwargs['human_dressing_channel']) is str:
-                self.human_dressing_channel = HumanDressingChannel(self.instance_channel)
-            else:
-                self.human_dressing_channel = None
-        else:
-            self.human_dressing_channel = None
-
-        if 'debug_channel' in kwargs.keys():
-            if kwargs['debug_channel'] is True or type(kwargs['debug_channel']) is str:
-                self.debug_channel = DebugChannel(
-                    self.rfuniverse_channel_ids['debug_channel']
-                )
-                self.channels.append(self.debug_channel)
-            else:
-                self.debug_channel = None
-        else:
-            self.debug_channel = None
 
     def _step(self):
         self.env.step()

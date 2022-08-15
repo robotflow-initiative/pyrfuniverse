@@ -17,8 +17,8 @@ from pyrfuniverse.envs.ur5_box_env import Ur5BoxEnv
 from pyrfuniverse.envs.ur5_drawer_env import Ur5DrawerEnv
 
 # Other projects based on RFUniverse
-import pyrfuniverse.envs.robotube
-import pyrfuniverse.envs.rcareworld
+# import pyrfuniverse.envs.robotube
+# import pyrfuniverse.envs.rcareworld
 
 __all__ = [
     'RFUniverseBaseEnv', 'FrankaGraspEnv', 'FrankaPushEnv', 'BalanceBallEnv',
