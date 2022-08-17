@@ -51,6 +51,8 @@ class InstanceChannel(RFUniverseChannel):
                 this_object_data['joint_velocities'] = msg.read_float32_list()
                 # Whether all parts are stable
                 this_object_data['all_stable'] = msg.read_bool()
+                this_object_data['move_done'] = msg.read_bool()
+                this_object_data['rotate_done'] = msg.read_bool()
                 if msg.read_bool() is True:
                     this_object_data['gravity_forces'] = msg.read_float32_list()
                     this_object_data['coriolis_centrifugal_forces'] = msg.read_float32_list()
@@ -67,7 +69,7 @@ class InstanceChannel(RFUniverseChannel):
                 if msg.read_bool() is True:
                     this_object_data['normal'] = base64.b64decode(msg.read_string())
                 if msg.read_bool() is True:
-                    this_object_data['id'] = base64.b64decode(msg.read_string())
+                    this_object_data['id_map'] = base64.b64decode(msg.read_string())
                 if msg.read_bool() is True:
                     this_object_data['depth'] = base64.b64decode(msg.read_string())
                 if msg.read_bool() is True:
@@ -517,6 +519,54 @@ class InstanceChannel(RFUniverseChannel):
         msg.write_bool(kwargs['immovable'])
         self.send_message(msg)
 
+    def MoveForward(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'distance', 'speed']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+        msg.write_int32(kwargs['id'])
+        msg.write_string('MoveForward')
+        msg.write_float32(kwargs['distance'])
+        msg.write_float32(kwargs['speed'])
+        self.send_message(msg)
+
+    def MoveBack(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'distance', 'speed']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+        msg.write_int32(kwargs['id'])
+        msg.write_string('MoveBack')
+        msg.write_float32(kwargs['distance'])
+        msg.write_float32(kwargs['speed'])
+        self.send_message(msg)
+
+    def TurnLeft(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'angle', 'speed']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+        msg.write_int32(kwargs['id'])
+        msg.write_string('TurnLeft')
+        msg.write_float32(kwargs['angle'])
+        msg.write_float32(kwargs['speed'])
+        self.send_message(msg)
+
+    def TurnRight(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'angle', 'speed']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+        msg.write_int32(kwargs['id'])
+        msg.write_string('TurnRight')
+        msg.write_float32(kwargs['angle'])
+        msg.write_float32(kwargs['speed'])
+        self.send_message(msg)
+
     def EnabledNativeIK(self, kwargs: dict) -> None:
         compulsory_params = ['id', 'enabled']
         optional_params = []
@@ -526,6 +576,63 @@ class InstanceChannel(RFUniverseChannel):
         msg.write_int32(kwargs['id'])
         msg.write_string('EnabledNativeIK')
         msg.write_bool(kwargs['enabled'])
+        self.send_message(msg)
+
+    def IKTargetDoMove(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'position', 'speed']
+        optional_params = ['relative']
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+        msg.write_int32(kwargs['id'])
+        msg.write_string('IKTargetDoMove')
+        msg.write_float32(kwargs['position'][0])
+        msg.write_float32(kwargs['position'][1])
+        msg.write_float32(kwargs['position'][2])
+        msg.write_float32(kwargs['speed'])
+        if 'relative' in kwargs:
+            msg.write_bool(kwargs['relative'])
+        else:
+            msg.write_bool(False)
+        self.send_message(msg)
+
+    def IKTargetDoRotateQuaternion(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'quaternion', 'speed']
+        optional_params = ['relative']
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+        msg.write_int32(kwargs['id'])
+        msg.write_string('IKTargetDoRotateQuaternion')
+        msg.write_float32(kwargs['quaternion'][0])
+        msg.write_float32(kwargs['quaternion'][1])
+        msg.write_float32(kwargs['quaternion'][2])
+        msg.write_float32(kwargs['quaternion'][3])
+        msg.write_float32(kwargs['speed'])
+        if 'relative' in kwargs:
+            msg.write_bool(kwargs['relative'])
+        else:
+            msg.write_bool(False)
+        self.send_message(msg)
+
+    def IKTargetDoComplete(self, kwargs: dict) -> None:
+        compulsory_params = ['id']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+        msg.write_int32(kwargs['id'])
+        msg.write_string('IKTargetDoComplete')
+        self.send_message(msg)
+
+    def IKTargetDoKill(self, kwargs: dict) -> None:
+        compulsory_params = ['id']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+        msg.write_int32(kwargs['id'])
+        msg.write_string('IKTargetDoKill')
         self.send_message(msg)
 
     # Rigidbody
@@ -596,6 +703,20 @@ class InstanceChannel(RFUniverseChannel):
 
         msg.write_int32(kwargs['id'])
         msg.write_string('GetNormal')
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
+
+        self.send_message(msg)
+
+    def GetID(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'width', 'height']
+        optional_params = []
+        self._check_kwargs(kwargs, compulsory_params)
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(kwargs['id'])
+        msg.write_string('GetID')
         msg.write_int32(kwargs['width'])
         msg.write_int32(kwargs['height'])
 

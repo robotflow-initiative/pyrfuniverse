@@ -86,31 +86,23 @@ class AssetChannel(RFUniverseChannel):
         msg.write_string(message)
         self.send_message(msg)
 
-    '''
-    def InstanceObject(self, name: str, object_id: int) -> None:
-        msg = OutgoingMessage()
-        msg.write_string('InstanceObject')
-        msg.write_string(name)
-        msg.write_int32(object_id)
-        self.send_message(msg)
-    '''
-
     def InstanceObject(self, kwargs: dict) -> None:
         compulsory_params = ['name', 'id']
         self._check_kwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
-
         msg.write_string('InstanceObject')
         msg.write_string(kwargs['name'])
         msg.write_int32(kwargs['id'])
         self.send_message(msg)
 
-    def IgnoreLayerCollision(self, layer1: int, layer2: int, ignore: bool) -> None:
+    def IgnoreLayerCollision(self, kwargs: dict) -> None:
+        compulsory_params = ['layer1', 'layer2', 'ignore']
+        self._check_kwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('IgnoreLayerCollision')
-        msg.write_int32(layer1)
-        msg.write_int32(layer2)
-        msg.write_bool(ignore)
+        msg.write_int32(kwargs['layer1'])
+        msg.write_int32(kwargs['layer2'])
+        msg.write_bool(kwargs['ignore'])
         self.send_message(msg)
 
     def GetCurrentCollisionPairs(self) -> None:
@@ -123,32 +115,40 @@ class AssetChannel(RFUniverseChannel):
         msg.write_string('GetRFMoveColliders')
         self.send_message(msg)
 
-    def SetGravity(self, gravity: list) -> None:
+    def SetGravity(self, kwargs: dict) -> None:
+        compulsory_params = ['x', 'y', 'z']
+        self._check_kwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('SetGravity')
-        msg.write_float32(gravity[0])
-        msg.write_float32(gravity[1])
-        msg.write_float32(gravity[2])
+        msg.write_float32(kwargs['x'])
+        msg.write_float32(kwargs['y'])
+        msg.write_float32(kwargs['z'])
         self.send_message(msg)
 
-    def SetGroundPhysicMaterial(self, bounciness: float, dynamic_friction: float, static_friction: float, friction_combine: int, bounce_combine: int) -> None:
+    def SetGroundPhysicMaterial(self, kwargs: dict) -> None:
+        compulsory_params = ['bounciness', 'dynamic_friction', 'static_friction', 'friction_combine', 'bounce_combine']
+        self._check_kwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('SetGroundPhysicMaterial')
-        msg.write_float32(bounciness)
-        msg.write_float32(dynamic_friction)
-        msg.write_float32(static_friction)
-        msg.write_int32(friction_combine)
-        msg.write_int32(bounce_combine)
+        msg.write_float32(kwargs['bounciness'])
+        msg.write_float32(kwargs['dynamic_friction'])
+        msg.write_float32(kwargs['static_friction'])
+        msg.write_int32(kwargs['friction_combine'])
+        msg.write_int32(kwargs['bounce_combine'])
         self.send_message(msg)
 
-    def SetTimeStep(self, delta_time: float) -> None:
+    def SetTimeStep(self, kwargs: dict) -> None:
+        compulsory_params = ['delta_time']
+        self._check_kwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('SetTimeStep')
-        msg.write_float32(delta_time)
+        msg.write_float32(kwargs['delta_time'])
         self.send_message(msg)
 
-    def SetTimeScale(self, time_scale: float) -> None:
+    def SetTimeScale(self, kwargs: dict) -> None:
+        compulsory_params = ['time_scale']
+        self._check_kwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('SetTimeScale')
-        msg.write_float32(time_scale)
+        msg.write_float32(kwargs['time_scale'])
         self.send_message(msg)
