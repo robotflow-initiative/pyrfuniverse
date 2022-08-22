@@ -1,7 +1,10 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.utils.rfuniverse_utility as tool
 
-env = RFUniverseBaseEnv(scene_file='IK.json')
+env = RFUniverseBaseEnv(
+    executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/RFUniverse.x86_64',
+    scene_file='IK.json'
+)
 env._step()
 ids = [639787, 985196, 221584, 8547820, 8547821]
 
