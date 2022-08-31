@@ -44,3 +44,16 @@ def UnityQuaternionToEular(quaternion):
     y = math.degrees(y)
     z = math.degrees(z)
     return [x, y, z]
+
+def CheckKwargs(kwargs: dict, compulsory_params: list):
+    """Check keyword arguments, make sure all compulsory parameters are included.
+    Args:
+        kwargs: Keyword arguments.
+        compulsory_params: Compulsory parameters.
+    """
+    legal = True
+    for param in compulsory_params:
+        if param not in kwargs.keys():
+            legal = False
+            assert legal, \
+                'Parameters illegal, parameter <%s> missing.' % param

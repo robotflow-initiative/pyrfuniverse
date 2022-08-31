@@ -3,21 +3,20 @@ from pyrfuniverse.side_channel.side_channel import (
     OutgoingMessage,
 )
 from pyrfuniverse.rfuniverse_channel import RFUniverseChannel
-
+import pyrfuniverse.rfuniverse_channel.asset_channel_ext as ext
+import pyrfuniverse.utils.rfuniverse_utility as utility
 
 class AssetChannel(RFUniverseChannel):
 
     def __init__(self, channel_id: str) -> None:
         super().__init__(channel_id)
-        self.done = False
         self.data = {}
 
     def _parse_message(self, msg: IncomingMessage) -> None:
-        title = msg.read_string()
-        if title == 'PreLoad Done':
-            print(title)
-            self.done = True
-        elif title == 'RFMoveColliders':
+        msg_type = msg.read_string()
+        if msg_type == 'PreLoadDone':
+            self.data['load_done'] = True
+        elif msg_type == 'RFMoveColliders':
             collider = []
             object_count = msg.read_int32()
             for i in range(object_count):
@@ -57,13 +56,32 @@ class AssetChannel(RFUniverseChannel):
                     one['collider'].append(collider_data)
                 collider.append(one)
             self.data['colliders'] = collider
-        elif title == 'CurrentCollisionPairs':
+        elif msg_type == 'CurrentCollisionPairs':
             collision_pairs = []
             pair_count = msg.read_int32()
             for i in range(pair_count):
                 data = [msg.read_int32(), msg.read_int32()]
                 collision_pairs.append(data)
             self.data['collision_pairs'] = collision_pairs
+        else:
+            ext_data = ext.parse_message(msg, msg_type)
+            self.data.update(ext_data)
+
+    def set_action(self, action: str, **kwargs) -> None:
+        """Set action and pass corresponding parameters
+        Args:
+            action: The action name.
+            kwargs: keyword argument for action. The parameter list for each action is shown in each function.
+        """
+        try:
+            if hasattr(self, action):
+                eval('self.' + action)(kwargs)
+            else:
+                msg = eval('ext.' + action)(kwargs)
+                self.send_message(msg)
+        except AttributeError:
+            print('There is no action called \'%s\' or this function has bug, please fix it.' % action)
+            exit(-1)
 
     def PreLoadAssetsAsync(self, names: list) -> None:
         msg = OutgoingMessage()
@@ -88,7 +106,8 @@ class AssetChannel(RFUniverseChannel):
 
     def InstanceObject(self, kwargs: dict) -> None:
         compulsory_params = ['name', 'id']
-        self._check_kwargs(kwargs, compulsory_params)
+        optional_params = []
+        utility.CheckKwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('InstanceObject')
         msg.write_string(kwargs['name'])
@@ -97,7 +116,8 @@ class AssetChannel(RFUniverseChannel):
 
     def IgnoreLayerCollision(self, kwargs: dict) -> None:
         compulsory_params = ['layer1', 'layer2', 'ignore']
-        self._check_kwargs(kwargs, compulsory_params)
+        optional_params = []
+        utility.CheckKwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('IgnoreLayerCollision')
         msg.write_int32(kwargs['layer1'])
@@ -117,7 +137,8 @@ class AssetChannel(RFUniverseChannel):
 
     def SetGravity(self, kwargs: dict) -> None:
         compulsory_params = ['x', 'y', 'z']
-        self._check_kwargs(kwargs, compulsory_params)
+        optional_params = []
+        utility.CheckKwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('SetGravity')
         msg.write_float32(kwargs['x'])
@@ -127,7 +148,8 @@ class AssetChannel(RFUniverseChannel):
 
     def SetGroundPhysicMaterial(self, kwargs: dict) -> None:
         compulsory_params = ['bounciness', 'dynamic_friction', 'static_friction', 'friction_combine', 'bounce_combine']
-        self._check_kwargs(kwargs, compulsory_params)
+        optional_params = []
+        utility.CheckKwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('SetGroundPhysicMaterial')
         msg.write_float32(kwargs['bounciness'])
@@ -139,7 +161,8 @@ class AssetChannel(RFUniverseChannel):
 
     def SetTimeStep(self, kwargs: dict) -> None:
         compulsory_params = ['delta_time']
-        self._check_kwargs(kwargs, compulsory_params)
+        optional_params = []
+        utility.CheckKwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('SetTimeStep')
         msg.write_float32(kwargs['delta_time'])
@@ -147,7 +170,8 @@ class AssetChannel(RFUniverseChannel):
 
     def SetTimeScale(self, kwargs: dict) -> None:
         compulsory_params = ['time_scale']
-        self._check_kwargs(kwargs, compulsory_params)
+        optional_params = []
+        utility.CheckKwargs(kwargs, compulsory_params)
         msg = OutgoingMessage()
         msg.write_string('SetTimeScale')
         msg.write_float32(kwargs['time_scale'])

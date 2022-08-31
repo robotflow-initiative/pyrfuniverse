@@ -122,13 +122,13 @@ class RFUniverseBaseEnv(ABC):
 
         if self.scene_file is not None:
             self.asset_channel.LoadSceneAsync(self.scene_file)
-            self.asset_channel.done = False
-            while not self.asset_channel.done:
+            self.asset_channel.data['load_done'] = False
+            while not self.asset_channel.data['load_done']:
                 self._step()
         if len(self.assets) > 0:
             self.asset_channel.PreLoadAssetsAsync(self.assets)
-            self.asset_channel.done = False
-            while not self.asset_channel.done:
+            self.asset_channel.data['load_done'] = False
+            while not self.asset_channel.data['load_done']:
                 self._step()
         self.env.reset()
 
@@ -139,7 +139,7 @@ class RFUniverseBaseEnv(ABC):
         self.channels.append(self.env_param_channel)
         # Asset channel
         self.asset_channel = AssetChannel(self.rfuniverse_channel_ids['asset_channel'])
-        self.instance_channel = InstanceChannel(self.rfuniverse_channel_ids['instance_channel'], self)
+        self.instance_channel = InstanceChannel(self.rfuniverse_channel_ids['instance_channel'])
         self.debug_channel = DebugChannel(self.rfuniverse_channel_ids['debug_channel'])
         self.channels.append(self.asset_channel)
         self.channels.append(self.instance_channel)
