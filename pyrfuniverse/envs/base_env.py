@@ -148,54 +148,54 @@ class RFUniverseBaseEnv(ABC):
     def _step(self):
         self.env.step()
 
-    def render(
-            self,
-            id,
-            mode='human',
-            width=512,
-            height=512,
-            target_position=None,
-            target_euler_angles=None
-    ):
-        """
-        Render an image with given resolution, target position and target euler angles.
-        TODO: Current version only support RoboTube, which only needs RGB image. For depth, normal, ins_seg, optical
-            flow, etc., please refer to `camera_channel.py` for more actions.
-
-        Args:
-            id: Int. Camera ID.
-            mode: Str. OpenAI-Gym style mode.
-            width: Int. Optional. The width of target image.
-            height: Int. Optional. The height of target image.
-            target_position: List. Optional. The target position of this camera, in [X, Y, Z] order.
-            target_euler_angles: List. Optional. The target euler angles of this camera, in [X, Y, Z] order.
-                Each element is in degree, not radius.
-
-        Returns:
-            A numpy array with size (width, height, 3). Each pixel is in [R, G, B] order.
-        """
-        assert self.camera_channel is not None, \
-            'There is no camera available in this scene. Please check.'
-
-        target_position = list(target_position) if target_position is not None else None
-        target_euler_angles = list(target_euler_angles) if target_euler_angles is not None else None
-        '''
-        self.camera_channel.set_action(
-            'SetTransform',
-            id=id,
-            position=target_position,
-            rotation=target_euler_angles,
-        )'''
-        #self._step()
-
-        self.camera_channel.set_action(
-            'GetImages',
-            rendering_params=[[id, width, height]]
-        )
-        self._step()
-
-        img = self.camera_channel.images.pop(0)
-        return img
+    # def render(
+    #         self,
+    #         id,
+    #         mode='human',
+    #         width=512,
+    #         height=512,
+    #         target_position=None,
+    #         target_euler_angles=None
+    # ):
+    #     """
+    #     Render an image with given resolution, target position and target euler angles.
+    #     TODO: Current version only support RoboTube, which only needs RGB image. For depth, normal, ins_seg, optical
+    #         flow, etc., please refer to `camera_channel.py` for more actions.
+    #
+    #     Args:
+    #         id: Int. Camera ID.
+    #         mode: Str. OpenAI-Gym style mode.
+    #         width: Int. Optional. The width of target image.
+    #         height: Int. Optional. The height of target image.
+    #         target_position: List. Optional. The target position of this camera, in [X, Y, Z] order.
+    #         target_euler_angles: List. Optional. The target euler angles of this camera, in [X, Y, Z] order.
+    #             Each element is in degree, not radius.
+    #
+    #     Returns:
+    #         A numpy array with size (width, height, 3). Each pixel is in [R, G, B] order.
+    #     """
+    #     assert self.camera_channel is not None, \
+    #         'There is no camera available in this scene. Please check.'
+    #
+    #     target_position = list(target_position) if target_position is not None else None
+    #     target_euler_angles = list(target_euler_angles) if target_euler_angles is not None else None
+    #     '''
+    #     self.camera_channel.set_action(
+    #         'SetTransform',
+    #         id=id,
+    #         position=target_position,
+    #         rotation=target_euler_angles,
+    #     )'''
+    #     #self._step()
+    #
+    #     self.camera_channel.set_action(
+    #         'GetImages',
+    #         rendering_params=[[id, width, height]]
+    #     )
+    #     self._step()
+    #
+    #     img = self.camera_channel.images.pop(0)
+    #     return img
 
     def close(self):
         delete_worker_id(self.worker_id)

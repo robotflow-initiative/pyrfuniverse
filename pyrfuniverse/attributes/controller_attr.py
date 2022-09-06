@@ -8,6 +8,7 @@ import pyrfuniverse.utils.rfuniverse_utility as utility
 
 def parse_message(msg: IncomingMessage) -> dict:
     this_object_data = attr.base_attr.parse_message(msg)
+    #
     this_object_data['number_of_joints'] = msg.read_int32()
     # Position
     this_object_data['positions'] = _parse_raw_list_3(msg.read_float32_list())
@@ -15,8 +16,16 @@ def parse_message(msg: IncomingMessage) -> dict:
     this_object_data['rotations'] = _parse_raw_list_3(msg.read_float32_list())
     # RotationQuaternion
     this_object_data['quaternion'] = _parse_raw_list_4(msg.read_float32_list())
+    # LocalPosition
+    this_object_data['Local_positions'] = _parse_raw_list_3(msg.read_float32_list())
+    # LocalRotationEuler
+    this_object_data['Local_rotations'] = _parse_raw_list_3(msg.read_float32_list())
+    # LocalRotationQuaternion
+    this_object_data['Local_quaternion'] = _parse_raw_list_4(msg.read_float32_list())
     # Velocity
     this_object_data['velocities'] = _parse_raw_list_3(msg.read_float32_list())
+    #
+    this_object_data['number_of_moveable_joints'] = msg.read_int32()
     # Each joint position
     this_object_data['joint_positions'] = msg.read_float32_list()
     # Each joint velocity

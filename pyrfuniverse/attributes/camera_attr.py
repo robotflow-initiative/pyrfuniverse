@@ -8,10 +8,7 @@ import base64
 
 def parse_message(msg: IncomingMessage) -> dict:
     this_object_data = attr.base_attr.parse_message(msg)
-    this_object_data['near_plane'] = msg.read_float32()
-    this_object_data['far_plane'] = msg.read_float32()
     this_object_data['FOV'] = msg.read_float32()
-    this_object_data['target_display'] = msg.read_int32()
     this_object_data['width'] = msg.read_int32()
     this_object_data['height'] = msg.read_int32()
     if msg.read_bool() is True:
@@ -24,7 +21,26 @@ def parse_message(msg: IncomingMessage) -> dict:
         this_object_data['depth'] = base64.b64decode(msg.read_string())
     if msg.read_bool() is True:
         this_object_data['depth_exr'] = base64.b64decode(msg.read_string())
+    if msg.read_bool() is True:
+        this_object_data['amodal_mask'] = base64.b64decode(msg.read_string())
+    if msg.read_bool() is True:
+        ddbbox_count = msg.read_int32()
+        this_object_data['amodal_mask'] = []
+        for i in range(ddbbox_count):
+            this_object_data['amodal_mask'][i] = [msg.read_float32() for _ in range(4)]
     return this_object_data
+
+
+def AlignView(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id']
+    optional_params = []
+    utility.CheckKwargs(kwargs, compulsory_params)
+    msg = OutgoingMessage()
+
+    msg.write_int32(kwargs['id'])
+    msg.write_string('AlignView')
+
+    return msg
 
 def GetRGB(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'width', 'height']
@@ -88,6 +104,19 @@ def GetDepthEXR(kwargs: dict) -> OutgoingMessage:
 
     msg.write_int32(kwargs['id'])
     msg.write_string('GetDepthEXR')
+    msg.write_int32(kwargs['width'])
+    msg.write_int32(kwargs['height'])
+
+    return msg
+
+def GetAmodalMask(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id', 'width', 'height']
+    optional_params = []
+    utility.CheckKwargs(kwargs, compulsory_params)
+    msg = OutgoingMessage()
+
+    msg.write_int32(kwargs['id'])
+    msg.write_string('GetAmodalMask')
     msg.write_int32(kwargs['width'])
     msg.write_int32(kwargs['height'])
 

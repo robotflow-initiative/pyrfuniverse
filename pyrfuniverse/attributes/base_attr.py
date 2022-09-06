@@ -11,6 +11,9 @@ def parse_message(msg: IncomingMessage) -> dict:
     this_object_data['position'] = [msg.read_float32() for _ in range(3)]
     this_object_data['rotation'] = [msg.read_float32() for _ in range(3)]
     this_object_data['quaternion'] = [msg.read_float32() for _ in range(4)]
+    this_object_data['local_position'] = [msg.read_float32() for _ in range(3)]
+    this_object_data['local_rotation'] = [msg.read_float32() for _ in range(3)]
+    this_object_data['local_quaternion'] = [msg.read_float32() for _ in range(4)]
     if msg.read_bool() is True:
         this_object_data['result_local_point'] = msg.read_float32_list()
     if msg.read_bool() is True:

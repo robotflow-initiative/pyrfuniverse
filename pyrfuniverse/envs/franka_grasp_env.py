@@ -1,5 +1,4 @@
 from pyrfuniverse.envs import RFUniverseBaseEnv
-from pyrfuniverse.rfuniverse_channel.camera_channel import RenderingMode
 import numpy as np
 
 
@@ -16,7 +15,6 @@ class FrankaGraspEnv(RFUniverseBaseEnv):
             'AddCamera',
             position=[0, 0, 0],
             rotation=[0, 0, 0],
-            rendering_mode=RenderingMode.MASK,
             parent_camera_idx=0
         )
         self._step()
@@ -25,7 +23,6 @@ class FrankaGraspEnv(RFUniverseBaseEnv):
             'AddCamera',
             position=[0, 0, 0],
             rotation=[0, 0, 0],
-            rendering_mode=RenderingMode.DEPTH,
             parent_camera_idx=0
         )
         self._step()
@@ -33,7 +30,6 @@ class FrankaGraspEnv(RFUniverseBaseEnv):
         self.camera_channel.set_action(
             'ResetCamera',
             index=2,
-            rendering_mode=RenderingMode.RGB,
             position=[0, 0.1, 0]
         )
         self._step()

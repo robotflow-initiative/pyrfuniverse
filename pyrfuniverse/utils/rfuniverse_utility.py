@@ -4,23 +4,10 @@ from numpy import uint8
 
 
 def EncodeIDAsColor(instance_id: int):
-    uid = instance_id * 2
-    if uid < 0:
-        uid = -uid + 1
-    sid = (SparsifyBits(uint8(uid >> 16), 3) << 2) | (SparsifyBits(uint8(uid >> 8), 3) << 1) | SparsifyBits(uint8(uid), 3)
-    r = uint8(sid >> 8)
-    g = uint8(sid >> 16)
-    b = uint8(sid)
+    r = (instance_id * 16807 + 187) % 256
+    g = (instance_id * 48271 + 79) % 256
+    b = (instance_id * 95849 + 233) % 256
     return [r, g, b, 255]
-
-
-def SparsifyBits(value: uint8, sparse: int):
-    retval = 0
-    for i in range(8):
-        retval |= (value & 1)
-        retval <<= sparse
-        value >>= 1
-    return retval >> sparse
 
 def UnityEularToQuaternion(eular):
     xx = math.radians(eular[0])

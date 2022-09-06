@@ -1,6 +1,5 @@
 from pyrfuniverse.envs import RFUniverseGymGoalWrapper
 from pyrfuniverse.envs import RFUniverseBaseEnv
-from pyrfuniverse.rfuniverse_channel.camera_channel import RenderingMode
 from pyrfuniverse.utils.ur5_controller import RFUniverseUR5Controller
 import pyrfuniverse.assets as assets_path
 import numpy as np
@@ -65,7 +64,6 @@ class Ur5BoxEnv(RFUniverseGymGoalWrapper):
         self.camera_channel.set_action(
             'SetMode',
             id=0,
-            rendering_mode=RenderingMode.RGB,
         )
         self._step()
         self.max_steps = max_steps

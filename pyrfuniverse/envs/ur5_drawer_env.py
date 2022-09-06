@@ -1,6 +1,5 @@
 from pyrfuniverse.envs import RFUniverseGymGoalWrapper
 from pyrfuniverse.utils.ur5_controller import RFUniverseUR5Controller
-from pyrfuniverse.rfuniverse_channel.camera_channel import RenderingMode
 import pyrfuniverse.assets as assets_path
 import numpy as np
 from gym import spaces
@@ -57,7 +56,6 @@ class Ur5DrawerEnv(RFUniverseGymGoalWrapper):
             id=0,
             position=[-0.25, 0.712, -0.914],
             rotation=[26.997, -13.874, 0],
-            rendering_mode=RenderingMode.RGB,
         )
         self._step()
         self.max_steps = max_steps
@@ -163,12 +161,11 @@ class Ur5DrawerEnv(RFUniverseGymGoalWrapper):
             overhead_angle = achieved_goal - desired_goal
             return float(overhead_angle[0] > 0)
 
-    def add_camera(self, position, rotation, rendering_mode: RenderingMode):
+    def add_camera(self, position, rotation):
         self.camera_channel.set_action(
             'AddCamera',
             position=position,
             rotation=rotation,
-            rendering_mode=rendering_mode
         )
         self._step()
 

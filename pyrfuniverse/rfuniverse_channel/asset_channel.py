@@ -11,10 +11,14 @@ class AssetChannel(RFUniverseChannel):
     def __init__(self, channel_id: str) -> None:
         super().__init__(channel_id)
         self.data = {}
+        self.Messages = {}
 
     def _parse_message(self, msg: IncomingMessage) -> None:
         msg_type = msg.read_string()
-        if msg_type == 'PreLoadDone':
+        if msg_type in self.Messages:
+            for i in self.Messages[msg_type]:
+                i(msg)
+        elif msg_type == 'PreLoadDone':
             self.data['load_done'] = True
         elif msg_type == 'RFMoveColliders':
             collider = []
@@ -98,11 +102,39 @@ class AssetChannel(RFUniverseChannel):
         msg.write_string(file)
         self.send_message(msg)
 
-    def SendMessage(self, message: str) -> None:
+    def SendMessage(self, message: str, *args) -> None:
         msg = OutgoingMessage()
         msg.write_string('SendMessage')
         msg.write_string(message)
+        for i in args:
+            if type(i) == str:
+                msg.write_string(i)
+            elif type(i) == bool:
+                msg.write_bool(i)
+            elif type(i) == int:
+                msg.write_int32(i)
+            elif type(i) == float:
+                msg.write_float32(i)
+            elif type(i) == list and type(i[0]) == float:
+                msg.write_float32_list(i)
+            else:
+                print('dont support this data type')
         self.send_message(msg)
+
+    def AddListener(self, message: str, fun):
+        if message in self.Messages:
+            if fun in self.Messages[message]:
+                self.Messages[message].append(fun)
+        else:
+            self.Messages[message] = [fun]
+
+    def RemoveListener(self, message: str, fun):
+        if message in self.Messages:
+            if fun in self.Messages[message]:
+                self.Messages[message].remove(fun)
+            if len(self.Messages[message]) == 0:
+                self.Messages[message].pop(message)
+
 
     def InstanceObject(self, kwargs: dict) -> None:
         compulsory_params = ['name', 'id']
