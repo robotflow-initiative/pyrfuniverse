@@ -146,6 +146,27 @@ class AssetChannel(RFUniverseChannel):
         msg.write_int32(kwargs['id'])
         self.send_message(msg)
 
+    def LoadURDF(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'path', 'native_ik']
+        optional_params = []
+        utility.CheckKwargs(kwargs, compulsory_params)
+        msg = OutgoingMessage()
+        msg.write_string('LoadURDF')
+        msg.write_int32(kwargs['id'])
+        msg.write_string(kwargs['path'])
+        msg.write_bool(kwargs['native_ik'])
+        self.send_message(msg)
+
+    def LoadMesh(self, kwargs: dict) -> None:
+        compulsory_params = ['id', 'path']
+        optional_params = []
+        utility.CheckKwargs(kwargs, compulsory_params)
+        msg = OutgoingMessage()
+        msg.write_string('LoadMesh')
+        msg.write_int32(kwargs['id'])
+        msg.write_string(kwargs['path'])
+        self.send_message(msg)
+
     def IgnoreLayerCollision(self, kwargs: dict) -> None:
         compulsory_params = ['layer1', 'layer2', 'ignore']
         optional_params = []

@@ -25,9 +25,19 @@ def parse_message(msg: IncomingMessage) -> dict:
         this_object_data['amodal_mask'] = base64.b64decode(msg.read_string())
     if msg.read_bool() is True:
         ddbbox_count = msg.read_int32()
-        this_object_data['amodal_mask'] = []
+        this_object_data['2d_bounding_box'] = []
         for i in range(ddbbox_count):
-            this_object_data['amodal_mask'][i] = [msg.read_float32() for _ in range(4)]
+            this_object_data['2d_bounding_box'][i] = {}
+            this_object_data['2d_bounding_box'][i]['position'] = [msg.read_float32() for _ in range(2)]
+            this_object_data['2d_bounding_box'][i]['size'] = [msg.read_float32() for _ in range(2)]
+    if msg.read_bool() is True:
+        dddbbox_count = msg.read_int32()
+        this_object_data['3d_bounding_box'] = []
+        for i in range(dddbbox_count):
+            this_object_data['3d_bounding_box'][i] = {}
+            this_object_data['3d_bounding_box'][i]['position'] = [msg.read_float32() for _ in range(3)]
+            this_object_data['3d_bounding_box'][i]['rotation'] = [msg.read_float32() for _ in range(3)]
+            this_object_data['3d_bounding_box'][i]['size'] = [msg.read_float32() for _ in range(3)]
     return this_object_data
 
 
@@ -91,8 +101,8 @@ def GetDepth(kwargs: dict) -> OutgoingMessage:
     msg.write_string('GetDepth')
     msg.write_int32(kwargs['width'])
     msg.write_int32(kwargs['height'])
-    msg.write_int32(kwargs['zero_dis'])
-    msg.write_int32(kwargs['one_dis'])
+    msg.write_float32(kwargs['zero_dis'])
+    msg.write_float32(kwargs['one_dis'])
 
     return msg
 

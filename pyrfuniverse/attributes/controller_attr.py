@@ -7,7 +7,7 @@ import pyrfuniverse.utils.rfuniverse_utility as utility
 
 
 def parse_message(msg: IncomingMessage) -> dict:
-    this_object_data = attr.base_attr.parse_message(msg)
+    this_object_data = attr.collider_attr.parse_message(msg)
     #
     this_object_data['number_of_joints'] = msg.read_int32()
     # Position

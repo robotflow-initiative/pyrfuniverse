@@ -153,6 +153,16 @@ def SetLayer(kwargs: dict) -> OutgoingMessage:
 
     return msg
 
+def Copy(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id', 'copy_id']
+    optional_params = []
+    utility.CheckKwargs(kwargs, compulsory_params)
+    msg = OutgoingMessage()
+
+    msg.write_int32(kwargs['id'])
+    msg.write_string('Copy')
+    msg.write_int32(kwargs['copy_id'])
+    return msg
 
 def Destroy(kwargs: dict) -> OutgoingMessage:
     """Destroy a object inferred by the id

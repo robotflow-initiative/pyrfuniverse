@@ -7,7 +7,7 @@ import pyrfuniverse.utils.rfuniverse_utility as utility
 
 
 def parse_message(msg: IncomingMessage) -> dict:
-    this_object_data = attr.base_attr.parse_message(msg)
+    this_object_data = attr.collider_attr.parse_message(msg)
     this_object_data['velocity'] = [msg.read_float32() for i in range(3)]
     this_object_data['angular_vel'] = [msg.read_float32() for i in range(3)]
     return this_object_data
