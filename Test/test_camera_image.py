@@ -21,6 +21,12 @@ env.instance_channel.set_action(
     one_dis=5
 )
 env.instance_channel.set_action(
+    'GetDepthEXR',
+    id=123456,
+    width=512,
+    height=512,
+)
+env.instance_channel.set_action(
     'GetRGB',
     id=123456,
     width=512,
@@ -29,5 +35,9 @@ env.instance_channel.set_action(
 env._step()
 print(env.instance_channel.data[123456]['rgb'])
 print(env.instance_channel.data[123456]['depth'])
+print(env.instance_channel.data[123456]['depth_exr'])
+# file = open('/home/yanbing/img.png', 'wb')
+# file.write(env.instance_channel.data[123456]['depth'])
+# file.close()
 while 1:
     env._step()

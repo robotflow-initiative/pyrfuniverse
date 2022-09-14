@@ -12,8 +12,6 @@ def parse_message(msg: IncomingMessage) -> dict:
     this_object_data['rotate_done'] = msg.read_bool()
     return this_object_data
 
-
-
 def HumanIKTargetDoMove(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'index', 'position', 'duration']
     optional_params = ['speed_based', 'relative']
@@ -36,6 +34,28 @@ def HumanIKTargetDoMove(kwargs: dict) -> OutgoingMessage:
         msg.write_bool(False)
     return msg
 
+
+def HumanIKTargetDoRotate(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id', 'index', 'vector3', 'duration']
+    optional_params = ['speed_based', 'relative']
+    utility.CheckKwargs(kwargs, compulsory_params)
+    msg = OutgoingMessage()
+    msg.write_int32(kwargs['id'])
+    msg.write_string('HumanIKTargetDoRotateQuaternion')
+    msg.write_int32(kwargs['index'])
+    msg.write_float32(kwargs['vector3'][0])
+    msg.write_float32(kwargs['vector3'][1])
+    msg.write_float32(kwargs['vector3'][2])
+    msg.write_float32(kwargs['duration'])
+    if 'speed_based' in kwargs:
+        msg.write_bool(kwargs['speed_based'])
+    else:
+        msg.write_bool(True)
+    if 'relative' in kwargs:
+        msg.write_bool(kwargs['relative'])
+    else:
+        msg.write_bool(False)
+    return msg
 
 def HumanIKTargetDoRotateQuaternion(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'index', 'quaternion', 'duration']
@@ -71,7 +91,6 @@ def HumanIKTargetDoComplete(kwargs: dict) -> OutgoingMessage:
     msg.write_string('HumanIKTargetDoComplete')
     msg.write_int32(kwargs['index'])
     return msg
-
 
 def HumanIKTargetDoKill(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'index']

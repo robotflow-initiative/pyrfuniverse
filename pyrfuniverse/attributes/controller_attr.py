@@ -17,11 +17,11 @@ def parse_message(msg: IncomingMessage) -> dict:
     # RotationQuaternion
     this_object_data['quaternion'] = _parse_raw_list_4(msg.read_float32_list())
     # LocalPosition
-    this_object_data['Local_positions'] = _parse_raw_list_3(msg.read_float32_list())
+    this_object_data['local_positions'] = _parse_raw_list_3(msg.read_float32_list())
     # LocalRotationEuler
-    this_object_data['Local_rotations'] = _parse_raw_list_3(msg.read_float32_list())
+    this_object_data['local_rotations'] = _parse_raw_list_3(msg.read_float32_list())
     # LocalRotationQuaternion
-    this_object_data['Local_quaternion'] = _parse_raw_list_4(msg.read_float32_list())
+    this_object_data['local_quaternion'] = _parse_raw_list_4(msg.read_float32_list())
     # Velocity
     this_object_data['velocities'] = _parse_raw_list_3(msg.read_float32_list())
     #
@@ -334,6 +334,26 @@ def IKTargetDoMove(kwargs: dict) -> OutgoingMessage:
         msg.write_bool(False)
     return msg
 
+def IKTargetDoRotate(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id', 'vector3', 'duration']
+    optional_params = ['speed_based', 'relative']
+    utility.CheckKwargs(kwargs, compulsory_params)
+    msg = OutgoingMessage()
+    msg.write_int32(kwargs['id'])
+    msg.write_string('IKTargetDoRotate')
+    msg.write_float32(kwargs['vector3'][0])
+    msg.write_float32(kwargs['vector3'][1])
+    msg.write_float32(kwargs['vector3'][2])
+    msg.write_float32(kwargs['duration'])
+    if 'speed_based' in kwargs:
+        msg.write_bool(kwargs['speed_based'])
+    else:
+        msg.write_bool(True)
+    if 'relative' in kwargs:
+        msg.write_bool(kwargs['relative'])
+    else:
+        msg.write_bool(False)
+    return msg
 
 def IKTargetDoRotateQuaternion(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'quaternion', 'duration']
