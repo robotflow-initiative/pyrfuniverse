@@ -8,9 +8,8 @@ import base64
 
 def parse_message(msg: IncomingMessage) -> dict:
     this_object_data = attr.base_attr.parse_message(msg)
-    this_object_data['FOV'] = msg.read_float32()
-    this_object_data['width'] = msg.read_int32()
-    this_object_data['height'] = msg.read_int32()
+    this_object_data['fov'] = msg.read_float32()
+    this_object_data['projection_matrix'] = msg.read_float32_list()
     if msg.read_bool() is True:
         this_object_data['rgb'] = base64.b64decode(msg.read_string())
     if msg.read_bool() is True:

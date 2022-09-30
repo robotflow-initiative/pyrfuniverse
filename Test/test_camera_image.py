@@ -1,6 +1,10 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
+import cv2
+import numpy as np
 
-env = RFUniverseBaseEnv()
+env = RFUniverseBaseEnv(
+    # executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/usr/local/RFUniverse/RFUniverse.x86_64',
+)
 env.asset_channel.set_action(
     'InstanceObject',
     name='Camera',
@@ -37,7 +41,13 @@ print(env.instance_channel.data[123456]['rgb'])
 print(env.instance_channel.data[123456]['depth'])
 print(env.instance_channel.data[123456]['depth_exr'])
 # file = open('/home/yanbing/img.png', 'wb')
-# file.write(env.instance_channel.data[123456]['depth'])
+# file.write(env.instance_channel.data[123456]['rgb'])
 # file.close()
+image_np = np.frombuffer(env.instance_channel.data[123456]['rgb'], dtype=np.uint8)
+image_nd = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
+print(image_nd.shape)
+cv2.imshow("dst", image_nd)
+cv2.waitKey(0)
+
 while 1:
     env._step()
