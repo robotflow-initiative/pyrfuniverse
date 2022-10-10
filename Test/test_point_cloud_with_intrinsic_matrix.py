@@ -7,59 +7,54 @@ env = RFUniverseBaseEnv(
     # executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/usr/local/RFUniverse/RFUniverse.x86_64',
     scene_file='PointCloud.json'
 )
+
+intrinsic_matrix = [960, 0, 0, 0, 960, 0, 960, 540, 1]
+nd_intrinsic_matrix = np.reshape(intrinsic_matrix, [3, 3]).T
+
 env.instance_channel.set_action(
     'GetDepthEXR',
     id=698548,
-    width=1920,
-    height=1080,
+    intrinsic_matrix=intrinsic_matrix
 )
 env.instance_channel.set_action(
     'GetRGB',
     id=698548,
-    width=1920,
-    height=1080
+    intrinsic_matrix=intrinsic_matrix
 )
 env.instance_channel.set_action(
     'GetID',
     id=698548,
-    width=1920,
-    height=1080
+    intrinsic_matrix=intrinsic_matrix
 )
 env._step()
 
 image_rgb = env.instance_channel.data[698548]['rgb']
 image_depth_exr = env.instance_channel.data[698548]['depth_exr']
-fov = env.instance_channel.data[698548]['fov']
 local_to_world_matrix = env.instance_channel.data[698548]['local_to_world_matrix']
 local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
-point1 = dp.convert_bytes2pc(image_rgb, image_depth_exr, fov, local_to_world_matrix)
+point1 = dp.bytes_to_point_cloud_intrinsic_matrix(image_rgb, image_depth_exr, nd_intrinsic_matrix, local_to_world_matrix)
 
 env.instance_channel.set_action(
     'GetDepthEXR',
     id=698550,
-    width=1920,
-    height=1080,
+    intrinsic_matrix=intrinsic_matrix
 )
 env.instance_channel.set_action(
     'GetRGB',
     id=698550,
-    width=1920,
-    height=1080
+    intrinsic_matrix=intrinsic_matrix
 )
 env.instance_channel.set_action(
     'GetID',
     id=698550,
-    width=1920,
-    height=1080
+    intrinsic_matrix=intrinsic_matrix
 )
 env._step()
 image_rgb = env.instance_channel.data[698550]['rgb']
 image_depth_exr = env.instance_channel.data[698550]['depth_exr']
-fov = 60
 local_to_world_matrix = env.instance_channel.data[698550]['local_to_world_matrix']
 local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
-point2 = dp.convert_bytes2pc(image_rgb, image_depth_exr, fov, local_to_world_matrix)
-
+point2 = dp.bytes_to_point_cloud_intrinsic_matrix(image_rgb, image_depth_exr, nd_intrinsic_matrix, local_to_world_matrix)
 
 # unity space to open3d space and show
 point1.transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])

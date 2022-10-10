@@ -8,8 +8,9 @@ import base64
 
 def parse_message(msg: IncomingMessage) -> dict:
     this_object_data = attr.base_attr.parse_message(msg)
+    this_object_data['width'] = msg.read_int32()
+    this_object_data['height'] = msg.read_int32()
     this_object_data['fov'] = msg.read_float32()
-    this_object_data['projection_matrix'] = msg.read_float32_list()
     if msg.read_bool() is True:
         this_object_data['rgb'] = base64.b64decode(msg.read_string())
     if msg.read_bool() is True:
@@ -52,81 +53,123 @@ def AlignView(kwargs: dict) -> OutgoingMessage:
     return msg
 
 def GetRGB(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'width', 'height']
-    optional_params = []
+    compulsory_params = ['id']
+    optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
     msg = OutgoingMessage()
-
     msg.write_int32(kwargs['id'])
     msg.write_string('GetRGB')
-    msg.write_int32(kwargs['width'])
-    msg.write_int32(kwargs['height'])
-
+    if 'intrinsic_matrix' in kwargs:
+        msg.write_bool(True)
+        msg.write_float32_list(kwargs['intrinsic_matrix'])
+    else:
+        msg.write_bool(False)
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
+        if 'fov' in kwargs:
+            msg.write_float32(kwargs['fov'])
+        else:
+            msg.write_float32(60)
     return msg
 
 def GetNormal(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'width', 'height']
-    optional_params = []
+    compulsory_params = ['id']
+    optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
     msg = OutgoingMessage()
-
     msg.write_int32(kwargs['id'])
     msg.write_string('GetNormal')
-    msg.write_int32(kwargs['width'])
-    msg.write_int32(kwargs['height'])
-
+    if 'intrinsic_matrix' in kwargs:
+        msg.write_bool(True)
+        msg.write_float32_list(kwargs['intrinsic_matrix'])
+    else:
+        msg.write_bool(False)
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
+        if 'fov' in kwargs:
+            msg.write_float32(kwargs['fov'])
+        else:
+            msg.write_float32(60)
     return msg
 
 def GetID(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'width', 'height']
-    optional_params = []
+    compulsory_params = ['id']
+    optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
     msg = OutgoingMessage()
-
     msg.write_int32(kwargs['id'])
     msg.write_string('GetID')
-    msg.write_int32(kwargs['width'])
-    msg.write_int32(kwargs['height'])
-
+    if 'intrinsic_matrix' in kwargs:
+        msg.write_bool(True)
+        msg.write_float32_list(kwargs['intrinsic_matrix'])
+    else:
+        msg.write_bool(False)
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
+        if 'fov' in kwargs:
+            msg.write_float32(kwargs['fov'])
+        else:
+            msg.write_float32(60)
     return msg
 
 def GetDepth(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'width', 'height', 'zero_dis', 'one_dis']
-    optional_params = []
+    compulsory_params = ['id', 'zero_dis', 'one_dis']
+    optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
     msg = OutgoingMessage()
-
     msg.write_int32(kwargs['id'])
     msg.write_string('GetDepth')
-    msg.write_int32(kwargs['width'])
-    msg.write_int32(kwargs['height'])
     msg.write_float32(kwargs['zero_dis'])
     msg.write_float32(kwargs['one_dis'])
-
+    if 'intrinsic_matrix' in kwargs:
+        msg.write_bool(True)
+        msg.write_float32_list(kwargs['intrinsic_matrix'])
+    else:
+        msg.write_bool(False)
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
+        if 'fov' in kwargs:
+            msg.write_float32(kwargs['fov'])
+        else:
+            msg.write_float32(60)
     return msg
 
 def GetDepthEXR(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'width', 'height']
-    optional_params = []
+    compulsory_params = ['id']
+    optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
     msg = OutgoingMessage()
-
     msg.write_int32(kwargs['id'])
     msg.write_string('GetDepthEXR')
-    msg.write_int32(kwargs['width'])
-    msg.write_int32(kwargs['height'])
-
+    if 'intrinsic_matrix' in kwargs:
+        msg.write_bool(True)
+        msg.write_float32_list(kwargs['intrinsic_matrix'])
+    else:
+        msg.write_bool(False)
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
+        if 'fov' in kwargs:
+            msg.write_float32(kwargs['fov'])
+        else:
+            msg.write_float32(60)
     return msg
 
 def GetAmodalMask(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'width', 'height']
-    optional_params = []
+    compulsory_params = ['id']
+    optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
     msg = OutgoingMessage()
-
     msg.write_int32(kwargs['id'])
     msg.write_string('GetAmodalMask')
-    msg.write_int32(kwargs['width'])
-    msg.write_int32(kwargs['height'])
-
+    if 'intrinsic_matrix' in kwargs:
+        msg.write_bool(True)
+        msg.write_float32_list(kwargs['intrinsic_matrix'])
+    else:
+        msg.write_bool(False)
+        msg.write_int32(kwargs['width'])
+        msg.write_int32(kwargs['height'])
+        if 'fov' in kwargs:
+            msg.write_float32(kwargs['fov'])
+        else:
+            msg.write_float32(60)
     return msg
