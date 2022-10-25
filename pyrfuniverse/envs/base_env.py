@@ -148,6 +148,9 @@ class RFUniverseBaseEnv(ABC):
     def _step(self):
         self.env.step()
 
+    def step(self):
+        self.env.step()
+
     # def render(
     #         self,
     #         id,

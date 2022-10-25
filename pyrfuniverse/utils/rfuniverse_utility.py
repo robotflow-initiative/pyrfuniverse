@@ -1,7 +1,5 @@
 import math
-
-from numpy import uint8
-
+import numpy as np
 
 def EncodeIDAsColor(instance_id: int):
     r = (instance_id * 16807 + 187) % 256
@@ -44,3 +42,23 @@ def CheckKwargs(kwargs: dict, compulsory_params: list):
             legal = False
             assert legal, \
                 'Parameters illegal, parameter <%s> missing.' % param
+
+def get_matrix(pos, quat):
+    q = quat.copy()
+    n = np.dot(q, q)
+    if n < np.finfo(q.dtype).eps:
+        return np.identity(4)
+    q = q * np.sqrt(2.0 / n)
+    q = np.outer(q, q)
+    # rot_matrix = np.array(
+    #     [[1.0 - q[2, 2] - q[3, 3], q[1, 2] + q[3, 0], q[1, 3] - q[2, 0], pos[0]],
+    #      [q[1, 2] - q[3, 0], 1.0 - q[1, 1] - q[3, 3], q[2, 3] + q[1, 0], pos[1]],
+    #      [q[1, 3] + q[2, 0], q[2, 3] - q[1, 0], 1.0 - q[1, 1] - q[2, 2], pos[2]],
+    #      [0, 0, 0, 1.0]], dtype=q.dtype)
+    matrix = np.array(
+        [[1.0 - q[1, 1] - q[2, 2], -(q[2, 3] - q[1, 0]), q[1, 3] + q[2, 0], pos[0]],
+         [q[2, 3] + q[1, 0], -(1.0 - q[1, 1] - q[3, 3]), q[1, 2] - q[3, 0], pos[1]],
+         [-(q[1, 3] - q[2, 0]), q[1, 2] + q[3, 0], -(1.0 - q[2, 2] - q[3, 3]), pos[2]],
+         [0., 0., 0., 1.0]], dtype=np.float)
+    return matrix
+

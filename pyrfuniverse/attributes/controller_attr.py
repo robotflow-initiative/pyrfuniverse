@@ -1,3 +1,5 @@
+import numpy as np
+
 import pyrfuniverse.attributes as attr
 from pyrfuniverse.side_channel.side_channel import (
     IncomingMessage,
@@ -11,19 +13,19 @@ def parse_message(msg: IncomingMessage) -> dict:
     #
     this_object_data['number_of_joints'] = msg.read_int32()
     # Position
-    this_object_data['positions'] = _parse_raw_list_3(msg.read_float32_list())
+    this_object_data['positions'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
     # RotationEuler
-    this_object_data['rotations'] = _parse_raw_list_3(msg.read_float32_list())
+    this_object_data['rotations'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
     # RotationQuaternion
-    this_object_data['quaternion'] = _parse_raw_list_4(msg.read_float32_list())
+    this_object_data['quaternion'] = np.array(msg.read_float32_list()).reshape([-1, 4]).tolist()
     # LocalPosition
-    this_object_data['local_positions'] = _parse_raw_list_3(msg.read_float32_list())
+    this_object_data['local_positions'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
     # LocalRotationEuler
-    this_object_data['local_rotations'] = _parse_raw_list_3(msg.read_float32_list())
+    this_object_data['local_rotations'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
     # LocalRotationQuaternion
-    this_object_data['local_quaternion'] = _parse_raw_list_4(msg.read_float32_list())
+    this_object_data['local_quaternion'] = np.array(msg.read_float32_list()).reshape([-1, 4]).tolist()
     # Velocity
-    this_object_data['velocities'] = _parse_raw_list_3(msg.read_float32_list())
+    this_object_data['velocities'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
     #
     this_object_data['number_of_moveable_joints'] = msg.read_int32()
     # Each joint position
@@ -41,28 +43,26 @@ def parse_message(msg: IncomingMessage) -> dict:
     return this_object_data
 
 
-def _parse_raw_list_3(raw_list):
-    length = len(raw_list)
-    assert length % 3 == 0
-    number_of_parts = length // 3
-    norm_list = []
-    for j in range(number_of_parts):
-        transform = [raw_list[3 * j], raw_list[3 * j + 1], raw_list[3 * j + 2]]
-        norm_list.append(transform)
-
-    return norm_list
-
-
-def _parse_raw_list_4(raw_list):
-    length = len(raw_list)
-    assert length % 4 == 0
-    number_of_parts = length // 4
-    norm_list = []
-    for j in range(number_of_parts):
-        transform = [raw_list[4 * j], raw_list[4 * j + 1], raw_list[4 * j + 2], raw_list[4 * j + 3]]
-        norm_list.append(transform)
-
-    return norm_list
+# def _parse_raw_list_3(raw_list):
+#     length = len(raw_list)
+#     assert length % 3 == 0
+#     number_of_parts = length // 3
+#     norm_list = []
+#     for j in range(number_of_parts):
+#         transform = [raw_list[3 * j], raw_list[3 * j + 1], raw_list[3 * j + 2]]
+#         norm_list.append(transform)
+#     return norm_list
+#
+#
+# def _parse_raw_list_4(raw_list):
+#     length = len(raw_list)
+#     assert length % 4 == 0
+#     number_of_parts = length // 4
+#     norm_list = []
+#     for j in range(number_of_parts):
+#         transform = [raw_list[4 * j], raw_list[4 * j + 1], raw_list[4 * j + 2], raw_list[4 * j + 3]]
+#         norm_list.append(transform)
+#     return norm_list
 
 
 def SetJointPosition(kwargs: dict) -> OutgoingMessage:
@@ -130,13 +130,13 @@ def SetJointPositionContinue(kwargs: dict) -> OutgoingMessage:
 
     time_joint_positions = kwargs['time_joint_positions']
     num_times = len(time_joint_positions)
-    num_joints = len(time_joint_positions[0])
+    # num_joints = len(time_joint_positions[0])
     interval = kwargs['interval']
 
     msg.write_int32(kwargs['id'])
     msg.write_string('SetJointPositionContinue')
     msg.write_int32(num_times)
-    msg.write_int32(num_joints)
+    # msg.write_int32(num_joints)
     msg.write_int32(interval)
     for i in range(num_times):
         msg.write_float32_list(time_joint_positions[i])

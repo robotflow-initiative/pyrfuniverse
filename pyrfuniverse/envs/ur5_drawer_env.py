@@ -1,6 +1,6 @@
 from pyrfuniverse.envs import RFUniverseGymGoalWrapper
 from pyrfuniverse.utils.ur5_controller import RFUniverseUR5Controller
-import pyrfuniverse.assets as assets_path
+import pyrfuniverse.envs.base_env as base_env
 import numpy as np
 from gym import spaces
 from gym.utils import seeding
@@ -65,7 +65,7 @@ class Ur5DrawerEnv(RFUniverseGymGoalWrapper):
 
         self.seed(seed)
         self.ik_controller = RFUniverseUR5Controller(
-            robot_urdf=os.path.join(assets_path.__path__, 'RoboTube/DrawerClosing/UR5/ur5_robotiq_85.urdf'),
+            robot_urdf=os.path.join(base_env.get_rfuniverse_log_dir(), 'Assets/RoboTube/DrawerClosing/UR5/ur5_robotiq_85.urdf'),
             init_joint_positions=[90, -60, 60, 90, 90, 0],
         )
         self.t = 0

@@ -118,7 +118,7 @@ class AssetChannel(RFUniverseChannel):
             elif type(i) == list and type(i[0]) == float:
                 msg.write_float32_list(i)
             else:
-                print('dont support this data type')
+                print(f'dont support this data type:{type(i)}')
         self.send_message(msg)
 
     def AddListener(self, message: str, fun):

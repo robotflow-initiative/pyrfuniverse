@@ -332,7 +332,6 @@ def calc_main_depth_from_left_right_ir(
         raise RuntimeError(f"extrinsics contain translation {rt_lr[:3, 3]}")
     if use_noise:
         ir_l, ir_r = sim_ir_noise(ir_l, **kwargs), sim_ir_noise(ir_r, **kwargs)
-
     _, _, q = calc_rectified_stereo_pair(
         ir_l, ir_r,
         k_l.astype(np.float), k_r.astype(np.float), rt_lr.astype(np.float)
@@ -361,21 +360,16 @@ def calc_main_depth_from_left_right_ir(
     return depth
 
 
-def get_pointcloud(depth, extrinsic_matrix=np.eye(4), rgb=None):
-    projection_matrix = np.array([[1380., 0., 960.], [0., 1380., 540.], [0., 0., 1.]])
-    # if frame == 'camera':
-    #     xyz = depth2pts_np(depth, projection_matrix)
-    # else:
-    #     xyz = depth2pts_np(depth, projection_matrix, _pose2cv2ex(self.pose))
-    xyz = depth2pts_np(depth, projection_matrix, extrinsic_matrix)
+def get_pointcloud(image_rgb: np.ndarray, image_depth: np.ndarray, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
+    xyz = _depth2pts_np(image_depth.T, intrinsic_matrix)
+    point = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(xyz))
+    colors = image_rgb.transpose([1, 0, 2]).reshape(-1, 3)
+    point.colors = o3d.utility.Vector3dVector(colors.astype(np.float32) / 255.0)
+    point.transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+    point.transform(extrinsic_matrix)
+    return point
 
-    if rgb is not None:
-        xyz = np.concatenate([xyz, rgb.reshape(-1, 3)], axis=1)
-
-    return xyz
-
-
-def depth2pts_np(depth_map, cam_intrinsic, cam_extrinsic=np.eye(4)):
+def _depth2pts_np(depth_map, cam_intrinsic, cam_extrinsic=np.eye(4)):
     feature_grid = get_pixel_grids_np(
         depth_map.shape[0], depth_map.shape[1])
 
@@ -387,7 +381,6 @@ def depth2pts_np(depth_map, cam_intrinsic, cam_extrinsic=np.eye(4)):
     r_inv = np.linalg.inv(r)
 
     world_points = np.matmul(r_inv, cam_points - t).transpose()
-    # world_points = np.matmul(cam_extrinsic, cam_points)
     return world_points
 
 

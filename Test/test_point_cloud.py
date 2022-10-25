@@ -62,8 +62,8 @@ point2 = dp.convert_bytes2pc(image_rgb, image_depth_exr, fov, local_to_world_mat
 
 
 # unity space to open3d space and show
-point1.transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
-point2.transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+point1.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+point2.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 coorninate = o3d.geometry.TriangleMesh.create_coordinate_frame()
 o3d.visualization.draw_geometries([point1, point2, coorninate])
 
