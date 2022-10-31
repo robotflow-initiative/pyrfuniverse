@@ -32,7 +32,7 @@ image_rgb = env.instance_channel.data[698548]['rgb']
 image_depth_exr = env.instance_channel.data[698548]['depth_exr']
 local_to_world_matrix = env.instance_channel.data[698548]['local_to_world_matrix']
 local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
-point1 = dp.bytes_to_point_cloud_intrinsic_matrix(image_rgb, image_depth_exr, nd_intrinsic_matrix, local_to_world_matrix)
+point1 = dp.image_bytes_to_point_cloud_intrinsic_matrix(image_rgb, image_depth_exr, nd_intrinsic_matrix, local_to_world_matrix)
 
 env.instance_channel.set_action(
     'GetDepthEXR',
@@ -54,7 +54,7 @@ image_rgb = env.instance_channel.data[698550]['rgb']
 image_depth_exr = env.instance_channel.data[698550]['depth_exr']
 local_to_world_matrix = env.instance_channel.data[698550]['local_to_world_matrix']
 local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
-point2 = dp.bytes_to_point_cloud_intrinsic_matrix(image_rgb, image_depth_exr, nd_intrinsic_matrix, local_to_world_matrix)
+point2 = dp.image_bytes_to_point_cloud_intrinsic_matrix(image_rgb, image_depth_exr, nd_intrinsic_matrix, local_to_world_matrix)
 
 # unity space to open3d space and show
 point1.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])

@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 import pyrfuniverse.attributes as attr
-import pyrfuniverse.utils.depth_processor as dp
+import pyrfuniverse.utils.active_depth_generate as active_depth
 import pyrfuniverse.utils.rfuniverse_utility as utility
 from pyrfuniverse.side_channel.side_channel import (
     IncomingMessage,
@@ -29,7 +29,7 @@ def parse_message(msg: IncomingMessage) -> dict:
         right_extrinsic_matrix = np.array(
             [[0., -1., 0., -0.072], [0., 0., -1., 0.], [1., 0., 0., 0.], [0., 0., 0., 1.]])
         main_extrinsic_matrix = np.array([[0., -1., 0., 0.], [0., 0., -1., 0.], [1., 0., 0., 0.], [0., 0., 0., 1.]])
-        this_object_data['active_depth'] = dp.calc_main_depth_from_left_right_ir(image_left, image_right,
+        this_object_data['active_depth'] = active_depth.calc_main_depth_from_left_right_ir(image_left, image_right,
                                                                                  left_extrinsic_matrix,
                                                                                  right_extrinsic_matrix,
                                                                                  main_extrinsic_matrix,

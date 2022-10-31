@@ -12,7 +12,7 @@ setup(
     description="RFUniverse python interface",
     url="https://github.com/mvig-robotflow/rfuniverse",
     author="Robotflow AI Team",
-    author_email="robotflow@sjtu.edu.cn",
+    author_email="robotflow@163.com",
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     zip_safe=False,
     install_requires=[
@@ -22,10 +22,10 @@ setup(
         "Pillow>=4.2.1",
         "protobuf==3.19.0",
         "pyyaml>=3.1.0",
-        "pybullet",
         "gym==0.21.0",
-        # "stable-baselines3"
-        "opencv-python"
+        # "stable-baselines3",
+        "opencv-python==4.5.4.60",
+        "opencv-contrib-python==4.5.4.60",
     ],
-    python_requires=">=3.6.1",
+    python_requires=">=3.6.1,<3.10",
 )

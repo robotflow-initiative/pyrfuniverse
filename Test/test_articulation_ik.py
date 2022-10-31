@@ -1,5 +1,5 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-import pyrfuniverse.utils.rfuniverse_utility as tool
+import pyrfuniverse.utils.rfuniverse_utility as utility
 
 env = RFUniverseBaseEnv(
     # executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/usr/local/RFUniverse/RFUniverse.x86_64',
@@ -39,7 +39,7 @@ for id in ids:
     env.instance_channel.set_action(
         'IKTargetDoRotateQuaternion',
         id=id,
-        quaternion=tool.UnityEularToQuaternion([90, 0, 0]),
+        quaternion=utility.UnityEularToQuaternion([90, 0, 0]),
         duration=30,
         relative=True
         )

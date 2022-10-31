@@ -9,3 +9,5 @@ pyrfuniverse.egg-info/
 **/__pycache__/
 
 Temp/
+
+dist/

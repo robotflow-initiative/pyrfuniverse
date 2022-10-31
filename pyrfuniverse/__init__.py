@@ -1,5 +1,5 @@
 # Version of the library that will be used to upload to pypi
-__version__ = "1.0.1"
+__version__ = "0.5.10"
 
 
 # For videos only

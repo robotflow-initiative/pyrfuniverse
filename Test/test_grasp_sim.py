@@ -30,35 +30,35 @@ env.asset_channel.set_action(
     name='GraspSim'
 )
 # grasp sim
-# env.instance_channel.set_action(
-#     'StartGraspSim',
-#     id=123123,
-#     mesh=os.path.abspath(mesh_path),
-#     gripper='franka_hand',
-#     points=points,
-#     normals=normals,
-#     depth_range_min=-0.05,
-#     depth_range_max=0,
-#     depth_lerp_count=5,
-#     angle_lerp_count=5,
-#     parallel_count=400
-# )
-# only show grasp pose
 env.instance_channel.set_action(
-    'GenerateGraspPose',
+    'StartGraspSim',
     id=123123,
     mesh=os.path.abspath(mesh_path),
-    gripper='SimpleFrankaGripper',
+    gripper='franka_hand',
     points=points,
     normals=normals,
     depth_range_min=-0.05,
     depth_range_max=0,
     depth_lerp_count=5,
     angle_lerp_count=5,
+    parallel_count=100
 )
-env._step()
+# only show grasp pose
+# env.instance_channel.set_action(
+#     'GenerateGraspPose',
+#     id=123123,
+#     mesh=os.path.abspath(mesh_path),
+#     gripper='SimpleFrankaGripper',
+#     points=points,
+#     normals=normals,
+#     depth_range_min=-0.05,
+#     depth_range_max=0,
+#     depth_lerp_count=5,
+#     angle_lerp_count=5,
+# )
+env.step()
 while not env.instance_channel.data[123123]['done']:
-    env._step()
+    env.step()
 
 
 points = env.instance_channel.data[123123]['points']
@@ -75,4 +75,4 @@ csv_path = os.path.join(os.path.dirname(mesh_path), 'grasps_rfu.csv')
 csv.to_csv(csv_path, index=True, header=True)
 
 while True:
-    env._step()
+    env.step()

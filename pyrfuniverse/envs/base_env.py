@@ -1,4 +1,3 @@
-import time
 from abc import ABC
 from pyrfuniverse.environment import UnityEnvironment
 from pyrfuniverse.side_channel.environment_parameters_channel import EnvironmentParametersChannel
@@ -8,8 +7,6 @@ from pyrfuniverse.rfuniverse_channel import DebugChannel
 import gym
 import os
 import platform
-import json
-from typing import Union
 
 
 def get_rfuniverse_log_dir():
