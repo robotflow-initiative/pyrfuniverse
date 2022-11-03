@@ -1,4 +1,6 @@
 from abc import ABC
+
+import pyrfuniverse
 from pyrfuniverse.environment import UnityEnvironment
 from pyrfuniverse.side_channel.environment_parameters_channel import EnvironmentParametersChannel
 from pyrfuniverse.rfuniverse_channel import AssetChannel
@@ -6,34 +8,12 @@ from pyrfuniverse.rfuniverse_channel import InstanceChannel
 from pyrfuniverse.rfuniverse_channel import DebugChannel
 import gym
 import os
-import platform
-
-
-def get_rfuniverse_log_dir():
-    platform_name = platform.platform()
-    assert 'Linux' in platform_name or 'Windows' in platform_name, \
-        'Currently, we only support Linux and Windows.'
-
-    rfuniverse_log_dir = ''
-    curr_path = os.getcwd()
-
-    if 'Linux' in platform_name:
-        paths = curr_path.split('/')
-        assert len(paths) >= 3 and paths[1] == 'home', \
-            'Invalid path. Please set your path to /home/USER_NAME/xxx'
-
-        rfuniverse_log_dir = '/home/{}/.rfuniverse'.format(paths[2])
-    else:
-        rfuniverse_log_dir = os.path.join(curr_path, '.rfuniverse')
-
-    return rfuniverse_log_dir
 
 
 def select_available_worker_id():
-    worker_id_log_dir = get_rfuniverse_log_dir()
-    if not os.path.exists(worker_id_log_dir):
-        os.makedirs(worker_id_log_dir)
-    log_file = os.path.join(worker_id_log_dir, 'worker_id_log')
+    if not os.path.exists(pyrfuniverse.user_path):
+        os.makedirs(pyrfuniverse.user_path)
+    log_file = os.path.join(pyrfuniverse.user_path, 'worker_id_log')
 
     worker_id = 1
     worker_id_in_use = []
@@ -54,8 +34,7 @@ def select_available_worker_id():
 
 
 def delete_worker_id(worker_id):
-    worker_id_log_dir = get_rfuniverse_log_dir()
-    log_file = os.path.join(worker_id_log_dir, 'worker_id_log')
+    log_file = os.path.join(pyrfuniverse.user_path, 'worker_id_log')
 
     worker_id_in_use = []
     if os.path.exists(log_file):
@@ -111,10 +90,16 @@ class RFUniverseBaseEnv(ABC):
                 file_name=self.executable_file,
                 side_channels=self.channels,
             )
+        elif os.path.exists(pyrfuniverse.executable_file):
+            self.env = UnityEnvironment(
+                worker_id=self.worker_id,
+                file_name=pyrfuniverse.executable_file,
+                side_channels=self.channels,
+            )
         else:
             self.env = UnityEnvironment(
                 worker_id=0,
-                side_channels=self.channels
+                side_channels=self.channels,
             )
 
         if self.scene_file is not None:

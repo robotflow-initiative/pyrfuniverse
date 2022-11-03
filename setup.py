@@ -1,10 +1,9 @@
 from setuptools import setup
 from setuptools import find_packages
-import os
+
 import pyrfuniverse
 
 VERSION = pyrfuniverse.__version__
-here = os.path.abspath(os.path.dirname(__file__))
 
 setup(
     name="pyrfuniverse",
@@ -23,9 +22,10 @@ setup(
         "protobuf==3.19.0",
         "pyyaml>=3.1.0",
         "gym==0.21.0",
-        # "stable-baselines3",
         "opencv-python==4.5.4.60",
         "opencv-contrib-python==4.5.4.60",
     ],
     python_requires=">=3.6.1,<3.10",
 )
+
+

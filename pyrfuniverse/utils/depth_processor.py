@@ -4,7 +4,7 @@ import os.path as osp
 import numpy as np
 import open3d as o3d
 import cv2
-
+import tempfile
 
 def image_bytes_to_point_cloud(rgb_bytes: bytes, depth_bytes: bytes, fov: float, extrinsic_matrix: np.ndarray):
     """
@@ -22,7 +22,7 @@ def image_bytes_to_point_cloud(rgb_bytes: bytes, depth_bytes: bytes, fov: float,
     # image_depth = cv2.imdecode(image_depth, cv2.IMREAD_GRAYSCALE)
     # image_depth = image_depth * 5 / 255
 
-    temp_file_path = osp.join('/tmp', 'temp_img.exr')
+    temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.exr')
     with open(temp_file_path, 'wb') as f:
         f.write(depth_bytes)
     image_depth = cv2.imread(temp_file_path, cv2.IMREAD_UNCHANGED)
@@ -42,7 +42,7 @@ def image_bytes_to_point_cloud(rgb_bytes: bytes, depth_bytes: bytes, fov: float,
     pcd.transform(extrinsic_matrix)
 
     # change from Unity coordinates to Open3D coordniates
-    # foreground_pcd.transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, -1]])
+    # pcd.transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, -1]])
 
 
     # coorninate = o3d.geometry.TriangleMesh.create_coordinate_frame(size=1, origin=(0., 0., 0.))
@@ -110,13 +110,13 @@ def depth_to_point_cloud(depth: np.ndarray, fov: float, organized=False):
     return cloud
 
 def image_bytes_to_point_cloud_intrinsic_matrix(rgb_bytes: bytes, depth_bytes: bytes, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
-    temp_file_path = osp.join('/tmp', 'temp_img.png')
+    temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.png')
     with open(temp_file_path, 'wb') as f:
         f.write(rgb_bytes)
     color = o3d.io.read_image(temp_file_path)
     os.remove(temp_file_path)
 
-    temp_file_path = osp.join('/tmp', 'temp_img.exr')
+    temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.exr')
     with open(temp_file_path, 'wb') as f:
         f.write(depth_bytes)
     # change .exr format to .png format
@@ -126,7 +126,7 @@ def image_bytes_to_point_cloud_intrinsic_matrix(rgb_bytes: bytes, depth_bytes: b
     # foregound_mask = mask == 11
     depth_png = (depth_exr * 1000).astype(np.uint16)[:, :]
     # foreground_depth_png[~foregound_mask] = 0  # filter the background, only need foreground
-    temp_file_path = osp.join('/tmp', 'temp_img.png')
+    temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.png')
     cv2.imwrite(temp_file_path, depth_png)
     depth = o3d.io.read_image(temp_file_path)
     os.remove(temp_file_path)
@@ -137,7 +137,7 @@ def image_bytes_to_point_cloud_intrinsic_matrix(rgb_bytes: bytes, depth_bytes: b
 
 
 def image_array_to_point_cloud_intrinsic_matrix(image_rgb: np.ndarray, image_depth: np.ndarray, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
-    temp_file_path = osp.join('/tmp', 'temp_img.png')
+    temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.png')
 
     image_rgb = np.transpose(image_rgb, [1, 0, 2])
     cv2.imwrite(temp_file_path, image_rgb)

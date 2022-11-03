@@ -11,10 +11,7 @@
 # TODO:
 #  1. IR intensity instead of pixel values in real pipeline.
 #
-import base64
-import math
-import os
-import os.path as osp
+
 from typing import Optional, Tuple
 
 import numpy as np

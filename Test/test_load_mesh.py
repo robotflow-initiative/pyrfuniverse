@@ -2,9 +2,7 @@ import random
 import os
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 
-env = RFUniverseBaseEnv(
-    # executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/usr/local/RFUniverse/RFUniverse.x86_64',
-)
+env = RFUniverseBaseEnv()
 env._step()
 
 id = 639787

@@ -1,68 +1,24 @@
 # Version of the library that will be used to upload to pypi
-__version__ = "0.5.10"
+__version__ = "0.6.1"
+
+import os.path
+import json
+
+def read_config():
+    if not os.path.exists(config_path):
+        config = {}
+        config['assets_path'] = ''
+        config['executable_file'] = ''
+        with open(config_path, 'w', encoding='utf-8') as file:
+            json.dump(config, file, indent=True)
+    with open(config_path, 'r', encoding='utf-8') as file:
+        return json.load(file)
 
 
-# For videos only
-
-class Env:
-    def __init__(self):
-        pass
-
-    def set_camera_pose(self, pose):
-        pass
-
-    def load_robot(self, robot_name, pose_sampler='default', pos=None, orn=None):
-        pass
-
-    def robots_random_move(self,):
-        pass
-
-    def camera_synthesis(self, return_annos):
-        pass
-
-    def domain_randomization(self,):
-        pass
-
-
-def connect(ip, port):
-    return Env()
-
-
-def sample_camera_pose(env):
-    return 1
-
-
-def set_camera_pose():
-    pass
-
-
-def load_flexiv():
-    pass
-
-
-def load_kuka_iiwa():
-    pass
-
-
-def load_franka():
-    pass
-
-
-def load_ur5():
-    pass
-
-
-def load_tobor():
-    pass
-
-
-def robots_random_move():
-    pass
-
-
-def camera_synthesis():
-    pass
-
-
-def domain_randomization():
-    pass
+user_path = os.path.expanduser('~/.rfuniverse')
+if not os.path.exists(user_path):
+    os.makedirs(user_path)
+config_path = os.path.join(user_path, 'config.json')
+config = read_config()
+assets_path = config['assets_path']
+executable_file = config['executable_file']

@@ -1,7 +1,15 @@
 import os
 import numpy as np
-import pandas as pd
-import open3d as o3d
+try:
+    import pandas as pd
+except ImportError:
+    print('This feature requires pandas, please install with `pip install pandas`')
+    raise
+try:
+    import open3d as o3d
+except ImportError:
+    print('This feature requires open3d, please install with `pip install open3d`')
+    raise
 
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 
@@ -21,7 +29,6 @@ points = points.reshape(-1).tolist()
 normals = normals.reshape(-1).tolist()
 
 env = RFUniverseBaseEnv(
-    # executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/usr/local/RFUniverse/RFUniverse.x86_64',
     assets=['GraspSim']
 )
 env.asset_channel.set_action(

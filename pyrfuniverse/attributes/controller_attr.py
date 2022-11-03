@@ -98,13 +98,6 @@ def SetJointPosition(kwargs: dict) -> OutgoingMessage:
 
 
 def SetJointPositionDirectly(kwargs: dict) -> OutgoingMessage:
-    """Set the target positions for each joint in a specified articulation body. Note that this function will move
-       all joints directrly to its target joint position, and ignoring the physical effects during moving.
-    Args:
-        Compulsory:
-        index: The index of articulation body, specified in returned message.
-        joint_positions: A list inferring each joint's position in the specified acticulation body.
-    """
     compulsory_params = ['id', 'joint_positions']
     optional_params = []
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -120,6 +113,33 @@ def SetJointPositionDirectly(kwargs: dict) -> OutgoingMessage:
 
     return msg
 
+def SetIndexJointPosition(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id', 'index','joint_position']
+    optional_params = []
+    utility.CheckKwargs(kwargs, compulsory_params)
+
+    msg = OutgoingMessage()
+
+    msg.write_int32(kwargs['id'])
+    msg.write_string('SetIndexJointPosition')
+    msg.write_int32(kwargs['index'])
+    msg.write_float32(kwargs['joint_position'])
+
+    return msg
+
+def SetIndexJointPositionDirectly(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id', 'index','joint_position']
+    optional_params = []
+    utility.CheckKwargs(kwargs, compulsory_params)
+
+    msg = OutgoingMessage()
+
+    msg.write_int32(kwargs['id'])
+    msg.write_string('SetIndexJointPositionDirectly')
+    msg.write_int32(kwargs['index'])
+    msg.write_float32(kwargs['joint_position'])
+
+    return msg
 
 def SetJointPositionContinue(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'interval', 'time_joint_positions']

@@ -1,8 +1,7 @@
+import pyrfuniverse
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 from pyrfuniverse.utils.tobor_controller import RFUniverseToborController
 import numpy as np
-import math
-import pybullet as p
 
 
 class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
@@ -15,7 +14,6 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
             right_init_joint_positions=[0] * 7
     ):
         super().__init__(
-            # executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/usr/local/RFUniverse/RFUniverse.x86_64',
             scene_file=scene_file,
         )
         self.instance_channel.set_action(

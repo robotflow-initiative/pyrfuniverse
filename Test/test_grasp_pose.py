@@ -1,5 +1,9 @@
 import os
-import pandas as pd
+try:
+    import pandas as pd
+except ImportError:
+    print('This feature requires pandas, please install with `pip install pandas`')
+    raise
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 
 mesh_path = '../Mesh/drink1/drink1.obj'
@@ -10,9 +14,7 @@ data = data.to_numpy()
 positions = data[:, 0:3].reshape(-1).tolist()
 quaternions = data[:, 3:7].reshape(-1).tolist()
 
-env = RFUniverseBaseEnv(
-    # executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/usr/local/RFUniverse/RFUniverse.x86_64',
-)
+env = RFUniverseBaseEnv()
 
 env.asset_channel.set_action(
     'InstanceObject',

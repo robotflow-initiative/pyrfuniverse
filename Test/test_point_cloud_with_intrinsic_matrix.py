@@ -1,10 +1,13 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.utils.depth_processor as dp
 import numpy as np
-import open3d as o3d
+try:
+    import open3d as o3d
+except ImportError:
+    print('This feature requires open3d, please install with `pip install open3d`')
+    raise
 
 env = RFUniverseBaseEnv(
-    # executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/usr/local/RFUniverse/RFUniverse.x86_64',
     scene_file='PointCloud.json'
 )
 

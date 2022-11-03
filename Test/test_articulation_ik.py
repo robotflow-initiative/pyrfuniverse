@@ -2,7 +2,6 @@ from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.utils.rfuniverse_utility as utility
 
 env = RFUniverseBaseEnv(
-    # executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/usr/local/RFUniverse/RFUniverse.x86_64',
     scene_file='ArticulationIK.json'
 )
 env._step()
