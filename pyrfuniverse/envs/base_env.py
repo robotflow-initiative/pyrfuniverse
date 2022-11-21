@@ -69,6 +69,7 @@ class RFUniverseBaseEnv(ABC):
         scene_file: str = None,
         custom_channels: list = [],
         assets: list = [],
+        graphics: bool = True,
         **kwargs
     ):
         # time step
@@ -81,6 +82,7 @@ class RFUniverseBaseEnv(ABC):
         # initialize environment
         self.executable_file = executable_file
         self.scene_file = scene_file
+        self.graphics = graphics
         self._init_env()
 
     def _init_env(self):
@@ -89,17 +91,20 @@ class RFUniverseBaseEnv(ABC):
                 worker_id=self.worker_id,
                 file_name=self.executable_file,
                 side_channels=self.channels,
+                no_graphics=not self.graphics,
             )
         elif os.path.exists(pyrfuniverse.executable_file):
             self.env = UnityEnvironment(
                 worker_id=self.worker_id,
                 file_name=pyrfuniverse.executable_file,
                 side_channels=self.channels,
+                no_graphics=not self.graphics,
             )
         else:
             self.env = UnityEnvironment(
                 worker_id=0,
                 side_channels=self.channels,
+                no_graphics=not self.graphics,
             )
 
         if self.scene_file is not None:

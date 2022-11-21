@@ -11,9 +11,13 @@ def parse_message(msg: IncomingMessage) -> dict:
     done = msg.read_bool()
     this_object_data['done'] = done
     if done:
-        this_object_data['points'] = msg.read_float32_list()
-        this_object_data['quaternions'] = msg.read_float32_list()
-        this_object_data['width'] = msg.read_float32_list()
+        mode = msg.read_int32()
+        if mode == 0:
+            this_object_data['points'] = msg.read_float32_list()
+            this_object_data['quaternions'] = msg.read_float32_list()
+            this_object_data['width'] = msg.read_float32_list()
+        if mode == 1:
+            this_object_data['success'] = msg.read_float32_list()
     return this_object_data
 
 
@@ -35,6 +39,24 @@ def StartGraspSim(kwargs: dict) -> OutgoingMessage:
     msg.write_float32(kwargs['depth_range_max'])
     msg.write_int32(kwargs['depth_lerp_count'])
     msg.write_int32(kwargs['angle_lerp_count'])
+    if 'parallel_count' not in kwargs:
+        kwargs['parallel_count'] = 100
+    msg.write_int32(kwargs['parallel_count'])
+    return msg
+
+
+def StartGraspTest(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id', 'mesh', 'gripper', 'points', 'quaternions']
+    optional_params = ['parallel_count']
+    utility.CheckKwargs(kwargs, compulsory_params)
+
+    msg = OutgoingMessage()
+    msg.write_int32(kwargs['id'])
+    msg.write_string('StartGraspTest')
+    msg.write_string(kwargs['mesh'])
+    msg.write_string(kwargs['gripper'])
+    msg.write_float32_list(kwargs['points'])
+    msg.write_float32_list(kwargs['quaternions'])
     if 'parallel_count' not in kwargs:
         kwargs['parallel_count'] = 100
     msg.write_int32(kwargs['parallel_count'])

@@ -320,6 +320,26 @@ def TurnRight(kwargs: dict) -> OutgoingMessage:
     msg.write_float32(kwargs['speed'])
     return msg
 
+def GripperOpen(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id']
+    optional_params = []
+    utility.CheckKwargs(kwargs, compulsory_params)
+
+    msg = OutgoingMessage()
+    msg.write_int32(kwargs['id'])
+    msg.write_string('GripperOpen')
+    return msg
+
+def GripperClose(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id']
+    optional_params = []
+    utility.CheckKwargs(kwargs, compulsory_params)
+
+    msg = OutgoingMessage()
+    msg.write_int32(kwargs['id'])
+    msg.write_string('GripperClose')
+    return msg
+
 
 def EnabledNativeIK(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'enabled']
@@ -337,6 +357,12 @@ def IKTargetDoMove(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'position', 'duration']
     optional_params = ['speed_based', 'relative']
     utility.CheckKwargs(kwargs, compulsory_params)
+
+    if 'speed_based' not in kwargs:
+        kwargs['speed_based'] = True
+    if 'relative' not in kwargs:
+        kwargs['relative'] = False
+
     msg = OutgoingMessage()
     msg.write_int32(kwargs['id'])
     msg.write_string('IKTargetDoMove')
@@ -344,20 +370,20 @@ def IKTargetDoMove(kwargs: dict) -> OutgoingMessage:
     msg.write_float32(kwargs['position'][1])
     msg.write_float32(kwargs['position'][2])
     msg.write_float32(kwargs['duration'])
-    if 'speed_based' in kwargs:
-        msg.write_bool(kwargs['speed_based'])
-    else:
-        msg.write_bool(True)
-    if 'relative' in kwargs:
-        msg.write_bool(kwargs['relative'])
-    else:
-        msg.write_bool(False)
+    msg.write_bool(kwargs['speed_based'])
+    msg.write_bool(kwargs['relative'])
     return msg
 
 def IKTargetDoRotate(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'vector3', 'duration']
     optional_params = ['speed_based', 'relative']
     utility.CheckKwargs(kwargs, compulsory_params)
+
+    if 'speed_based' not in kwargs:
+        kwargs['speed_based'] = True
+    if 'relative' not in kwargs:
+        kwargs['relative'] = False
+
     msg = OutgoingMessage()
     msg.write_int32(kwargs['id'])
     msg.write_string('IKTargetDoRotate')
@@ -365,20 +391,20 @@ def IKTargetDoRotate(kwargs: dict) -> OutgoingMessage:
     msg.write_float32(kwargs['vector3'][1])
     msg.write_float32(kwargs['vector3'][2])
     msg.write_float32(kwargs['duration'])
-    if 'speed_based' in kwargs:
-        msg.write_bool(kwargs['speed_based'])
-    else:
-        msg.write_bool(True)
-    if 'relative' in kwargs:
-        msg.write_bool(kwargs['relative'])
-    else:
-        msg.write_bool(False)
+    msg.write_bool(kwargs['speed_based'])
+    msg.write_bool(kwargs['relative'])
     return msg
 
 def IKTargetDoRotateQuaternion(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'quaternion', 'duration']
     optional_params = ['speed_based', 'relative']
     utility.CheckKwargs(kwargs, compulsory_params)
+
+    if 'speed_based' not in kwargs:
+        kwargs['speed_based'] = True
+    if 'relative' not in kwargs:
+        kwargs['relative'] = False
+
     msg = OutgoingMessage()
     msg.write_int32(kwargs['id'])
     msg.write_string('IKTargetDoRotateQuaternion')
@@ -387,14 +413,8 @@ def IKTargetDoRotateQuaternion(kwargs: dict) -> OutgoingMessage:
     msg.write_float32(kwargs['quaternion'][2])
     msg.write_float32(kwargs['quaternion'][3])
     msg.write_float32(kwargs['duration'])
-    if 'speed_based' in kwargs:
-        msg.write_bool(kwargs['speed_based'])
-    else:
-        msg.write_bool(True)
-    if 'relative' in kwargs:
-        msg.write_bool(kwargs['relative'])
-    else:
-        msg.write_bool(False)
+    msg.write_bool(kwargs['speed_based'])
+    msg.write_bool(kwargs['relative'])
     return msg
 
 
@@ -417,4 +437,34 @@ def IKTargetDoKill(kwargs: dict) -> OutgoingMessage:
     msg = OutgoingMessage()
     msg.write_int32(kwargs['id'])
     msg.write_string('IKTargetDoKill')
+    return msg
+
+def SetIKTargetOffset(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id']
+    optional_params = ['position', 'rotation', 'is_quaternion']
+    utility.CheckKwargs(kwargs, compulsory_params)
+
+    if 'position' not in kwargs:
+        kwargs['position'] = [0,0,0]
+    if 'rotation' not in kwargs:
+        kwargs['rotation'] = [0,0,0,0]
+    if 'is_quaternion' not in kwargs:
+        kwargs['is_quaternion'] = False
+
+    msg = OutgoingMessage()
+    msg.write_int32(kwargs['id'])
+    msg.write_string('SetIKTargetOffset')
+    msg.write_float32(kwargs['position'][0])
+    msg.write_float32(kwargs['position'][1])
+    msg.write_float32(kwargs['position'][2])
+    msg.write_bool(kwargs['is_quaternion'])
+    if kwargs['is_quaternion']:
+        msg.write_float32(kwargs['rotation'][0])
+        msg.write_float32(kwargs['rotation'][1])
+        msg.write_float32(kwargs['rotation'][2])
+        msg.write_float32(kwargs['rotation'][2])
+    else:
+        msg.write_float32(kwargs['rotation'][0])
+        msg.write_float32(kwargs['rotation'][1])
+        msg.write_float32(kwargs['rotation'][2])
     return msg
