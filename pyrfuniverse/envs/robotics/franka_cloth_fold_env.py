@@ -1,5 +1,5 @@
 from pyrfuniverse.envs import RFUniverseGymGoalWrapper
-from pyrfuniverse.utils import RFUniverseController
+# from pyrfuniverse.utils import RFUniverseController
 import numpy as np
 from gym import spaces
 from gym.utils import seeding

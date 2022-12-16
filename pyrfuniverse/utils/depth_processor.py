@@ -30,27 +30,7 @@ def image_bytes_to_point_cloud(rgb_bytes: bytes, depth_bytes: bytes, fov: float,
 
     image_depth = np.transpose(image_depth, [1, 0])
 
-    points = depth_to_point_cloud(image_depth, fov=fov, organized=False)
-    pcd = o3d.geometry.PointCloud()
-    pcd.points = o3d.utility.Vector3dVector(points)
-
-    colors = image_rgb.reshape(-1, 3)
-    pcd.colors = o3d.utility.Vector3dVector(colors.astype(np.float32) / 255.0)
-
-    # matrix[2, :] = - matrix[2, :]
-    # matrix[:, 2] = - matrix[:, 2]
-    pcd.transform(extrinsic_matrix)
-
-    # change from Unity coordinates to Open3D coordniates
-    # pcd.transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, -1]])
-
-
-    # coorninate = o3d.geometry.TriangleMesh.create_coordinate_frame(size=1, origin=(0., 0., 0.))
-    # o3d.visualization.draw_geometries([foreground_pcd, coorninate])
-
-    pc_sim = np.asarray(pcd.points)
-    pc_sim_rgb = (np.asarray(pcd.colors) * 255).astype(np.uint8)
-    # return pc_sim, pc_sim_rgb
+    pcd = image_array_to_point_cloud(image_rgb, image_depth, fov, extrinsic_matrix)
     return pcd
 
 
@@ -140,6 +120,7 @@ def image_array_to_point_cloud_intrinsic_matrix(image_rgb: np.ndarray, image_dep
     temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.png')
 
     image_rgb = np.transpose(image_rgb, [1, 0, 2])
+    image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
     cv2.imwrite(temp_file_path, image_rgb)
     color = o3d.io.read_image(temp_file_path)
 
@@ -175,12 +156,78 @@ def image_open3d_to_point_cloud_intrinsic_matrix(color: o3d.geometry.Image, dept
 
     return pcd
 
-def mask_point_cloud_with_id_gray_color(pcd: o3d.geometry.PointCloud, image_mask: np.ndarray, color:int):
-    pcd = o3d.geometry.PointCloud(pcd)
-    image_mask = image_mask.reshape(-1)
-    index = np.argwhere(image_mask == color).reshape(-1)
+def mask_point_cloud_with_id_color(pcd: o3d.geometry.PointCloud, image_mask: np.ndarray, color:list[3]):
+    image_mask = image_mask.reshape(-1, 3)
+    index = np.argwhere(image_mask == color)[:, 0]
+    index = index[::3]
     d = np.array(pcd.points)[index]
     pcd.points = o3d.utility.Vector3dVector(d)
     c = np.array(pcd.colors)[index]
+    pcd.colors = o3d.utility.Vector3dVector(c)
+    return pcd
+
+def mask_point_cloud_with_id_gray_color(pcd: o3d.geometry.PointCloud, image_mask: np.ndarray, color:int):
+    image_mask = image_mask.reshape(-1)
+    index = np.argwhere(image_mask == color).reshape(-1)
+
+    d = np.array(pcd.points)[index]
+    pcd.points = o3d.utility.Vector3dVector(d)
+    c = np.array(pcd.colors)[index]
+    pcd.colors = o3d.utility.Vector3dVector(c)
+    return pcd
+
+def filter_active_depth_point_cloud_with_exact_depth_point_cloud(active_pcd: o3d.geometry.PointCloud, exact_pcd: o3d.geometry.PointCloud, max_distance:float = 0.05):
+    active_point = np.array(active_pcd.points)
+    exact_point = np.array(exact_pcd.points)
+    # m = exact_point.shape[0]
+    # n = active_point.shape[0]
+    # duplicated_active_point = np.repeat(active_point, m).reshape((n, m, 3))
+    # distance = np.linalg.norm(duplicated_active_point - exact_point, axis=-1)
+    distance = np.linalg.norm(active_point - exact_point, axis=-1)
+    # min_distance = np.min(distance, axis=1)
+    index = np.argwhere(distance < max_distance).reshape(-1)
+    pcd = o3d.geometry.PointCloud()
+    d = np.array(active_pcd.points)[index]
+    pcd.points = o3d.utility.Vector3dVector(d)
+    c = np.array(active_pcd.colors)[index]
+    pcd.colors = o3d.utility.Vector3dVector(c)
+    return pcd
+
+def filter_active_depth_point_cloud_with_exact_depth_point_cloud_bound(active_pcd: o3d.geometry.PointCloud, exact_pcd: o3d.geometry.PointCloud, max_distance:float = 0.05):
+    active_point = np.array(active_pcd.points)
+    exact_point = np.array(exact_pcd.points)
+    x_all = exact_point[:, 0]
+    y_all = exact_point[:, 1]
+    z_all = exact_point[:, 2]
+    x_max = np.max(x_all) + max_distance
+    x_min = np.min(x_all) - max_distance
+    y_max = np.max(y_all) + max_distance
+    y_min = np.min(y_all) - max_distance
+    z_max = np.max(z_all) + max_distance
+    z_min = np.min(z_all) - max_distance
+    active_x_all = active_point[:, 0].reshape(-1, 1)
+    active_y_all = active_point[:, 1].reshape(-1, 1)
+    active_z_all = active_point[:, 2].reshape(-1, 1)
+    index_x_max = np.argwhere(active_x_all < x_max)
+    index_y_max = np.argwhere(active_y_all < y_max)
+    index_z_max = np.argwhere(active_z_all < z_max)
+    index_x_min = np.argwhere(active_x_all > x_min)
+    index_y_min = np.argwhere(active_y_all > y_min)
+    index_z_min = np.argwhere(active_z_all > z_min)
+    index = np.intersect1d(index_x_max, index_y_max)
+    index = np.intersect1d(index, index_z_max)
+    index = np.intersect1d(index, index_x_min)
+    index = np.intersect1d(index, index_y_min)
+    index = np.intersect1d(index, index_z_min)
+    # index = np.argwhere(active_x_all < x_max and active_x_all > x_min and active_y_all < y_max and active_y_all > y_min and active_z_all < z_max and active_z_all > z_min)
+    # index=[]
+    # for i in range(active_point.shape[0]):
+        # if active_point[i, 0] < x_max and active_point[i, 0] > x_min and active_point[i, 1] < y_max and active_point[i, 1] > y_min and active_point[i, 2] < z_max and active_point[i, 2] > z_min:
+            # index.append(i)
+
+    pcd = o3d.geometry.PointCloud()
+    d = np.array(active_pcd.points)[index]
+    pcd.points = o3d.utility.Vector3dVector(d)
+    c = np.array(active_pcd.colors)[index]
     pcd.colors = o3d.utility.Vector3dVector(c)
     return pcd

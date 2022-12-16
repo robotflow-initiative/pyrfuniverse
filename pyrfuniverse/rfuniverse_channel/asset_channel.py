@@ -229,3 +229,13 @@ class AssetChannel(RFUniverseChannel):
         msg.write_string('SetTimeScale')
         msg.write_float32(kwargs['time_scale'])
         self.send_message(msg)
+
+    def SetResolution(self, kwargs: dict) -> None:
+        compulsory_params = ['resolution_x', 'resolution_y']
+        optional_params = []
+        utility.CheckKwargs(kwargs, compulsory_params)
+        msg = OutgoingMessage()
+        msg.write_string('SetResolution')
+        msg.write_int32(kwargs['resolution_x'])
+        msg.write_int32(kwargs['resolution_y'])
+        self.send_message(msg)

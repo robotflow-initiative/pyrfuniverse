@@ -1,5 +1,4 @@
 from pyrfuniverse.envs import RFUniverseGymGoalWrapper
-from pyrfuniverse.utils import RFUniverseController
 import numpy as np
 from gym import spaces
 from gym.utils import seeding
@@ -9,7 +8,7 @@ import copy
 class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
     metadata = {'render.modes': ['human']}
     # height_offset is just the object width / 2, which is the object's stable height value.
-    height_offset = 0.42
+    height_offset = 0.025
 
     def __init__(
             self,
@@ -48,7 +47,6 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
 
         self.seed(seed)
         self._env_setup()
-        self.ik_controller = RFUniverseController('franka', base_pos=np.array([-0.6, 0, 0]))
         self.t = 0
         self.goal = self._sample_goal()
         self.action_space = spaces.Box(
@@ -74,16 +72,24 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
         pos_ctrl = curr_pos + pos_ctrl
 
         # print(pos_ctrl)
+        self.instance_channel.set_action(
+            "IKTargetDoMove",
+            id=965874,
+            position=[pos_ctrl[0], pos_ctrl[1], pos_ctrl[2]],
+            duration=0.1,
+            speed_based=True
+        )
 
-        joint_positions = self.ik_controller.calculate_ik(pos_ctrl)
         if self.block_gripper:
-            joint_positions.append(0)
+            self._set_gripper_width(0)
         else:
             curr_gripper_width = self._get_gripper_width()
             target_gripper_width = curr_gripper_width + action[3] * 0.2
             target_gripper_width = np.clip(target_gripper_width, 0, 0.08)
-            joint_positions.append(target_gripper_width)
-        self._set_franka_joints(np.array(joint_positions))
+            self._set_gripper_width(target_gripper_width)
+
+        # self._set_franka_joints(np.array(joint_positions))
+        self._step()
         self.t += 1
 
         obs = self._get_obs()
@@ -93,8 +99,8 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
         }
         reward = self.compute_reward(obs['achieved_goal'], obs['desired_goal'], info)
 
-        # if self.t == self.max_steps:
-        #     done = True
+        if self.t == self.max_steps:
+            done = True
 
         return obs, reward, done, info
 
@@ -108,29 +114,34 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
         if self.load_object:
             object_pos = self._reset_object()
 
-        self.instance_channel.set_action(
-            'SetTransform',
-            id=0,
-            position=list(self.goal)
-        )
-        self._step()
+        # self.instance_channel.set_action(
+        #     'SetTransform',
+        #     id=0,
+        #     position=list(self.goal)
+        # )
+        # self._step()
 
-        self.ik_controller.reset()
+        # self.ik_controller.reset()
 
         if self.load_object and self.target_in_air:
             # Move the robot arm to the object's position, which can accelerate training process
-            joint_positions = self.ik_controller.calculate_ik(object_pos)
+            # joint_positions = self.ik_controller.calculate_ik(object_pos)
             self.instance_channel.set_action(
-                'SetJointPositionDirectly',
+                "IKTargetDoMove",
                 id=965874,
-                joint_positions=list(joint_positions),
+                position=[object_pos[0], object_pos[1] + 0.1, object_pos[2]],
+                duration=0,
+                speed_based=False,
             )
+            self._step()
             self.instance_channel.set_action(
                 'SetJointPositionDirectly',
                 id=9658740,
-                joint_positions=[-0.04, -0.04],
+                joint_positions=[0.04, 0.04],
             )
             self._step()
+
+        self._step()
 
         return self._get_obs()
 
@@ -186,10 +197,29 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
 
     def _env_setup(self):
         if self.load_object:
-            self._load_object()
-        else:
-            # Align the time step
-            self._step()
+            self.asset_channel.set_action(
+                'InstanceObject',
+                name='Rigidbody_Box',
+                id=0
+            )
+            self.instance_channel.set_action(
+                'SetTransform',
+                id=0,
+                position=[0, self.height_offset, 0],
+                scale=[0.05, 0.05, 0.05],
+            )
+        self.instance_channel.set_action(
+            "SetIKTargetOffset",
+            id=965874,
+            position=[0, 0.105, 0],
+        )
+        self.instance_channel.set_action(
+            "IKTargetDoRotate",
+            id=965874,
+            vector3=[0, 45, 180],
+            duration=0,
+            speed_based=False,
+        )
         self._step()
 
     def _generate_random_float(self, min: float, max: float) -> float:
@@ -200,23 +230,15 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
 
         return random_float
 
-    def _set_franka_joints(self, a: np.ndarray):
-        self.instance_channel.set_action(
-            'SetJointPosition',
-            id=965874,
-            joint_positions=list(a[0:7]),
-        )
-        self._step()
-
-        a[7] = -1 * a[7] / 2
+    def _set_gripper_width(self, w: float):
+        w = w / 2
         self.instance_channel.set_action(
             'SetJointPosition',
             id=9658740,
-            joint_positions=[a[7], a[7]],
+            joint_positions=[w, w],
         )
-        self._step()
 
-    def _get_gripper_width(self):
+    def _get_gripper_width(self) -> float:
         gripper_joint_positions = copy.deepcopy(self.instance_channel.data[9658740]['joint_positions'])
         return -1 * (gripper_joint_positions[0] + gripper_joint_positions[1])
 
@@ -231,25 +253,6 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
         assert goal_a.shape == goal_b.shape
         return np.linalg.norm(goal_a - goal_b, axis=-1)
 
-    def _load_object(self):
-        '''
-        assert self.asset_bundle_file is not None, \
-            'There must be an asset bundle file to load.'
-
-        object_name = 'robotics_object'
-        '''
-        self.asset_channel.set_action(
-            'InstanceObject',
-            name='Rigidbody_Box',
-            id=0
-        )
-        self.instance_channel.set_action(
-            'SetTransform',
-            id=0,
-            position=[0, self.height_offset, 0],
-            scale=[0.05, 0.05, 0.05],
-        )
-        self._step()
 
     def _sample_goal(self):
         if self.load_object:
@@ -273,5 +276,4 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
             rotation=[0, 0, 0]
         )
         self._step()
-
         return object_pos.copy()

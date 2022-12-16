@@ -66,6 +66,7 @@ while 1:
 
     position1 = env.instance_channel.data[111111]['position']
     position2 = env.instance_channel.data[222222]['position']
+
     env.instance_channel.set_action(
         "IKTargetDoMove",
         id=123456,

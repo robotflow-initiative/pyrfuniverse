@@ -1,13 +1,17 @@
 import random
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 
-env = RFUniverseBaseEnv()
+env = RFUniverseBaseEnv(assets=['flexivArm_ag95'])
 
+
+init_joint_positions = [140, 20, -128, -80, -20, 0, 90]
 env.asset_channel.set_action(
     "InstanceObject",
     name='flexivArm_ag95',
     id=123456
 )
+env._step()
+
 env.instance_channel.set_action(
     "SetIKTargetOffset",
     id=123456,
@@ -21,22 +25,22 @@ env.instance_channel.set_action(
     id=1234560,
     )
 env.instance_channel.set_action(
-    "IKTargetDoMove",
-    id=123456,
-    position=[0, 0.7, 0.5],
-    duration=0,
-    speed_based=False,
-)
-env.instance_channel.set_action(
     "IKTargetDoRotate",
     id=123456,
     vector3=[0, 0, 180],
     duration=0,
     speed_based=False,
 )
-# while 1:
-#     env.step()
+env.instance_channel.set_action(
+    "IKTargetDoMove",
+    id=123456,
+    position=[0, 0.7, 0.5],
+    duration=0,
+    speed_based=False,
+)
+
 env.step()
+
 while not env.instance_channel.data[123456]['move_done'] or not env.instance_channel.data[123456]['rotate_done']:
     env.step()
 

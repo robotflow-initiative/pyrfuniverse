@@ -12,6 +12,17 @@ def parse_message(msg: IncomingMessage) -> dict:
     this_object_data['angular_vel'] = [msg.read_float32() for i in range(3)]
     return this_object_data
 
+def SetMass(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id', 'mass']
+    optional_params = []
+    utility.CheckKwargs(kwargs, compulsory_params)
+    msg = OutgoingMessage()
+
+    msg.write_int32(kwargs['id'])
+    msg.write_string('SetMass')
+    msg.write_float32(kwargs['mass'])
+
+    return msg
 
 def AddForce(kwargs: dict) -> OutgoingMessage:
     """Add a constant force on a rigidbody. The rigidbody must be loaded into the scene and

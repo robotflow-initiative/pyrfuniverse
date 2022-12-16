@@ -86,7 +86,13 @@ class RFUniverseBaseEnv(ABC):
         self._init_env()
 
     def _init_env(self):
-        if self.executable_file is not None:
+        if str(self.executable_file).lower() == '@editor':
+            self.env = UnityEnvironment(
+                worker_id=0,
+                side_channels=self.channels,
+                no_graphics=not self.graphics,
+            )
+        elif self.executable_file is not None:
             self.env = UnityEnvironment(
                 worker_id=self.worker_id,
                 file_name=self.executable_file,

@@ -1,6 +1,6 @@
-# from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-# from pyrfuniverse.envs.base_env import RFUniverseGymWrapper
-# from pyrfuniverse.envs.base_env import RFUniverseGymGoalWrapper
+from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
+from pyrfuniverse.envs.base_env import RFUniverseGymWrapper
+from pyrfuniverse.envs.base_env import RFUniverseGymGoalWrapper
 # from pyrfuniverse.envs.franka_grasp_env import FrankaGraspEnv
 # from pyrfuniverse.envs.franka_push_env import FrankaPushEnv
 # from pyrfuniverse.envs.balance_ball_env import BalanceBallEnv
