@@ -10,8 +10,6 @@ import pyrfuniverse.utils.depth_processor as dp
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 
 env = RFUniverseBaseEnv(
-    # executable_file='/home/yanbing/Project/rfuniverse/rfuniverse/Build/RFUniverse_For_Linux/RFUniverse.x86_64',
-    executable_file='E:/rfuniverse/rfuniverse/Build/RFUniverse_For_Windows/RFUniverse.exe',
     scene_file='ActiveDepth.json'
 )
 
@@ -148,20 +146,21 @@ point10.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 point20.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 coorninate = o3d.geometry.TriangleMesh.create_coordinate_frame()
 
-# o3d.visualization.draw_geometries([point11, point22, coorninate])
-# o3d.visualization.draw_geometries([point1, point2, coorninate])
-# o3d.visualization.draw_geometries([point10, point20, coorninate])
-env2 = RFUniverseBaseEnv(executable_file='@Editor',)
-env2.asset_channel.set_action(
-    "InstanceObject",
-    name='PointCloud',
-    id=123456
-)
-env2.instance_channel.set_action(
-    "ShowPointCloud",
-    id=123456,
-    positions=np.array(point2.points).reshape(-1).tolist(),
-    colors=np.array(point2.colors).reshape(-1).tolist(),
-)
-while 1:
-    env2._step()
+o3d.visualization.draw_geometries([point11, point22, coorninate])
+o3d.visualization.draw_geometries([point1, point2, coorninate])
+o3d.visualization.draw_geometries([point10, point20, coorninate])
+
+# env2 = RFUniverseBaseEnv(executable_file='@Editor',)
+# env2.asset_channel.set_action(
+#     "InstanceObject",
+#     name='PointCloud',
+#     id=123456
+# )
+# env2.instance_channel.set_action(
+#     "ShowPointCloud",
+#     id=123456,
+#     positions=np.array(point2.points).reshape(-1).tolist(),
+#     colors=np.array(point2.colors).reshape(-1).tolist(),
+# )
+# while 1:
+#     env2._step()

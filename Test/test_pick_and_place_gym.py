@@ -1,7 +1,7 @@
 from pyrfuniverse.envs.robotics import FrankaRoboticsEnv
 
 env = FrankaRoboticsEnv(
-    executable_file='@editor',
+    # executable_file='@editor',
     scene_file='FrankaRobotics.json',
     max_episode_length=500,
     reward_type='sparse',
