@@ -54,7 +54,7 @@ class FrankaGraspEnv(RFUniverseBaseEnv):
         assert a.shape == (16,) or a.shape == (8,), \
             'The shape of action must be (14,) or (7,), but got {}'.format(a.shape)
         if a.shape ==  (8,):
-            a = np.concatenate((a, np.array([1.0 for i in range(8)], dtype=np.float)))
+            a = np.concatenate((a, np.array([1.0 for i in range(8)], dtype=float)))
 
         self._set_franka_joints(a)
         self._wait_for_moving()
@@ -106,13 +106,13 @@ class FrankaGraspEnv(RFUniverseBaseEnv):
 
     def _open_gripper(self, speed: float=1.0):
         self._control_gripper(
-            joint_positions=np.array([-0.04, -0.04], dtype=np.float),
+            joint_positions=np.array([-0.04, -0.04], dtype=float),
             speed=np.array([speed, speed], dtype=float)
         )
 
     def _close_gripper(self, speed: float=1.0):
         self._control_gripper(
-            joint_positions=np.array([0, 0], dtype=np.float),
+            joint_positions=np.array([0, 0], dtype=float),
             speed=np.array([speed, speed], dtype=float)
         )
 

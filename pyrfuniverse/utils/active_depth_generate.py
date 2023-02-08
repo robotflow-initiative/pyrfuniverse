@@ -78,7 +78,7 @@ def sim_ir_noise(
         img = cv2.resize(img, (w, h), interpolation=cv2.INTER_CUBIC)
 
     rng = np.random.default_rng(seed)
-    img = img.astype(np.float)
+    img = img.astype(float)
 
     # speckle noise
     img = img * rng.gamma(shape=speckle_shape, scale=speckle_scale, size=img.shape)
@@ -331,7 +331,7 @@ def calc_main_depth_from_left_right_ir(
         ir_l, ir_r = sim_ir_noise(ir_l, **kwargs), sim_ir_noise(ir_r, **kwargs)
     _, _, q = calc_rectified_stereo_pair(
         ir_l, ir_r,
-        k_l.astype(np.float), k_r.astype(np.float), rt_lr.astype(np.float)
+        k_l.astype(float), k_r.astype(float), rt_lr.astype(float)
     )
 
     disp = calc_disparity(
@@ -347,8 +347,8 @@ def calc_main_depth_from_left_right_ir(
     depth[depth < 0] = 0
     if register_depth:
         depth = cv2.rgbd.registerDepth(
-            k_l.astype(np.float), k_main.astype(np.float),
-            None, rt_mainl.astype(np.float), depth, (w, h), depthDilation=True)
+            k_l.astype(float), k_main.astype(float),
+            None, rt_mainl.astype(float), depth, (w, h), depthDilation=True)
         depth[np.isnan(depth)] = 0
         depth[np.isinf(depth)] = 0
         depth[depth < 0] = 0
@@ -387,6 +387,6 @@ def calc_main_depth_from_left_right_ir(
 #     x_coordinates, y_coordinates = np.meshgrid(x_linspace, y_linspace)
 #     x_coordinates = np.reshape(x_coordinates, (1, -1))
 #     y_coordinates = np.reshape(y_coordinates, (1, -1))
-#     ones = np.ones_like(x_coordinates).astype(np.float)
+#     ones = np.ones_like(x_coordinates).astype(float)
 #     grid = np.concatenate([x_coordinates, y_coordinates, ones], axis=0)
 #     return grid

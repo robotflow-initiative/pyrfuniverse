@@ -156,7 +156,7 @@ def image_open3d_to_point_cloud_intrinsic_matrix(color: o3d.geometry.Image, dept
 
     return pcd
 
-def mask_point_cloud_with_id_color(pcd: o3d.geometry.PointCloud, image_mask: np.ndarray, color:list[3]):
+def mask_point_cloud_with_id_color(pcd: o3d.geometry.PointCloud, image_mask: np.ndarray, color:list):
     image_mask = image_mask.reshape(-1, 3)
     index = np.argwhere(image_mask == color)[:, 0]
     index = index[::3]

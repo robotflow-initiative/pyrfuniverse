@@ -114,11 +114,11 @@ class CleanerEnv(RFUniverseGymWrapper):
 
         if self.obs_type == 'multi':
             self.observation_space = spaces.Dict({
-                'agent_obs': spaces.Box(low=-np.inf, high=np.inf, shape=(4 * self.num_agents,), dtype=np.float),
+                'agent_obs': spaces.Box(low=-np.inf, high=np.inf, shape=(4 * self.num_agents,), dtype=float),
                 'floor_obs': spaces.MultiBinary(self.num_floors)
             })
         else:
-            self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(4 * self.num_agents,), dtype=np.float)
+            self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(4 * self.num_agents,), dtype=float)
         self._env_setup()
         self.t = 0
         self.num_clean_grids = 0
