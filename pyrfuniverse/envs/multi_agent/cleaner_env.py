@@ -16,7 +16,7 @@ class CollisionAndCleaningDetectionChannel(SideChannel):
         self._agent_collisions = {}
         self._agent_cleanings = {}
         self._num_collisions = 0
-        self._cleaning_states = np.zeros((num_floors,), dtype=np.bool)
+        self._cleaning_states = np.zeros((num_floors,), dtype=bool)
         for agent in agents:
             self._agent_collisions[agent] = 0
             self._agent_cleanings[agent] = 0
@@ -64,7 +64,7 @@ class CollisionAndCleaningDetectionChannel(SideChannel):
         for key, value in self._agent_collisions.items():
             self._agent_collisions[key] = 0
             self._agent_cleanings[key] = 0
-        self._cleaning_states = np.zeros(self._cleaning_states.shape, dtype=np.bool)
+        self._cleaning_states = np.zeros(self._cleaning_states.shape, dtype=bool)
 
 
 class CleanerEnv(RFUniverseGymWrapper):
