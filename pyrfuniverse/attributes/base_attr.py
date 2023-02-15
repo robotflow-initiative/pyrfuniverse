@@ -181,6 +181,18 @@ def Destroy(kwargs: dict) -> OutgoingMessage:
 
     return msg
 
+def SetRFMoveColliderActive(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id', 'active']
+    optional_params = []
+    utility.CheckKwargs(kwargs, compulsory_params)
+    msg = OutgoingMessage()
+
+    msg.write_int32(kwargs['id'])
+    msg.write_string('SetRFMoveColliderActive')
+    msg.write_bool(kwargs['active'])
+
+    return msg
+
 
 def GetLoaclPointFromWorld(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'point']

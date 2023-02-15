@@ -1,6 +1,8 @@
 import math
 import os
 import os.path as osp
+import random
+
 import numpy as np
 import open3d as o3d
 import cv2
@@ -90,13 +92,13 @@ def depth_to_point_cloud(depth: np.ndarray, fov: float, organized=False):
     return cloud
 
 def image_bytes_to_point_cloud_intrinsic_matrix(rgb_bytes: bytes, depth_bytes: bytes, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
-    temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.png')
+    temp_file_path = osp.join(tempfile.gettempdir(), f'temp_img_{int(random.uniform(10000000,99999999))}.png')
     with open(temp_file_path, 'wb') as f:
         f.write(rgb_bytes)
     color = o3d.io.read_image(temp_file_path)
     os.remove(temp_file_path)
 
-    temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.exr')
+    temp_file_path = osp.join(tempfile.gettempdir(), f'temp_img_{int(random.uniform(10000000,99999999))}.exr')
     with open(temp_file_path, 'wb') as f:
         f.write(depth_bytes)
     # change .exr format to .png format
@@ -106,7 +108,7 @@ def image_bytes_to_point_cloud_intrinsic_matrix(rgb_bytes: bytes, depth_bytes: b
     # foregound_mask = mask == 11
     depth_png = (depth_exr * 1000).astype(np.uint16)[:, :]
     # foreground_depth_png[~foregound_mask] = 0  # filter the background, only need foreground
-    temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.png')
+    temp_file_path = osp.join(tempfile.gettempdir(), f'temp_img_{int(random.uniform(10000000,99999999))}.png')
     cv2.imwrite(temp_file_path, depth_png)
     depth = o3d.io.read_image(temp_file_path)
     os.remove(temp_file_path)
@@ -117,7 +119,7 @@ def image_bytes_to_point_cloud_intrinsic_matrix(rgb_bytes: bytes, depth_bytes: b
 
 
 def image_array_to_point_cloud_intrinsic_matrix(image_rgb: np.ndarray, image_depth: np.ndarray, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
-    temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.png')
+    temp_file_path = osp.join(tempfile.gettempdir(), f'temp_img_{int(random.uniform(10000000,99999999))}.png')
 
     image_rgb = np.transpose(image_rgb, [1, 0, 2])
     image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
@@ -169,12 +171,12 @@ def mask_point_cloud_with_id_color(pcd: o3d.geometry.PointCloud, image_mask: np.
 def mask_point_cloud_with_id_gray_color(pcd: o3d.geometry.PointCloud, image_mask: np.ndarray, color:int):
     image_mask = image_mask.reshape(-1)
     index = np.argwhere(image_mask == color).reshape(-1)
-
+    id_pcd = o3d.geometry.PointCloud()
     d = np.array(pcd.points)[index]
-    pcd.points = o3d.utility.Vector3dVector(d)
+    id_pcd.points = o3d.utility.Vector3dVector(d)
     c = np.array(pcd.colors)[index]
-    pcd.colors = o3d.utility.Vector3dVector(c)
-    return pcd
+    id_pcd.colors = o3d.utility.Vector3dVector(c)
+    return id_pcd
 
 def filter_active_depth_point_cloud_with_exact_depth_point_cloud(active_pcd: o3d.geometry.PointCloud, exact_pcd: o3d.geometry.PointCloud, max_distance:float = 0.05):
     active_point = np.array(active_pcd.points)
@@ -186,12 +188,12 @@ def filter_active_depth_point_cloud_with_exact_depth_point_cloud(active_pcd: o3d
     distance = np.linalg.norm(active_point - exact_point, axis=-1)
     # min_distance = np.min(distance, axis=1)
     index = np.argwhere(distance < max_distance).reshape(-1)
-    pcd = o3d.geometry.PointCloud()
+    filter_pcd = o3d.geometry.PointCloud()
     d = np.array(active_pcd.points)[index]
-    pcd.points = o3d.utility.Vector3dVector(d)
+    filter_pcd.points = o3d.utility.Vector3dVector(d)
     c = np.array(active_pcd.colors)[index]
-    pcd.colors = o3d.utility.Vector3dVector(c)
-    return pcd
+    filter_pcd.colors = o3d.utility.Vector3dVector(c)
+    return filter_pcd
 
 def filter_active_depth_point_cloud_with_exact_depth_point_cloud_bound(active_pcd: o3d.geometry.PointCloud, exact_pcd: o3d.geometry.PointCloud, max_distance:float = 0.05):
     active_point = np.array(active_pcd.points)

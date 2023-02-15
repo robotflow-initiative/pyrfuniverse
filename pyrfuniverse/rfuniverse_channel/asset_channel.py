@@ -178,12 +178,12 @@ class AssetChannel(RFUniverseChannel):
         msg.write_bool(kwargs['ignore'])
         self.send_message(msg)
 
-    def GetCurrentCollisionPairs(self) -> None:
+    def GetCurrentCollisionPairs(self, kwargs: dict) -> None:
         msg = OutgoingMessage()
         msg.write_string('GetCurrentCollisionPairs')
         self.send_message(msg)
 
-    def GetRFMoveColliders(self) -> None:
+    def GetRFMoveColliders(self, kwargs: dict) -> None:
         msg = OutgoingMessage()
         msg.write_string('GetRFMoveColliders')
         self.send_message(msg)

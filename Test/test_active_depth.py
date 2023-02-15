@@ -70,11 +70,11 @@ local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
 # point = dp.image_array_to_point_cloud(image_rgb, image_active_depth, 45, local_to_world_matrix)
 
 color = utility.EncodeIDAsColor(568451)[0:3]
-point11 = dp.image_bytes_to_point_cloud_intrinsic_matrix(image_byte, image_depth_exr, nd_main_intrinsic_matrix, local_to_world_matrix)
-point11 = dp.mask_point_cloud_with_id_color(point11, image_id, color)
-point1 = dp.image_array_to_point_cloud_intrinsic_matrix(image_rgb, image_active_depth, nd_main_intrinsic_matrix, local_to_world_matrix)
-point1 = dp.mask_point_cloud_with_id_color(point1, image_id, color)
-point10 = dp.filter_active_depth_point_cloud_with_exact_depth_point_cloud(point1, point11)
+real_point_cloud1 = dp.image_bytes_to_point_cloud_intrinsic_matrix(image_byte, image_depth_exr, nd_main_intrinsic_matrix, local_to_world_matrix)
+real_point_cloud1 = dp.mask_point_cloud_with_id_color(real_point_cloud1, image_id, color)
+active_point_cloud1 = dp.image_array_to_point_cloud_intrinsic_matrix(image_rgb, image_active_depth, nd_main_intrinsic_matrix, local_to_world_matrix)
+active_point_cloud1 = dp.mask_point_cloud_with_id_color(active_point_cloud1, image_id, color)
+filtered_point_cloud1 = dp.filter_active_depth_point_cloud_with_exact_depth_point_cloud(active_point_cloud1, real_point_cloud1)
 
 ##################################################
 
@@ -131,24 +131,24 @@ local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
 env.close()
 
 # point = dp.image_array_to_point_cloud(image_rgb, image_active_depth, 45, local_to_world_matrix)
-point22 = dp.image_bytes_to_point_cloud_intrinsic_matrix(image_byte, image_depth_exr, nd_main_intrinsic_matrix, local_to_world_matrix)
-point22 = dp.mask_point_cloud_with_id_color(point22, image_id, color)
-point2 = dp.image_array_to_point_cloud_intrinsic_matrix(image_rgb, image_active_depth, nd_main_intrinsic_matrix, local_to_world_matrix)
-point2 = dp.mask_point_cloud_with_id_color(point2, image_id, color)
-point20 = dp.filter_active_depth_point_cloud_with_exact_depth_point_cloud(point2, point22)
+real_point_cloud2 = dp.image_bytes_to_point_cloud_intrinsic_matrix(image_byte, image_depth_exr, nd_main_intrinsic_matrix, local_to_world_matrix)
+real_point_cloud2 = dp.mask_point_cloud_with_id_color(real_point_cloud2, image_id, color)
+active_point_cloud2 = dp.image_array_to_point_cloud_intrinsic_matrix(image_rgb, image_active_depth, nd_main_intrinsic_matrix, local_to_world_matrix)
+active_point_cloud2 = dp.mask_point_cloud_with_id_color(active_point_cloud2, image_id, color)
+filtered_point_cloud2 = dp.filter_active_depth_point_cloud_with_exact_depth_point_cloud(active_point_cloud2, real_point_cloud2)
 
 # unity space to open3d space and show
-point11.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
-point22.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
-point1.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
-point2.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
-point10.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
-point20.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+real_point_cloud1.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+real_point_cloud2.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+active_point_cloud1.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+active_point_cloud2.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+filtered_point_cloud1.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+filtered_point_cloud2.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 coorninate = o3d.geometry.TriangleMesh.create_coordinate_frame()
 
-o3d.visualization.draw_geometries([point11, point22, coorninate])
-o3d.visualization.draw_geometries([point1, point2, coorninate])
-o3d.visualization.draw_geometries([point10, point20, coorninate])
+o3d.visualization.draw_geometries([real_point_cloud1, real_point_cloud2, coorninate])
+o3d.visualization.draw_geometries([active_point_cloud1, active_point_cloud2, coorninate])
+o3d.visualization.draw_geometries([filtered_point_cloud1, filtered_point_cloud2, coorninate])
 
 # env2 = RFUniverseBaseEnv(executable_file='@Editor',)
 # env2.asset_channel.set_action(
