@@ -22,8 +22,7 @@ setup(
         "protobuf==3.19.0",
         "pyyaml>=3.1.0",
         "gym==0.21.0",
-        "opencv-python==4.5.4.60",
-        "opencv-contrib-python==4.5.4.60",
+        "opencv-contrib-python",
     ],
     python_requires=">=3.6.1,<3.10",
 )

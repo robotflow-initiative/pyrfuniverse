@@ -6,10 +6,6 @@ from pyrfuniverse.side_channel.side_channel import (
 import pyrfuniverse.utils.rfuniverse_utility as utility
 
 
-def parse_message(msg: IncomingMessage) -> dict:
-    this_object_data = {}
-    return this_object_data
-
 def ShowPointCloud(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'positions', 'colors']
     optional_params = ['radius']
@@ -33,3 +29,29 @@ def SetRadius(kwargs: dict) -> OutgoingMessage:
     msg.write_string('SetRadius')
     msg.write_float32(kwargs['radius'])
     return msg
+
+
+class PointCloudAttr(attr.BaseAttr):
+    def parse_message(self, msg: IncomingMessage) -> dict:
+        super().parse_message(msg)
+        return self.data
+
+    def ShowPointCloud(self, positions: list, colors: list, radius: float = 0.01):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('ShowPointCloud')
+        msg.write_float32_list(positions)
+        msg.write_float32_list(colors)
+        msg.write_float32(radius)
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetRadius(self, radius: float):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetRadius')
+        msg.write_float32(radius)
+
+        self.env.instance_channel.send_message(msg)

@@ -6,12 +6,6 @@ from pyrfuniverse.side_channel.side_channel import (
 import pyrfuniverse.utils.rfuniverse_utility as utility
 
 
-def parse_message(msg: IncomingMessage) -> dict:
-    this_object_data = attr.collider_attr.parse_message(msg)
-    this_object_data['velocity'] = [msg.read_float32() for i in range(3)]
-    this_object_data['angular_vel'] = [msg.read_float32() for i in range(3)]
-    return this_object_data
-
 def SetMass(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'mass']
     optional_params = []
@@ -67,3 +61,41 @@ def SetVelocity(kwargs: dict) -> OutgoingMessage:
     msg.write_float32(kwargs['velocity'][2])
 
     return msg
+
+class RigidbodyAttr(attr.ColliderAttr):
+    def parse_message(self, msg: IncomingMessage) -> dict:
+        super().parse_message(msg)
+        self.data['velocity'] = [msg.read_float32() for _ in range(3)]
+        self.data['angular_vel'] = [msg.read_float32() for _ in range(3)]
+        return self.data
+
+    def SetMass(self, mass: float):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetMass')
+        msg.write_float32(mass)
+
+        self.env.instance_channel.send_message(msg)
+
+    def AddForce(self, force: list):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('AddForce')
+        msg.write_float32(force[0])
+        msg.write_float32(force[1])
+        msg.write_float32(force[2])
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetVelocity(self, velocity: list):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetVelocity')
+        msg.write_float32(velocity[0])
+        msg.write_float32(velocity[1])
+        msg.write_float32(velocity[2])
+
+        self.env.instance_channel.send_message(msg)

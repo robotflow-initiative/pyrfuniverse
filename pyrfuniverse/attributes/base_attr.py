@@ -5,34 +5,7 @@ from pyrfuniverse.side_channel.side_channel import (
 import pyrfuniverse.utils.rfuniverse_utility as utility
 
 
-def parse_message(msg: IncomingMessage) -> dict:
-    this_object_data = {}
-    this_object_data['name'] = msg.read_string()
-    this_object_data['position'] = [msg.read_float32() for _ in range(3)]
-    this_object_data['rotation'] = [msg.read_float32() for _ in range(3)]
-    this_object_data['quaternion'] = [msg.read_float32() for _ in range(4)]
-    this_object_data['local_position'] = [msg.read_float32() for _ in range(3)]
-    this_object_data['local_rotation'] = [msg.read_float32() for _ in range(3)]
-    this_object_data['local_quaternion'] = [msg.read_float32() for _ in range(4)]
-    this_object_data['local_to_world_matrix'] = msg.read_float32_list()
-    if msg.read_bool() is True:
-        this_object_data['result_local_point'] = msg.read_float32_list()
-    if msg.read_bool() is True:
-        this_object_data['result_world_point'] = msg.read_float32_list()
-    return this_object_data
-
-
 def SetTransform(kwargs: dict) -> OutgoingMessage:
-    """Set the transform of a object, specified by id.
-            Args:
-                Compulsory:
-                id: The id of object.
-
-                Optional:
-                position: A 3-d list inferring object's position, in [x,y,z] order.
-                rotation: A 3-d list inferring object's rotation, in [x,y,z] order.
-                scale: A 3-d list inferring object's rotation, in [x,y,z] order.
-            """
     compulsory_params = ['id']
     optional_params = ['position', 'rotation', 'scale', 'is_world']
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -102,6 +75,7 @@ def SetRotationQuaternion(kwargs: dict) -> OutgoingMessage:
         msg.write_bool(True)
     return msg
 
+
 def SetActive(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'active']
     optional_params = []
@@ -116,13 +90,6 @@ def SetActive(kwargs: dict) -> OutgoingMessage:
 
 
 def SetParent(kwargs: dict) -> OutgoingMessage:
-    """Set parent of a object inferred by the id
-            Args:
-                Compulsory:
-                id: The id of object, specified in returned message.
-                parent_id: The id of parent object
-                parent_name: The name of parent object
-            """
     compulsory_params = ['id', 'parent_id', 'parent_name']
     optional_params = []
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -137,12 +104,6 @@ def SetParent(kwargs: dict) -> OutgoingMessage:
 
 
 def SetLayer(kwargs: dict) -> OutgoingMessage:
-    """Set layer of a object inferred by the id
-            Args:
-                Compulsory:
-                id: The id of object, specified in returned message.
-                layer: The layer of object
-            """
     compulsory_params = ['id', 'layer']
     optional_params = []
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -153,6 +114,7 @@ def SetLayer(kwargs: dict) -> OutgoingMessage:
     msg.write_int32(kwargs['layer'])
 
     return msg
+
 
 def Copy(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'copy_id']
@@ -165,12 +127,8 @@ def Copy(kwargs: dict) -> OutgoingMessage:
     msg.write_int32(kwargs['copy_id'])
     return msg
 
+
 def Destroy(kwargs: dict) -> OutgoingMessage:
-    """Destroy a object inferred by the id
-            Args:
-                Compulsory:
-                id: The id of object, specified in returned message.
-            """
     compulsory_params = ['id']
     optional_params = []
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -180,6 +138,7 @@ def Destroy(kwargs: dict) -> OutgoingMessage:
     msg.write_string('Destroy')
 
     return msg
+
 
 def SetRFMoveColliderActive(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'active']
@@ -220,3 +179,220 @@ def GetWorldPointFromLocal(kwargs: dict) -> OutgoingMessage:
     msg.write_float32(kwargs['point'][1])
     msg.write_float32(kwargs['point'][2])
     return msg
+
+
+class BaseAttr:
+    """
+    基础Attr类型，包含物体加载删除移动等通用功能
+    """
+    def __init__(self, env, id: int, data=None):
+        if data is None:
+            data = {}
+        self.env = env
+        self.id = id
+        self.data = data
+
+    def SetType(self, attr_type: type):
+        """
+        设置物体Attr类型
+        Args:
+            attr_type:类型参数
+
+        Returns:新的类型
+
+        """
+        self.env.attrs[self.id] = attr_type(self.env, self.id, self.data)
+        return self.env.attrs[self.id]
+
+    def parse_message(self, msg: IncomingMessage) -> dict:
+        self.data['name'] = msg.read_string()
+        self.data['position'] = [msg.read_float32() for _ in range(3)]
+        self.data['rotation'] = [msg.read_float32() for _ in range(3)]
+        self.data['quaternion'] = [msg.read_float32() for _ in range(4)]
+        self.data['local_position'] = [msg.read_float32() for _ in range(3)]
+        self.data['local_rotation'] = [msg.read_float32() for _ in range(3)]
+        self.data['local_quaternion'] = [msg.read_float32() for _ in range(4)]
+
+        self.data['local_to_world_matrix'] = msg.read_float32_list()
+
+        if msg.read_bool() is True:
+            self.data['result_local_point'] = msg.read_float32_list()
+        if msg.read_bool() is True:
+            self.data['result_world_point'] = msg.read_float32_list()
+        return self.data
+
+    def SetTransform(self, position: list = None, rotation: list = None, scale: list = None, is_world: bool = True):
+        """
+        使用Vector3设置物体pose
+        Args:
+            position:位置
+            rotation:旋转
+            scale:缩放
+            is_world:世界空间or局部空间
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetTransform')
+        msg.write_bool(position is not None)
+        msg.write_bool(rotation is not None)
+        msg.write_bool(scale is not None)
+        if position is not None:
+            assert type(position) == list and len(position) == 3, \
+                'Argument position must be a 3-d list.'
+            for i in range(3):
+                msg.write_float32(position[i])
+        if rotation is not None:
+            assert type(rotation) == list and len(rotation) == 3, \
+                'Argument rotation must be a 3-d list.'
+            for i in range(3):
+                msg.write_float32(rotation[i])
+        if scale is not None:
+            assert type(scale) == list and len(scale) == 3, \
+                'Argument rotation must be a 3-d list.'
+            for i in range(3):
+                msg.write_float32(scale[i])
+        msg.write_bool(is_world)
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetRotationQuaternion(self, quaternion: list = None, is_world: bool = True):
+        """
+        使用四元数设置物体旋转
+        Args:
+            quaternion:四元数
+            is_world:世界空间or局部空间
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetRotationQuaternion')
+        assert type(quaternion) == list and len(quaternion) == 3, \
+            'Argument quaternion must be a 4-d list.'
+        for i in range(4):
+            msg.write_float32(quaternion[i])
+        msg.write_bool(is_world)
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetActive(self, active: bool):
+        """
+        设置物体激活状态
+        Args:
+            active:
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetActive')
+        msg.write_bool(active)
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetParent(self, parent_id: int, parent_name: str = ''):
+        """
+        设置父物体
+        Args:
+            parent_id: 父物体ID
+            parent_name: 父物体内节点名
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetParent')
+        msg.write_int32(parent_id)
+        msg.write_string(parent_name)
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetLayer(self, layer: int):
+        """
+        设置物体层
+        Args:
+            layer: 层编号
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetLayer')
+        msg.write_int32(layer)
+
+        self.env.instance_channel.send_message(msg)
+
+    def Copy(self, new_id: int):
+        """
+        复制物体
+        Args:
+            new_id: 新物体的ID
+
+        Returns:
+
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('Copy')
+        msg.write_int32(new_id)
+
+        self.env.instance_channel.send_message(msg)
+
+        self.env.attrs[new_id] = type(self)(self.env, new_id, self.data)
+        return self.env.attrs[new_id]
+
+    def Destroy(self):
+        """
+        删除物体
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('Destroy')
+
+        self.env.instance_channel.send_message(msg)
+        self.env.attrs.pop(self.id)
+
+    def SetRFMoveColliderActive(self, active: bool):
+        """
+        设置物体在RFMove中的碰撞开关
+        Args:
+            active:
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetRFMoveColliderActive')
+        msg.write_bool(active)
+
+        self.env.instance_channel.send_message(msg)
+
+    def GetLoaclPointFromWorld(self, point: list):
+        """
+        转换局部坐标到世界坐标
+        Args:
+            point:局部坐标
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GetLoaclPointFromWorld')
+        msg.write_float32(point[0])
+        msg.write_float32(point[1])
+        msg.write_float32(point[2])
+
+        self.env.instance_channel.send_message(msg)
+
+    def GetWorldPointFromLocal(self, point: list):
+        """
+        转换世界坐标到局部坐标
+        Args:
+            point:世界坐标
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GetWorldPointFromLocal')
+        msg.write_float32(point[0])
+        msg.write_float32(point[1])
+        msg.write_float32(point[2])
+
+        self.env.instance_channel.send_message(msg)

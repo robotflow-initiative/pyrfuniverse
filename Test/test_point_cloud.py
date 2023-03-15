@@ -1,3 +1,5 @@
+import os
+os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.utils.depth_processor as dp
 import numpy as np
@@ -7,61 +9,33 @@ except ImportError:
     print('This feature requires open3d, please install with `pip install open3d`')
     raise
 
-env = RFUniverseBaseEnv(
-    scene_file='PointCloud.json'
-)
-env.instance_channel.set_action(
-    'GetDepthEXR',
-    id=698548,
-    width=1920,
-    height=1080,
-)
-env.instance_channel.set_action(
-    'GetRGB',
-    id=698548,
-    width=1920,
-    height=1080
-)
-env.instance_channel.set_action(
-    'GetID',
-    id=698548,
-    width=1920,
-    height=1080
-)
-env._step()
+env = RFUniverseBaseEnv(scene_file='PointCloud.json')
+camera1 = env.GetAttr(698548)
+camera1.GetDepthEXR(width=1920, height=1080)
+camera1.GetRGB(width=1920, height=1080)
+camera1.GetID(width=1920, height=1080)
+env.step()
 
-image_rgb = env.instance_channel.data[698548]['rgb']
-image_depth_exr = env.instance_channel.data[698548]['depth_exr']
-fov = env.instance_channel.data[698548]['fov']
-local_to_world_matrix = env.instance_channel.data[698548]['local_to_world_matrix']
+image_rgb = camera1.data['rgb']
+image_depth_exr = camera1.data['depth_exr']
+fov = camera1.data['fov']
+local_to_world_matrix = camera1.data['local_to_world_matrix']
 local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
 point1 = dp.image_bytes_to_point_cloud(image_rgb, image_depth_exr, fov, local_to_world_matrix)
 
-env.instance_channel.set_action(
-    'GetDepthEXR',
-    id=698550,
-    width=1920,
-    height=1080,
-)
-env.instance_channel.set_action(
-    'GetRGB',
-    id=698550,
-    width=1920,
-    height=1080
-)
-env.instance_channel.set_action(
-    'GetID',
-    id=698550,
-    width=1920,
-    height=1080
-)
-env._step()
-image_rgb = env.instance_channel.data[698550]['rgb']
-image_depth_exr = env.instance_channel.data[698550]['depth_exr']
-fov = env.instance_channel.data[698550]['fov']
-local_to_world_matrix = env.instance_channel.data[698550]['local_to_world_matrix']
+camera2 = env.GetAttr(698550)
+camera2.GetDepthEXR(width=1920, height=1080)
+camera2.GetRGB(width=1920, height=1080)
+camera2.GetID(width=1920, height=1080)
+env.step()
+
+image_rgb = camera2.data['rgb']
+image_depth_exr = camera2.data['depth_exr']
+fov = camera2.data['fov']
+local_to_world_matrix = camera2.data['local_to_world_matrix']
 local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
 point2 = dp.image_bytes_to_point_cloud(image_rgb, image_depth_exr, fov, local_to_world_matrix)
+
 env.close()
 
 # unity space to open3d space and show

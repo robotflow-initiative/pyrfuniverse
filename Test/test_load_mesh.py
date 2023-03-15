@@ -3,38 +3,14 @@ import os
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 
 env = RFUniverseBaseEnv()
-env._step()
-
-id = 639787
-
-env.asset_channel.set_action(
-    'LoadMesh',
-    id=id,
-    path=os.path.abspath('../Mesh/002_master_chef_can/google_16k/textured.obj')
-)
-env.instance_channel.set_action(
-    'SetTransform',
-    id=id,
-    position=[0, 1, 0],
-    rotation=[random.random() * 360, random.random() * 360, random.random() * 360]
-)
-for _ in range(20):
-    env._step()
+env.step()
+mesh = env.LoadMesh(id=639787, path=os.path.abspath('../Mesh/002_master_chef_can/google_16k/textured.obj'))
+mesh.SetTransform(position=[0, 1, 0], rotation=[random.random() * 360, random.random() * 360, random.random() * 360])
 
 for i in range(100):
-    env.instance_channel.set_action(
-        'Copy',
-        id=id,
-        copy_id=id + i + 1,
-    )
-    env.instance_channel.set_action(
-        'SetTransform',
-        id=id + i + 1,
-        position=[0, 1, 0],
-        rotation=[random.random() * 360, random.random() * 360, random.random() * 360]
-    )
-    for _ in range(20):
-        env._step()
+    env.step(20)
+    new_mesh = mesh.Copy(new_id=mesh.id + i + 1)
+    new_mesh.SetTransform(position=[0, 1, 0], rotation=[random.random() * 360, random.random() * 360, random.random() * 360])
 
 while 1:
-    env._step()
+    env.step()
