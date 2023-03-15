@@ -1,3 +1,5 @@
+import warnings
+
 from pyrfuniverse.side_channel.side_channel import (
     IncomingMessage,
     OutgoingMessage,
@@ -8,15 +10,16 @@ import pyrfuniverse.utils.rfuniverse_utility as utility
 
 class AssetChannel(RFUniverseChannel):
 
-    def __init__(self, channel_id: str) -> None:
+    def __init__(self, env, channel_id: str) -> None:
         super().__init__(channel_id)
+        self.env = env
         self.data = {}
-        self.Messages = {}
+        self.messages = {}
 
-    def _parse_message(self, msg: IncomingMessage) -> None:
+    def _parse_message(self, msg: IncomingMessage):
         msg_type = msg.read_string()
-        if msg_type in self.Messages:
-            for i in self.Messages[msg_type]:
+        if msg_type in self.messages:
+            for i in self.messages[msg_type]:
                 i(msg)
         elif msg_type == 'PreLoadDone':
             self.data['load_done'] = True
@@ -68,10 +71,12 @@ class AssetChannel(RFUniverseChannel):
                 collision_pairs.append(data)
             self.data['collision_pairs'] = collision_pairs
         else:
-            ext_data = ext.parse_message(msg, msg_type)
+            ext_data = self.env.ext.parse_message(msg, msg_type)
             self.data.update(ext_data)
+        self.env.data.update(self.data)
 
     def set_action(self, action: str, **kwargs) -> None:
+        warnings.warn("set_action is deprecated, It will be removed in version 1.0", DeprecationWarning)
         """Set action and pass corresponding parameters
         Args:
             action: The action name.
@@ -122,18 +127,18 @@ class AssetChannel(RFUniverseChannel):
         self.send_message(msg)
 
     def AddListener(self, message: str, fun):
-        if message in self.Messages:
-            if fun in self.Messages[message]:
-                self.Messages[message].append(fun)
+        if message in self.messages:
+            if fun in self.messages[message]:
+                self.messages[message].append(fun)
         else:
-            self.Messages[message] = [fun]
+            self.messages[message] = [fun]
 
     def RemoveListener(self, message: str, fun):
-        if message in self.Messages:
-            if fun in self.Messages[message]:
-                self.Messages[message].remove(fun)
-            if len(self.Messages[message]) == 0:
-                self.Messages[message].pop(message)
+        if message in self.messages:
+            if fun in self.messages[message]:
+                self.messages[message].remove(fun)
+            if len(self.messages[message]) == 0:
+                self.messages[message].pop(message)
 
 
     def InstanceObject(self, kwargs: dict) -> None:

@@ -6,11 +6,6 @@ from pyrfuniverse.side_channel.side_channel import (
 import pyrfuniverse.utils.rfuniverse_utility as utility
 
 
-def parse_message(msg: IncomingMessage) -> dict:
-    this_object_data = attr.base_attr.parse_message(msg)
-    return this_object_data
-
-
 def GenerateVHACDColider(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id']
     optional_params = []
@@ -20,3 +15,17 @@ def GenerateVHACDColider(kwargs: dict) -> OutgoingMessage:
     msg.write_int32(kwargs['id'])
     msg.write_string('GenerateVHACDColider')
     return msg
+
+
+class ColliderAttr(attr.GameObjectAttr):
+    def parse_message(self, msg: IncomingMessage) -> dict:
+        super().parse_message(msg)
+        return self.data
+
+    def GenerateVHACDColider(self):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GenerateVHACDColider')
+
+        self.env.instance_channel.send_message(msg)

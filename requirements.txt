@@ -5,8 +5,7 @@ Pillow>=4.2.1
 protobuf==3.19.0
 pyyaml>=3.1.0
 gym==0.21.0
-opencv-python==4.5.4.60
-opencv-contrib-python==4.5.4.60
+opencv-contrib-python
 
 # pybullet
 # open3d

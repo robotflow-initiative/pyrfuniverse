@@ -6,12 +6,6 @@ from pyrfuniverse.side_channel.side_channel import (
 import pyrfuniverse.utils.rfuniverse_utility as utility
 
 
-def parse_message(msg: IncomingMessage) -> dict:
-    this_object_data = attr.base_attr.parse_message(msg)
-    this_object_data['move_done'] = msg.read_bool()
-    this_object_data['rotate_done'] = msg.read_bool()
-    return this_object_data
-
 def HumanIKTargetDoMove(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'index', 'position', 'duration']
     optional_params = ['speed_based', 'relative']
@@ -102,3 +96,84 @@ def HumanIKTargetDoKill(kwargs: dict) -> OutgoingMessage:
     msg.write_string('HumanIKTargetDoKill')
     msg.write_int32(kwargs['index'])
     return msg
+
+
+class HumanbodyAttr(attr.BaseAttr):
+    def parse_message(self, msg: IncomingMessage) -> dict:
+        super().parse_message(msg)
+        self.data['move_done'] = msg.read_bool()
+        self.data['rotate_done'] = msg.read_bool()
+        return self.data
+
+    def HumanIKTargetDoMove(self, index: int, position: list, duration: float, speed_based: bool = True, relative: bool = False):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('HumanIKTargetDoMove')
+        msg.write_int32(index)
+        msg.write_float32(position[0])
+        msg.write_float32(position[1])
+        msg.write_float32(position[2])
+        msg.write_float32(duration)
+        msg.write_bool(speed_based)
+        msg.write_bool(relative)
+
+        self.env.instance_channel.send_message(msg)
+
+    def HumanIKTargetDoRotate(self, index: int, rotation: list, duration: float, speed_based: bool = True, relative: bool = False):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('HumanIKTargetDoRotate')
+        msg.write_int32(index)
+        msg.write_float32(rotation[0])
+        msg.write_float32(rotation[1])
+        msg.write_float32(rotation[2])
+        msg.write_float32(duration)
+        msg.write_bool(speed_based)
+        msg.write_bool(relative)
+
+        self.env.instance_channel.send_message(msg)
+
+    def HumanIKTargetDoRotateQuaternion(self, index: int, quaternion: list, duration: float, speed_based: bool = True, relative: bool = False):
+        msg = OutgoingMessage()
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('HumanIKTargetDoRotateQuaternion')
+        msg.write_int32(index)
+        msg.write_float32(quaternion[0])
+        msg.write_float32(quaternion[1])
+        msg.write_float32(quaternion[2])
+        msg.write_float32(quaternion[3])
+        msg.write_float32(duration)
+        msg.write_bool(speed_based)
+        msg.write_bool(relative)
+
+        self.env.instance_channel.send_message(msg)
+
+        self.env.instance_channel.send_message(msg)
+
+    def HumanIKTargetDoComplete(self, index: int):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('HumanIKTargetDoComplete')
+        msg.write_int32(index)
+
+        self.env.instance_channel.send_message(msg)
+
+    def HumanIKTargetDoKill(self, index: int):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('HumanIKTargetDoKill')
+        msg.write_int32(index)
+
+        self.env.instance_channel.send_message(msg)
+
+    def WaitDo(self):
+        while not self.data['move_done'] or not self.data['rotate_done']:
+            self.env.step()
+

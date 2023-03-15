@@ -8,62 +8,6 @@ from pyrfuniverse.side_channel.side_channel import (
 import pyrfuniverse.utils.rfuniverse_utility as utility
 
 
-def parse_message(msg: IncomingMessage) -> dict:
-    this_object_data = attr.collider_attr.parse_message(msg)
-    #
-    this_object_data['number_of_joints'] = msg.read_int32()
-    # Position
-    this_object_data['positions'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
-    # RotationEuler
-    this_object_data['rotations'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
-    # RotationQuaternion
-    this_object_data['quaternion'] = np.array(msg.read_float32_list()).reshape([-1, 4]).tolist()
-    # LocalPosition
-    this_object_data['local_positions'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
-    # LocalRotationEuler
-    this_object_data['local_rotations'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
-    # LocalRotationQuaternion
-    this_object_data['local_quaternion'] = np.array(msg.read_float32_list()).reshape([-1, 4]).tolist()
-    # Velocity
-    this_object_data['velocities'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
-    #
-    this_object_data['number_of_moveable_joints'] = msg.read_int32()
-    # Each joint position
-    this_object_data['joint_positions'] = msg.read_float32_list()
-    # Each joint velocity
-    this_object_data['joint_velocities'] = msg.read_float32_list()
-    # Whether all parts are stable
-    this_object_data['all_stable'] = msg.read_bool()
-    this_object_data['move_done'] = msg.read_bool()
-    this_object_data['rotate_done'] = msg.read_bool()
-    if msg.read_bool() is True:
-        this_object_data['gravity_forces'] = msg.read_float32_list()
-        this_object_data['coriolis_centrifugal_forces'] = msg.read_float32_list()
-        this_object_data['drive_forces'] = msg.read_float32_list()
-    return this_object_data
-
-
-# def _parse_raw_list_3(raw_list):
-#     length = len(raw_list)
-#     assert length % 3 == 0
-#     number_of_parts = length // 3
-#     norm_list = []
-#     for j in range(number_of_parts):
-#         transform = [raw_list[3 * j], raw_list[3 * j + 1], raw_list[3 * j + 2]]
-#         norm_list.append(transform)
-#     return norm_list
-#
-#
-# def _parse_raw_list_4(raw_list):
-#     length = len(raw_list)
-#     assert length % 4 == 0
-#     number_of_parts = length // 4
-#     norm_list = []
-#     for j in range(number_of_parts):
-#         transform = [raw_list[4 * j], raw_list[4 * j + 1], raw_list[4 * j + 2], raw_list[4 * j + 3]]
-#         norm_list.append(transform)
-#     return norm_list
-
 
 def SetJointPosition(kwargs: dict) -> OutgoingMessage:
     """Set the target positions for each joint in a specified articulation body.
@@ -85,7 +29,6 @@ def SetJointPosition(kwargs: dict) -> OutgoingMessage:
 
     msg.write_int32(kwargs['id'])
     msg.write_string('SetJointPosition')
-    msg.write_int32(num_joints)
     msg.write_float32_list(kwargs['joint_positions'])
     if 'speed_scales' in kwargs.keys():
         assert num_joints == len(kwargs['speed_scales']), \
@@ -108,7 +51,6 @@ def SetJointPositionDirectly(kwargs: dict) -> OutgoingMessage:
 
     msg.write_int32(kwargs['id'])
     msg.write_string('SetJointPositionDirectly')
-    msg.write_int32(num_joints)
     msg.write_float32_list(kwargs['joint_positions'])
 
     return msg
@@ -175,7 +117,6 @@ def SetJointVelocity(kwargs: dict) -> OutgoingMessage:
 
     msg.write_int32(kwargs['id'])
     msg.write_string('SetJointVelocity')
-    msg.write_int32(num_joints)
     msg.write_float32_list(kwargs['joint_velocitys'])
 
     return msg
@@ -468,3 +409,325 @@ def SetIKTargetOffset(kwargs: dict) -> OutgoingMessage:
         msg.write_float32(kwargs['rotation'][1])
         msg.write_float32(kwargs['rotation'][2])
     return msg
+
+
+class ControllerAttr(attr.ColliderAttr):
+    def parse_message(self, msg: IncomingMessage) -> dict:
+        super().parse_message(msg)
+        self.data['number_of_joints'] = msg.read_int32()
+        # Position
+        self.data['positions'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
+        # RotationEuler
+        self.data['rotations'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
+        # RotationQuaternion
+        self.data['quaternion'] = np.array(msg.read_float32_list()).reshape([-1, 4]).tolist()
+        # LocalPosition
+        self.data['local_positions'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
+        # LocalRotationEuler
+        self.data['local_rotations'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
+        # LocalRotationQuaternion
+        self.data['local_quaternion'] = np.array(msg.read_float32_list()).reshape([-1, 4]).tolist()
+        # Velocity
+        self.data['velocities'] = np.array(msg.read_float32_list()).reshape([-1, 3]).tolist()
+        #
+        self.data['number_of_moveable_joints'] = msg.read_int32()
+        # Each joint position
+        self.data['joint_positions'] = msg.read_float32_list()
+        # Each joint velocity
+        self.data['joint_velocities'] = msg.read_float32_list()
+        # Whether all parts are stable
+        self.data['all_stable'] = msg.read_bool()
+        self.data['move_done'] = msg.read_bool()
+        self.data['rotate_done'] = msg.read_bool()
+        if msg.read_bool() is True:
+            self.data['gravity_forces'] = msg.read_float32_list()
+            self.data['coriolis_centrifugal_forces'] = msg.read_float32_list()
+            self.data['drive_forces'] = msg.read_float32_list()
+        return self.data
+
+    def SetJointPosition(self, joint_positions: list, speed_scales = None):
+        num_joints = len(joint_positions)
+        if speed_scales is None:
+            speed_scales = [1.0 for i in range(num_joints)]
+        assert num_joints == len(speed_scales), \
+            'The length of joint_positions and speed_scales are not equal.'
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetJointPosition')
+        msg.write_float32_list(joint_positions)
+        msg.write_float32_list(speed_scales)
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetJointPositionDirectly(self, joint_positions: list):
+        num_joints = len(joint_positions)
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetJointPositionDirectly')
+        msg.write_float32_list(joint_positions)
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetIndexJointPosition(self, index: int, joint_position: float):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetIndexJointPosition')
+        msg.write_int32(index)
+        msg.write_float32(joint_position)
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetIndexJointPositionDirectly(self, index: int, joint_position: float):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetIndexJointPositionDirectly')
+        msg.write_int32(index)
+        msg.write_float32(joint_position)
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetJointPositionContinue(self, interval: int, time_joint_positions: list):
+        num_times = len(time_joint_positions)
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetJointPositionContinue')
+        msg.write_int32(num_times)
+        msg.write_int32(interval)
+        for i in range(num_times):
+            msg.write_float32_list(time_joint_positions[i])
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetJointVelocity(self, joint_velocitys: list):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetJointVelocity')
+        msg.write_float32_list(joint_velocitys)
+
+        self.env.instance_channel.send_message(msg)
+
+    def AddJointForce(self, joint_forces: list):
+        num_joints = len(joint_positions)
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('AddJointForce')
+        msg.write_int32(num_joints)
+        for i in range(num_joints):
+            msg.write_float32(joint_forces[i][0])
+            msg.write_float32(joint_forces[i][1])
+            msg.write_float32(joint_forces[i][2])
+
+        self.env.instance_channel.send_message(msg)
+
+    def AddJointForceAtPosition(self, joint_forces: list, force_positions: list):
+        num_joints = len(joint_positions)
+        assert len(joint_forces) == len(force_positions), \
+            'The length of joint_forces and force_positions are not equal.'
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('AddJointForceAtPosition')
+        msg.write_int32(num_joints)
+        for i in range(num_joints):
+            msg.write_float32(joint_forces[i][0])
+            msg.write_float32(joint_forces[i][1])
+            msg.write_float32(joint_forces[i][2])
+            msg.write_float32(force_positions[i][0])
+            msg.write_float32(force_positions[i][1])
+            msg.write_float32(force_positions[i][2])
+
+        self.env.instance_channel.send_message(msg)
+
+    def AddJointTorque(self, joint_torques: list):
+        num_joints = len(joint_torque)
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('AddJointTorque')
+        msg.write_int32(num_joints)
+        for i in range(num_joints):
+            msg.write_float32(joint_torques[i][0])
+            msg.write_float32(joint_torques[i][1])
+            msg.write_float32(joint_torques[i][2])
+
+        self.env.instance_channel.send_message(msg)
+
+    # only work on unity 2022.1+
+    def GetJointInverseDynamicsForce(self):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GetJointInverseDynamicsForce')
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetImmovable(self, immovable: bool):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetImmovable')
+        msg.write_bool(immovable)
+
+        self.env.instance_channel.send_message(msg)
+
+    def MoveForward(self, distance: float, speed: float):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('MoveForward')
+        msg.write_float32(distance)
+        msg.write_float32(speed)
+
+        self.env.instance_channel.send_message(msg)
+
+    def MoveBack(self, distance: float, speed: float):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('MoveBack')
+        msg.write_float32(distance)
+        msg.write_float32(speed)
+
+        self.env.instance_channel.send_message(msg)
+
+    def TurnLeft(self, angle: float, speed: float):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('TurnLeft')
+        msg.write_float32(angle)
+        msg.write_float32(speed)
+
+        self.env.instance_channel.send_message(msg)
+
+    def TurnRight(self, angle: float, speed: float):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('TurnRight')
+        msg.write_float32(angle)
+        msg.write_float32(speed)
+
+        self.env.instance_channel.send_message(msg)
+
+    def GripperOpen(self):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GripperOpen')
+
+        self.env.instance_channel.send_message(msg)
+
+    def GripperClose(self):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GripperClose')
+
+        self.env.instance_channel.send_message(msg)
+
+    def EnabledNativeIK(self, enabled: bool):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('EnabledNativeIK')
+        msg.write_bool(enabled)
+
+        self.env.instance_channel.send_message(msg)
+
+    def IKTargetDoMove(self, position: list, duration: float, speed_based: bool = True, relative: bool = False):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('IKTargetDoMove')
+        msg.write_float32(position[0])
+        msg.write_float32(position[1])
+        msg.write_float32(position[2])
+        msg.write_float32(duration)
+        msg.write_bool(speed_based)
+        msg.write_bool(relative)
+
+        self.env.instance_channel.send_message(msg)
+
+    def IKTargetDoRotate(self, rotation: list, duration: float, speed_based: bool = True, relative: bool = False):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('IKTargetDoRotate')
+        msg.write_float32(rotation[0])
+        msg.write_float32(rotation[1])
+        msg.write_float32(rotation[2])
+        msg.write_float32(duration)
+        msg.write_bool(speed_based)
+        msg.write_bool(relative)
+
+        self.env.instance_channel.send_message(msg)
+
+    def IKTargetDoRotateQuaternion(self, quaternion: list, duration: float, speed_based: bool = True, relative: bool = False):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('IKTargetDoRotateQuaternion')
+        msg.write_float32(quaternion[0])
+        msg.write_float32(quaternion[1])
+        msg.write_float32(quaternion[2])
+        msg.write_float32(quaternion[3])
+        msg.write_float32(duration)
+        msg.write_bool(speed_based)
+        msg.write_bool(relative)
+
+        self.env.instance_channel.send_message(msg)
+
+    def IKTargetDoComplete(self):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('IKTargetDoComplete')
+
+        self.env.instance_channel.send_message(msg)
+
+    def IKTargetDoKill(self):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('IKTargetDoKill')
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetIKTargetOffset(self, position: list = [0.,0.,0.], rotation: list = [0.,0.,0.], quaternion: list = None):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetIKTargetOffset')
+        msg.write_float32(position[0])
+        msg.write_float32(position[1])
+        msg.write_float32(position[2])
+        msg.write_bool(quaternion is not None)
+        if quaternion is not None:
+            msg.write_float32(quaternion[0])
+            msg.write_float32(quaternion[1])
+            msg.write_float32(quaternion[2])
+            msg.write_float32(quaternion[2])
+        else:
+            msg.write_float32(rotation[0])
+            msg.write_float32(rotation[1])
+            msg.write_float32(rotation[2])
+
+        self.env.instance_channel.send_message(msg)
+
+    def WaitDo(self):
+        while not self.data['move_done'] or not self.data['rotate_done']:
+            self.env.step()

@@ -5,12 +5,6 @@ from pyrfuniverse.side_channel.side_channel import (
 )
 import pyrfuniverse.utils.rfuniverse_utility as utility
 
-
-def parse_message(msg: IncomingMessage) -> dict:
-    this_object_data = attr.base_attr.parse_message(msg)
-    return this_object_data
-
-
 def Translate(kwargs: dict) -> OutgoingMessage:
     """Translate a game object by a given distance, in meter format. Note that this command will translate the
        object relative to the current position.
@@ -65,3 +59,39 @@ def SetColor(kwargs: dict) -> OutgoingMessage:
         msg.write_float32(kwargs['color'][i])
 
     return msg
+
+
+class GameObjectAttr(attr.BaseAttr):
+    def parse_message(self, msg: IncomingMessage) -> dict:
+        super().parse_message(msg)
+        return self.data
+
+    def Translate(self, translation: list):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('Translate')
+        for i in range(3):
+            msg.write_float32(translation[i])
+
+        self.env.instance_channel.send_message(msg)
+
+    def Rotate(self, rotation: list):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('Rotate')
+        for i in range(3):
+            msg.write_float32(rotation[i])
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetColor(self, color: list):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetColor')
+        for i in range(4):
+            msg.write_float32(color[i])
+
+        self.env.instance_channel.send_message(msg)

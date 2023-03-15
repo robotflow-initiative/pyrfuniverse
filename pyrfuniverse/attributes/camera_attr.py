@@ -6,42 +6,8 @@ from pyrfuniverse.side_channel.side_channel import (
 import pyrfuniverse.utils.rfuniverse_utility as utility
 import base64
 
-def parse_message(msg: IncomingMessage) -> dict:
-    this_object_data = attr.base_attr.parse_message(msg)
-    this_object_data['width'] = msg.read_int32()
-    this_object_data['height'] = msg.read_int32()
-    this_object_data['fov'] = msg.read_float32()
-    if msg.read_bool() is True:
-        this_object_data['rgb'] = base64.b64decode(msg.read_string())
-    if msg.read_bool() is True:
-        this_object_data['normal'] = base64.b64decode(msg.read_string())
-    if msg.read_bool() is True:
-        this_object_data['id_map'] = base64.b64decode(msg.read_string())
-    if msg.read_bool() is True:
-        this_object_data['depth'] = base64.b64decode(msg.read_string())
-    if msg.read_bool() is True:
-        this_object_data['depth_exr'] = base64.b64decode(msg.read_string())
-    if msg.read_bool() is True:
-        this_object_data['amodal_mask'] = base64.b64decode(msg.read_string())
-    if msg.read_bool() is True:
-        ddbbox_count = msg.read_int32()
-        this_object_data['2d_bounding_box'] = []
-        for i in range(ddbbox_count):
-            this_object_data['2d_bounding_box'][i] = {}
-            this_object_data['2d_bounding_box'][i]['position'] = [msg.read_float32() for _ in range(2)]
-            this_object_data['2d_bounding_box'][i]['size'] = [msg.read_float32() for _ in range(2)]
-    if msg.read_bool() is True:
-        dddbbox_count = msg.read_int32()
-        this_object_data['3d_bounding_box'] = []
-        for i in range(dddbbox_count):
-            this_object_data['3d_bounding_box'][i] = {}
-            this_object_data['3d_bounding_box'][i]['position'] = [msg.read_float32() for _ in range(3)]
-            this_object_data['3d_bounding_box'][i]['rotation'] = [msg.read_float32() for _ in range(3)]
-            this_object_data['3d_bounding_box'][i]['size'] = [msg.read_float32() for _ in range(3)]
-    return this_object_data
 
-
-def AlignView(kwargs: dict) -> OutgoingMessage:
+def AlignView(kwargs: dict):
     compulsory_params = ['id']
     optional_params = []
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -52,7 +18,7 @@ def AlignView(kwargs: dict) -> OutgoingMessage:
 
     return msg
 
-def GetRGB(kwargs: dict) -> OutgoingMessage:
+def GetRGB(kwargs: dict):
     compulsory_params = ['id']
     optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -72,7 +38,7 @@ def GetRGB(kwargs: dict) -> OutgoingMessage:
             msg.write_float32(60)
     return msg
 
-def GetNormal(kwargs: dict) -> OutgoingMessage:
+def GetNormal(kwargs: dict):
     compulsory_params = ['id']
     optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -92,7 +58,7 @@ def GetNormal(kwargs: dict) -> OutgoingMessage:
             msg.write_float32(60)
     return msg
 
-def GetID(kwargs: dict) -> OutgoingMessage:
+def GetID(kwargs: dict):
     compulsory_params = ['id']
     optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -112,7 +78,7 @@ def GetID(kwargs: dict) -> OutgoingMessage:
             msg.write_float32(60)
     return msg
 
-def GetDepth(kwargs: dict) -> OutgoingMessage:
+def GetDepth(kwargs: dict):
     compulsory_params = ['id', 'zero_dis', 'one_dis']
     optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -134,7 +100,7 @@ def GetDepth(kwargs: dict) -> OutgoingMessage:
             msg.write_float32(60)
     return msg
 
-def GetDepthEXR(kwargs: dict) -> OutgoingMessage:
+def GetDepthEXR(kwargs: dict):
     compulsory_params = ['id']
     optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -154,7 +120,7 @@ def GetDepthEXR(kwargs: dict) -> OutgoingMessage:
             msg.write_float32(60)
     return msg
 
-def GetAmodalMask(kwargs: dict) -> OutgoingMessage:
+def GetAmodalMask(kwargs: dict):
     compulsory_params = ['id']
     optional_params = ['width', 'height', 'fov', 'intrinsic_matrix']
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -173,3 +139,163 @@ def GetAmodalMask(kwargs: dict) -> OutgoingMessage:
         else:
             msg.write_float32(60)
     return msg
+
+
+class CameraAttr(attr.BaseAttr):
+    def parse_message(self, msg: IncomingMessage) -> dict:
+        super().parse_message(msg)
+        self.data['width'] = msg.read_int32()
+        self.data['height'] = msg.read_int32()
+        self.data['fov'] = msg.read_float32()
+        if msg.read_bool() is True:
+            self.data['rgb'] = base64.b64decode(msg.read_string())
+        if msg.read_bool() is True:
+            self.data['normal'] = base64.b64decode(msg.read_string())
+        if msg.read_bool() is True:
+            self.data['id_map'] = base64.b64decode(msg.read_string())
+        if msg.read_bool() is True:
+            self.data['depth'] = base64.b64decode(msg.read_string())
+        if msg.read_bool() is True:
+            self.data['depth_exr'] = base64.b64decode(msg.read_string())
+        if msg.read_bool() is True:
+            self.data['amodal_mask'] = base64.b64decode(msg.read_string())
+        if msg.read_bool() is True:
+            ddbbox_count = msg.read_int32()
+            self.data['2d_bounding_box'] = []
+            for i in range(ddbbox_count):
+                self.data['2d_bounding_box'][i] = {}
+                self.data['2d_bounding_box'][i]['position'] = [msg.read_float32() for _ in range(2)]
+                self.data['2d_bounding_box'][i]['size'] = [msg.read_float32() for _ in range(2)]
+        if msg.read_bool() is True:
+            dddbbox_count = msg.read_int32()
+            self.data['3d_bounding_box'] = []
+            for i in range(dddbbox_count):
+                self.data['3d_bounding_box'][i] = {}
+                self.data['3d_bounding_box'][i]['position'] = [msg.read_float32() for _ in range(3)]
+                self.data['3d_bounding_box'][i]['rotation'] = [msg.read_float32() for _ in range(3)]
+                self.data['3d_bounding_box'][i]['size'] = [msg.read_float32() for _ in range(3)]
+        return self.data
+
+    def AlignView(self):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('AlignView')
+
+        self.env.instance_channel.send_message(msg)
+
+    def GetRGB(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
+        if intrinsic_matrix is None:
+            intrinsic_matrix = []
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GetRGB')
+        if len(intrinsic_matrix) == 9:
+            msg.write_bool(True)
+            msg.write_float32_list(intrinsic_matrix)
+        else:
+            msg.write_bool(False)
+            msg.write_int32(width)
+            msg.write_int32(height)
+            msg.write_float32(fov)
+
+        self.env.instance_channel.send_message(msg)
+
+    def GetNormal(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
+        if intrinsic_matrix is None:
+            intrinsic_matrix = []
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GetNormal')
+        if len(intrinsic_matrix) == 9:
+            msg.write_bool(True)
+            msg.write_float32_list(intrinsic_matrix)
+        else:
+            msg.write_bool(False)
+            msg.write_int32(width)
+            msg.write_int32(height)
+            msg.write_float32(fov)
+
+        self.env.instance_channel.send_message(msg)
+
+    def GetID(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
+        if intrinsic_matrix is None:
+            intrinsic_matrix = []
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GetID')
+        if len(intrinsic_matrix) == 9:
+            msg.write_bool(True)
+            msg.write_float32_list(intrinsic_matrix)
+        else:
+            msg.write_bool(False)
+            msg.write_int32(width)
+            msg.write_int32(height)
+            msg.write_float32(fov)
+
+        self.env.instance_channel.send_message(msg)
+
+    def GetDepth(self, zero_dis: float, one_dis: float, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
+        if intrinsic_matrix is None:
+            intrinsic_matrix = []
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GetDepth')
+        msg.write_float32(zero_dis)
+        msg.write_float32(one_dis)
+        if len(intrinsic_matrix) == 9:
+            msg.write_bool(True)
+            msg.write_float32_list(intrinsic_matrix)
+        else:
+            msg.write_bool(False)
+            msg.write_int32(width)
+            msg.write_int32(height)
+            msg.write_float32(fov)
+
+        self.env.instance_channel.send_message(msg)
+
+    def GetDepthEXR(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
+        if intrinsic_matrix is None:
+            intrinsic_matrix = []
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GetDepthEXR')
+        if len(intrinsic_matrix) == 9:
+            msg.write_bool(True)
+            msg.write_float32_list(intrinsic_matrix)
+        else:
+            msg.write_bool(False)
+            msg.write_int32(width)
+            msg.write_int32(height)
+            msg.write_float32(fov)
+
+        self.env.instance_channel.send_message(msg)
+
+    def GetAmodalMask(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
+        if intrinsic_matrix is None:
+            intrinsic_matrix = []
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GetAmodalMask')
+        if len(intrinsic_matrix) == 9:
+            msg.write_bool(True)
+            msg.write_float32_list(intrinsic_matrix)
+        else:
+            msg.write_bool(False)
+            msg.write_int32(width)
+            msg.write_int32(height)
+            msg.write_float32(fov)
+
+        self.env.instance_channel.send_message(msg)

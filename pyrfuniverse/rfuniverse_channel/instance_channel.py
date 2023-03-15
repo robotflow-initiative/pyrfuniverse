@@ -1,3 +1,5 @@
+import warnings
+
 from pyrfuniverse.side_channel.side_channel import (
     IncomingMessage,
     OutgoingMessage,
@@ -7,8 +9,9 @@ import pyrfuniverse.attributes as attr
 
 class InstanceChannel(RFUniverseChannel):
 
-    def __init__(self, channel_id: str) -> None:
+    def __init__(self, env, channel_id: str) -> None:
         super().__init__(channel_id)
+        self.env = env
         self.data = {}
 
     def _parse_message(self, msg: IncomingMessage) -> None:
@@ -16,11 +19,21 @@ class InstanceChannel(RFUniverseChannel):
         for i in range(count):
             this_object_id = msg.read_int32()
             this_object_type = msg.read_string()
-            this_object_type = this_object_type.lower()
-            self.data[this_object_id] = eval('attr.' + this_object_type + '_attr.' + 'parse_message')(msg)
+
+            # self.data[this_object_id] = eval('attr.' + this_object_type + '_attr.' + 'parse_message')(msg)
+
+            attr_type = eval('attr.' + this_object_type)
+
+            if this_object_id not in self.env.attrs:
+                self.env.attrs[this_object_id] = attr_type(self.env, this_object_id)
+            elif type(self.env.attrs[this_object_id]) != attr_type:
+                self.env.attrs[this_object_id] = attr_type(self.env, this_object_id, self.env.attrs[this_object_id].data)
+
+            self.data[this_object_id] = self.env.attrs[this_object_id].parse_message(msg)
 
 
     def set_action(self, action: str, attr_name=None, **kwargs) -> None:
+        warnings.warn("set_action is deprecated, It will be removed in version 1.0", DeprecationWarning)
         """Set action and pass corresponding parameters
         Args:
             action: The action name.

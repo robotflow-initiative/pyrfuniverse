@@ -1,11 +1,16 @@
 from abc import ABC
-
+from pyrfuniverse.side_channel.side_channel import (
+    IncomingMessage,
+    OutgoingMessage,
+)
 import pyrfuniverse
 from pyrfuniverse.environment import UnityEnvironment
 from pyrfuniverse.side_channel.environment_parameters_channel import EnvironmentParametersChannel
 from pyrfuniverse.rfuniverse_channel import AssetChannel
+from pyrfuniverse.rfuniverse_channel import AssetChannelExt
 from pyrfuniverse.rfuniverse_channel import InstanceChannel
 from pyrfuniverse.rfuniverse_channel import DebugChannel
+import pyrfuniverse.attributes as attr
 import gym
 import os
 
@@ -57,11 +62,6 @@ class RFUniverseBaseEnv(ABC):
     """
 
     metadata = {'render.modes': ['human', 'rgb_array']}
-    rfuniverse_channel_ids = {
-        'instance_channel':                     '09bfcf57-9120-43dc-99f8-abeeec59df0f',
-        'asset_channel':                        'd587efc8-9eb7-11ec-802a-18c04d443e7d',
-        'debug_channel':                        '02ac5776-6a7c-54e4-011d-b4c4723831c9',
-    }
 
     def __init__(
         self,
@@ -83,6 +83,9 @@ class RFUniverseBaseEnv(ABC):
         self.executable_file = executable_file
         self.scene_file = scene_file
         self.graphics = graphics
+        self.attrs = {}
+        self.data = {}
+        self.ext = AssetChannelExt(self)
         self._init_env()
 
     def _init_env(self):
@@ -114,15 +117,15 @@ class RFUniverseBaseEnv(ABC):
             )
 
         if self.scene_file is not None:
-            self.asset_channel.LoadSceneAsync(self.scene_file)
-            self.asset_channel.data['load_done'] = False
-            while not self.asset_channel.data['load_done']:
-                self._step()
+            self.LoadSceneAsync(self.scene_file)
+            self.data['load_done'] = False
+            while not self.data['load_done']:
+                self.env.step()
         if len(self.assets) > 0:
-            self.asset_channel.PreLoadAssetsAsync(self.assets)
-            self.asset_channel.data['load_done'] = False
-            while not self.asset_channel.data['load_done']:
-                self._step()
+            self.PreLoadAssetsAsync(self.assets)
+            self.data['load_done'] = False
+            while not self.data['load_done']:
+                self.env.step()
         self.env.reset()
 
     def _init_channels(self, kwargs: dict):
@@ -130,10 +133,10 @@ class RFUniverseBaseEnv(ABC):
         # Environment parameters channel
         self.env_param_channel = EnvironmentParametersChannel()
         self.channels.append(self.env_param_channel)
-        # Asset channel
-        self.asset_channel = AssetChannel(self.rfuniverse_channel_ids['asset_channel'])
-        self.instance_channel = InstanceChannel(self.rfuniverse_channel_ids['instance_channel'])
-        self.debug_channel = DebugChannel(self.rfuniverse_channel_ids['debug_channel'])
+        # RFUniverse channel
+        self.asset_channel = AssetChannel(self, 'd587efc8-9eb7-11ec-802a-18c04d443e7d')
+        self.instance_channel = InstanceChannel(self, '09bfcf57-9120-43dc-99f8-abeeec59df0f')
+        self.debug_channel = DebugChannel(self, '02ac5776-6a7c-54e4-011d-b4c4723831c9')
         self.channels.append(self.asset_channel)
         self.channels.append(self.instance_channel)
         self.channels.append(self.debug_channel)
@@ -141,57 +144,169 @@ class RFUniverseBaseEnv(ABC):
     def _step(self):
         self.env.step()
 
-    def step(self):
-        self.env.step()
+    def step(self, count: int = 1):
+        for _ in range(count):
+            self.env.step()
 
-    # def render(
-    #         self,
-    #         id,
-    #         mode='human',
-    #         width=512,
-    #         height=512,
-    #         target_position=None,
-    #         target_euler_angles=None
-    # ):
-    #     """
-    #     Render an image with given resolution, target position and target euler angles.
-    #     TODO: Current version only support RoboTube, which only needs RGB image. For depth, normal, ins_seg, optical
-    #         flow, etc., please refer to `camera_channel.py` for more actions.
-    #
-    #     Args:
-    #         id: Int. Camera ID.
-    #         mode: Str. OpenAI-Gym style mode.
-    #         width: Int. Optional. The width of target image.
-    #         height: Int. Optional. The height of target image.
-    #         target_position: List. Optional. The target position of this camera, in [X, Y, Z] order.
-    #         target_euler_angles: List. Optional. The target euler angles of this camera, in [X, Y, Z] order.
-    #             Each element is in degree, not radius.
-    #
-    #     Returns:
-    #         A numpy array with size (width, height, 3). Each pixel is in [R, G, B] order.
-    #     """
-    #     assert self.camera_channel is not None, \
-    #         'There is no camera available in this scene. Please check.'
-    #
-    #     target_position = list(target_position) if target_position is not None else None
-    #     target_euler_angles = list(target_euler_angles) if target_euler_angles is not None else None
-    #     '''
-    #     self.camera_channel.set_action(
-    #         'SetTransform',
-    #         id=id,
-    #         position=target_position,
-    #         rotation=target_euler_angles,
-    #     )'''
-    #     #self._step()
-    #
-    #     self.camera_channel.set_action(
-    #         'GetImages',
-    #         rendering_params=[[id, width, height]]
-    #     )
-    #     self._step()
-    #
-    #     img = self.camera_channel.images.pop(0)
-    #     return img
+    def PreLoadAssetsAsync(self, names: list) -> None:
+        msg = OutgoingMessage()
+        msg.write_string('PreLoadAssetsAsync')
+        count = len(names)
+        msg.write_int32(count)
+        for i in range(count):
+            msg.write_string(names[i])
+        self.asset_channel.send_message(msg)
+
+    def LoadSceneAsync(self, file: str) -> None:
+        msg = OutgoingMessage()
+        msg.write_string('LoadSceneAsync')
+        msg.write_string(file)
+        self.asset_channel.send_message(msg)
+
+    def SendMessage(self, message: str, *args) -> None:
+        msg = OutgoingMessage()
+        msg.write_string('SendMessage')
+        msg.write_string(message)
+        for i in args:
+            if type(i) == str:
+                msg.write_string(i)
+            elif type(i) == bool:
+                msg.write_bool(i)
+            elif type(i) == int:
+                msg.write_int32(i)
+            elif type(i) == float:
+                msg.write_float32(i)
+            elif type(i) == list and type(i[0]) == float:
+                msg.write_float32_list(i)
+            else:
+                print(f'dont support this data type:{type(i)}')
+        self.asset_channel.send_message(msg)
+
+    def AddListener(self, message: str, fun):
+        if message in self.asset_channel.messages:
+            if fun in self.asset_channel.messages[message]:
+                self.asset_channel.messages[message].append(fun)
+        else:
+            self.asset_channel.messages[message] = [fun]
+
+    def RemoveListener(self, message: str, fun):
+        if message in self.asset_channel.messages:
+            if fun in self.asset_channel.messages[message]:
+                self.asset_channel.messages[message].remove(fun)
+            if len(self.asset_channel.messages[message]) == 0:
+                self.asset_channel.messages[message].pop(message)
+
+    def InstanceObject(self, name: str, id: int, attr_type: type = attr.BaseAttr):
+        assert id not in self.attrs, \
+            'this ID exists'
+
+        msg = OutgoingMessage()
+
+        msg.write_string('InstanceObject')
+        msg.write_string(name)
+        msg.write_int32(id)
+
+        self.asset_channel.send_message(msg)
+
+        self.attrs[id] = attr_type(self, id)
+        return self.attrs[id]
+
+    def LoadURDF(self, id: int, path: str, native_ik: bool) -> attr.ControllerAttr:
+        msg = OutgoingMessage()
+
+        msg.write_string('LoadURDF')
+        msg.write_int32(id)
+        msg.write_string(path)
+        msg.write_bool(native_ik)
+
+        self.asset_channel.send_message(msg)
+
+        self.attrs[id] = attr.ControllerAttr(self, id)
+        return self.attrs[id]
+
+    def LoadMesh(self, id: int, path: str) -> attr.RigidbodyAttr:
+        msg = OutgoingMessage()
+
+        msg.write_string('LoadMesh')
+        msg.write_int32(id)
+        msg.write_string(path)
+
+        self.asset_channel.send_message(msg)
+
+        self.attrs[id] = attr.RigidbodyAttr(self, id)
+        return self.attrs[id]
+
+    def IgnoreLayerCollision(self, layer1: int, layer2: int, ignore: bool) -> None:
+        msg = OutgoingMessage()
+
+        msg.write_string('IgnoreLayerCollision')
+        msg.write_int32(layer1)
+        msg.write_int32(layer2)
+        msg.write_bool(ignore)
+
+        self.asset_channel.send_message(msg)
+
+    def GetCurrentCollisionPairs(self) -> None:
+        msg = OutgoingMessage()
+        msg.write_string('GetCurrentCollisionPairs')
+        self.asset_channel.send_message(msg)
+
+    def GetRFMoveColliders(self) -> None:
+        msg = OutgoingMessage()
+        msg.write_string('GetRFMoveColliders')
+        self.asset_channel.send_message(msg)
+
+    def SetGravity(self, x: float, y: float, z: float) -> None:
+        msg = OutgoingMessage()
+
+        msg.write_string('SetGravity')
+        msg.write_float32(x)
+        msg.write_float32(y)
+        msg.write_float32(z)
+
+        self.asset_channel.send_message(msg)
+
+    def SetGroundPhysicMaterial(self, bounciness: float, dynamic_friction: float, static_friction: float, friction_combine: int, bounce_combine: int) -> None:
+        msg = OutgoingMessage()
+
+        msg.write_string('SetGroundPhysicMaterial')
+        msg.write_float32(bounciness)
+        msg.write_float32(dynamic_friction)
+        msg.write_float32(static_friction)
+        msg.write_int32(friction_combine)
+        msg.write_int32(bounce_combine)
+
+        self.asset_channel.send_message(msg)
+
+    def SetTimeStep(self, delta_time: float) -> None:
+        msg = OutgoingMessage()
+
+        msg.write_string('SetTimeStep')
+        msg.write_float32(delta_time)
+
+        self.asset_channel.send_message(msg)
+
+    def SetTimeScale(self, time_scale: float) -> None:
+        msg = OutgoingMessage()
+
+        msg.write_string('SetTimeScale')
+        msg.write_float32(time_scale)
+
+        self.asset_channel.send_message(msg)
+
+    def SetResolution(self, resolution_x: int, resolution_y: int) -> None:
+        msg = OutgoingMessage()
+
+        msg.write_string('SetResolution')
+        msg.write_int32(resolution_x)
+        msg.write_int32(resolution_y)
+
+        self.asset_channel.send_message(msg)
+
+    def GetAttr(self, id: int):
+        if id not in self.attrs:
+            self.attrs[id] = attr.BaseAttr(self, id)
+        return self.attrs[id]
 
     def close(self):
         delete_worker_id(self.worker_id)
