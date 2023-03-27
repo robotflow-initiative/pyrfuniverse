@@ -5,7 +5,6 @@ from pyrfuniverse.side_channel.side_channel import (
     OutgoingMessage,
 )
 from pyrfuniverse.rfuniverse_channel import RFUniverseChannel
-import pyrfuniverse.rfuniverse_channel.asset_channel_ext as ext
 import pyrfuniverse.utils.rfuniverse_utility as utility
 
 class AssetChannel(RFUniverseChannel):
@@ -21,8 +20,10 @@ class AssetChannel(RFUniverseChannel):
         if msg_type in self.messages:
             for i in self.messages[msg_type]:
                 i(msg)
-        elif msg_type == 'PreLoadDone':
+        elif msg_type == 'LoadDone':
             self.data['load_done'] = True
+        elif msg_type == 'PendDone':
+            self.data['pend_done'] = True
         elif msg_type == 'RFMoveColliders':
             collider = []
             object_count = msg.read_int32()
@@ -95,20 +96,25 @@ class AssetChannel(RFUniverseChannel):
     def PreLoadAssetsAsync(self, names: list) -> None:
         msg = OutgoingMessage()
         msg.write_string('PreLoadAssetsAsync')
+
         count = len(names)
         msg.write_int32(count)
         for i in range(count):
             msg.write_string(names[i])
+
         self.send_message(msg)
 
     def LoadSceneAsync(self, file: str) -> None:
         msg = OutgoingMessage()
+
         msg.write_string('LoadSceneAsync')
         msg.write_string(file)
+
         self.send_message(msg)
 
     def SendMessage(self, message: str, *args) -> None:
         msg = OutgoingMessage()
+
         msg.write_string('SendMessage')
         msg.write_string(message)
         for i in args:
@@ -124,6 +130,7 @@ class AssetChannel(RFUniverseChannel):
                 msg.write_float32_list(i)
             else:
                 print(f'dont support this data type:{type(i)}')
+
         self.send_message(msg)
 
     def AddListener(self, message: str, fun):

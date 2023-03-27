@@ -71,5 +71,5 @@ csv = pd.DataFrame(data, columns=['x', 'y', 'z', 'qx', 'qy', 'qz', 'qw', 'width'
 csv_path = os.path.join(os.path.dirname(mesh_path), 'grasps_rfu.csv')
 csv.to_csv(csv_path, index=True, header=True)
 
-while 1:
-    env.step()
+env.Pend()
+env.close()

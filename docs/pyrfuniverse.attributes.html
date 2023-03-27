@@ -47,6 +47,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pyrfuniverse.attributes package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.activelightsensor_attr">pyrfuniverse.attributes.activelightsensor_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr"><code class="docutils literal notranslate"><span class="pre">ActiveLightSensorAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">ActiveLightSensorAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth"><code class="docutils literal notranslate"><span class="pre">ActiveLightSensorAttr.GetActiveDepth()</span></code></a></li>
 </ul>
 </li>
@@ -54,6 +55,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.base_attr">pyrfuniverse.attributes.base_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr"><code class="docutils literal notranslate"><span class="pre">BaseAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">BaseAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetType"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetType()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetTransform"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetTransform()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Translate"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Translate()</span></code></a></li>
@@ -73,6 +75,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.camera_attr">pyrfuniverse.attributes.camera_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr"><code class="docutils literal notranslate"><span class="pre">CameraAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">CameraAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.AlignView"><code class="docutils literal notranslate"><span class="pre">CameraAttr.AlignView()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetRGB"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetRGB()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetNormal"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetNormal()</span></code></a></li>
@@ -87,11 +90,15 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.cloth_attr">pyrfuniverse.attributes.cloth_attr module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr"><code class="docutils literal notranslate"><span class="pre">ClothAttr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr"><code class="docutils literal notranslate"><span class="pre">ClothAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">ClothAttr.parse_message()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.collider_attr">pyrfuniverse.attributes.collider_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr"><code class="docutils literal notranslate"><span class="pre">ColliderAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.GenerateVHACDColider"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.GenerateVHACDColider()</span></code></a></li>
 </ul>
 </li>
@@ -99,6 +106,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.controller_attr">pyrfuniverse.attributes.controller_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr"><code class="docutils literal notranslate"><span class="pre">ControllerAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointPosition()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionDirectly"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointPositionDirectly()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointPosition"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetIndexJointPosition()</span></code></a></li>
@@ -131,6 +139,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.digit_attr">pyrfuniverse.attributes.digit_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.digit_attr.DigitAttr"><code class="docutils literal notranslate"><span class="pre">DigitAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">DigitAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.GetData"><code class="docutils literal notranslate"><span class="pre">DigitAttr.GetData()</span></code></a></li>
 </ul>
 </li>
@@ -138,6 +147,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.gameobject_attr">pyrfuniverse.attributes.gameobject_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetColor"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.SetColor()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.EnabledRender"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.EnabledRender()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetTexture"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.SetTexture()</span></code></a></li>
@@ -147,6 +157,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.graspsim_attr">pyrfuniverse.attributes.graspsim_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspSim"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.StartGraspSim()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.GenerateGraspPose"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.GenerateGraspPose()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspTest"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.StartGraspTest()</span></code></a></li>
@@ -157,6 +168,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.humanbody_attr">pyrfuniverse.attributes.humanbody_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoMove"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoMove()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotate"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoRotate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotateQuaternion"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoRotateQuaternion()</span></code></a></li>
@@ -171,6 +183,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightType"><code class="docutils literal notranslate"><span class="pre">LightType</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightShadow"><code class="docutils literal notranslate"><span class="pre">LightShadow</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr"><code class="docutils literal notranslate"><span class="pre">LightAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">LightAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetColor"><code class="docutils literal notranslate"><span class="pre">LightAttr.SetColor()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetType"><code class="docutils literal notranslate"><span class="pre">LightAttr.SetType()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetShadow"><code class="docutils literal notranslate"><span class="pre">LightAttr.SetShadow()</span></code></a></li>
@@ -183,6 +196,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.pointcloud_attr">pyrfuniverse.attributes.pointcloud_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr"><code class="docutils literal notranslate"><span class="pre">PointCloudAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">PointCloudAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.ShowPointCloud"><code class="docutils literal notranslate"><span class="pre">PointCloudAttr.ShowPointCloud()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.SetRadius"><code class="docutils literal notranslate"><span class="pre">PointCloudAttr.SetRadius()</span></code></a></li>
 </ul>
@@ -191,6 +205,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.rigidbody_attr">pyrfuniverse.attributes.rigidbody_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetMass"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetMass()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.AddForce"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.AddForce()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetVelocity"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetVelocity()</span></code></a></li>
@@ -199,7 +214,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.softbody_attr">pyrfuniverse.attributes.softbody_attr module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr"><code class="docutils literal notranslate"><span class="pre">SoftbodyAttr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr"><code class="docutils literal notranslate"><span class="pre">SoftbodyAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">SoftbodyAttr.parse_message()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -241,6 +259,17 @@
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr" title="pyrfuniverse.attributes.camera_attr.CameraAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraAttr</span></code></a></p>
 <p>红外深度传感器类，能够获取模拟真实深度相机噪声的深度图</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>self.data[‘active_depth’] 红外深度图，shape = [w,h]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth">
 <span class="sig-name descname"><span class="pre">GetActiveDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_intrinsic_matrix_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_intrinsic_matrix_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth" title="永久链接至目标"></a></dt>
 <dd><p>获取红外深度图</p>
@@ -267,6 +296,27 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.base_attr.</span></span><span class="sig-name descname"><span class="pre">BaseAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>基础Attr类，包含物体加载删除移动等通用功能</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>self.data[‘name’] 物体名称</p>
+<p>self.data[‘position’] 物体世界坐标</p>
+<p>self.data[‘rotation’] 物体世界欧拉角</p>
+<p>self.data[‘quaternion’] 物体世界四元数</p>
+<p>self.data[‘local_position’] 物体局部坐标</p>
+<p>self.data[‘local_rotation’] 物体局部欧拉角</p>
+<p>self.data[‘local_quaternion’] 物体局部四元数</p>
+<p>self.data[‘local_to_world_matrix’] 物体局部坐标转世界坐标矩阵</p>
+<p>self.data[‘result_local_point’] 物体局部坐标转世界坐标结果</p>
+<p>self.data[‘result_world_point’] 物体世界坐标转局部坐标结果</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetType">
 <span class="sig-name descname"><span class="pre">SetType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetType" title="永久链接至目标"></a></dt>
@@ -434,6 +484,28 @@
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>相机类，可获取各种相机截图</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>self.data[‘width’] 图像宽度</p>
+<p>self.data[‘height’] 图像高度</p>
+<p>self.data[‘fov’] 相机FOV</p>
+<p>self.data[‘rgb’] RGB图像bytes</p>
+<p>self.data[‘normal’] 法线图像bytes</p>
+<p>self.data[‘id_map’] ID图像bytes</p>
+<p>self.data[‘depth’] 深度图像bytes</p>
+<p>self.data[‘depth_exr’] EXR深度图像bytes</p>
+<p>self.data[‘amodal_mask’] amodal_mask图bytes</p>
+<p>self.data[‘2d_bounding_box’] 相机屏幕坐标系下2d_bounding_box数据</p>
+<p>self.data[‘3d_bounding_box’] 世界空间3d_bounding_box数据</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.AlignView">
 <span class="sig-name descname"><span class="pre">AlignView</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.AlignView" title="永久链接至目标"></a></dt>
 <dd><p>使相机对准当前视口视角</p>
@@ -596,6 +668,13 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.cloth_attr.</span></span><span class="sig-name descname"><span class="pre">ClothAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>ObiCloth类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.cloth_attr.ClothAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<p>Returns:</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -606,6 +685,13 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.collider_attr.</span></span><span class="sig-name descname"><span class="pre">ColliderAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr" title="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">GameObjectAttr</span></code></a></p>
 <p>具有碰撞体的物体类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.collider_attr.ColliderAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<p>Returns:</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.collider_attr.ColliderAttr.GenerateVHACDColider">
 <span class="sig-name descname"><span class="pre">GenerateVHACDColider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.GenerateVHACDColider" title="永久链接至目标"></a></dt>
@@ -622,6 +708,34 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.controller_attr.</span></span><span class="sig-name descname"><span class="pre">ControllerAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr" title="pyrfuniverse.attributes.collider_attr.ColliderAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColliderAttr</span></code></a></p>
 <p>机械臂控制器类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>self.data[‘number_of_joints’] 机械臂关节数量</p>
+<p>self.data[‘positions’] 机械臂节点位置</p>
+<p>self.data[‘rotations’] 机械臂节点旋转角度</p>
+<p>self.data[‘quaternion’] 机械臂节点旋转四元数</p>
+<p>self.data[‘local_positions’] 机械臂节点局部位置</p>
+<p>self.data[‘local_rotations’] 机械臂节点局部旋转角度</p>
+<p>self.data[‘local_quaternion’] 机械臂节点局部旋转四元数</p>
+<p>self.data[‘velocities’] 机械臂节点速度</p>
+<p>self.data[‘number_of_moveable_joints’] 机械臂活动关节数量</p>
+<p>self.data[‘joint_positions’] 机械臂关节在自由度空间下位置</p>
+<p>self.data[‘joint_velocities’] 机械臂关节在自由度空间下速度</p>
+<p>self.data[‘all_stable’] 机械臂所有关节移动完成</p>
+<p>self.data[‘move_done’] 机械臂IK移动完成状态</p>
+<p>self.data[‘rotate_done’] 机械臂IK旋转完成状态</p>
+<p>self.data[‘gravity_forces’] InverseDynamics抵消重力所需的力</p>
+<p>self.data[‘coriolis_centrifugal_forces’] InverseDynamics抵消离心力所需的力</p>
+<p>self.data[‘drive_forces’] InverseDynamics驱动力</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition">
 <span class="sig-name descname"><span class="pre">SetJointPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_scales</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition" title="永久链接至目标"></a></dt>
@@ -961,14 +1075,27 @@ self.data[‘drive_forces’]
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>模拟Digit指尖触觉传感器类</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.digit_attr.DigitAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>消息解析</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>self.data[‘light’] RGB灯光图像bytes</p>
+<p>self.data[‘depth’] 深度图像bytes</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.digit_attr.DigitAttr.GetData">
 <span class="sig-name descname"><span class="pre">GetData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.GetData" title="永久链接至目标"></a></dt>
 <dd><p>获取传感器数据</p>
 <dl class="field-list simple">
 <dt class="field-odd">返回<span class="colon">:</span></dt>
 <dd class="field-odd"><p>调用此接口并step后，从
-self.data[‘light’]获取RGB灯光图像，
-self.data[‘depth’]获取深度图像</p>
+self.data[‘light’]: 获取RGB灯光图像，
+self.data[‘depth’]: 获取深度图像</p>
 </dd>
 </dl>
 </dd></dl>
@@ -983,6 +1110,13 @@ self.data[‘depth’]获取深度图像</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.gameobject_attr.</span></span><span class="sig-name descname"><span class="pre">GameObjectAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>基本视觉物体类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<p>Returns:</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetColor">
 <span class="sig-name descname"><span class="pre">SetColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetColor" title="永久链接至目标"></a></dt>
@@ -1026,6 +1160,22 @@ self.data[‘depth’]获取深度图像</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.graspsim_attr.</span></span><span class="sig-name descname"><span class="pre">GraspSimAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>抓取测试农场仿真类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>消息解析</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>self.data[‘done’] 模拟是否完成</p>
+<p>self.data[‘points’] 抓点列表</p>
+<p>self.data[‘quaternions’] 抓点对应的四元数列表</p>
+<p>self.data[‘width’] 抓点对应的抓型宽度列表</p>
+<p>self.data[‘success’] 抓点对应的抓取结果列表</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspSim">
 <span class="sig-name descname"><span class="pre">StartGraspSim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gripper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_range_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_range_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_lerp_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_lerp_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspSim" title="永久链接至目标"></a></dt>
@@ -1123,6 +1273,19 @@ self.data[‘success’]为抓取结果列表</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.humanbody_attr.</span></span><span class="sig-name descname"><span class="pre">HumanbodyAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>人体IK类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>self.data[‘move_done’] 移动完成</p>
+<p>self.data[‘rotate_done’] 旋转完成</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoMove">
 <span class="sig-name descname"><span class="pre">HumanIKTargetDoMove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoMove" title="永久链接至目标"></a></dt>
@@ -1236,6 +1399,13 @@ self.data[‘success’]为抓取结果列表</p>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>灯光类</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr.SetColor">
 <span class="sig-name descname"><span class="pre">SetColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetColor" title="永久链接至目标"></a></dt>
 <dd><p>设置灯光颜色</p>
@@ -1312,6 +1482,13 @@ self.data[‘success’]为抓取结果列表</p>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>点云渲染类</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.ShowPointCloud">
 <span class="sig-name descname"><span class="pre">ShowPointCloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ply_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.ShowPointCloud" title="永久链接至目标"></a></dt>
 <dd><p>显示点云</p>
@@ -1348,6 +1525,19 @@ self.data[‘success’]为抓取结果列表</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.rigidbody_attr.</span></span><span class="sig-name descname"><span class="pre">RigidbodyAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr" title="pyrfuniverse.attributes.collider_attr.ColliderAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColliderAttr</span></code></a></p>
 <p>刚体类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>self.data[‘velocity’] 刚体速度 Vecter3</p>
+<p>self.data[‘angular_vel’] 刚体角速度 Vecter3</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetMass">
 <span class="sig-name descname"><span class="pre">SetMass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetMass" title="永久链接至目标"></a></dt>
@@ -1391,6 +1581,13 @@ self.data[‘success’]为抓取结果列表</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.softbody_attr.</span></span><span class="sig-name descname"><span class="pre">SoftbodyAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>ObiSoftbody类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.softbody_attr.SoftbodyAttr.parse_message">
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr.parse_message" title="永久链接至目标"></a></dt>
+<dd><p>解析消息</p>
+<p>Returns:</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>

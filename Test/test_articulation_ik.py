@@ -22,5 +22,5 @@ for id in ids:
     while not current_robot.data['move_done'] or not current_robot.data['rotate_done']:
         env.step()
 
-while 1:
-    env._step()
+env.Pend()
+env.close()

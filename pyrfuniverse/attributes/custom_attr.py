@@ -7,6 +7,9 @@ from pyrfuniverse.side_channel.side_channel import (
 
 #自定义Attr类示例
 class CustomAttr(attr.BaseAttr):
+    """
+    此类为自定义Attr类的示例，不包含实际功能
+    """
     # 消息解析示例
     def parse_message(self, msg: IncomingMessage) -> dict:
         # 先完成所继承的基类的数据读取

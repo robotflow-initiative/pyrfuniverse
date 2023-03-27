@@ -6,13 +6,6 @@ from pyrfuniverse.side_channel.side_channel import (
 import pyrfuniverse.utils.rfuniverse_utility as utility
 
 def Translate(kwargs: dict) -> OutgoingMessage:
-    """Translate a game object by a given distance, in meter format. Note that this command will translate the
-       object relative to the current position.
-    Args:
-        Compulsory:
-        index: The index of object, specified in returned message.
-        translation: A 3-d list inferring the relative translation, in [x,y,z] order.
-    """
     compulsory_params = ['id', 'translation']
     optional_params = []
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -27,13 +20,6 @@ def Translate(kwargs: dict) -> OutgoingMessage:
 
 
 def Rotate(kwargs: dict) -> OutgoingMessage:
-    """Rotate a game object by a given rotation, in euler angle format. Note that this command will rotate the
-       object relative to the current state. The rotation order will be z axis first, x axis next, and z axis last.
-    Args:
-        Compulsory:
-        index: The index of object, specified in returned message.
-        rotation: A 3-d list inferring the relative rotation, in [x,y,z] order.
-    """
     compulsory_params = ['id', 'rotation']
     optional_params = []
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -62,36 +48,61 @@ def SetColor(kwargs: dict) -> OutgoingMessage:
 
 
 class GameObjectAttr(attr.BaseAttr):
+    """
+    基本视觉物体类
+    """
     def parse_message(self, msg: IncomingMessage) -> dict:
+        """
+        解析消息
+
+        Returns:
+
+        """
         super().parse_message(msg)
         return self.data
 
-    def Translate(self, translation: list):
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('Translate')
-        for i in range(3):
-            msg.write_float32(translation[i])
-
-        self.env.instance_channel.send_message(msg)
-
-    def Rotate(self, rotation: list):
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('Rotate')
-        for i in range(3):
-            msg.write_float32(rotation[i])
-
-        self.env.instance_channel.send_message(msg)
-
     def SetColor(self, color: list):
+        """
+        设置物体颜色
+
+        Args:
+            color: 颜色，长度为4，分别为RGBA[0-1]
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
         msg.write_string('SetColor')
         for i in range(4):
             msg.write_float32(color[i])
+
+        self.env.instance_channel.send_message(msg)
+
+    def EnabledRender(self, enabled: bool):
+        """
+        启用或禁用渲染
+
+        Args:
+            enabled: 是否启用渲染
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('EnabledRender')
+        msg.write_bool(enabled)
+
+        self.env.instance_channel.send_message(msg)
+
+    def SetTexture(self, path: str):
+        """
+        设置物体纹理
+
+        Args:
+            path: 纹理贴图绝对路径
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetTexture')
+        msg.write_string(path)
 
         self.env.instance_channel.send_message(msg)

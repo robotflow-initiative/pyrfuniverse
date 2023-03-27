@@ -1,6 +1,7 @@
 from pyrfuniverse.attributes.base_attr import BaseAttr
 from pyrfuniverse.attributes.camera_attr import CameraAttr
 from pyrfuniverse.attributes.gameobject_attr import GameObjectAttr
+from pyrfuniverse.attributes.light_attr import LightAttr
 from pyrfuniverse.attributes.activelightsensor_attr import ActiveLightSensorAttr
 from pyrfuniverse.attributes.collider_attr import ColliderAttr
 from pyrfuniverse.attributes.controller_attr import ControllerAttr

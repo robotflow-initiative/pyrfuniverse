@@ -183,7 +183,7 @@ def GetWorldPointFromLocal(kwargs: dict) -> OutgoingMessage:
 
 class BaseAttr:
     """
-    基础Attr类型，包含物体加载删除移动等通用功能
+    基础Attr类，包含物体加载删除移动等通用功能
     """
     def __init__(self, env, id: int, data=None):
         if data is None:
@@ -192,19 +192,31 @@ class BaseAttr:
         self.id = id
         self.data = data
 
-    def SetType(self, attr_type: type):
-        """
-        设置物体Attr类型
-        Args:
-            attr_type:类型参数
-
-        Returns:新的类型
-
-        """
-        self.env.attrs[self.id] = attr_type(self.env, self.id, self.data)
-        return self.env.attrs[self.id]
-
     def parse_message(self, msg: IncomingMessage) -> dict:
+        """
+        解析消息
+
+        Returns:
+            self.data['name'] 物体名称
+
+            self.data['position'] 物体世界坐标
+
+            self.data['rotation'] 物体世界欧拉角
+
+            self.data['quaternion'] 物体世界四元数
+
+            self.data['local_position'] 物体局部坐标
+
+            self.data['local_rotation'] 物体局部欧拉角
+
+            self.data['local_quaternion'] 物体局部四元数
+
+            self.data['local_to_world_matrix'] 物体局部坐标转世界坐标矩阵
+
+            self.data['result_local_point'] 物体局部坐标转世界坐标结果
+
+            self.data['result_world_point'] 物体世界坐标转局部坐标结果
+        """
         self.data['name'] = msg.read_string()
         self.data['position'] = [msg.read_float32() for _ in range(3)]
         self.data['rotation'] = [msg.read_float32() for _ in range(3)]
@@ -221,14 +233,27 @@ class BaseAttr:
             self.data['result_world_point'] = msg.read_float32_list()
         return self.data
 
+    def SetType(self, attr_type: type):
+        """
+        设置物体Attr类型
+
+        Args:
+            attr_type:类型参数
+
+        Returns:目标类型实例
+        """
+        self.env.attrs[self.id] = attr_type(self.env, self.id, self.data)
+        return self.env.attrs[self.id]
+
     def SetTransform(self, position: list = None, rotation: list = None, scale: list = None, is_world: bool = True):
         """
         使用Vector3设置物体pose
+
         Args:
-            position:位置
-            rotation:旋转
-            scale:缩放
-            is_world:世界空间or局部空间
+            position: 位置
+            rotation: 旋转
+            scale: 缩放
+            is_world: 世界空间/局部空间
         """
         msg = OutgoingMessage()
 
@@ -256,12 +281,49 @@ class BaseAttr:
 
         self.env.instance_channel.send_message(msg)
 
+    def Translate(self, translation: list, is_world: bool = True):
+        """
+        物体平移
+
+        Args:
+            translation: 平移量
+            is_world: 世界空间/局部空间
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('Translate')
+        for i in range(3):
+            msg.write_float32(translation[i])
+        msg.write_bool(is_world)
+
+        self.env.instance_channel.send_message(msg)
+
+    def Rotate(self, rotation: list, is_world: bool = True):
+        """
+        物体旋转
+
+        Args:
+            rotation: 旋转量
+            is_world: 世界空间/局部空间
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('Rotate')
+        for i in range(3):
+            msg.write_float32(rotation[i])
+        msg.write_bool(is_world)
+
+        self.env.instance_channel.send_message(msg)
+
     def SetRotationQuaternion(self, quaternion: list = None, is_world: bool = True):
         """
         使用四元数设置物体旋转
+
         Args:
-            quaternion:四元数
-            is_world:世界空间or局部空间
+            quaternion: 四元数
+            is_world: 世界空间or局部空间
         """
         msg = OutgoingMessage()
 
@@ -278,8 +340,9 @@ class BaseAttr:
     def SetActive(self, active: bool):
         """
         设置物体激活状态
+
         Args:
-            active:
+            active: 激活/非激活
         """
         msg = OutgoingMessage()
 
@@ -292,6 +355,7 @@ class BaseAttr:
     def SetParent(self, parent_id: int, parent_name: str = ''):
         """
         设置父物体
+
         Args:
             parent_id: 父物体ID
             parent_name: 父物体内节点名
@@ -308,6 +372,7 @@ class BaseAttr:
     def SetLayer(self, layer: int):
         """
         设置物体层
+
         Args:
             layer: 层编号
         """
@@ -322,11 +387,9 @@ class BaseAttr:
     def Copy(self, new_id: int):
         """
         复制物体
+
         Args:
             new_id: 新物体的ID
-
-        Returns:
-
         """
         msg = OutgoingMessage()
 
@@ -354,6 +417,7 @@ class BaseAttr:
     def SetRFMoveColliderActive(self, active: bool):
         """
         设置物体在RFMove中的碰撞开关
+
         Args:
             active:
         """
@@ -368,6 +432,7 @@ class BaseAttr:
     def GetLoaclPointFromWorld(self, point: list):
         """
         转换局部坐标到世界坐标
+
         Args:
             point:局部坐标
         """
@@ -384,6 +449,7 @@ class BaseAttr:
     def GetWorldPointFromLocal(self, point: list):
         """
         转换世界坐标到局部坐标
+
         Args:
             point:世界坐标
         """

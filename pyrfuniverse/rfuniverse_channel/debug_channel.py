@@ -9,7 +9,7 @@ class DebugChannel(RFUniverseChannel):
     """
     Debug utils. Set scripts in Unity.
     """
-    def __init__(self, env: RFUniverseChannel, channel_id: str):
+    def __init__(self, env, channel_id: str):
         super().__init__(channel_id)
         self.env = env
         self.data = {}

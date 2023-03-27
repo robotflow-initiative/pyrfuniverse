@@ -18,11 +18,23 @@ def GenerateVHACDColider(kwargs: dict) -> OutgoingMessage:
 
 
 class ColliderAttr(attr.GameObjectAttr):
+    """
+    具有碰撞体的物体类
+    """
     def parse_message(self, msg: IncomingMessage) -> dict:
+        """
+        解析消息
+
+        Returns:
+
+        """
         super().parse_message(msg)
         return self.data
 
     def GenerateVHACDColider(self):
+        """
+        使用VHACD算法生成物体碰撞体
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)

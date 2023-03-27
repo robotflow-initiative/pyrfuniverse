@@ -37,5 +37,5 @@ for index in range(5):
     env.step()
     human.WaitDo()
 
-while 1:
-    env.step()
+env.Pend()
+env.close()

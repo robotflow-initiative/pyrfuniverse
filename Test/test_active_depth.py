@@ -7,14 +7,11 @@ try:
 except ImportError:
     print('This feature requires open3d, please install with `pip install open3d`')
     raise
-import pyrfuniverse.attributes as attr
 import pyrfuniverse.utils.rfuniverse_utility as utility
 import pyrfuniverse.utils.depth_processor as dp
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 
-env = RFUniverseBaseEnv(
-    scene_file='ActiveDepth.json'
-)
+env = RFUniverseBaseEnv(scene_file='ActiveDepth.json')
 
 active_light_sensor_1 = env.GetAttr(789789)
 
@@ -24,7 +21,7 @@ ir_intrinsic_matrix = [480, 0, 0, 0, 480, 0, 240, 240, 1]
 nd_main_intrinsic_matrix = np.reshape(main_intrinsic_matrix, [3, 3]).T
 
 active_light_sensor_1.GetRGB(intrinsic_matrix=main_intrinsic_matrix)
-env._step()
+env.step()
 image_byte = active_light_sensor_1.data['rgb']
 image_rgb = np.frombuffer(image_byte, dtype=np.uint8)
 image_rgb = cv2.imdecode(image_rgb, cv2.IMREAD_COLOR)
@@ -32,18 +29,18 @@ image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
 image_rgb = np.transpose(image_rgb, [1, 0, 2])
 
 active_light_sensor_1.GetID(intrinsic_matrix=main_intrinsic_matrix)
-env._step()
+env.step()
 image_id = active_light_sensor_1.data['id_map']
 image_id = np.frombuffer(image_id, dtype=np.uint8)
 image_id = cv2.imdecode(image_id, cv2.IMREAD_COLOR)
 image_id = cv2.cvtColor(image_id, cv2.COLOR_BGR2RGB)
 
-active_light_sensor_1.GetDepthEXR(intrinsic_matrix = main_intrinsic_matrix)
-env._step()
+active_light_sensor_1.GetDepthEXR(intrinsic_matrix=main_intrinsic_matrix)
+env.step()
 image_depth_exr = active_light_sensor_1.data['depth_exr']
 
 active_light_sensor_1.GetActiveDepth(main_intrinsic_matrix_local = main_intrinsic_matrix, ir_intrinsic_matrix_local = ir_intrinsic_matrix)
-env._step()
+env.step()
 image_active_depth = active_light_sensor_1.data['active_depth']
 image_active_depth = np.transpose(image_active_depth, [1, 0])
 
@@ -64,7 +61,7 @@ filtered_point_cloud1 = dp.filter_active_depth_point_cloud_with_exact_depth_poin
 active_light_sensor_2 = env.GetAttr(123123)
 
 active_light_sensor_2.GetRGB(intrinsic_matrix=main_intrinsic_matrix)
-env._step()
+env.step()
 image_byte = active_light_sensor_2.data['rgb']
 image_rgb = np.frombuffer(image_byte, dtype=np.uint8)
 image_rgb = cv2.imdecode(image_rgb, cv2.IMREAD_COLOR)
@@ -72,18 +69,18 @@ image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
 image_rgb = np.transpose(image_rgb, [1, 0, 2])
 
 active_light_sensor_2.GetID(intrinsic_matrix=main_intrinsic_matrix)
-env._step()
+env.step()
 image_id = active_light_sensor_2.data['id_map']
 image_id = np.frombuffer(image_id, dtype=np.uint8)
 image_id = cv2.imdecode(image_id, cv2.IMREAD_COLOR)
 image_id = cv2.cvtColor(image_id, cv2.COLOR_BGR2RGB)
 
 active_light_sensor_2.GetDepthEXR(intrinsic_matrix=main_intrinsic_matrix)
-env._step()
+env.step()
 image_depth_exr = env.instance_channel.data[123123]['depth_exr']
 
 active_light_sensor_2.GetActiveDepth(main_intrinsic_matrix_local = main_intrinsic_matrix, ir_intrinsic_matrix_local = ir_intrinsic_matrix)
-env._step()
+env.step()
 image_active_depth = active_light_sensor_2.data['active_depth']
 image_active_depth = np.transpose(image_active_depth, [1, 0])
 
@@ -111,18 +108,3 @@ coorninate = o3d.geometry.TriangleMesh.create_coordinate_frame()
 o3d.visualization.draw_geometries([real_point_cloud1, real_point_cloud2, coorninate])
 o3d.visualization.draw_geometries([active_point_cloud1, active_point_cloud2, coorninate])
 o3d.visualization.draw_geometries([filtered_point_cloud1, filtered_point_cloud2, coorninate])
-
-# env2 = RFUniverseBaseEnv(executable_file='@Editor',)
-# env2.asset_channel.set_action(
-#     "InstanceObject",
-#     name='PointCloud',
-#     id=123456
-# )
-# env2.instance_channel.set_action(
-#     "ShowPointCloud",
-#     id=123456,
-#     positions=np.array(point2.points).reshape(-1).tolist(),
-#     colors=np.array(point2.colors).reshape(-1).tolist(),
-# )
-# while 1:
-#     env2._step()

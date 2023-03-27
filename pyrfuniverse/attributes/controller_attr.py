@@ -10,15 +10,6 @@ import pyrfuniverse.utils.rfuniverse_utility as utility
 
 
 def SetJointPosition(kwargs: dict) -> OutgoingMessage:
-    """Set the target positions for each joint in a specified articulation body.
-    Args:
-        Compulsory:
-        index: The index of articulation body, specified in returned message.
-        joint_positions: A list inferring each joint's position in the specified acticulation body.
-
-        Optional:
-        speed_scales: A list inferring each joint's speed scale. The length must be the same with joint_positions.
-    """
     compulsory_params = ['id', 'joint_positions']
     optional_params = ['speed_scales']
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -121,6 +112,20 @@ def SetJointVelocity(kwargs: dict) -> OutgoingMessage:
 
     return msg
 
+
+def SetIndexJointVelocity(kwargs: dict) -> OutgoingMessage:
+    compulsory_params = ['id', 'index', 'joint_velocity']
+    optional_params = []
+    utility.CheckKwargs(kwargs, compulsory_params)
+
+    msg = OutgoingMessage()
+
+    msg.write_int32(kwargs['id'])
+    msg.write_string('SetIndexJointVelocity')
+    msg.write_int32(kwargs['index'])
+    msg.write_float32(kwargs['joint_velocity'])
+
+    self.env.instance_channel.send_message(msg)
 
 def AddJointForce(kwargs: dict) -> OutgoingMessage:
     compulsory_params = ['id', 'joint_forces']
@@ -412,7 +417,48 @@ def SetIKTargetOffset(kwargs: dict) -> OutgoingMessage:
 
 
 class ControllerAttr(attr.ColliderAttr):
+    """
+    机械臂控制器类
+    """
     def parse_message(self, msg: IncomingMessage) -> dict:
+        """
+        解析消息
+
+        Returns:
+            self.data['number_of_joints'] 机械臂关节数量
+
+            self.data['positions'] 机械臂节点位置
+
+            self.data['rotations'] 机械臂节点旋转角度
+
+            self.data['quaternion'] 机械臂节点旋转四元数
+
+            self.data['local_positions'] 机械臂节点局部位置
+
+            self.data['local_rotations'] 机械臂节点局部旋转角度
+
+            self.data['local_quaternion'] 机械臂节点局部旋转四元数
+
+            self.data['velocities'] 机械臂节点速度
+
+            self.data['number_of_moveable_joints'] 机械臂活动关节数量
+
+            self.data['joint_positions'] 机械臂关节在自由度空间下位置
+
+            self.data['joint_velocities'] 机械臂关节在自由度空间下速度
+
+            self.data['all_stable'] 机械臂所有关节移动完成
+
+            self.data['move_done'] 机械臂IK移动完成状态
+
+            self.data['rotate_done'] 机械臂IK旋转完成状态
+
+            self.data['gravity_forces'] InverseDynamics抵消重力所需的力
+
+            self.data['coriolis_centrifugal_forces'] InverseDynamics抵消离心力所需的力
+
+            self.data['drive_forces'] InverseDynamics驱动力
+        """
         super().parse_message(msg)
         self.data['number_of_joints'] = msg.read_int32()
         # Position
@@ -446,6 +492,13 @@ class ControllerAttr(attr.ColliderAttr):
         return self.data
 
     def SetJointPosition(self, joint_positions: list, speed_scales = None):
+        """
+        设置机械臂所有关节目标位置
+
+        Args:
+            joint_positions: 目标位置
+            speed_scales: 速度倍数
+        """
         num_joints = len(joint_positions)
         if speed_scales is None:
             speed_scales = [1.0 for i in range(num_joints)]
@@ -462,6 +515,12 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def SetJointPositionDirectly(self, joint_positions: list):
+        """
+        立即设置机械臂所有关节位置
+
+        Args:
+            joint_positions: 目标位置
+        """
         num_joints = len(joint_positions)
 
         msg = OutgoingMessage()
@@ -473,6 +532,13 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def SetIndexJointPosition(self, index: int, joint_position: float):
+        """
+        设置机械臂指定关节目标位置
+
+        Args:
+            index: 关节序号
+            joint_position: 目标位置
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -483,6 +549,13 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def SetIndexJointPositionDirectly(self, index: int, joint_position: float):
+        """
+        立即设置机械臂指定关节位置
+
+        Args:
+            index: 关节序号
+            joint_position: 目标位置
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -493,6 +566,16 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def SetJointPositionContinue(self, interval: int, time_joint_positions: list):
+        """
+        持续设置机械臂所有关节目标位置
+
+        Args:
+            interval: 设置时间间隔(毫秒)
+            time_joint_positions: 每个time的目标位置
+
+        Returns:
+
+        """
         num_times = len(time_joint_positions)
 
         msg = OutgoingMessage()
@@ -507,6 +590,12 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def SetJointVelocity(self, joint_velocitys: list):
+        """
+        设置机械臂所有关节目标速度
+
+        Args:
+            joint_velocitys: 目标速度
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -515,7 +604,30 @@ class ControllerAttr(attr.ColliderAttr):
 
         self.env.instance_channel.send_message(msg)
 
+    def SetIndexJointVelocity(self, index: int, joint_velocity: float):
+        """
+        设置机械臂指定关节目标速度
+
+        Args:
+            index: 关节序号
+            joint_velocity: 目标速度
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetIndexJointVelocity')
+        msg.write_int32(index)
+        msg.write_float32(joint_velocity)
+
+        self.env.instance_channel.send_message(msg)
+
     def AddJointForce(self, joint_forces: list):
+        """
+        为机械臂所有关节施加力
+
+        Args:
+            joint_forces: 力
+        """
         num_joints = len(joint_positions)
 
         msg = OutgoingMessage()
@@ -531,6 +643,13 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def AddJointForceAtPosition(self, joint_forces: list, force_positions: list):
+        """
+        为机械臂所有关节指定位置施加力
+
+        Args:
+            joint_forces: 力
+            force_positions: 施力点
+        """
         num_joints = len(joint_positions)
         assert len(joint_forces) == len(force_positions), \
             'The length of joint_forces and force_positions are not equal.'
@@ -551,6 +670,12 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def AddJointTorque(self, joint_torques: list):
+        """
+        为机械臂所有关节施加力矩
+
+        Args:
+            joint_torques: 力矩
+        """
         num_joints = len(joint_torque)
 
         msg = OutgoingMessage()
@@ -567,6 +692,16 @@ class ControllerAttr(attr.ColliderAttr):
 
     # only work on unity 2022.1+
     def GetJointInverseDynamicsForce(self):
+        """
+        获取机械臂所有关节逆动力学数据
+
+        Returns:
+            调用此接口并step后，从
+            self.data['gravity_forces']
+            self.data['coriolis_centrifugal_forces']
+            self.data['drive_forces']
+            获取结果
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -575,6 +710,12 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def SetImmovable(self, immovable: bool):
+        """
+        设置机械臂是否不可移动
+
+        Args:
+            immovable: 是否不可移动
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -584,6 +725,14 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def MoveForward(self, distance: float, speed: float):
+        """
+        如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动前进
+        最初用于Tobor机器人
+
+        Args:
+            distance:距离
+            speed:速度
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -594,6 +743,14 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def MoveBack(self, distance: float, speed: float):
+        """
+        如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动后退
+        最初用于Tobor机器人
+
+        Args:
+            distance:距离
+            speed:速度
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -604,6 +761,14 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def TurnLeft(self, angle: float, speed: float):
+        """
+        如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动左转
+        最初用于Tobor机器人
+
+        Args:
+            angle:角度
+            speed:速度
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -614,6 +779,14 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def TurnRight(self, angle: float, speed: float):
+        """
+        如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动右转
+        最初用于Tobor机器人
+
+        Args:
+            angle:角度
+            speed:速度
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -624,6 +797,9 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def GripperOpen(self):
+        """
+        如果夹爪在Unity端添加了继承ICustomGripper接口的脚本，可通过此接口驱动张开
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -632,6 +808,9 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def GripperClose(self):
+        """
+        如果夹爪在Unity端添加了继承ICustomGripper接口的脚本，可通过此接口驱动闭合
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -640,6 +819,12 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def EnabledNativeIK(self, enabled: bool):
+        """
+        启用/禁用机械臂的原生IK
+
+        Args:
+            enabled: 启用/禁用
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -649,6 +834,18 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def IKTargetDoMove(self, position: list, duration: float, speed_based: bool = True, relative: bool = False):
+        """
+        原生IK末端点移动
+
+        Args:
+            position: 绝对位置或相对位置
+            duration: 移动持续时间或移动速度
+            speed_based: 指定duration表示移动持续时间还是移动速度
+            relative: 指定position表示绝对位置还是相对位置
+
+        Returns:
+            当移动完成时，self.data['move_done']会被置为True
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -663,6 +860,18 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def IKTargetDoRotate(self, rotation: list, duration: float, speed_based: bool = True, relative: bool = False):
+        """
+        原生IK末端点Vector3旋转
+
+        Args:
+            rotation: 绝对旋转或相对旋转
+            duration: 旋转持续时间或旋转速度
+            speed_based: 指定duration表示旋转持续时间还是旋转速度
+            relative: 指定position表示绝对旋转还是相对旋转
+
+        Returns:
+            当旋转完成时，self.data['rotate_done']会被置为True
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -677,6 +886,18 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def IKTargetDoRotateQuaternion(self, quaternion: list, duration: float, speed_based: bool = True, relative: bool = False):
+        """
+        原生IK末端点四元数旋转
+
+        Args:
+            quaternion: 绝对旋转或相对旋转
+            duration: 旋转持续时间或旋转速度
+            speed_based: 指定duration表示旋转持续时间还是旋转速度
+            relative: 指定position表示绝对旋转还是相对旋转
+
+        Returns:
+            当旋转完成时，self.data['rotate_done']会被置为True
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -692,6 +913,9 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def IKTargetDoComplete(self):
+        """
+        使原生IK末端点移动/旋转立即完成
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -700,6 +924,9 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def IKTargetDoKill(self):
+        """
+        使原生IK末端点移动/旋转停止
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -708,6 +935,14 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def SetIKTargetOffset(self, position: list = [0.,0.,0.], rotation: list = [0.,0.,0.], quaternion: list = None):
+        """
+        设置原生IK末端点的偏移
+
+        Args:
+            position: 偏移位置
+            rotation: 偏移旋转Vector3
+            quaternion: 偏移旋转四元数，此值覆盖rotation
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -729,5 +964,8 @@ class ControllerAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def WaitDo(self):
+        """
+        等待原生IK末端点移动/旋转完成
+        """
         while not self.data['move_done'] or not self.data['rotate_done']:
             self.env.step()

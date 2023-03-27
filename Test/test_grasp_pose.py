@@ -19,5 +19,5 @@ env = RFUniverseBaseEnv()
 grasp_sim = env.InstanceObject(id=123123, name='GraspSim', attr_type=attr.GraspSimAttr)
 grasp_sim.ShowGraspPose(mesh=os.path.abspath(mesh_path), gripper='SimpleFrankaGripper', positions=positions, quaternions=quaternions)
 
-while 1:
-    env._step()
+env.Pend()
+env.close()

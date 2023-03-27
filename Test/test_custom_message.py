@@ -40,7 +40,7 @@ env.SendMessage(
 )
 env.step()
 
-while 1:
-    env.step()
+env.Pend()
+env.close()
 
 

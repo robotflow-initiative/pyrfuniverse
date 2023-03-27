@@ -4,7 +4,7 @@ from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 
 env = RFUniverseBaseEnv()
 env.step()
-mesh = env.LoadMesh(id=639787, path=os.path.abspath('../Mesh/002_master_chef_can/google_16k/textured.obj'))
+mesh = env.LoadMesh(path=os.path.abspath('../Mesh/002_master_chef_can/google_16k/textured.obj'))
 mesh.SetTransform(position=[0, 1, 0], rotation=[random.random() * 360, random.random() * 360, random.random() * 360])
 
 for i in range(100):

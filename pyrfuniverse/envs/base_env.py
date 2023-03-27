@@ -1,3 +1,4 @@
+import random
 from abc import ABC
 from pyrfuniverse.side_channel.side_channel import (
     IncomingMessage,
@@ -56,11 +57,8 @@ def delete_worker_id(worker_id):
 
 class RFUniverseBaseEnv(ABC):
     """
-    This class is the base class for RFUniverse environments. In RFUniverse, every environment will be
-    packaged in the Gym-like environment class. For custom environments, users will have to implement
-    step(), reset(), seed(), _get_obs().
+    RFUnivers基础环境类
     """
-
     metadata = {'render.modes': ['human', 'rgb_array']}
 
     def __init__(
@@ -115,17 +113,11 @@ class RFUniverseBaseEnv(ABC):
                 side_channels=self.channels,
                 no_graphics=not self.graphics,
             )
-
+        self._SendVersion()
         if self.scene_file is not None:
-            self.LoadSceneAsync(self.scene_file)
-            self.data['load_done'] = False
-            while not self.data['load_done']:
-                self.env.step()
+            self.LoadSceneAsync(self.scene_file, True)
         if len(self.assets) > 0:
-            self.PreLoadAssetsAsync(self.assets)
-            self.data['load_done'] = False
-            while not self.data['load_done']:
-                self.env.step()
+            self._PreLoadAssetsAsync(self.assets, True)
         self.env.reset()
 
     def _init_channels(self, kwargs: dict):
@@ -145,26 +137,101 @@ class RFUniverseBaseEnv(ABC):
         self.env.step()
 
     def step(self, count: int = 1):
+        """
+        将已经调用的接口消息发送给Unity，执行一步仿真，然后接收Unity返回的数据
+
+        Args:
+            count: 执行的步数
+        """
+        if count < 1:
+            count = 1
         for _ in range(count):
             self.env.step()
 
-    def PreLoadAssetsAsync(self, names: list) -> None:
+    def close(self):
+        """
+        关闭环境
+        """
+        delete_worker_id(self.worker_id)
+        self.env.close()
+
+    def GetAttr(self, id: int):
+        """
+        根据ID获取物体
+
+        Args:
+            id: 物体ID
+        """
+        if id not in self.attrs:
+            self.attrs[id] = attr.BaseAttr(self, id)
+        return self.attrs[id]
+
+    #Env API
+    def _PreLoadAssetsAsync(self, names: list, auto_wait: bool = False) -> None:
         msg = OutgoingMessage()
+
         msg.write_string('PreLoadAssetsAsync')
         count = len(names)
         msg.write_int32(count)
         for i in range(count):
             msg.write_string(names[i])
+
         self.asset_channel.send_message(msg)
 
-    def LoadSceneAsync(self, file: str) -> None:
+        if auto_wait:
+            self.WaitLoadDone()
+
+
+    def LoadSceneAsync(self, file: str, auto_wait: bool = False) -> None:
+        """
+        异步加载场景
+
+        Args:
+            file: 场景Json文件，当该值为路径时，从路径加载场景，否则从StreamingAssets加载场景
+            auto_wait: 是否等待加载完成，如果为True，则在加载完成后才返回
+        """
         msg = OutgoingMessage()
+
         msg.write_string('LoadSceneAsync')
         msg.write_string(file)
+
         self.asset_channel.send_message(msg)
 
-    def SendMessage(self, message: str, *args) -> None:
+        if auto_wait:
+            self.WaitLoadDone()
+
+    def WaitLoadDone(self) -> None:
+        """
+        等待加载完成，使用LoadSceneAsync接口后，调用该接口可以等待加载完成
+        """
+        self.asset_channel.data['load_done'] = False
+        while not self.asset_channel.data['load_done']:
+            self.env.step()
+
+    def Pend(self) -> None:
+        """
+        挂起，直到UnityPlayer中点击EndPend按钮
+        """
         msg = OutgoingMessage()
+
+        msg.write_string('Pend')
+
+        self.asset_channel.send_message(msg)
+
+        self.asset_channel.data['pend_done'] = False
+        while not self.asset_channel.data['pend_done']:
+            self.env.step()
+
+    def SendMessage(self, message: str, *args) -> None:
+        """
+        发送动态消息给Unity
+
+        Args:
+            message: 消息头
+            *args: 参数列表，支持的参数类型有：str, bool, int, float, list[float]
+        """
+        msg = OutgoingMessage()
+
         msg.write_string('SendMessage')
         msg.write_string(message)
         for i in args:
@@ -180,9 +247,17 @@ class RFUniverseBaseEnv(ABC):
                 msg.write_float32_list(i)
             else:
                 print(f'dont support this data type:{type(i)}')
+
         self.asset_channel.send_message(msg)
 
     def AddListener(self, message: str, fun):
+        """
+        添加动态消息监听
+
+        Args:
+            message: 消息头
+            fun: 回调函数
+        """
         if message in self.asset_channel.messages:
             if fun in self.asset_channel.messages[message]:
                 self.asset_channel.messages[message].append(fun)
@@ -190,15 +265,100 @@ class RFUniverseBaseEnv(ABC):
             self.asset_channel.messages[message] = [fun]
 
     def RemoveListener(self, message: str, fun):
+        """
+        移除动态消息监听
+
+        Args:
+            message: 消息头
+            fun: 回调函数
+        """
         if message in self.asset_channel.messages:
             if fun in self.asset_channel.messages[message]:
                 self.asset_channel.messages[message].remove(fun)
             if len(self.asset_channel.messages[message]) == 0:
                 self.asset_channel.messages[message].pop(message)
 
-    def InstanceObject(self, name: str, id: int, attr_type: type = attr.BaseAttr):
+    def InstanceObject(self, name: str, id: int = None, attr_type: type = attr.BaseAttr):
+        """
+        实例化物体
+
+        Args:
+            name: 物体名
+
+                RfUniverseRelease中已有的资源类型及名称:
+                    GameObjcetAttr 静态物体:
+                        GameObject_Box,
+                        GameObject_Capsule,
+                        GameObject_Cylinder,
+                        GameObject_Sphere,
+                        GameObject_Quad,
+
+                        IGbison 环境:
+                            Hainesburg_mesh_texture,
+                            Halfway_mesh_texture,
+                            Hallettsville_mesh_texture,
+                            Hambleton_mesh_texture,
+                            Hammon_mesh_texture,
+                            Hatfield_mesh_texture,
+                            Haxtun_mesh_texture,
+                            Haymarket_mesh_texture,
+                            Hendrix_mesh_texture,
+                            Hercules_mesh_texture,
+                            Highspire_mesh_texture,
+                            Hitchland_mesh_texture,
+
+                    ColliderAttr 带有碰撞体的静态物体:
+                        Collider_Box,
+                        Collider_ObiBox,
+                        Collider_Capsule,
+                        Collider_Cylinder,
+                        Collider_Sphere,
+                        Collider_Quad,
+
+                    RigidbodyAttr 刚体:
+                        Rigidbody_Box,
+                        GameObject_Capsule,
+                        Rigidbody_Cylinder,
+                        Rigidbody_Sphere,
+
+                        77个YCB数据集模型: 详见The YCB Object and Model Set: https://rse-lab.cs.washington.edu/projects/posecnn/
+
+                    ControllerAttr 机械臂及关节体:
+                        gripper:
+                            allegro_hand_right,
+                            bhand,
+                            svh,
+                            robotiq_arg2f_85_model,
+                            dh_robotics_ag95_gripper,
+                        robot:
+                            kinova_gen3,
+                            kinova_gen3_robotiq85,
+                            ur5,
+                            ur5_robotiq85,
+                            franka_panda,
+                            franka_hand,
+                            tobor_robotiq85_robotiq85,
+                            flexivArm,
+                            flexivArm_ag95,
+                            yumi,
+
+                    CameraAttr 相机:
+                        Camera,
+
+                    LightAttr 灯光:
+                        Light,
+
+            id: 物体ID
+            attr_type: 物体类型
+
+        Returns:
+            物体实例
+        """
         assert id not in self.attrs, \
             'this ID exists'
+
+        while id is None or id in self.attrs:
+            id = random.randint(100000, 999999)
 
         msg = OutgoingMessage()
 
@@ -211,7 +371,24 @@ class RFUniverseBaseEnv(ABC):
         self.attrs[id] = attr_type(self, id)
         return self.attrs[id]
 
-    def LoadURDF(self, id: int, path: str, native_ik: bool) -> attr.ControllerAttr:
+    def LoadURDF(self, path: str, id: int = None, native_ik: bool = True) -> attr.ControllerAttr:
+        """
+        加载URDF模型
+
+        Args:
+            path: URDF路径
+            id: 物体ID
+            native_ik: 是否启用内置IK
+
+        Returns:
+            ControllerAttr机械臂实例
+        """
+        assert id not in self.attrs, \
+            'this ID exists'
+
+        while id is None or id in self.attrs:
+            id = random.randint(100000, 999999)
+
         msg = OutgoingMessage()
 
         msg.write_string('LoadURDF')
@@ -224,7 +401,23 @@ class RFUniverseBaseEnv(ABC):
         self.attrs[id] = attr.ControllerAttr(self, id)
         return self.attrs[id]
 
-    def LoadMesh(self, id: int, path: str) -> attr.RigidbodyAttr:
+    def LoadMesh(self, path: str, id: int = None) -> attr.RigidbodyAttr:
+        """
+        加载Mesh模型
+
+        Args:
+            path: Mesh路径
+            id: 物体ID
+
+        Returns:
+            RigidbodyAttr刚体实例
+        """
+        assert id not in self.attrs, \
+            'this ID exists'
+
+        while id is None or id in self.attrs:
+            id = random.randint(100000, 999999)
+
         msg = OutgoingMessage()
 
         msg.write_string('LoadMesh')
@@ -237,6 +430,14 @@ class RFUniverseBaseEnv(ABC):
         return self.attrs[id]
 
     def IgnoreLayerCollision(self, layer1: int, layer2: int, ignore: bool) -> None:
+        """
+        忽略或启用指定两个层的碰撞
+
+        Args:
+            layer1: 层1
+            layer2: 层1
+            ignore: 是否忽略
+        """
         msg = OutgoingMessage()
 
         msg.write_string('IgnoreLayerCollision')
@@ -247,16 +448,40 @@ class RFUniverseBaseEnv(ABC):
         self.asset_channel.send_message(msg)
 
     def GetCurrentCollisionPairs(self) -> None:
+        """
+        获取当前碰撞对
+
+        Returns:
+            调用此接口并step后，从env.data['CurrentCollisionPairs']中获取碰撞对
+        """
         msg = OutgoingMessage()
+
         msg.write_string('GetCurrentCollisionPairs')
+
         self.asset_channel.send_message(msg)
 
     def GetRFMoveColliders(self) -> None:
+        """
+        获取RFMove碰撞体
+
+        Returns:
+            调用此接口并step后，从env.data['RFMoveColliders']中获取碰撞体
+        """
         msg = OutgoingMessage()
+
         msg.write_string('GetRFMoveColliders')
+
         self.asset_channel.send_message(msg)
 
     def SetGravity(self, x: float, y: float, z: float) -> None:
+        """
+        设置环境重力
+
+        Args:
+            x: 右方向
+            y: 上方向
+            z: 前方向
+        """
         msg = OutgoingMessage()
 
         msg.write_string('SetGravity')
@@ -267,6 +492,16 @@ class RFUniverseBaseEnv(ABC):
         self.asset_channel.send_message(msg)
 
     def SetGroundPhysicMaterial(self, bounciness: float, dynamic_friction: float, static_friction: float, friction_combine: int, bounce_combine: int) -> None:
+        """
+        设置环境地面物理材质
+
+        Args:
+            bounciness: 弹力
+            dynamic_friction: 动摩擦力
+            static_friction: 静摩擦力
+            friction_combine: 摩擦力组合方式
+            bounce_combine: 弹力组合方式
+        """
         msg = OutgoingMessage()
 
         msg.write_string('SetGroundPhysicMaterial')
@@ -279,6 +514,12 @@ class RFUniverseBaseEnv(ABC):
         self.asset_channel.send_message(msg)
 
     def SetTimeStep(self, delta_time: float) -> None:
+        """
+        设置环境step时间步长
+
+        Args:
+            delta_time: 时间步长(s)
+        """
         msg = OutgoingMessage()
 
         msg.write_string('SetTimeStep')
@@ -287,6 +528,12 @@ class RFUniverseBaseEnv(ABC):
         self.asset_channel.send_message(msg)
 
     def SetTimeScale(self, time_scale: float) -> None:
+        """
+        设置环境时间缩放比例
+
+        Args:
+            time_scale: 时间缩放比例
+        """
         msg = OutgoingMessage()
 
         msg.write_string('SetTimeScale')
@@ -295,6 +542,13 @@ class RFUniverseBaseEnv(ABC):
         self.asset_channel.send_message(msg)
 
     def SetResolution(self, resolution_x: int, resolution_y: int) -> None:
+        """
+        设置窗口分辨率
+
+        Args:
+            resolution_x: 宽度width分辨率
+            resolution_y: 高度height分辨率
+        """
         msg = OutgoingMessage()
 
         msg.write_string('SetResolution')
@@ -303,14 +557,143 @@ class RFUniverseBaseEnv(ABC):
 
         self.asset_channel.send_message(msg)
 
-    def GetAttr(self, id: int):
-        if id not in self.attrs:
-            self.attrs[id] = attr.BaseAttr(self, id)
-        return self.attrs[id]
+    def ExportOBJ(self, items_id: list, save_path: str) -> None:
+        """
+        导出指定物体列表为OBJ文件
 
-    def close(self):
-        delete_worker_id(self.worker_id)
-        self.env.close()
+        Args:
+            items_id: 物体ID列表
+            save_path: 保存绝对路径
+        """
+        msg = OutgoingMessage()
+
+        msg.write_string('ExportOBJ')
+        msg.write_int32(len(items_id))
+        for i in items_id:
+            msg.write_int32(i)
+        msg.write_string(save_path)
+
+        self.asset_channel.send_message(msg)
+
+    def SetShadowDistance(self, distance: float) -> None:
+        """
+        设置环境阴影渲染距离
+
+        Args:
+            distance: 距离(m)
+        """
+        msg = OutgoingMessage()
+
+        msg.write_string('SetShadowDistance')
+        msg.write_float32(distance)
+
+        self.asset_channel.send_message(msg)
+
+    def SaveScene(self, file: str) -> None:
+        """
+        保存当前场景
+
+        Args:
+            file: 存储场景Json路径，当该值为路径时，保存到该路径，否则保存到StreamingAssets
+        """
+        msg = OutgoingMessage()
+
+        msg.write_string('SaveScene')
+        msg.write_string(file)
+
+        self.asset_channel.send_message(msg)
+
+    def ClearScene(self) -> None:
+        """
+        清理当前场景
+        """
+        msg = OutgoingMessage()
+
+        msg.write_string('ClearScene')
+
+        self.asset_channel.send_message(msg)
+
+    def AlignCamera(self, camera_id: int) -> None:
+        """
+        对齐视口到相机
+
+        Args:
+            camera_id: 相机ID
+        """
+        msg = OutgoingMessage()
+
+        msg.write_string('AlignCamera')
+        msg.write_int32(camera_id)
+
+        self.asset_channel.send_message(msg)
+
+
+    #Dubug API
+    def DebugGraspPoint(self) -> None:
+        """
+        Debug显示机械臂末端点
+        """
+        msg = OutgoingMessage()
+        msg.write_string('DebugGraspPoint')
+        self.debug_channel.send_message(msg)
+
+    def DebugObjectPose(self) -> None:
+        """
+        Debug显示物体base点
+        """
+        msg = OutgoingMessage()
+        msg.write_string('DebugObjectPose')
+        self.debug_channel.send_message(msg)
+
+    def DebugCollisionPair(self) -> None:
+        """
+        Debug显示物理碰撞对
+        """
+        msg = OutgoingMessage()
+        msg.write_string('DebugCollisionPair')
+        self.debug_channel.send_message(msg)
+    def DebugColliderBound(self) -> None:
+        """
+        Debug显示碰撞包围盒
+        """
+        msg = OutgoingMessage()
+        msg.write_string('DebugColliderBound')
+        self.debug_channel.send_message(msg)
+
+    def DebugObjectID(self) -> None:
+        """
+        Debug显示碰物体ID
+        """
+        msg = OutgoingMessage()
+        msg.write_string('DebugObjectID')
+        self.debug_channel.send_message(msg)
+
+    def Debug3DBBox(self) -> None:
+        """
+        Debug显示物体3DBoundingBox
+        """
+        msg = OutgoingMessage()
+        msg.write_string('Debug3DBBox')
+        self.debug_channel.send_message(msg)
+
+    def _SendVersion(self) -> None:
+        msg = OutgoingMessage()
+        msg.write_string('SendVersion')
+        msg.write_string(pyrfuniverse.__version__)
+        self.debug_channel.send_message(msg)
+
+    def SendLog(self, log: str) -> None:
+        """
+        发送Log消息并显示在Unity窗口
+
+        Args:
+            log: Log内容
+        """
+        msg = OutgoingMessage()
+        msg.write_string('SendLog')
+        msg.write_string(log)
+        self.debug_channel.send_message(msg)
+
 
 
 class RFUniverseGymWrapper(RFUniverseBaseEnv, gym.Env):

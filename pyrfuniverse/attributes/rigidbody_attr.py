@@ -19,13 +19,6 @@ def SetMass(kwargs: dict) -> OutgoingMessage:
     return msg
 
 def AddForce(kwargs: dict) -> OutgoingMessage:
-    """Add a constant force on a rigidbody. The rigidbody must be loaded into the scene and
-    is distinguished by index.
-    Args:
-        Compulsory:
-        id: The index of rigidbody, specified in returned message.
-        force: A 3-d list inferring the force, in [x,y,z] order.
-    """
     compulsory_params = ['id', 'force']
     optional_params = []
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -41,13 +34,6 @@ def AddForce(kwargs: dict) -> OutgoingMessage:
 
 
 def SetVelocity(kwargs: dict) -> OutgoingMessage:
-    """Set the velocity of a rigidbody. The rigidbody must be loaded into the scene and
-    is distinguished by index.
-    Args:
-        Compulsory:
-        id: The index of rigidbody, specified in returned message.
-        velocity: A 3-d float list inferring the velocity, in [x,y,z] order.
-    """
     compulsory_params = ['index', 'velocity']
     optional_params = []
     utility.CheckKwargs(kwargs, compulsory_params)
@@ -63,13 +49,30 @@ def SetVelocity(kwargs: dict) -> OutgoingMessage:
     return msg
 
 class RigidbodyAttr(attr.ColliderAttr):
+    """
+    刚体类
+    """
     def parse_message(self, msg: IncomingMessage) -> dict:
+        """
+        解析消息
+
+        Returns:
+            self.data['velocity'] 刚体速度 Vecter3
+
+            self.data['angular_vel'] 刚体角速度 Vecter3
+        """
         super().parse_message(msg)
         self.data['velocity'] = [msg.read_float32() for _ in range(3)]
         self.data['angular_vel'] = [msg.read_float32() for _ in range(3)]
         return self.data
 
     def SetMass(self, mass: float):
+        """
+        设置刚体质量
+
+        Args:
+            mass: 刚体质量
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -79,6 +82,12 @@ class RigidbodyAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def AddForce(self, force: list):
+        """
+        为刚体施加力
+
+        Args:
+            force: 力 Vecter3
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)
@@ -90,6 +99,12 @@ class RigidbodyAttr(attr.ColliderAttr):
         self.env.instance_channel.send_message(msg)
 
     def SetVelocity(self, velocity: list):
+        """
+        设置刚体速度
+
+        Args:
+            velocity: 速度 Vecter3
+        """
         msg = OutgoingMessage()
 
         msg.write_int32(self.id)

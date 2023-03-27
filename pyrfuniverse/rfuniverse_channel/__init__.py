@@ -6,5 +6,5 @@ from pyrfuniverse.rfuniverse_channel.debug_channel import DebugChannel
 
 
 __all__ = [
-    'RFUniverseChannel', 'InstanceChannel', 'AssetChannel', 'DebugChannel'
+    'RFUniverseChannel', 'InstanceChannel', 'AssetChannel', 'AssetChannelExt', 'DebugChannel'
 ]
