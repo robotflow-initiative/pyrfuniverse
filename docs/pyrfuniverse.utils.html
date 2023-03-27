@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyrfuniverse.utils package &mdash; pyrfuniverse  文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="prev" title="pyrfuniverse.attributes package" href="pyrfuniverse.attributes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyrfuniverse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pyrfuniverse.envs.html">pyrfuniverse.envs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyrfuniverse.attributes.html">pyrfuniverse.attributes package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyrfuniverse.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.utils.active_depth_generate">pyrfuniverse.utils.active_depth_generate module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.active_depth_generate.pad_lr"><code class="docutils literal notranslate"><span class="pre">pad_lr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.active_depth_generate.unpad_lr"><code class="docutils literal notranslate"><span class="pre">unpad_lr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.active_depth_generate.sim_ir_noise"><code class="docutils literal notranslate"><span class="pre">sim_ir_noise()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.active_depth_generate.depth_post_processing"><code class="docutils literal notranslate"><span class="pre">depth_post_processing()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.active_depth_generate.get_census"><code class="docutils literal notranslate"><span class="pre">get_census()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.active_depth_generate.calc_disparity"><code class="docutils literal notranslate"><span class="pre">calc_disparity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.active_depth_generate.calc_rectified_stereo_pair"><code class="docutils literal notranslate"><span class="pre">calc_rectified_stereo_pair()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.active_depth_generate.calc_depth_and_pointcloud"><code class="docutils literal notranslate"><span class="pre">calc_depth_and_pointcloud()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.active_depth_generate.calc_main_depth_from_left_right_ir"><code class="docutils literal notranslate"><span class="pre">calc_main_depth_from_left_right_ir()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.utils.depth_processor">pyrfuniverse.utils.depth_processor module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud"><code class="docutils literal notranslate"><span class="pre">image_bytes_to_point_cloud()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.depth_processor.image_array_to_point_cloud"><code class="docutils literal notranslate"><span class="pre">image_array_to_point_cloud()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.depth_processor.depth_to_point_cloud"><code class="docutils literal notranslate"><span class="pre">depth_to_point_cloud()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud_intrinsic_matrix"><code class="docutils literal notranslate"><span class="pre">image_bytes_to_point_cloud_intrinsic_matrix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.depth_processor.image_array_to_point_cloud_intrinsic_matrix"><code class="docutils literal notranslate"><span class="pre">image_array_to_point_cloud_intrinsic_matrix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.depth_processor.image_open3d_to_point_cloud_intrinsic_matrix"><code class="docutils literal notranslate"><span class="pre">image_open3d_to_point_cloud_intrinsic_matrix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_color"><code class="docutils literal notranslate"><span class="pre">mask_point_cloud_with_id_color()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_gray_color"><code class="docutils literal notranslate"><span class="pre">mask_point_cloud_with_id_gray_color()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.depth_processor.filter_active_depth_point_cloud_with_exact_depth_point_cloud"><code class="docutils literal notranslate"><span class="pre">filter_active_depth_point_cloud_with_exact_depth_point_cloud()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.depth_processor.filter_active_depth_point_cloud_with_exact_depth_point_cloud_bound"><code class="docutils literal notranslate"><span class="pre">filter_active_depth_point_cloud_with_exact_depth_point_cloud_bound()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.utils.rfuniverse_utility">pyrfuniverse.utils.rfuniverse_utility module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.rfuniverse_utility.EncodeIDAsColor"><code class="docutils literal notranslate"><span class="pre">EncodeIDAsColor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.rfuniverse_utility.UnityEularToQuaternion"><code class="docutils literal notranslate"><span class="pre">UnityEularToQuaternion()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.rfuniverse_utility.UnityQuaternionToEular"><code class="docutils literal notranslate"><span class="pre">UnityQuaternionToEular()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.rfuniverse_utility.CheckKwargs"><code class="docutils literal notranslate"><span class="pre">CheckKwargs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.rfuniverse_utility.get_matrix"><code class="docutils literal notranslate"><span class="pre">get_matrix()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyrfuniverse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pyrfuniverse.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pyrfuniverse.utils.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pyrfuniverse-utils-package">
+<h1>pyrfuniverse.utils package<a class="headerlink" href="#pyrfuniverse-utils-package" title="此标题的永久链接"></a></h1>
+<section id="module-pyrfuniverse.utils.active_depth_generate">
+<span id="pyrfuniverse-utils-active-depth-generate-module"></span><h2>pyrfuniverse.utils.active_depth_generate module<a class="headerlink" href="#module-pyrfuniverse.utils.active_depth_generate" title="此标题的永久链接"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.active_depth_generate.pad_lr">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.active_depth_generate.</span></span><span class="sig-name descname"><span class="pre">pad_lr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndisp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.active_depth_generate.pad_lr" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.active_depth_generate.unpad_lr">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.active_depth_generate.</span></span><span class="sig-name descname"><span class="pre">unpad_lr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndisp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.active_depth_generate.unpad_lr" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.active_depth_generate.sim_ir_noise">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.active_depth_generate.</span></span><span class="sig-name descname"><span class="pre">sim_ir_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blur_ksize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blur_ksigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.03</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speckle_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">398.12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speckle_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.00254</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_mu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-0.231</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.83</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.active_depth_generate.sim_ir_noise" title="永久链接至目标"></a></dt>
+<dd><p>TODO: IR density model</p>
+<p>Simulate IR camera noise.</p>
+<p>Noise model from Landau et al.
+Simulating Kinect Infrared and Depth Images</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> – Input IR image</p></li>
+<li><p><strong>scale</strong> – Scale for downsampling &amp; applying gaussian blur</p></li>
+<li><p><strong>blur_ksize</strong> – Kernel size for gaussian blur</p></li>
+<li><p><strong>blur_ksigma</strong> – Kernel sigma for gaussian blur</p></li>
+<li><p><strong>speckle_shape</strong> – Shape parameter for speckle noise (Gamma distribution)</p></li>
+<li><p><strong>speckle_scale</strong> – Scale parameter for speckle noise (Gamma distribution)</p></li>
+<li><p><strong>gaussian_mu</strong> – mu for additive gaussian noise</p></li>
+<li><p><strong>gaussian_sigma</strong> – sigma for additive gaussian noise</p></li>
+<li><p><strong>seed</strong> – random seed used for numpy</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>Processed IR image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.active_depth_generate.depth_post_processing">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.active_depth_generate.</span></span><span class="sig-name descname"><span class="pre">depth_post_processing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ksize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.active_depth_generate.depth_post_processing" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.active_depth_generate.get_census">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.active_depth_generate.</span></span><span class="sig-name descname"><span class="pre">get_census</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.active_depth_generate.get_census" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.active_depth_generate.calc_disparity">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.active_depth_generate.</span></span><span class="sig-name descname"><span class="pre">calc_disparity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imgl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imgr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndisp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">96</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_consistency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_census</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">census_wsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.active_depth_generate.calc_disparity" title="永久链接至目标"></a></dt>
+<dd><p>Calculate disparity given a rectified image pair.</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>imgl</strong> – Left image</p></li>
+<li><p><strong>imgr</strong> – Right image</p></li>
+<li><p><strong>method</strong> – SGBM or BM</p></li>
+<li><p><strong>ndisp</strong> – max disparity</p></li>
+<li><p><strong>min_disp</strong> – min disparity</p></li>
+<li><p><strong>lr_consistency</strong> – Use Left-Right Consistency (LRC) check</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>disparity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.active_depth_generate.calc_rectified_stereo_pair">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.active_depth_generate.</span></span><span class="sig-name descname"><span class="pre">calc_rectified_stereo_pair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imgl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imgr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyrfuniverse.utils.active_depth_generate.calc_rectified_stereo_pair" title="永久链接至目标"></a></dt>
+<dd><p>Rectify an image pair with given camera parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>imgl</strong> – Left image</p></li>
+<li><p><strong>imgr</strong> – Right image</p></li>
+<li><p><strong>kl</strong> – Left intrinsic matrix</p></li>
+<li><p><strong>kr</strong> – Right intrinsic matrix</p></li>
+<li><p><strong>rt</strong> – Extrinsic matrix (left to right)</p></li>
+<li><p><strong>distortr</strong> – Left distortion coefficients</p></li>
+<li><p><strong>distortl</strong> – Right distortion coefficients</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return imgl_rect<span class="colon">:</span></dt>
+<dd class="field-even"><p>Rectified left image</p>
+</dd>
+<dt class="field-odd">Return imgr_rect<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Rectified right image</p>
+</dd>
+<dt class="field-even">Return q<span class="colon">:</span></dt>
+<dd class="field-even"><p>Perspective transformation matrix (for cv2.reprojectImageTo3D)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.active_depth_generate.calc_depth_and_pointcloud">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.active_depth_generate.</span></span><span class="sig-name descname"><span class="pre">calc_depth_and_pointcloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disparity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_pointcloud</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyrfuniverse.utils.active_depth_generate.calc_depth_and_pointcloud" title="永久链接至目标"></a></dt>
+<dd><p>Calculate depth and pointcloud.</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>disparity</strong> – Disparity</p></li>
+<li><p><strong>mask</strong> – Valid mask</p></li>
+<li><p><strong>q</strong> – Perspective transformation matrix</p></li>
+<li><p><strong>no_pointcloud</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return depth<span class="colon">:</span></dt>
+<dd class="field-even"><p>Depth</p>
+</dd>
+<dt class="field-odd">Return pointcloud<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pointcloud</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.active_depth_generate.calc_main_depth_from_left_right_ir">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.active_depth_generate.</span></span><span class="sig-name descname"><span class="pre">calc_main_depth_from_left_right_ir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_l</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rt_l</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rt_r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rt_main</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_l</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_main</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'SGBM'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndisp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">96</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_noise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_census</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_consistency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">register_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">register_blur_ksize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">main_cam_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1920,</span> <span class="pre">1080)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">census_wsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.active_depth_generate.calc_main_depth_from_left_right_ir" title="永久链接至目标"></a></dt>
+<dd><p>Calculate depth for rgb camera from left right ir images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ir_l</strong> – left ir image</p></li>
+<li><p><strong>ir_r</strong> – right ir image</p></li>
+<li><p><strong>rt_l</strong> – left extrinsic matrix</p></li>
+<li><p><strong>rt_r</strong> – right extrinsic matrix</p></li>
+<li><p><strong>rt_main</strong> – rgb extrinsic matrix</p></li>
+<li><p><strong>k_l</strong> – left intrinsic matrix</p></li>
+<li><p><strong>k_r</strong> – right intrinsic matrix</p></li>
+<li><p><strong>k_main</strong> – rgb intrinsic matrix</p></li>
+<li><p><strong>method</strong> – method for depth calculation (SGBM or BM)</p></li>
+<li><p><strong>use_noise</strong> – whether to simulate ir noise before processing</p></li>
+<li><p><strong>lr_consistency</strong> – whether to use left-right consistency check</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return depth<span class="colon">:</span></dt>
+<dd class="field-even"><p>calculated depth</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.utils.depth_processor">
+<span id="pyrfuniverse-utils-depth-processor-module"></span><h2>pyrfuniverse.utils.depth_processor module<a class="headerlink" href="#module-pyrfuniverse.utils.depth_processor" title="此标题的永久链接"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_bytes_to_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rgb_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud" title="永久链接至目标"></a></dt>
+<dd><p>Convert bytes to images, then convert them into point cloud</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.image_array_to_point_cloud">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_array_to_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_rgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_array_to_point_cloud" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.depth_to_point_cloud">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">depth_to_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">organized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.depth_to_point_cloud" title="永久链接至目标"></a></dt>
+<dd><dl>
+<dt>Generate point cloud using depth image only.</dt><dd><p>author: GraspNet baseline</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>depth: [numpy.ndarray, (W,H), numpy.float32] Depth image
+fov: [float] Field Of View for camera
+organized: [bool] Whether to keep the cloud in image shape (W,H,3)</p>
+</dd>
+<dt>Return:</dt><dd><dl class="simple">
+<dt>cloud: [numpy.ndarray, (W,H,3)/(W*H,3), numpy.float32]</dt><dd><p>generated cloud, (W,H,3) for organized=True, (W*H,3) for organized=False</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud_intrinsic_matrix">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_bytes_to_point_cloud_intrinsic_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rgb_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud_intrinsic_matrix" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.image_array_to_point_cloud_intrinsic_matrix">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_array_to_point_cloud_intrinsic_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_rgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_array_to_point_cloud_intrinsic_matrix" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.image_open3d_to_point_cloud_intrinsic_matrix">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_open3d_to_point_cloud_intrinsic_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_open3d_to_point_cloud_intrinsic_matrix" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_color">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">mask_point_cloud_with_id_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_color" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_gray_color">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">mask_point_cloud_with_id_gray_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_gray_color" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.filter_active_depth_point_cloud_with_exact_depth_point_cloud">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">filter_active_depth_point_cloud_with_exact_depth_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active_pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact_pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.filter_active_depth_point_cloud_with_exact_depth_point_cloud" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.filter_active_depth_point_cloud_with_exact_depth_point_cloud_bound">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">filter_active_depth_point_cloud_with_exact_depth_point_cloud_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active_pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact_pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.filter_active_depth_point_cloud_with_exact_depth_point_cloud_bound" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.utils.rfuniverse_utility">
+<span id="pyrfuniverse-utils-rfuniverse-utility-module"></span><h2>pyrfuniverse.utils.rfuniverse_utility module<a class="headerlink" href="#module-pyrfuniverse.utils.rfuniverse_utility" title="此标题的永久链接"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.rfuniverse_utility.EncodeIDAsColor">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">EncodeIDAsColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.EncodeIDAsColor" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.rfuniverse_utility.UnityEularToQuaternion">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">UnityEularToQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eular</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.UnityEularToQuaternion" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.rfuniverse_utility.UnityQuaternionToEular">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">UnityQuaternionToEular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternion</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.UnityQuaternionToEular" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.rfuniverse_utility.CheckKwargs">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">CheckKwargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compulsory_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.CheckKwargs" title="永久链接至目标"></a></dt>
+<dd><p>Check keyword arguments, make sure all compulsory parameters are included.
+:param kwargs: Keyword arguments.
+:param compulsory_params: Compulsory parameters.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.rfuniverse_utility.get_matrix">
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">get_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quat</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.get_matrix" title="永久链接至目标"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="pyrfuniverse.attributes.html" class="btn btn-neutral float-left" title="pyrfuniverse.attributes package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, RobotFlow.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

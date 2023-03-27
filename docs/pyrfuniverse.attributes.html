@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyrfuniverse.attributes package &mdash; pyrfuniverse  文档</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="pyrfuniverse.utils package" href="pyrfuniverse.utils.html" />
+    <link rel="prev" title="pyrfuniverse.envs package" href="pyrfuniverse.envs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyrfuniverse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pyrfuniverse.envs.html">pyrfuniverse.envs package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyrfuniverse.attributes package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.activelightsensor_attr">pyrfuniverse.attributes.activelightsensor_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr"><code class="docutils literal notranslate"><span class="pre">ActiveLightSensorAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth"><code class="docutils literal notranslate"><span class="pre">ActiveLightSensorAttr.GetActiveDepth()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.base_attr">pyrfuniverse.attributes.base_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr"><code class="docutils literal notranslate"><span class="pre">BaseAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetType"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetType()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetTransform"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetTransform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Translate"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Translate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Rotate"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Rotate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRotationQuaternion"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetRotationQuaternion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetActive"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetActive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetParent"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetParent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetLayer"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetLayer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Copy"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Destroy"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Destroy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRFMoveColliderActive"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetRFMoveColliderActive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.GetLoaclPointFromWorld"><code class="docutils literal notranslate"><span class="pre">BaseAttr.GetLoaclPointFromWorld()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.GetWorldPointFromLocal"><code class="docutils literal notranslate"><span class="pre">BaseAttr.GetWorldPointFromLocal()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.camera_attr">pyrfuniverse.attributes.camera_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr"><code class="docutils literal notranslate"><span class="pre">CameraAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.AlignView"><code class="docutils literal notranslate"><span class="pre">CameraAttr.AlignView()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetRGB"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetRGB()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetNormal"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetNormal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetID"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetID()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetDepth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetDepthEXR()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetAmodalMask"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetAmodalMask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.Get2DBBox"><code class="docutils literal notranslate"><span class="pre">CameraAttr.Get2DBBox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.Get3DBBox"><code class="docutils literal notranslate"><span class="pre">CameraAttr.Get3DBBox()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.cloth_attr">pyrfuniverse.attributes.cloth_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr"><code class="docutils literal notranslate"><span class="pre">ClothAttr</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.collider_attr">pyrfuniverse.attributes.collider_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr"><code class="docutils literal notranslate"><span class="pre">ColliderAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.GenerateVHACDColider"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.GenerateVHACDColider()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.controller_attr">pyrfuniverse.attributes.controller_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr"><code class="docutils literal notranslate"><span class="pre">ControllerAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointPosition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionDirectly"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointPositionDirectly()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointPosition"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetIndexJointPosition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointPositionDirectly"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetIndexJointPositionDirectly()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionContinue"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointPositionContinue()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointVelocity"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointVelocity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointVelocity"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetIndexJointVelocity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointForce"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.AddJointForce()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointForceAtPosition"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.AddJointForceAtPosition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointTorque"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.AddJointTorque()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.GetJointInverseDynamicsForce"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.GetJointInverseDynamicsForce()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetImmovable"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetImmovable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.MoveForward"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.MoveForward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.MoveBack"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.MoveBack()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.TurnLeft"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.TurnLeft()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.TurnRight"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.TurnRight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.GripperOpen"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.GripperOpen()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.GripperClose"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.GripperClose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.EnabledNativeIK"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.EnabledNativeIK()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoMove"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.IKTargetDoMove()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoRotate"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.IKTargetDoRotate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoRotateQuaternion"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.IKTargetDoRotateQuaternion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoComplete"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.IKTargetDoComplete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoKill"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.IKTargetDoKill()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIKTargetOffset"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetIKTargetOffset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.WaitDo"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.WaitDo()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.digit_attr">pyrfuniverse.attributes.digit_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.digit_attr.DigitAttr"><code class="docutils literal notranslate"><span class="pre">DigitAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.GetData"><code class="docutils literal notranslate"><span class="pre">DigitAttr.GetData()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.gameobject_attr">pyrfuniverse.attributes.gameobject_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetColor"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.SetColor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.EnabledRender"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.EnabledRender()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetTexture"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.SetTexture()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.graspsim_attr">pyrfuniverse.attributes.graspsim_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspSim"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.StartGraspSim()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.GenerateGraspPose"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.GenerateGraspPose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspTest"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.StartGraspTest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.ShowGraspPose"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.ShowGraspPose()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.humanbody_attr">pyrfuniverse.attributes.humanbody_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoMove"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoMove()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotate"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoRotate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotateQuaternion"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoRotateQuaternion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoComplete"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoComplete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoKill"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoKill()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.WaitDo"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.WaitDo()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.light_attr">pyrfuniverse.attributes.light_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightType"><code class="docutils literal notranslate"><span class="pre">LightType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightShadow"><code class="docutils literal notranslate"><span class="pre">LightShadow</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr"><code class="docutils literal notranslate"><span class="pre">LightAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetColor"><code class="docutils literal notranslate"><span class="pre">LightAttr.SetColor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetType"><code class="docutils literal notranslate"><span class="pre">LightAttr.SetType()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetShadow"><code class="docutils literal notranslate"><span class="pre">LightAttr.SetShadow()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetIntensity"><code class="docutils literal notranslate"><span class="pre">LightAttr.SetIntensity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetRange"><code class="docutils literal notranslate"><span class="pre">LightAttr.SetRange()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetSpotAngle"><code class="docutils literal notranslate"><span class="pre">LightAttr.SetSpotAngle()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.pointcloud_attr">pyrfuniverse.attributes.pointcloud_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr"><code class="docutils literal notranslate"><span class="pre">PointCloudAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.ShowPointCloud"><code class="docutils literal notranslate"><span class="pre">PointCloudAttr.ShowPointCloud()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.SetRadius"><code class="docutils literal notranslate"><span class="pre">PointCloudAttr.SetRadius()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.rigidbody_attr">pyrfuniverse.attributes.rigidbody_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetMass"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetMass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.AddForce"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.AddForce()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetVelocity"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetVelocity()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.softbody_attr">pyrfuniverse.attributes.softbody_attr module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr"><code class="docutils literal notranslate"><span class="pre">SoftbodyAttr</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyrfuniverse.utils.html">pyrfuniverse.utils package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyrfuniverse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pyrfuniverse.attributes package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pyrfuniverse.attributes.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pyrfuniverse-attributes-package">
+<h1>pyrfuniverse.attributes package<a class="headerlink" href="#pyrfuniverse-attributes-package" title="此标题的永久链接"></a></h1>
+<section id="module-pyrfuniverse.attributes.activelightsensor_attr">
+<span id="pyrfuniverse-attributes-activelightsensor-attr-module"></span><h2>pyrfuniverse.attributes.activelightsensor_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.activelightsensor_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.activelightsensor_attr.</span></span><span class="sig-name descname"><span class="pre">ActiveLightSensorAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr" title="pyrfuniverse.attributes.camera_attr.CameraAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraAttr</span></code></a></p>
+<p>红外深度传感器类，能够获取模拟真实深度相机噪声的深度图</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth">
+<span class="sig-name descname"><span class="pre">GetActiveDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_intrinsic_matrix_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_intrinsic_matrix_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth" title="永久链接至目标"></a></dt>
+<dd><p>获取红外深度图</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>main_intrinsic_matrix_local</strong> – List[float]主相机内参</p></li>
+<li><p><strong>ir_intrinsic_matrix_local</strong> – List[float]红外相机内参</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>调用此接口并step后，从self.data[‘active_depth’]获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.base_attr">
+<span id="pyrfuniverse-attributes-base-attr-module"></span><h2>pyrfuniverse.attributes.base_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.base_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.base_attr.</span></span><span class="sig-name descname"><span class="pre">BaseAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>基础Attr类，包含物体加载删除移动等通用功能</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetType">
+<span class="sig-name descname"><span class="pre">SetType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetType" title="永久链接至目标"></a></dt>
+<dd><p>设置物体Attr类型</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>attr_type</strong> – 类型参数</p>
+</dd>
+</dl>
+<p>Returns:目标类型实例</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetTransform">
+<span class="sig-name descname"><span class="pre">SetTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetTransform" title="永久链接至目标"></a></dt>
+<dd><p>使用Vector3设置物体pose</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – 位置</p></li>
+<li><p><strong>rotation</strong> – 旋转</p></li>
+<li><p><strong>scale</strong> – 缩放</p></li>
+<li><p><strong>is_world</strong> – 世界空间/局部空间</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.Translate">
+<span class="sig-name descname"><span class="pre">Translate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Translate" title="永久链接至目标"></a></dt>
+<dd><p>物体平移</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>translation</strong> – 平移量</p></li>
+<li><p><strong>is_world</strong> – 世界空间/局部空间</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.Rotate">
+<span class="sig-name descname"><span class="pre">Rotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Rotate" title="永久链接至目标"></a></dt>
+<dd><p>物体旋转</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotation</strong> – 旋转量</p></li>
+<li><p><strong>is_world</strong> – 世界空间/局部空间</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetRotationQuaternion">
+<span class="sig-name descname"><span class="pre">SetRotationQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRotationQuaternion" title="永久链接至目标"></a></dt>
+<dd><p>使用四元数设置物体旋转</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quaternion</strong> – 四元数</p></li>
+<li><p><strong>is_world</strong> – 世界空间or局部空间</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetActive">
+<span class="sig-name descname"><span class="pre">SetActive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetActive" title="永久链接至目标"></a></dt>
+<dd><p>设置物体激活状态</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>active</strong> – 激活/非激活</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetParent">
+<span class="sig-name descname"><span class="pre">SetParent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetParent" title="永久链接至目标"></a></dt>
+<dd><p>设置父物体</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent_id</strong> – 父物体ID</p></li>
+<li><p><strong>parent_name</strong> – 父物体内节点名</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetLayer">
+<span class="sig-name descname"><span class="pre">SetLayer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetLayer" title="永久链接至目标"></a></dt>
+<dd><p>设置物体层</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>layer</strong> – 层编号</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.Copy">
+<span class="sig-name descname"><span class="pre">Copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Copy" title="永久链接至目标"></a></dt>
+<dd><p>复制物体</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_id</strong> – 新物体的ID</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.Destroy">
+<span class="sig-name descname"><span class="pre">Destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Destroy" title="永久链接至目标"></a></dt>
+<dd><p>删除物体</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetRFMoveColliderActive">
+<span class="sig-name descname"><span class="pre">SetRFMoveColliderActive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRFMoveColliderActive" title="永久链接至目标"></a></dt>
+<dd><p>设置物体在RFMove中的碰撞开关</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>active</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.GetLoaclPointFromWorld">
+<span class="sig-name descname"><span class="pre">GetLoaclPointFromWorld</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.GetLoaclPointFromWorld" title="永久链接至目标"></a></dt>
+<dd><p>转换局部坐标到世界坐标</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>point</strong> – 局部坐标</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.GetWorldPointFromLocal">
+<span class="sig-name descname"><span class="pre">GetWorldPointFromLocal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.GetWorldPointFromLocal" title="永久链接至目标"></a></dt>
+<dd><p>转换世界坐标到局部坐标</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>point</strong> – 世界坐标</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.camera_attr">
+<span id="pyrfuniverse-attributes-camera-attr-module"></span><h2>pyrfuniverse.attributes.camera_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.camera_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.camera_attr.</span></span><span class="sig-name descname"><span class="pre">CameraAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
+<p>相机类，可获取各种相机截图</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.AlignView">
+<span class="sig-name descname"><span class="pre">AlignView</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.AlignView" title="永久链接至目标"></a></dt>
+<dd><p>使相机对准当前视口视角</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetRGB">
+<span class="sig-name descname"><span class="pre">GetRGB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetRGB" title="永久链接至目标"></a></dt>
+<dd><p>获取相机的RGB图像</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> – 图像分辨率宽度</p></li>
+<li><p><strong>height</strong> – 图像分辨率高度</p></li>
+<li><p><strong>fov</strong> – 相机FOV</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>调用此接口并step后，从self.data[‘rgb’]获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetNormal">
+<span class="sig-name descname"><span class="pre">GetNormal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetNormal" title="永久链接至目标"></a></dt>
+<dd><p>获取相机的世界空间法线图像</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> – 图像分辨率宽度</p></li>
+<li><p><strong>height</strong> – 图像分辨率高度</p></li>
+<li><p><strong>fov</strong> – 相机FOV</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>调用此接口并step后，从self.data[‘normal’]获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetID">
+<span class="sig-name descname"><span class="pre">GetID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetID" title="永久链接至目标"></a></dt>
+<dd><p>获取相机的ID图像，每个像素的颜色值由物体ID计算而来，见rfuniverse_utility.GetColorFromID</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> – 图像分辨率宽度</p></li>
+<li><p><strong>height</strong> – 图像分辨率高度</p></li>
+<li><p><strong>fov</strong> – 相机FOV</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>调用此接口并step后，从self.data[‘id_map’]获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth">
+<span class="sig-name descname"><span class="pre">GetDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zero_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth" title="永久链接至目标"></a></dt>
+<dd><p>获取相机的深度图像，由于8位深度图精度低，因此需要限制范围以提高精度</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zero_dis</strong> – 黑色像素表示深度</p></li>
+<li><p><strong>one_dis</strong> – 白像素表示深度</p></li>
+<li><p><strong>width</strong> – 图像分辨率宽度</p></li>
+<li><p><strong>height</strong> – 图像分辨率高度</p></li>
+<li><p><strong>fov</strong> – 相机FOV</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>调用此接口并step后，从self.data[‘depth’]获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR">
+<span class="sig-name descname"><span class="pre">GetDepthEXR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR" title="永久链接至目标"></a></dt>
+<dd><p>获取相机的世界空间深度图像，EXR格式图像支持存储32位信息，因此无需限制范围</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> – 图像分辨率宽度</p></li>
+<li><p><strong>height</strong> – 图像分辨率高度</p></li>
+<li><p><strong>fov</strong> – 相机FOV</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>调用此接口并step后，从self.data[‘depth_exr’]获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetAmodalMask">
+<span class="sig-name descname"><span class="pre">GetAmodalMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetAmodalMask" title="永久链接至目标"></a></dt>
+<dd><p>获取目标物体的Amodal Mask图像</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_id</strong> – 目标物体ID</p></li>
+<li><p><strong>width</strong> – 图像分辨率宽度</p></li>
+<li><p><strong>height</strong> – 图像分辨率高度</p></li>
+<li><p><strong>fov</strong> – 相机FOV</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>调用此接口并step后，从self.data[‘amodal_mask’]获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.Get2DBBox">
+<span class="sig-name descname"><span class="pre">Get2DBBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.Get2DBBox" title="永久链接至目标"></a></dt>
+<dd><p>获取相机中物体的2DBBox</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> – 图像分辨率宽度</p></li>
+<li><p><strong>height</strong> – 图像分辨率高度</p></li>
+<li><p><strong>fov</strong> – 相机FOV</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>调用此接口并step后，从self.data[‘2d_bounding_box’]获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.Get3DBBox">
+<span class="sig-name descname"><span class="pre">Get3DBBox</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.Get3DBBox" title="永久链接至目标"></a></dt>
+<dd><p>获取物体的3DBBox</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>调用此接口并step后，从self.data[‘3d_bounding_box’]获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.cloth_attr">
+<span id="pyrfuniverse-attributes-cloth-attr-module"></span><h2>pyrfuniverse.attributes.cloth_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.cloth_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.cloth_attr.ClothAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.cloth_attr.</span></span><span class="sig-name descname"><span class="pre">ClothAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
+<p>ObiCloth类</p>
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.collider_attr">
+<span id="pyrfuniverse-attributes-collider-attr-module"></span><h2>pyrfuniverse.attributes.collider_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.collider_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.collider_attr.ColliderAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.collider_attr.</span></span><span class="sig-name descname"><span class="pre">ColliderAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr" title="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">GameObjectAttr</span></code></a></p>
+<p>具有碰撞体的物体类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.collider_attr.ColliderAttr.GenerateVHACDColider">
+<span class="sig-name descname"><span class="pre">GenerateVHACDColider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.GenerateVHACDColider" title="永久链接至目标"></a></dt>
+<dd><p>使用VHACD算法生成物体碰撞体</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.controller_attr">
+<span id="pyrfuniverse-attributes-controller-attr-module"></span><h2>pyrfuniverse.attributes.controller_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.controller_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.controller_attr.</span></span><span class="sig-name descname"><span class="pre">ControllerAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr" title="pyrfuniverse.attributes.collider_attr.ColliderAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColliderAttr</span></code></a></p>
+<p>机械臂控制器类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition">
+<span class="sig-name descname"><span class="pre">SetJointPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_scales</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition" title="永久链接至目标"></a></dt>
+<dd><p>设置机械臂所有关节目标位置</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>joint_positions</strong> – 目标位置</p></li>
+<li><p><strong>speed_scales</strong> – 速度倍数</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionDirectly">
+<span class="sig-name descname"><span class="pre">SetJointPositionDirectly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionDirectly" title="永久链接至目标"></a></dt>
+<dd><p>立即设置机械臂所有关节位置</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>joint_positions</strong> – 目标位置</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointPosition">
+<span class="sig-name descname"><span class="pre">SetIndexJointPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointPosition" title="永久链接至目标"></a></dt>
+<dd><p>设置机械臂指定关节目标位置</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – 关节序号</p></li>
+<li><p><strong>joint_position</strong> – 目标位置</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointPositionDirectly">
+<span class="sig-name descname"><span class="pre">SetIndexJointPositionDirectly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointPositionDirectly" title="永久链接至目标"></a></dt>
+<dd><p>立即设置机械臂指定关节位置</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – 关节序号</p></li>
+<li><p><strong>joint_position</strong> – 目标位置</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionContinue">
+<span class="sig-name descname"><span class="pre">SetJointPositionContinue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_joint_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionContinue" title="永久链接至目标"></a></dt>
+<dd><p>持续设置机械臂所有关节目标位置</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>interval</strong> – 设置时间间隔(毫秒)</p></li>
+<li><p><strong>time_joint_positions</strong> – 每个time的目标位置</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointVelocity">
+<span class="sig-name descname"><span class="pre">SetJointVelocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_velocitys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointVelocity" title="永久链接至目标"></a></dt>
+<dd><p>设置机械臂所有关节目标速度</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>joint_velocitys</strong> – 目标速度</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointVelocity">
+<span class="sig-name descname"><span class="pre">SetIndexJointVelocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointVelocity" title="永久链接至目标"></a></dt>
+<dd><p>设置机械臂指定关节目标速度</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – 关节序号</p></li>
+<li><p><strong>joint_velocity</strong> – 目标速度</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointForce">
+<span class="sig-name descname"><span class="pre">AddJointForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_forces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointForce" title="永久链接至目标"></a></dt>
+<dd><p>为机械臂所有关节施加力</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>joint_forces</strong> – 力</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointForceAtPosition">
+<span class="sig-name descname"><span class="pre">AddJointForceAtPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_forces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointForceAtPosition" title="永久链接至目标"></a></dt>
+<dd><p>为机械臂所有关节指定位置施加力</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>joint_forces</strong> – 力</p></li>
+<li><p><strong>force_positions</strong> – 施力点</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointTorque">
+<span class="sig-name descname"><span class="pre">AddJointTorque</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_torques</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointTorque" title="永久链接至目标"></a></dt>
+<dd><p>为机械臂所有关节施加力矩</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>joint_torques</strong> – 力矩</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.GetJointInverseDynamicsForce">
+<span class="sig-name descname"><span class="pre">GetJointInverseDynamicsForce</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.GetJointInverseDynamicsForce" title="永久链接至目标"></a></dt>
+<dd><p>获取机械臂所有关节逆动力学数据</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>调用此接口并step后，从
+self.data[‘gravity_forces’]
+self.data[‘coriolis_centrifugal_forces’]
+self.data[‘drive_forces’]
+获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetImmovable">
+<span class="sig-name descname"><span class="pre">SetImmovable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">immovable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetImmovable" title="永久链接至目标"></a></dt>
+<dd><p>设置机械臂是否不可移动</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>immovable</strong> – 是否不可移动</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.MoveForward">
+<span class="sig-name descname"><span class="pre">MoveForward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.MoveForward" title="永久链接至目标"></a></dt>
+<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动前进
+最初用于Tobor机器人</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distance</strong> – 距离</p></li>
+<li><p><strong>speed</strong> – 速度</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.MoveBack">
+<span class="sig-name descname"><span class="pre">MoveBack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.MoveBack" title="永久链接至目标"></a></dt>
+<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动后退
+最初用于Tobor机器人</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distance</strong> – 距离</p></li>
+<li><p><strong>speed</strong> – 速度</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.TurnLeft">
+<span class="sig-name descname"><span class="pre">TurnLeft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.TurnLeft" title="永久链接至目标"></a></dt>
+<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动左转
+最初用于Tobor机器人</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> – 角度</p></li>
+<li><p><strong>speed</strong> – 速度</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.TurnRight">
+<span class="sig-name descname"><span class="pre">TurnRight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.TurnRight" title="永久链接至目标"></a></dt>
+<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动右转
+最初用于Tobor机器人</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> – 角度</p></li>
+<li><p><strong>speed</strong> – 速度</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.GripperOpen">
+<span class="sig-name descname"><span class="pre">GripperOpen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.GripperOpen" title="永久链接至目标"></a></dt>
+<dd><p>如果夹爪在Unity端添加了继承ICustomGripper接口的脚本，可通过此接口驱动张开</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.GripperClose">
+<span class="sig-name descname"><span class="pre">GripperClose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.GripperClose" title="永久链接至目标"></a></dt>
+<dd><p>如果夹爪在Unity端添加了继承ICustomGripper接口的脚本，可通过此接口驱动闭合</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.EnabledNativeIK">
+<span class="sig-name descname"><span class="pre">EnabledNativeIK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.EnabledNativeIK" title="永久链接至目标"></a></dt>
+<dd><p>启用/禁用机械臂的原生IK</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>enabled</strong> – 启用/禁用</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoMove">
+<span class="sig-name descname"><span class="pre">IKTargetDoMove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoMove" title="永久链接至目标"></a></dt>
+<dd><p>原生IK末端点移动</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – 绝对位置或相对位置</p></li>
+<li><p><strong>duration</strong> – 移动持续时间或移动速度</p></li>
+<li><p><strong>speed_based</strong> – 指定duration表示移动持续时间还是移动速度</p></li>
+<li><p><strong>relative</strong> – 指定position表示绝对位置还是相对位置</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>当移动完成时，self.data[‘move_done’]会被置为True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoRotate">
+<span class="sig-name descname"><span class="pre">IKTargetDoRotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoRotate" title="永久链接至目标"></a></dt>
+<dd><p>原生IK末端点Vector3旋转</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotation</strong> – 绝对旋转或相对旋转</p></li>
+<li><p><strong>duration</strong> – 旋转持续时间或旋转速度</p></li>
+<li><p><strong>speed_based</strong> – 指定duration表示旋转持续时间还是旋转速度</p></li>
+<li><p><strong>relative</strong> – 指定position表示绝对旋转还是相对旋转</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>当旋转完成时，self.data[‘rotate_done’]会被置为True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoRotateQuaternion">
+<span class="sig-name descname"><span class="pre">IKTargetDoRotateQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoRotateQuaternion" title="永久链接至目标"></a></dt>
+<dd><p>原生IK末端点四元数旋转</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quaternion</strong> – 绝对旋转或相对旋转</p></li>
+<li><p><strong>duration</strong> – 旋转持续时间或旋转速度</p></li>
+<li><p><strong>speed_based</strong> – 指定duration表示旋转持续时间还是旋转速度</p></li>
+<li><p><strong>relative</strong> – 指定position表示绝对旋转还是相对旋转</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>当旋转完成时，self.data[‘rotate_done’]会被置为True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoComplete">
+<span class="sig-name descname"><span class="pre">IKTargetDoComplete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoComplete" title="永久链接至目标"></a></dt>
+<dd><p>使原生IK末端点移动/旋转立即完成</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoKill">
+<span class="sig-name descname"><span class="pre">IKTargetDoKill</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoKill" title="永久链接至目标"></a></dt>
+<dd><p>使原生IK末端点移动/旋转停止</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIKTargetOffset">
+<span class="sig-name descname"><span class="pre">SetIKTargetOffset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIKTargetOffset" title="永久链接至目标"></a></dt>
+<dd><p>设置原生IK末端点的偏移</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – 偏移位置</p></li>
+<li><p><strong>rotation</strong> – 偏移旋转Vector3</p></li>
+<li><p><strong>quaternion</strong> – 偏移旋转四元数，此值覆盖rotation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.WaitDo">
+<span class="sig-name descname"><span class="pre">WaitDo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.WaitDo" title="永久链接至目标"></a></dt>
+<dd><p>等待原生IK末端点移动/旋转完成</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.digit_attr">
+<span id="pyrfuniverse-attributes-digit-attr-module"></span><h2>pyrfuniverse.attributes.digit_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.digit_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.digit_attr.DigitAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.digit_attr.</span></span><span class="sig-name descname"><span class="pre">DigitAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.digit_attr.DigitAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
+<p>模拟Digit指尖触觉传感器类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.digit_attr.DigitAttr.GetData">
+<span class="sig-name descname"><span class="pre">GetData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.GetData" title="永久链接至目标"></a></dt>
+<dd><p>获取传感器数据</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>调用此接口并step后，从
+self.data[‘light’]获取RGB灯光图像，
+self.data[‘depth’]获取深度图像</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.gameobject_attr">
+<span id="pyrfuniverse-attributes-gameobject-attr-module"></span><h2>pyrfuniverse.attributes.gameobject_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.gameobject_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.gameobject_attr.</span></span><span class="sig-name descname"><span class="pre">GameObjectAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
+<p>基本视觉物体类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetColor">
+<span class="sig-name descname"><span class="pre">SetColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetColor" title="永久链接至目标"></a></dt>
+<dd><p>设置物体颜色</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>color</strong> – 颜色，长度为4，分别为RGBA[0-1]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.EnabledRender">
+<span class="sig-name descname"><span class="pre">EnabledRender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.EnabledRender" title="永久链接至目标"></a></dt>
+<dd><p>启用或禁用渲染</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>enabled</strong> – 是否启用渲染</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetTexture">
+<span class="sig-name descname"><span class="pre">SetTexture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetTexture" title="永久链接至目标"></a></dt>
+<dd><p>设置物体纹理</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – 纹理贴图绝对路径</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.graspsim_attr">
+<span id="pyrfuniverse-attributes-graspsim-attr-module"></span><h2>pyrfuniverse.attributes.graspsim_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.graspsim_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.graspsim_attr.</span></span><span class="sig-name descname"><span class="pre">GraspSimAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
+<p>抓取测试农场仿真类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspSim">
+<span class="sig-name descname"><span class="pre">StartGraspSim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gripper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_range_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_range_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_lerp_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_lerp_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspSim" title="永久链接至目标"></a></dt>
+<dd><p>开始模拟抓取</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> – 物体网格路径</p></li>
+<li><p><strong>gripper</strong> – 夹爪</p></li>
+<li><p><strong>points</strong> – 抓点列表</p></li>
+<li><p><strong>normals</strong> – 法线列表</p></li>
+<li><p><strong>depth_range_min</strong> – 抓型深度范围最小值</p></li>
+<li><p><strong>depth_range_max</strong> – 抓型深度范围最大值</p></li>
+<li><p><strong>depth_lerp_count</strong> – 抓型深度插值数量</p></li>
+<li><p><strong>angle_lerp_count</strong> – 抓型角度插值数量</p></li>
+<li><p><strong>parallel_count</strong> – 并行抓取数</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>当模拟完成时，self.data[‘done’]会被置为True
+self.data[‘points’]为抓点列表
+self.data[‘quaternions’]为抓点对应的四元数列表
+self.data[‘width’]为抓点对应的抓型宽度列表</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.GenerateGraspPose">
+<span class="sig-name descname"><span class="pre">GenerateGraspPose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gripper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_range_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_range_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_lerp_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_lerp_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.GenerateGraspPose" title="永久链接至目标"></a></dt>
+<dd><p>生成抓取姿态</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> – 物体网格路径</p></li>
+<li><p><strong>gripper</strong> – 夹爪</p></li>
+<li><p><strong>points</strong> – 抓点列表</p></li>
+<li><p><strong>normals</strong> – 法线列表</p></li>
+<li><p><strong>depth_range_min</strong> – 抓型深度范围最小值</p></li>
+<li><p><strong>depth_range_max</strong> – 抓型深度范围最大值</p></li>
+<li><p><strong>depth_lerp_count</strong> – 抓型深度插值数量</p></li>
+<li><p><strong>angle_lerp_count</strong> – 抓型角度插值数量</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>生成并显示抓取姿态</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspTest">
+<span class="sig-name descname"><span class="pre">StartGraspTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gripper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspTest" title="永久链接至目标"></a></dt>
+<dd><p>对现有抓型进行抓取测试</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> – 物体网格路径</p></li>
+<li><p><strong>gripper</strong> – 夹爪</p></li>
+<li><p><strong>points</strong> – 抓点列表</p></li>
+<li><p><strong>quaternions</strong> – 四元数列表</p></li>
+<li><p><strong>parallel_count</strong> – 并行抓取数</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>当模拟完成时，self.data[‘done’]会被置为True
+self.data[‘success’]为抓取结果列表</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.ShowGraspPose">
+<span class="sig-name descname"><span class="pre">ShowGraspPose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gripper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.ShowGraspPose" title="永久链接至目标"></a></dt>
+<dd><p>显示抓取姿态</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> – 物体网格路径</p></li>
+<li><p><strong>gripper</strong> – 夹爪</p></li>
+<li><p><strong>positions</strong> – 抓点列表</p></li>
+<li><p><strong>quaternions</strong> – 四元数列表</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.humanbody_attr">
+<span id="pyrfuniverse-attributes-humanbody-attr-module"></span><h2>pyrfuniverse.attributes.humanbody_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.humanbody_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.humanbody_attr.</span></span><span class="sig-name descname"><span class="pre">HumanbodyAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
+<p>人体IK类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoMove">
+<span class="sig-name descname"><span class="pre">HumanIKTargetDoMove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoMove" title="永久链接至目标"></a></dt>
+<dd><p>人体IK目标点移动</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – 移动的目标：0-左手，1-右手，2-左脚，3-右脚，4-头部</p></li>
+<li><p><strong>position</strong> – 绝对位置或相对位置</p></li>
+<li><p><strong>duration</strong> – 移动持续时间或移动速度</p></li>
+<li><p><strong>speed_based</strong> – 指定duration表示移动持续时间还是移动速度</p></li>
+<li><p><strong>relative</strong> – 指定position表示绝对位置还是相对位置</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>当移动完成时，self.data[‘move_done’]会被置为True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotate">
+<span class="sig-name descname"><span class="pre">HumanIKTargetDoRotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotate" title="永久链接至目标"></a></dt>
+<dd><p>人体IK目标点旋转</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – 移动的目标：0-左手，1-右手，2-左脚，3-右脚，4-头部</p></li>
+<li><p><strong>rotation</strong> – 绝对旋转或相对旋转</p></li>
+<li><p><strong>duration</strong> – 旋转持续时间或旋转速度</p></li>
+<li><p><strong>speed_based</strong> – 指定duration表示旋转持续时间还是旋转速度</p></li>
+<li><p><strong>relative</strong> – 指定position表示绝对旋转还是相对旋转</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>当旋转完成时，self.data[‘rotate_done’]会被置为True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotateQuaternion">
+<span class="sig-name descname"><span class="pre">HumanIKTargetDoRotateQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotateQuaternion" title="永久链接至目标"></a></dt>
+<dd><p>人体IK目标点四元数旋转</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – 移动的目标：0-左手，1-右手，2-左脚，3-右脚，4-头部</p></li>
+<li><p><strong>quaternion</strong> – 绝对旋转或相对旋转</p></li>
+<li><p><strong>duration</strong> – 旋转持续时间或旋转速度</p></li>
+<li><p><strong>speed_based</strong> – 指定duration表示旋转持续时间还是旋转速度</p></li>
+<li><p><strong>relative</strong> – 指定position表示绝对旋转还是相对旋转</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>当旋转完成时，self.data[‘rotate_done’]会被置为True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoComplete">
+<span class="sig-name descname"><span class="pre">HumanIKTargetDoComplete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoComplete" title="永久链接至目标"></a></dt>
+<dd><p>使人体IK目标点移动/旋转立即完成</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> – 移动的目标：0-左手，1-右手，2-左脚，3-右脚，4-头部</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoKill">
+<span class="sig-name descname"><span class="pre">HumanIKTargetDoKill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoKill" title="永久链接至目标"></a></dt>
+<dd><p>使人体IK目标点移动/旋转停止</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> – 移动的目标：0-左手，1-右手，2-左脚，3-右脚，4-头部</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.WaitDo">
+<span class="sig-name descname"><span class="pre">WaitDo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.WaitDo" title="永久链接至目标"></a></dt>
+<dd><p>等待人体IK移动/旋转完成</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.light_attr">
+<span id="pyrfuniverse-attributes-light-attr-module"></span><h2>pyrfuniverse.attributes.light_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.light_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.light_attr.</span></span><span class="sig-name descname"><span class="pre">LightType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightType" title="永久链接至目标"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>光源类型,与Unity中的LightType一致</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightShadow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.light_attr.</span></span><span class="sig-name descname"><span class="pre">LightShadow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightShadow" title="永久链接至目标"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>阴影类型,与Unity中的LightShadows一致</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.light_attr.</span></span><span class="sig-name descname"><span class="pre">LightAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
+<p>灯光类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr.SetColor">
+<span class="sig-name descname"><span class="pre">SetColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetColor" title="永久链接至目标"></a></dt>
+<dd><p>设置灯光颜色</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>color</strong> – 颜色,长度为3,分别为RGB三个通道的值,范围为0-1</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr.SetType">
+<span class="sig-name descname"><span class="pre">SetType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">light_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightType" title="pyrfuniverse.attributes.light_attr.LightType"><span class="pre">LightType</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetType" title="永久链接至目标"></a></dt>
+<dd><p>设置灯光类型</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>light_type</strong> – 灯光类型,参考LightType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr.SetShadow">
+<span class="sig-name descname"><span class="pre">SetShadow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">light_shadow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyrfuniverse.attributes.light_attr.LightShadow" title="pyrfuniverse.attributes.light_attr.LightShadow"><span class="pre">LightShadow</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetShadow" title="永久链接至目标"></a></dt>
+<dd><p>设置灯光阴影类型</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>light_shadow</strong> – 灯光阴影类型,参考LightShadow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr.SetIntensity">
+<span class="sig-name descname"><span class="pre">SetIntensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">light_intensity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetIntensity" title="永久链接至目标"></a></dt>
+<dd><p>设置灯光强度</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>light_intensity</strong> – 灯光强度</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr.SetRange">
+<span class="sig-name descname"><span class="pre">SetRange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">light_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetRange" title="永久链接至目标"></a></dt>
+<dd><p>设置灯光范围(仅灯光类型为Spot和Point时有效)</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>light_range</strong> – 灯光范围</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr.SetSpotAngle">
+<span class="sig-name descname"><span class="pre">SetSpotAngle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spot_angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr.SetSpotAngle" title="永久链接至目标"></a></dt>
+<dd><p>设置灯光角度(仅灯光类型为Spot时有效)</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>spot_angle</strong> – 灯光角度</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.pointcloud_attr">
+<span id="pyrfuniverse-attributes-pointcloud-attr-module"></span><h2>pyrfuniverse.attributes.pointcloud_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.pointcloud_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.pointcloud_attr.</span></span><span class="sig-name descname"><span class="pre">PointCloudAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
+<p>点云渲染类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.ShowPointCloud">
+<span class="sig-name descname"><span class="pre">ShowPointCloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ply_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.ShowPointCloud" title="永久链接至目标"></a></dt>
+<dd><p>显示点云</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>positions</strong> – 点位置列表</p></li>
+<li><p><strong>colors</strong> – 点颜色列表</p></li>
+<li><p><strong>ply_path</strong> – .ply文件列表，如果不为空，则positions和colors参数无效</p></li>
+<li><p><strong>radius</strong> – 点半径</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.SetRadius">
+<span class="sig-name descname"><span class="pre">SetRadius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.SetRadius" title="永久链接至目标"></a></dt>
+<dd><p>设置点半径</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>radius</strong> – 半径</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.rigidbody_attr">
+<span id="pyrfuniverse-attributes-rigidbody-attr-module"></span><h2>pyrfuniverse.attributes.rigidbody_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.rigidbody_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.rigidbody_attr.</span></span><span class="sig-name descname"><span class="pre">RigidbodyAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr" title="pyrfuniverse.attributes.collider_attr.ColliderAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColliderAttr</span></code></a></p>
+<p>刚体类</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetMass">
+<span class="sig-name descname"><span class="pre">SetMass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetMass" title="永久链接至目标"></a></dt>
+<dd><p>设置刚体质量</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mass</strong> – 刚体质量</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.AddForce">
+<span class="sig-name descname"><span class="pre">AddForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.AddForce" title="永久链接至目标"></a></dt>
+<dd><p>为刚体施加力</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force</strong> – 力 Vecter3</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetVelocity">
+<span class="sig-name descname"><span class="pre">SetVelocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetVelocity" title="永久链接至目标"></a></dt>
+<dd><p>设置刚体速度</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>velocity</strong> – 速度 Vecter3</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.attributes.softbody_attr">
+<span id="pyrfuniverse-attributes-softbody-attr-module"></span><h2>pyrfuniverse.attributes.softbody_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.softbody_attr" title="此标题的永久链接"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.softbody_attr.SoftbodyAttr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.softbody_attr.</span></span><span class="sig-name descname"><span class="pre">SoftbodyAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr" title="永久链接至目标"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
+<p>ObiSoftbody类</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="pyrfuniverse.envs.html" class="btn btn-neutral float-left" title="pyrfuniverse.envs package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="pyrfuniverse.utils.html" class="btn btn-neutral float-right" title="pyrfuniverse.utils package" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, RobotFlow.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
