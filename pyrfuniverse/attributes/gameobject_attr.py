@@ -56,9 +56,14 @@ class GameObjectAttr(attr.BaseAttr):
         解析消息
 
         Returns:
-
+            self.data['3d_bounding_box'] 物体3D包围盒
         """
         super().parse_message(msg)
+        if msg.read_bool():
+            self.data['3d_bounding_box'] = {}
+            self.data['3d_bounding_box']['position'] = [msg.read_float32() for _ in range(3)]
+            self.data['3d_bounding_box']['rotation'] = [msg.read_float32() for _ in range(3)]
+            self.data['3d_bounding_box']['size'] = [msg.read_float32() for _ in range(3)]
         return self.data
 
     def SetColor(self, color: list):
@@ -106,3 +111,22 @@ class GameObjectAttr(attr.BaseAttr):
         msg.write_string(path)
 
         self.env.instance_channel.send_message(msg)
+
+    def Get3DBBox(self):
+        """
+        获取该物体3D Bounding Box
+
+        Returns:
+            调用此接口并step后，从
+            self.data['3d_bounding_box']
+            获取结果
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('Get3DBBox')
+
+        self.env.instance_channel.send_message(msg)
+
+
+

@@ -284,7 +284,6 @@ class RFUniverseBaseEnv(ABC):
 
         Args:
             name: 物体名
-
                 RfUniverseRelease中已有的资源类型及名称:
                     GameObjcetAttr 静态物体:
                         GameObject_Box,
@@ -629,57 +628,75 @@ class RFUniverseBaseEnv(ABC):
 
 
     #Dubug API
-    def DebugGraspPoint(self) -> None:
+    def DebugGraspPoint(self, enabled: bool = True) -> None:
         """
         Debug显示机械臂末端点
         """
         msg = OutgoingMessage()
         msg.write_string('DebugGraspPoint')
+        msg.write_bool(enabled)
         self.debug_channel.send_message(msg)
 
-    def DebugObjectPose(self) -> None:
+    def DebugObjectPose(self, enabled: bool = True) -> None:
         """
         Debug显示物体base点
         """
         msg = OutgoingMessage()
         msg.write_string('DebugObjectPose')
+        msg.write_bool(enabled)
         self.debug_channel.send_message(msg)
 
-    def DebugCollisionPair(self) -> None:
+    def DebugCollisionPair(self, enabled: bool = True) -> None:
         """
         Debug显示物理碰撞对
         """
         msg = OutgoingMessage()
         msg.write_string('DebugCollisionPair')
+        msg.write_bool(enabled)
         self.debug_channel.send_message(msg)
-    def DebugColliderBound(self) -> None:
+    def DebugColliderBound(self, enabled: bool = True) -> None:
         """
         Debug显示碰撞包围盒
         """
         msg = OutgoingMessage()
         msg.write_string('DebugColliderBound')
+        msg.write_bool(enabled)
         self.debug_channel.send_message(msg)
 
-    def DebugObjectID(self) -> None:
+    def DebugObjectID(self, enabled: bool = True) -> None:
         """
         Debug显示碰物体ID
         """
         msg = OutgoingMessage()
         msg.write_string('DebugObjectID')
+        msg.write_bool(enabled)
         self.debug_channel.send_message(msg)
 
-    def Debug3DBBox(self) -> None:
+    def Debug3DBBox(self, enabled: bool = True) -> None:
         """
         Debug显示物体3DBoundingBox
         """
         msg = OutgoingMessage()
         msg.write_string('Debug3DBBox')
+        msg.write_bool(enabled)
         self.debug_channel.send_message(msg)
 
-    def _SendVersion(self) -> None:
+    def Debug2DBBox(self, enabled: bool = True) -> None:
+        """
+        Debug显示物体2DBoundingBox
+        """
         msg = OutgoingMessage()
-        msg.write_string('SendVersion')
-        msg.write_string(pyrfuniverse.__version__)
+        msg.write_string('Debug2DBBox')
+        msg.write_bool(enabled)
+        self.debug_channel.send_message(msg)
+
+    def DebugJointLink(self, enabled: bool = True) -> None:
+        """
+        Debug显示关节体Joint信息
+        """
+        msg = OutgoingMessage()
+        msg.write_string('DebugJointLink')
+        msg.write_bool(enabled)
         self.debug_channel.send_message(msg)
 
     def SendLog(self, log: str) -> None:
@@ -692,6 +709,12 @@ class RFUniverseBaseEnv(ABC):
         msg = OutgoingMessage()
         msg.write_string('SendLog')
         msg.write_string(log)
+        self.debug_channel.send_message(msg)
+
+    def _SendVersion(self) -> None:
+        msg = OutgoingMessage()
+        msg.write_string('SendVersion')
+        msg.write_string(pyrfuniverse.__version__)
         self.debug_channel.send_message(msg)
 
 

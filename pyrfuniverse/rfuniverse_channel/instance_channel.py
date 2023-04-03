@@ -15,8 +15,8 @@ class InstanceChannel(RFUniverseChannel):
         self.data = {}
 
     def _parse_message(self, msg: IncomingMessage) -> None:
-        count = msg.read_int32()
-        for i in range(count):
+        # count = msg.read_int32()
+        # for i in range(count):
             this_object_id = msg.read_int32()
             this_object_type = msg.read_string()
 
