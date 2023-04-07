@@ -626,6 +626,32 @@ class RFUniverseBaseEnv(ABC):
 
         self.asset_channel.send_message(msg)
 
+    def SetViewTransform(self, position: list = None, rotation: list = None) -> None:
+        """
+        设置视口位置和旋转
+
+        Args:
+            position: 位置
+            rotation: 旋转
+        """
+        msg = OutgoingMessage()
+
+        msg.write_string('SetViewTransform')
+        msg.write_bool(position is not None)
+        msg.write_bool(rotation is not None)
+        if position is not None:
+            assert type(position) == list and len(position) == 3, \
+                'Argument position must be a 3-d list.'
+            for i in range(3):
+                msg.write_float32(position[i])
+        if rotation is not None:
+            assert type(rotation) == list and len(rotation) == 3, \
+                'Argument rotation must be a 3-d list.'
+            for i in range(3):
+                msg.write_float32(rotation[i])
+
+        self.asset_channel.send_message(msg)
+
 
     #Dubug API
     def DebugGraspPoint(self, enabled: bool = True) -> None:

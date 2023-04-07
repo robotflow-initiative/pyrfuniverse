@@ -332,6 +332,7 @@ class UnityEnvironment(BaseEnv):
         with hierarchical_timer("communicator.exchange"):
             outputs = self._communicator.exchange(step_input, self._poll_process)
         if outputs is None:
+            self._close()
             raise UnityCommunicatorStoppedException("Communicator has exited.")
         self._update_behavior_specs(outputs)
         rl_output = outputs.rl_output
