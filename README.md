@@ -5,6 +5,8 @@
 `pyrfuniverse` is a python package used to interact with `RFUniverse` simulation environment. It is developed upon
 [ML-Agents](https://github.com/Unity-Technologies/ml-agents) and produce new features.
 
+[Documentation](https://knotty-watch-cad.notion.site/RFUniverse-3afda956497b4c33b5a45f68b49d9816)：It is currently mostly in Chinese, we are working on finishing it and translating to English.
+
 **Note:** current branch is under development.
 
 ## Installation
