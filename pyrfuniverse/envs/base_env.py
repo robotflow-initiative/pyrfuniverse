@@ -558,7 +558,7 @@ class RFUniverseBaseEnv(ABC):
 
     def ExportOBJ(self, items_id: list, save_path: str) -> None:
         """
-        导出指定物体列表为OBJ文件
+        导出指定物体列表为OBJ文件，对于原生Bundle模型，需要在UnityEditor中勾选Read/Write才能正确导出
 
         Args:
             items_id: 物体ID列表

@@ -168,6 +168,8 @@ class CameraAttr(attr.BaseAttr):
 
             self.data['amodal_mask'] amodal_mask图bytes
 
+            self.data['heat_map'] heat_map图bytes
+
             self.data['2d_bounding_box'] 相机屏幕坐标系下2d_bounding_box数据
 
             self.data['3d_bounding_box'] 世界空间3d_bounding_box数据
@@ -188,6 +190,8 @@ class CameraAttr(attr.BaseAttr):
             self.data['depth_exr'] = base64.b64decode(msg.read_string())
         if msg.read_bool() is True:
             self.data['amodal_mask'] = base64.b64decode(msg.read_string())
+        if msg.read_bool() is True:
+            self.data['heat_map'] = base64.b64decode(msg.read_string())
         if msg.read_bool() is True:
             ddbbox_count = msg.read_int32()
             self.data['2d_bounding_box'] = {}
@@ -399,6 +403,58 @@ class CameraAttr(attr.BaseAttr):
         msg.write_int32(self.id)
         msg.write_string('GetAmodalMask')
         msg.write_int32(target_id)
+        if len(intrinsic_matrix) == 9:
+            msg.write_bool(True)
+            msg.write_float32_list(intrinsic_matrix)
+        else:
+            msg.write_bool(False)
+            msg.write_int32(width)
+            msg.write_int32(height)
+            msg.write_float32(fov)
+
+        self.env.instance_channel.send_message(msg)
+
+    def StartHeatMapRecord(self, targets_id: list):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('StartHeatMapRecord')
+        msg.write_int32(len(targets_id))
+        for target in targets_id:
+            msg.write_int32(target)
+
+        self.env.instance_channel.send_message(msg)
+
+    def EndHeatMapRecord(self):
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('EndHeatMapRecord')
+
+        self.env.instance_channel.send_message(msg)
+
+    def GetHeatMap(self, width: int = 512, height: int = 512, radius: int = 50, fov: float = 60., intrinsic_matrix=None):
+        """
+        获取目标物体的HeatMap图像
+
+        Args:
+            width: 图像分辨率宽度
+            height: 图像分辨率高度
+            radius: 热力图半径
+            fov: 相机FOV
+            intrinsic_matrix: List[9]相机内参，当传入时，width、height、fov参数无效
+
+        Returns:
+            调用此接口并step后，从self.data['heat_map']获取结果
+        """
+        if intrinsic_matrix is None:
+            intrinsic_matrix = []
+
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('GetHeatMap')
+        msg.write_int32(radius)
         if len(intrinsic_matrix) == 9:
             msg.write_bool(True)
             msg.write_float32_list(intrinsic_matrix)
