@@ -10,19 +10,18 @@ import tempfile
 
 def image_bytes_to_point_cloud(rgb_bytes: bytes, depth_bytes: bytes, fov: float, extrinsic_matrix: np.ndarray):
     """
-    Convert bytes to images, then convert them into point cloud
+    使用rgb与深度图bytes以及相机fov生成世界空间点云
+
+    Args:
+        rgb_bytes: rgb图bytes
+        depth_bytes: 深度图bytes
+        fov: 摄像机fov
+        extrinsic_matrix: 相机外参矩阵
     """
     image_rgb = np.frombuffer(rgb_bytes, dtype=np.uint8)
     image_rgb = cv2.imdecode(image_rgb, cv2.IMREAD_COLOR)
     image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
     image_rgb = np.transpose(image_rgb, [1, 0, 2])
-
-    # image_depth = np.frombuffer(depth_bytes, dtype=np.float16)
-    # image_depth = cv2.imdecode(image_depth, cv2.IMREAD_UNCHANGED)
-
-    # image_depth = np.frombuffer(depth_bytes, dtype=np.uint8)
-    # image_depth = cv2.imdecode(image_depth, cv2.IMREAD_GRAYSCALE)
-    # image_depth = image_depth * 5 / 255
 
     temp_file_path = osp.join(tempfile.gettempdir(), 'temp_img.exr')
     with open(temp_file_path, 'wb') as f:
@@ -37,6 +36,15 @@ def image_bytes_to_point_cloud(rgb_bytes: bytes, depth_bytes: bytes, fov: float,
 
 
 def image_array_to_point_cloud(image_rgb: np.ndarray, image_depth: np.ndarray, fov: float, extrinsic_matrix: np.ndarray):
+    """
+    使用rgb与深度图以及相机fov生成世界空间点云
+
+    Args:
+        image_rgb: rgb图像素颜色ndarray,shape为(H,W,3)
+        image_depth: 深度图像素颜色ndarray,shape为(H,W,3)
+        fov: 摄像机fov
+        extrinsic_matrix: 相机外参矩阵
+    """
     points = depth_to_point_cloud(image_depth, fov=fov, organized=False)
     pcd = o3d.geometry.PointCloud()
     pcd.points = o3d.utility.Vector3dVector(points)
@@ -50,17 +58,12 @@ def image_array_to_point_cloud(image_rgb: np.ndarray, image_depth: np.ndarray, f
 
 def depth_to_point_cloud(depth: np.ndarray, fov: float, organized=False):
     """
-    Generate point cloud using depth image only.
-        author: GraspNet baseline
+    使用深度图以及相机fov生成点云
 
-        Args:
-            depth: [numpy.ndarray, (W,H), numpy.float32] Depth image
-            fov: [float] Field Of View for camera
-            organized: [bool] Whether to keep the cloud in image shape (W,H,3)
-
-        Return:
-            cloud: [numpy.ndarray, (W,H,3)/(W*H,3), numpy.float32]
-                generated cloud, (W,H,3) for organized=True, (W*H,3) for organized=False
+    Args:
+        depth: 深度图像素颜色ndarray,shape为(H,W,3)
+        fov: 摄像机fov
+        organized: 是否保持点云有序,若为True,则返回的点云shape为(H,W,3),否则为(H*W,3)
     """
     width = depth.shape[0]
     height = depth.shape[1]
@@ -92,6 +95,15 @@ def depth_to_point_cloud(depth: np.ndarray, fov: float, organized=False):
     return cloud
 
 def image_bytes_to_point_cloud_intrinsic_matrix(rgb_bytes: bytes, depth_bytes: bytes, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
+    """
+    使用rgb与深度图bytes以及相机内参矩阵生成世界空间点云
+
+    Args:
+        rgb_bytes: rgb图bytes
+        depth_bytes: 深度图bytes
+        intrinsic_matrix: 相机内参矩阵
+        extrinsic_matrix: 相机外参矩阵
+    """
     temp_file_path = osp.join(tempfile.gettempdir(), f'temp_img_{int(random.uniform(10000000,99999999))}.png')
     with open(temp_file_path, 'wb') as f:
         f.write(rgb_bytes)
@@ -119,6 +131,15 @@ def image_bytes_to_point_cloud_intrinsic_matrix(rgb_bytes: bytes, depth_bytes: b
 
 
 def image_array_to_point_cloud_intrinsic_matrix(image_rgb: np.ndarray, image_depth: np.ndarray, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
+    """
+    使用rgb与深度图以及相机内参矩阵生成世界空间点云
+
+    Args:
+        image_rgb: rgb图像素颜色ndarray,shape为(H,W,3)
+        image_depth: 深度图像素颜色ndarray,shape为(H,W,3)
+        intrinsic_matrix: 相机内参矩阵
+        extrinsic_matrix: 相机外参矩阵
+    """
     temp_file_path = osp.join(tempfile.gettempdir(), f'temp_img_{int(random.uniform(10000000,99999999))}.png')
 
     image_rgb = np.transpose(image_rgb, [1, 0, 2])
@@ -139,6 +160,15 @@ def image_array_to_point_cloud_intrinsic_matrix(image_rgb: np.ndarray, image_dep
     return pcd
 
 def image_open3d_to_point_cloud_intrinsic_matrix(color: o3d.geometry.Image, depth: o3d.geometry.Image, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
+    """
+    使用open3d格式的rgb与深度图以及相机内参矩阵生成世界空间点云
+
+    Args:
+        color: open3d格式的rgb图
+        depth: open3d格式的深度图
+        intrinsic_matrix: 相机内参矩阵
+        extrinsic_matrix: 相机外参矩阵
+    """
     rgbd_image = o3d.geometry.RGBDImage.create_from_color_and_depth(
         color, depth, depth_trunc=20, convert_rgb_to_intensity=False)
 
@@ -159,6 +189,14 @@ def image_open3d_to_point_cloud_intrinsic_matrix(color: o3d.geometry.Image, dept
     return pcd
 
 def mask_point_cloud_with_id_color(pcd: o3d.geometry.PointCloud, image_mask: np.ndarray, color:list):
+    """
+    使用mask/id图对点云进行过滤
+
+    Args:
+        pcd: open3d点云
+        image_mask: mask/id图,shape为(H,W,3)
+        color: 需要筛选出的像素颜色
+    """
     image_mask = image_mask.reshape(-1, 3)
     index = np.argwhere(image_mask == color)[:, 0]
     index = index[::3]
@@ -169,6 +207,14 @@ def mask_point_cloud_with_id_color(pcd: o3d.geometry.PointCloud, image_mask: np.
     return pcd
 
 def mask_point_cloud_with_id_gray_color(pcd: o3d.geometry.PointCloud, image_mask: np.ndarray, color:int):
+    """
+    使用单通道mask/id图对点云进行过滤
+
+    Args:
+        pcd: open3d点云
+        image_mask: 单通道mask/id图,shape为(H,W)
+        color: 需要筛选出的像素灰度
+    """
     image_mask = image_mask.reshape(-1)
     index = np.argwhere(image_mask == color).reshape(-1)
     id_pcd = o3d.geometry.PointCloud()
@@ -179,6 +225,14 @@ def mask_point_cloud_with_id_gray_color(pcd: o3d.geometry.PointCloud, image_mask
     return id_pcd
 
 def filter_active_depth_point_cloud_with_exact_depth_point_cloud(active_pcd: o3d.geometry.PointCloud, exact_pcd: o3d.geometry.PointCloud, max_distance:float = 0.05):
+    """
+    使用精确的点云过滤红外点云,外出距离过远的点
+
+    Args:
+        active_pcd: 红外点云
+        exact_pcd: 精确点云
+        max_distance: 允许的最大距离
+    """
     active_point = np.array(active_pcd.points)
     exact_point = np.array(exact_pcd.points)
     # m = exact_point.shape[0]
@@ -194,42 +248,3 @@ def filter_active_depth_point_cloud_with_exact_depth_point_cloud(active_pcd: o3d
     c = np.array(active_pcd.colors)[index]
     filter_pcd.colors = o3d.utility.Vector3dVector(c)
     return filter_pcd
-
-def filter_active_depth_point_cloud_with_exact_depth_point_cloud_bound(active_pcd: o3d.geometry.PointCloud, exact_pcd: o3d.geometry.PointCloud, max_distance:float = 0.05):
-    active_point = np.array(active_pcd.points)
-    exact_point = np.array(exact_pcd.points)
-    x_all = exact_point[:, 0]
-    y_all = exact_point[:, 1]
-    z_all = exact_point[:, 2]
-    x_max = np.max(x_all) + max_distance
-    x_min = np.min(x_all) - max_distance
-    y_max = np.max(y_all) + max_distance
-    y_min = np.min(y_all) - max_distance
-    z_max = np.max(z_all) + max_distance
-    z_min = np.min(z_all) - max_distance
-    active_x_all = active_point[:, 0].reshape(-1, 1)
-    active_y_all = active_point[:, 1].reshape(-1, 1)
-    active_z_all = active_point[:, 2].reshape(-1, 1)
-    index_x_max = np.argwhere(active_x_all < x_max)
-    index_y_max = np.argwhere(active_y_all < y_max)
-    index_z_max = np.argwhere(active_z_all < z_max)
-    index_x_min = np.argwhere(active_x_all > x_min)
-    index_y_min = np.argwhere(active_y_all > y_min)
-    index_z_min = np.argwhere(active_z_all > z_min)
-    index = np.intersect1d(index_x_max, index_y_max)
-    index = np.intersect1d(index, index_z_max)
-    index = np.intersect1d(index, index_x_min)
-    index = np.intersect1d(index, index_y_min)
-    index = np.intersect1d(index, index_z_min)
-    # index = np.argwhere(active_x_all < x_max and active_x_all > x_min and active_y_all < y_max and active_y_all > y_min and active_z_all < z_max and active_z_all > z_min)
-    # index=[]
-    # for i in range(active_point.shape[0]):
-        # if active_point[i, 0] < x_max and active_point[i, 0] > x_min and active_point[i, 1] < y_max and active_point[i, 1] > y_min and active_point[i, 2] < z_max and active_point[i, 2] > z_min:
-            # index.append(i)
-
-    pcd = o3d.geometry.PointCloud()
-    d = np.array(active_pcd.points)[index]
-    pcd.points = o3d.utility.Vector3dVector(d)
-    c = np.array(active_pcd.colors)[index]
-    pcd.colors = o3d.utility.Vector3dVector(c)
-    return pcd

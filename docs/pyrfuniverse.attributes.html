@@ -83,6 +83,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetDepth()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetDepthEXR()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetAmodalMask"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetAmodalMask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetHeatMap"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetHeatMap()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.Get2DBBox"><code class="docutils literal notranslate"><span class="pre">CameraAttr.Get2DBBox()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.Get3DBBox"><code class="docutils literal notranslate"><span class="pre">CameraAttr.Get3DBBox()</span></code></a></li>
 </ul>
@@ -151,6 +152,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetColor"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.SetColor()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.EnabledRender"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.EnabledRender()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetTexture"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.SetTexture()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.Get3DBBox"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.Get3DBBox()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -257,14 +259,14 @@
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.activelightsensor_attr.</span></span><span class="sig-name descname"><span class="pre">ActiveLightSensorAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr" title="pyrfuniverse.attributes.camera_attr.CameraAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraAttr</span></code></a></p>
-<p>红外深度传感器类，能够获取模拟真实深度相机噪声的深度图</p>
+<p>红外深度传感器类,能够获取模拟真实深度相机噪声的深度图</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message">
 <span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message" title="永久链接至目标"></a></dt>
 <dd><p>解析消息</p>
 <dl class="field-list simple">
 <dt class="field-odd">返回<span class="colon">:</span></dt>
-<dd class="field-odd"><p>self.data[‘active_depth’] 红外深度图，shape = [w,h]</p>
+<dd class="field-odd"><p>self.data[‘active_depth’] 红外深度图,shape = [w,h]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -281,7 +283,7 @@
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>调用此接口并step后，从self.data[‘active_depth’]获取结果</p>
+<dd class="field-even"><p>调用此接口并step后,从self.data[‘active_depth’]获取结果</p>
 </dd>
 </dl>
 </dd></dl>
@@ -295,7 +297,7 @@
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.base_attr.</span></span><span class="sig-name descname"><span class="pre">BaseAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>基础Attr类，包含物体加载删除移动等通用功能</p>
+<p>基础Attr类,包含物体加载删除移动等通用功能</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.parse_message">
 <span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.parse_message" title="永久链接至目标"></a></dt>
@@ -482,7 +484,7 @@
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.camera_attr.</span></span><span class="sig-name descname"><span class="pre">CameraAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr" title="永久链接至目标"></a></dt>
 <dd><p>基类：<a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
-<p>相机类，可获取各种相机截图</p>
+<p>相机类,可获取各种相机截图</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.parse_message">
 <span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.parse_message" title="永久链接至目标"></a></dt>
@@ -498,6 +500,7 @@
 <p>self.data[‘depth’] 深度图像bytes</p>
 <p>self.data[‘depth_exr’] EXR深度图像bytes</p>
 <p>self.data[‘amodal_mask’] amodal_mask图bytes</p>
+<p>self.data[‘heat_map’] heat_map图bytes</p>
 <p>self.data[‘2d_bounding_box’] 相机屏幕坐标系下2d_bounding_box数据</p>
 <p>self.data[‘3d_bounding_box’] 世界空间3d_bounding_box数据</p>
 </p>
@@ -521,11 +524,11 @@
 <li><p><strong>width</strong> – 图像分辨率宽度</p></li>
 <li><p><strong>height</strong> – 图像分辨率高度</p></li>
 <li><p><strong>fov</strong> – 相机FOV</p></li>
-<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参,当传入时,width、height、fov参数无效</p></li>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>调用此接口并step后，从self.data[‘rgb’]获取结果</p>
+<dd class="field-even"><p>调用此接口并step后,从self.data[‘rgb’]获取结果</p>
 </dd>
 </dl>
 </dd></dl>
@@ -540,11 +543,11 @@
 <li><p><strong>width</strong> – 图像分辨率宽度</p></li>
 <li><p><strong>height</strong> – 图像分辨率高度</p></li>
 <li><p><strong>fov</strong> – 相机FOV</p></li>
-<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参,当传入时,width、height、fov参数无效</p></li>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>调用此接口并step后，从self.data[‘normal’]获取结果</p>
+<dd class="field-even"><p>调用此接口并step后,从self.data[‘normal’]获取结果</p>
 </dd>
 </dl>
 </dd></dl>
@@ -552,18 +555,18 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetID">
 <span class="sig-name descname"><span class="pre">GetID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetID" title="永久链接至目标"></a></dt>
-<dd><p>获取相机的ID图像，每个像素的颜色值由物体ID计算而来，见rfuniverse_utility.GetColorFromID</p>
+<dd><p>获取相机的ID图像,每个像素的颜色值由物体ID计算而来,见rfuniverse_utility.GetColorFromID</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>width</strong> – 图像分辨率宽度</p></li>
 <li><p><strong>height</strong> – 图像分辨率高度</p></li>
 <li><p><strong>fov</strong> – 相机FOV</p></li>
-<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参,当传入时,width、height、fov参数无效</p></li>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>调用此接口并step后，从self.data[‘id_map’]获取结果</p>
+<dd class="field-even"><p>调用此接口并step后,从self.data[‘id_map’]获取结果</p>
 </dd>
 </dl>
 </dd></dl>
@@ -571,7 +574,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth">
 <span class="sig-name descname"><span class="pre">GetDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zero_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth" title="永久链接至目标"></a></dt>
-<dd><p>获取相机的深度图像，由于8位深度图精度低，因此需要限制范围以提高精度</p>
+<dd><p>获取相机的深度图像,由于8位深度图精度低,因此需要限制范围以提高精度</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -580,11 +583,11 @@
 <li><p><strong>width</strong> – 图像分辨率宽度</p></li>
 <li><p><strong>height</strong> – 图像分辨率高度</p></li>
 <li><p><strong>fov</strong> – 相机FOV</p></li>
-<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参,当传入时,width、height、fov参数无效</p></li>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>调用此接口并step后，从self.data[‘depth’]获取结果</p>
+<dd class="field-even"><p>调用此接口并step后,从self.data[‘depth’]获取结果</p>
 </dd>
 </dl>
 </dd></dl>
@@ -592,18 +595,18 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR">
 <span class="sig-name descname"><span class="pre">GetDepthEXR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR" title="永久链接至目标"></a></dt>
-<dd><p>获取相机的世界空间深度图像，EXR格式图像支持存储32位信息，因此无需限制范围</p>
+<dd><p>获取相机的世界空间深度图像,EXR格式图像支持存储32位信息,因此无需限制范围</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>width</strong> – 图像分辨率宽度</p></li>
 <li><p><strong>height</strong> – 图像分辨率高度</p></li>
 <li><p><strong>fov</strong> – 相机FOV</p></li>
-<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参,当传入时,width、height、fov参数无效</p></li>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>调用此接口并step后，从self.data[‘depth_exr’]获取结果</p>
+<dd class="field-even"><p>调用此接口并step后,从self.data[‘depth_exr’]获取结果</p>
 </dd>
 </dl>
 </dd></dl>
@@ -619,11 +622,31 @@
 <li><p><strong>width</strong> – 图像分辨率宽度</p></li>
 <li><p><strong>height</strong> – 图像分辨率高度</p></li>
 <li><p><strong>fov</strong> – 相机FOV</p></li>
-<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参,当传入时,width、height、fov参数无效</p></li>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>调用此接口并step后，从self.data[‘amodal_mask’]获取结果</p>
+<dd class="field-even"><p>调用此接口并step后,从self.data[‘amodal_mask’]获取结果</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetHeatMap">
+<span class="sig-name descname"><span class="pre">GetHeatMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetHeatMap" title="永久链接至目标"></a></dt>
+<dd><p>获取目标物体的HeatMap图像</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> – 图像分辨率宽度</p></li>
+<li><p><strong>height</strong> – 图像分辨率高度</p></li>
+<li><p><strong>radius</strong> – 热力图半径</p></li>
+<li><p><strong>fov</strong> – 相机FOV</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参,当传入时,width、height、fov参数无效</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>调用此接口并step后,从self.data[‘heat_map’]获取结果</p>
 </dd>
 </dl>
 </dd></dl>
@@ -638,11 +661,11 @@
 <li><p><strong>width</strong> – 图像分辨率宽度</p></li>
 <li><p><strong>height</strong> – 图像分辨率高度</p></li>
 <li><p><strong>fov</strong> – 相机FOV</p></li>
-<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参，当传入时，width、height、fov参数无效</p></li>
+<li><p><strong>intrinsic_matrix</strong> – List[9]相机内参,当传入时,width、height、fov参数无效</p></li>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>调用此接口并step后，从self.data[‘2d_bounding_box’]获取结果</p>
+<dd class="field-even"><p>调用此接口并step后,从self.data[‘2d_bounding_box’]获取结果</p>
 </dd>
 </dl>
 </dd></dl>
@@ -653,7 +676,7 @@
 <dd><p>获取物体的3DBBox</p>
 <dl class="field-list simple">
 <dt class="field-odd">返回<span class="colon">:</span></dt>
-<dd class="field-odd"><p>调用此接口并step后，从self.data[‘3d_bounding_box’]获取结果</p>
+<dd class="field-odd"><p>调用此接口并step后,从self.data[‘3d_bounding_box’]获取结果</p>
 </dd>
 </dl>
 </dd></dl>
@@ -871,7 +894,7 @@
 <dd><p>获取机械臂所有关节逆动力学数据</p>
 <dl class="field-list simple">
 <dt class="field-odd">返回<span class="colon">:</span></dt>
-<dd class="field-odd"><p>调用此接口并step后，从
+<dd class="field-odd"><p>调用此接口并step后,从
 self.data[‘gravity_forces’]
 self.data[‘coriolis_centrifugal_forces’]
 self.data[‘drive_forces’]
@@ -894,7 +917,7 @@ self.data[‘drive_forces’]
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.MoveForward">
 <span class="sig-name descname"><span class="pre">MoveForward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.MoveForward" title="永久链接至目标"></a></dt>
-<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动前进
+<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动前进
 最初用于Tobor机器人</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
@@ -909,7 +932,7 @@ self.data[‘drive_forces’]
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.MoveBack">
 <span class="sig-name descname"><span class="pre">MoveBack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.MoveBack" title="永久链接至目标"></a></dt>
-<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动后退
+<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动后退
 最初用于Tobor机器人</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
@@ -924,7 +947,7 @@ self.data[‘drive_forces’]
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.TurnLeft">
 <span class="sig-name descname"><span class="pre">TurnLeft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.TurnLeft" title="永久链接至目标"></a></dt>
-<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动左转
+<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动左转
 最初用于Tobor机器人</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
@@ -939,7 +962,7 @@ self.data[‘drive_forces’]
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.TurnRight">
 <span class="sig-name descname"><span class="pre">TurnRight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.TurnRight" title="永久链接至目标"></a></dt>
-<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动右转
+<dd><p>如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动右转
 最初用于Tobor机器人</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
@@ -954,13 +977,13 @@ self.data[‘drive_forces’]
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.GripperOpen">
 <span class="sig-name descname"><span class="pre">GripperOpen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.GripperOpen" title="永久链接至目标"></a></dt>
-<dd><p>如果夹爪在Unity端添加了继承ICustomGripper接口的脚本，可通过此接口驱动张开</p>
+<dd><p>如果夹爪在Unity端添加了继承ICustomGripper接口的脚本,可通过此接口驱动张开</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.GripperClose">
 <span class="sig-name descname"><span class="pre">GripperClose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.GripperClose" title="永久链接至目标"></a></dt>
-<dd><p>如果夹爪在Unity端添加了继承ICustomGripper接口的脚本，可通过此接口驱动闭合</p>
+<dd><p>如果夹爪在Unity端添加了继承ICustomGripper接口的脚本,可通过此接口驱动闭合</p>
 </dd></dl>
 
 <dl class="py method">
@@ -988,7 +1011,7 @@ self.data[‘drive_forces’]
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>当移动完成时，self.data[‘move_done’]会被置为True</p>
+<dd class="field-even"><p>当移动完成时,self.data[‘move_done’]会被置为True</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1007,7 +1030,7 @@ self.data[‘drive_forces’]
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>当旋转完成时，self.data[‘rotate_done’]会被置为True</p>
+<dd class="field-even"><p>当旋转完成时,self.data[‘rotate_done’]会被置为True</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1026,7 +1049,7 @@ self.data[‘drive_forces’]
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>当旋转完成时，self.data[‘rotate_done’]会被置为True</p>
+<dd class="field-even"><p>当旋转完成时,self.data[‘rotate_done’]会被置为True</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1052,7 +1075,7 @@ self.data[‘drive_forces’]
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>position</strong> – 偏移位置</p></li>
 <li><p><strong>rotation</strong> – 偏移旋转Vector3</p></li>
-<li><p><strong>quaternion</strong> – 偏移旋转四元数，此值覆盖rotation</p></li>
+<li><p><strong>quaternion</strong> – 偏移旋转四元数,此值覆盖rotation</p></li>
 </ul>
 </dd>
 </dl>
@@ -1093,8 +1116,8 @@ self.data[‘drive_forces’]
 <dd><p>获取传感器数据</p>
 <dl class="field-list simple">
 <dt class="field-odd">返回<span class="colon">:</span></dt>
-<dd class="field-odd"><p>调用此接口并step后，从
-self.data[‘light’]: 获取RGB灯光图像，
+<dd class="field-odd"><p>调用此接口并step后,从
+self.data[‘light’]: 获取RGB灯光图像,
 self.data[‘depth’]: 获取深度图像</p>
 </dd>
 </dl>
@@ -1114,7 +1137,11 @@ self.data[‘depth’]: 获取深度图像</p>
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.parse_message">
 <span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.parse_message" title="永久链接至目标"></a></dt>
 <dd><p>解析消息</p>
-<p>Returns:</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>self.data[‘3d_bounding_box’] 物体3D包围盒</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1123,7 +1150,7 @@ self.data[‘depth’]: 获取深度图像</p>
 <dd><p>设置物体颜色</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>color</strong> – 颜色，长度为4，分别为RGBA[0-1]</p>
+<dd class="field-odd"><p><strong>color</strong> – 颜色,长度为4,分别为RGBA[0-1]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1146,6 +1173,19 @@ self.data[‘depth’]: 获取深度图像</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> – 纹理贴图绝对路径</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.Get3DBBox">
+<span class="sig-name descname"><span class="pre">Get3DBBox</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.Get3DBBox" title="永久链接至目标"></a></dt>
+<dd><p>获取该物体3D Bounding Box</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回<span class="colon">:</span></dt>
+<dd class="field-odd"><p>调用此接口并step后,从
+self.data[‘3d_bounding_box’]
+获取结果</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1195,7 +1235,7 @@ self.data[‘depth’]: 获取深度图像</p>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>当模拟完成时，self.data[‘done’]会被置为True
+<dd class="field-even"><p>当模拟完成时,self.data[‘done’]会被置为True
 self.data[‘points’]为抓点列表
 self.data[‘quaternions’]为抓点对应的四元数列表
 self.data[‘width’]为抓点对应的抓型宽度列表</p>
@@ -1241,7 +1281,7 @@ self.data[‘width’]为抓点对应的抓型宽度列表</p>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>当模拟完成时，self.data[‘done’]会被置为True
+<dd class="field-even"><p>当模拟完成时,self.data[‘done’]会被置为True
 self.data[‘success’]为抓取结果列表</p>
 </dd>
 </dl>
@@ -1293,7 +1333,7 @@ self.data[‘success’]为抓取结果列表</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>index</strong> – 移动的目标：0-左手，1-右手，2-左脚，3-右脚，4-头部</p></li>
+<li><p><strong>index</strong> – 移动的目标：0-左手,1-右手,2-左脚,3-右脚,4-头部</p></li>
 <li><p><strong>position</strong> – 绝对位置或相对位置</p></li>
 <li><p><strong>duration</strong> – 移动持续时间或移动速度</p></li>
 <li><p><strong>speed_based</strong> – 指定duration表示移动持续时间还是移动速度</p></li>
@@ -1301,7 +1341,7 @@ self.data[‘success’]为抓取结果列表</p>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>当移动完成时，self.data[‘move_done’]会被置为True</p>
+<dd class="field-even"><p>当移动完成时,self.data[‘move_done’]会被置为True</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1313,7 +1353,7 @@ self.data[‘success’]为抓取结果列表</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>index</strong> – 移动的目标：0-左手，1-右手，2-左脚，3-右脚，4-头部</p></li>
+<li><p><strong>index</strong> – 移动的目标：0-左手,1-右手,2-左脚,3-右脚,4-头部</p></li>
 <li><p><strong>rotation</strong> – 绝对旋转或相对旋转</p></li>
 <li><p><strong>duration</strong> – 旋转持续时间或旋转速度</p></li>
 <li><p><strong>speed_based</strong> – 指定duration表示旋转持续时间还是旋转速度</p></li>
@@ -1321,7 +1361,7 @@ self.data[‘success’]为抓取结果列表</p>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>当旋转完成时，self.data[‘rotate_done’]会被置为True</p>
+<dd class="field-even"><p>当旋转完成时,self.data[‘rotate_done’]会被置为True</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1333,7 +1373,7 @@ self.data[‘success’]为抓取结果列表</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>index</strong> – 移动的目标：0-左手，1-右手，2-左脚，3-右脚，4-头部</p></li>
+<li><p><strong>index</strong> – 移动的目标：0-左手,1-右手,2-左脚,3-右脚,4-头部</p></li>
 <li><p><strong>quaternion</strong> – 绝对旋转或相对旋转</p></li>
 <li><p><strong>duration</strong> – 旋转持续时间或旋转速度</p></li>
 <li><p><strong>speed_based</strong> – 指定duration表示旋转持续时间还是旋转速度</p></li>
@@ -1341,7 +1381,7 @@ self.data[‘success’]为抓取结果列表</p>
 </ul>
 </dd>
 <dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>当旋转完成时，self.data[‘rotate_done’]会被置为True</p>
+<dd class="field-even"><p>当旋转完成时,self.data[‘rotate_done’]会被置为True</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1352,7 +1392,7 @@ self.data[‘success’]为抓取结果列表</p>
 <dd><p>使人体IK目标点移动/旋转立即完成</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>index</strong> – 移动的目标：0-左手，1-右手，2-左脚，3-右脚，4-头部</p>
+<dd class="field-odd"><p><strong>index</strong> – 移动的目标：0-左手,1-右手,2-左脚,3-右脚,4-头部</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1363,7 +1403,7 @@ self.data[‘success’]为抓取结果列表</p>
 <dd><p>使人体IK目标点移动/旋转停止</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>index</strong> – 移动的目标：0-左手，1-右手，2-左脚，3-右脚，4-头部</p>
+<dd class="field-odd"><p><strong>index</strong> – 移动的目标：0-左手,1-右手,2-左脚,3-右脚,4-头部</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1497,7 +1537,7 @@ self.data[‘success’]为抓取结果列表</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>positions</strong> – 点位置列表</p></li>
 <li><p><strong>colors</strong> – 点颜色列表</p></li>
-<li><p><strong>ply_path</strong> – .ply文件列表，如果不为空，则positions和colors参数无效</p></li>
+<li><p><strong>ply_path</strong> – .ply文件列表,如果不为空,则positions和colors参数无效</p></li>
 <li><p><strong>radius</strong> – 点半径</p></li>
 </ul>
 </dd>

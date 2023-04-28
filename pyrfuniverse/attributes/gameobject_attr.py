@@ -71,7 +71,7 @@ class GameObjectAttr(attr.BaseAttr):
         设置物体颜色
 
         Args:
-            color: 颜色，长度为4，分别为RGBA[0-1]
+            color: 颜色,长度为4,分别为RGBA[0-1]
         """
         msg = OutgoingMessage()
 
@@ -117,7 +117,7 @@ class GameObjectAttr(attr.BaseAttr):
         获取该物体3D Bounding Box
 
         Returns:
-            调用此接口并step后，从
+            调用此接口并step后,从
             self.data['3d_bounding_box']
             获取结果
         """

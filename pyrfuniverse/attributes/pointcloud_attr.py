@@ -28,7 +28,7 @@ class PointCloudAttr(attr.BaseAttr):
         Args:
             positions: 点位置列表
             colors: 点颜色列表
-            ply_path: .ply文件列表，如果不为空，则positions和colors参数无效
+            ply_path: .ply文件列表,如果不为空,则positions和colors参数无效
             radius: 点半径
         """
         msg = OutgoingMessage()

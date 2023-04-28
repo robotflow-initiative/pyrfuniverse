@@ -52,7 +52,7 @@ class GraspSimAttr(attr.BaseAttr):
             parallel_count: 并行抓取数
 
         Returns:
-            当模拟完成时，self.data['done']会被置为True
+            当模拟完成时,self.data['done']会被置为True
             self.data['points']为抓点列表
             self.data['quaternions']为抓点对应的四元数列表
             self.data['width']为抓点对应的抓型宽度列表
@@ -117,7 +117,7 @@ class GraspSimAttr(attr.BaseAttr):
             parallel_count: 并行抓取数
 
         Returns:
-            当模拟完成时，self.data['done']会被置为True
+            当模拟完成时,self.data['done']会被置为True
             self.data['success']为抓取结果列表
         """
         msg = OutgoingMessage()

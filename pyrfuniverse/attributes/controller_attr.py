@@ -696,7 +696,7 @@ class ControllerAttr(attr.ColliderAttr):
         获取机械臂所有关节逆动力学数据
 
         Returns:
-            调用此接口并step后，从
+            调用此接口并step后,从
             self.data['gravity_forces']
             self.data['coriolis_centrifugal_forces']
             self.data['drive_forces']
@@ -726,7 +726,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def MoveForward(self, distance: float, speed: float):
         """
-        如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动前进
+        如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动前进
         最初用于Tobor机器人
 
         Args:
@@ -744,7 +744,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def MoveBack(self, distance: float, speed: float):
         """
-        如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动后退
+        如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动后退
         最初用于Tobor机器人
 
         Args:
@@ -762,7 +762,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def TurnLeft(self, angle: float, speed: float):
         """
-        如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动左转
+        如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动左转
         最初用于Tobor机器人
 
         Args:
@@ -780,7 +780,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def TurnRight(self, angle: float, speed: float):
         """
-        如果机器人在Unity端添加了继承ICustomMove接口的脚本，可通过此接口驱动右转
+        如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动右转
         最初用于Tobor机器人
 
         Args:
@@ -798,7 +798,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def GripperOpen(self):
         """
-        如果夹爪在Unity端添加了继承ICustomGripper接口的脚本，可通过此接口驱动张开
+        如果夹爪在Unity端添加了继承ICustomGripper接口的脚本,可通过此接口驱动张开
         """
         msg = OutgoingMessage()
 
@@ -809,7 +809,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def GripperClose(self):
         """
-        如果夹爪在Unity端添加了继承ICustomGripper接口的脚本，可通过此接口驱动闭合
+        如果夹爪在Unity端添加了继承ICustomGripper接口的脚本,可通过此接口驱动闭合
         """
         msg = OutgoingMessage()
 
@@ -844,7 +844,7 @@ class ControllerAttr(attr.ColliderAttr):
             relative: 指定position表示绝对位置还是相对位置
 
         Returns:
-            当移动完成时，self.data['move_done']会被置为True
+            当移动完成时,self.data['move_done']会被置为True
         """
         msg = OutgoingMessage()
 
@@ -870,7 +870,7 @@ class ControllerAttr(attr.ColliderAttr):
             relative: 指定position表示绝对旋转还是相对旋转
 
         Returns:
-            当旋转完成时，self.data['rotate_done']会被置为True
+            当旋转完成时,self.data['rotate_done']会被置为True
         """
         msg = OutgoingMessage()
 
@@ -896,7 +896,7 @@ class ControllerAttr(attr.ColliderAttr):
             relative: 指定position表示绝对旋转还是相对旋转
 
         Returns:
-            当旋转完成时，self.data['rotate_done']会被置为True
+            当旋转完成时,self.data['rotate_done']会被置为True
         """
         msg = OutgoingMessage()
 
@@ -941,7 +941,7 @@ class ControllerAttr(attr.ColliderAttr):
         Args:
             position: 偏移位置
             rotation: 偏移旋转Vector3
-            quaternion: 偏移旋转四元数，此值覆盖rotation
+            quaternion: 偏移旋转四元数,此值覆盖rotation
         """
         msg = OutgoingMessage()
 

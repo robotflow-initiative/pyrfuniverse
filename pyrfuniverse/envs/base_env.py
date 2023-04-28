@@ -58,6 +58,12 @@ def delete_worker_id(worker_id):
 class RFUniverseBaseEnv(ABC):
     """
     RFUnivers基础环境类
+
+    Attributes:
+        executable_file: Unity可执行文件绝对路径,不指定则默认使用最后一次打开的Unity程序,可使用‘@editor’指定为UnityEditor
+        scene_file: Unity场景文件路径,场景文件默认位于StraemingAssets/SceneData
+        assets: 预加载资源列表,列表中的资源会在环境初始化时加载到Unity中
+        graphics: 是否显示图形界面
     """
     metadata = {'render.modes': ['human', 'rgb_array']}
 
@@ -65,11 +71,15 @@ class RFUniverseBaseEnv(ABC):
         self,
         executable_file: str = None,
         scene_file: str = None,
-        custom_channels: list = [],
-        assets: list = [],
+        custom_channels=None,
+        assets=None,
         graphics: bool = True,
         **kwargs
     ):
+        if custom_channels is None:
+            custom_channels = []
+        if assets is None:
+            assets = []
         # time step
         self.t = 0
         self.worker_id = select_available_worker_id()
@@ -138,7 +148,7 @@ class RFUniverseBaseEnv(ABC):
 
     def step(self, count: int = 1):
         """
-        将已经调用的接口消息发送给Unity，执行一步仿真，然后接收Unity返回的数据
+        将已经调用的接口消息发送给Unity,执行一步仿真,然后接收Unity返回的数据
 
         Args:
             count: 执行的步数
@@ -161,6 +171,9 @@ class RFUniverseBaseEnv(ABC):
 
         Args:
             id: 物体ID
+
+        Returns:
+            Attr物体实例
         """
         if id not in self.attrs:
             self.attrs[id] = attr.BaseAttr(self, id)
@@ -187,8 +200,8 @@ class RFUniverseBaseEnv(ABC):
         异步加载场景
 
         Args:
-            file: 场景Json文件，当该值为路径时，从路径加载场景，否则从StreamingAssets加载场景
-            auto_wait: 是否等待加载完成，如果为True，则在加载完成后才返回
+            file: 场景Json文件,当该值为路径时,从路径加载场景,否则从StreamingAssets加载场景
+            auto_wait: 是否等待加载完成,如果为True,则在加载完成后才返回
         """
         msg = OutgoingMessage()
 
@@ -202,7 +215,7 @@ class RFUniverseBaseEnv(ABC):
 
     def WaitLoadDone(self) -> None:
         """
-        等待加载完成，使用LoadSceneAsync接口后，调用该接口可以等待加载完成
+        等待加载完成,使用LoadSceneAsync接口后,调用该接口可以等待加载完成
         """
         self.asset_channel.data['load_done'] = False
         while not self.asset_channel.data['load_done']:
@@ -210,7 +223,7 @@ class RFUniverseBaseEnv(ABC):
 
     def Pend(self) -> None:
         """
-        挂起，直到UnityPlayer中点击EndPend按钮
+        挂起,直到UnityPlayer中点击EndPend按钮
         """
         msg = OutgoingMessage()
 
@@ -228,7 +241,7 @@ class RFUniverseBaseEnv(ABC):
 
         Args:
             message: 消息头
-            *args: 参数列表，支持的参数类型有：str, bool, int, float, list[float]
+            *args: 参数列表,支持的参数类型有：str, bool, int, float, list[float]
         """
         msg = OutgoingMessage()
 
@@ -451,7 +464,7 @@ class RFUniverseBaseEnv(ABC):
         获取当前碰撞对
 
         Returns:
-            调用此接口并step后，从env.data['CurrentCollisionPairs']中获取碰撞对
+            调用此接口并step后,从env.data['CurrentCollisionPairs']中获取碰撞对
         """
         msg = OutgoingMessage()
 
@@ -464,7 +477,7 @@ class RFUniverseBaseEnv(ABC):
         获取RFMove碰撞体
 
         Returns:
-            调用此接口并step后，从env.data['RFMoveColliders']中获取碰撞体
+            调用此接口并step后,从env.data['RFMoveColliders']中获取碰撞体
         """
         msg = OutgoingMessage()
 
@@ -558,7 +571,7 @@ class RFUniverseBaseEnv(ABC):
 
     def ExportOBJ(self, items_id: list, save_path: str) -> None:
         """
-        导出指定物体列表为OBJ文件，对于原生Bundle模型，需要在UnityEditor中勾选Read/Write才能正确导出
+        导出指定物体列表为OBJ文件,对于原生Bundle模型,需要在UnityEditor中勾选Read/Write才能正确导出
 
         Args:
             items_id: 物体ID列表
@@ -593,7 +606,7 @@ class RFUniverseBaseEnv(ABC):
         保存当前场景
 
         Args:
-            file: 存储场景Json路径，当该值为路径时，保存到该路径，否则保存到StreamingAssets
+            file: 存储场景Json路径,当该值为路径时,保存到该路径,否则保存到StreamingAssets
         """
         msg = OutgoingMessage()
 

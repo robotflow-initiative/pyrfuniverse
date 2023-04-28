@@ -19,7 +19,7 @@
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
     <link rel="next" title="pyrfuniverse.attributes package" href="pyrfuniverse.attributes.html" />
-    <link rel="prev" title="Welcome to pyrfuniverse’s documentation!" href="index.html" /> 
+    <link rel="prev" title="pyrfuniverse API 文档" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,6 +46,10 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pyrfuniverse.envs package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.envs.base_env">pyrfuniverse.envs.base_env module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.executable_file"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.executable_file</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.scene_file"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.scene_file</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.assets"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.assets</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.graphics"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.graphics</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.step"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.step()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.close"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.close()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.GetAttr"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.GetAttr()</span></code></a></li>
@@ -71,12 +75,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SaveScene"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.SaveScene()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.ClearScene"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.ClearScene()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.AlignCamera"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.AlignCamera()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SetViewTransform"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.SetViewTransform()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugGraspPoint"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.DebugGraspPoint()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugObjectPose"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.DebugObjectPose()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugCollisionPair"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.DebugCollisionPair()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugColliderBound"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.DebugColliderBound()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugObjectID"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.DebugObjectID()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Debug3DBBox"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.Debug3DBBox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Debug2DBBox"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.Debug2DBBox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugJointLink"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.DebugJointLink()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SendLog"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.SendLog()</span></code></a></li>
 </ul>
 </li>
@@ -127,13 +134,37 @@
 <span id="pyrfuniverse-envs-base-env-module"></span><h2>pyrfuniverse.envs.base_env module<a class="headerlink" href="#module-pyrfuniverse.envs.base_env" title="此标题的永久链接"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.envs.base_env.</span></span><span class="sig-name descname"><span class="pre">RFUniverseBaseEnv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">executable_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scene_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graphics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv" title="永久链接至目标"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.envs.base_env.</span></span><span class="sig-name descname"><span class="pre">RFUniverseBaseEnv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">executable_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scene_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assets</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graphics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv" title="永久链接至目标"></a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>RFUnivers基础环境类</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.executable_file">
+<span class="sig-name descname"><span class="pre">executable_file</span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.executable_file" title="永久链接至目标"></a></dt>
+<dd><p>Unity可执行文件绝对路径,不指定则默认使用最后一次打开的Unity程序,可使用‘&#64;editor’指定为UnityEditor</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.scene_file">
+<span class="sig-name descname"><span class="pre">scene_file</span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.scene_file" title="永久链接至目标"></a></dt>
+<dd><p>Unity场景文件路径,场景文件默认位于StraemingAssets/SceneData</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.assets">
+<span class="sig-name descname"><span class="pre">assets</span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.assets" title="永久链接至目标"></a></dt>
+<dd><p>预加载资源列表,列表中的资源会在环境初始化时加载到Unity中</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.graphics">
+<span class="sig-name descname"><span class="pre">graphics</span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.graphics" title="永久链接至目标"></a></dt>
+<dd><p>是否显示图形界面</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.step">
 <span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.step" title="永久链接至目标"></a></dt>
-<dd><p>将已经调用的接口消息发送给Unity，执行一步仿真，然后接收Unity返回的数据</p>
+<dd><p>将已经调用的接口消息发送给Unity,执行一步仿真,然后接收Unity返回的数据</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>count</strong> – 执行的步数</p>
@@ -155,6 +186,9 @@
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>id</strong> – 物体ID</p>
 </dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>Attr物体实例</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -165,8 +199,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>file</strong> – 场景Json文件，当该值为路径时，从路径加载场景，否则从StreamingAssets加载场景</p></li>
-<li><p><strong>auto_wait</strong> – 是否等待加载完成，如果为True，则在加载完成后才返回</p></li>
+<li><p><strong>file</strong> – 场景Json文件,当该值为路径时,从路径加载场景,否则从StreamingAssets加载场景</p></li>
+<li><p><strong>auto_wait</strong> – 是否等待加载完成,如果为True,则在加载完成后才返回</p></li>
 </ul>
 </dd>
 </dl>
@@ -175,13 +209,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.WaitLoadDone">
 <span class="sig-name descname"><span class="pre">WaitLoadDone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.WaitLoadDone" title="永久链接至目标"></a></dt>
-<dd><p>等待加载完成，使用LoadSceneAsync接口后，调用该接口可以等待加载完成</p>
+<dd><p>等待加载完成,使用LoadSceneAsync接口后,调用该接口可以等待加载完成</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Pend">
 <span class="sig-name descname"><span class="pre">Pend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Pend" title="永久链接至目标"></a></dt>
-<dd><p>挂起，直到UnityPlayer中点击EndPend按钮</p>
+<dd><p>挂起,直到UnityPlayer中点击EndPend按钮</p>
 </dd></dl>
 
 <dl class="py method">
@@ -192,7 +226,7 @@
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>message</strong> – 消息头</p></li>
-<li><p><strong>*args</strong> – 参数列表，支持的参数类型有：str, bool, int, float, list[float]</p></li>
+<li><p><strong>*args</strong> – 参数列表,支持的参数类型有：str, bool, int, float, list[float]</p></li>
 </ul>
 </dd>
 </dl>
@@ -233,9 +267,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – <p>物体名</p>
-<dl>
-<dt>RfUniverseRelease中已有的资源类型及名称:</dt><dd><dl>
+<li><p><strong>name</strong> – <p>物体名
+RfUniverseRelease中已有的资源类型及名称:</p>
+<blockquote>
+<div><dl>
 <dt>GameObjcetAttr 静态物体:</dt><dd><p>GameObject_Box,
 GameObject_Capsule,
 GameObject_Cylinder,
@@ -295,8 +330,7 @@ yumi,</p>
 <dt>LightAttr 灯光:</dt><dd><p>Light,</p>
 </dd>
 </dl>
-</dd>
-</dl>
+</div></blockquote>
 </p></li>
 <li><p><strong>id</strong> – 物体ID</p></li>
 <li><p><strong>attr_type</strong> – 物体类型</p></li>
@@ -364,7 +398,7 @@ yumi,</p>
 <dd><p>获取当前碰撞对</p>
 <dl class="field-list simple">
 <dt class="field-odd">返回<span class="colon">:</span></dt>
-<dd class="field-odd"><p>调用此接口并step后，从env.data[‘CurrentCollisionPairs’]中获取碰撞对</p>
+<dd class="field-odd"><p>调用此接口并step后,从env.data[‘CurrentCollisionPairs’]中获取碰撞对</p>
 </dd>
 </dl>
 </dd></dl>
@@ -375,7 +409,7 @@ yumi,</p>
 <dd><p>获取RFMove碰撞体</p>
 <dl class="field-list simple">
 <dt class="field-odd">返回<span class="colon">:</span></dt>
-<dd class="field-odd"><p>调用此接口并step后，从env.data[‘RFMoveColliders’]中获取碰撞体</p>
+<dd class="field-odd"><p>调用此接口并step后,从env.data[‘RFMoveColliders’]中获取碰撞体</p>
 </dd>
 </dl>
 </dd></dl>
@@ -451,7 +485,7 @@ yumi,</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.ExportOBJ">
 <span class="sig-name descname"><span class="pre">ExportOBJ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.ExportOBJ" title="永久链接至目标"></a></dt>
-<dd><p>导出指定物体列表为OBJ文件</p>
+<dd><p>导出指定物体列表为OBJ文件,对于原生Bundle模型,需要在UnityEditor中勾选Read/Write才能正确导出</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -479,7 +513,7 @@ yumi,</p>
 <dd><p>保存当前场景</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file</strong> – 存储场景Json路径，当该值为路径时，保存到该路径，否则保存到StreamingAssets</p>
+<dd class="field-odd"><p><strong>file</strong> – 存储场景Json路径,当该值为路径时,保存到该路径,否则保存到StreamingAssets</p>
 </dd>
 </dl>
 </dd></dl>
@@ -502,39 +536,65 @@ yumi,</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SetViewTransform">
+<span class="sig-name descname"><span class="pre">SetViewTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SetViewTransform" title="永久链接至目标"></a></dt>
+<dd><p>设置视口位置和旋转</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – 位置</p></li>
+<li><p><strong>rotation</strong> – 旋转</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugGraspPoint">
-<span class="sig-name descname"><span class="pre">DebugGraspPoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugGraspPoint" title="永久链接至目标"></a></dt>
+<span class="sig-name descname"><span class="pre">DebugGraspPoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugGraspPoint" title="永久链接至目标"></a></dt>
 <dd><p>Debug显示机械臂末端点</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugObjectPose">
-<span class="sig-name descname"><span class="pre">DebugObjectPose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugObjectPose" title="永久链接至目标"></a></dt>
+<span class="sig-name descname"><span class="pre">DebugObjectPose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugObjectPose" title="永久链接至目标"></a></dt>
 <dd><p>Debug显示物体base点</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugCollisionPair">
-<span class="sig-name descname"><span class="pre">DebugCollisionPair</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugCollisionPair" title="永久链接至目标"></a></dt>
+<span class="sig-name descname"><span class="pre">DebugCollisionPair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugCollisionPair" title="永久链接至目标"></a></dt>
 <dd><p>Debug显示物理碰撞对</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugColliderBound">
-<span class="sig-name descname"><span class="pre">DebugColliderBound</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugColliderBound" title="永久链接至目标"></a></dt>
+<span class="sig-name descname"><span class="pre">DebugColliderBound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugColliderBound" title="永久链接至目标"></a></dt>
 <dd><p>Debug显示碰撞包围盒</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugObjectID">
-<span class="sig-name descname"><span class="pre">DebugObjectID</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugObjectID" title="永久链接至目标"></a></dt>
+<span class="sig-name descname"><span class="pre">DebugObjectID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugObjectID" title="永久链接至目标"></a></dt>
 <dd><p>Debug显示碰物体ID</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Debug3DBBox">
-<span class="sig-name descname"><span class="pre">Debug3DBBox</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Debug3DBBox" title="永久链接至目标"></a></dt>
+<span class="sig-name descname"><span class="pre">Debug3DBBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Debug3DBBox" title="永久链接至目标"></a></dt>
 <dd><p>Debug显示物体3DBoundingBox</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Debug2DBBox">
+<span class="sig-name descname"><span class="pre">Debug2DBBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Debug2DBBox" title="永久链接至目标"></a></dt>
+<dd><p>Debug显示物体2DBoundingBox</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugJointLink">
+<span class="sig-name descname"><span class="pre">DebugJointLink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugJointLink" title="永久链接至目标"></a></dt>
+<dd><p>Debug显示关节体Joint信息</p>
 </dd></dl>
 
 <dl class="py method">
@@ -603,7 +663,7 @@ garbage collected or when the program exits.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to pyrfuniverse’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="pyrfuniverse API 文档" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
         <a href="pyrfuniverse.attributes.html" class="btn btn-neutral float-right" title="pyrfuniverse.attributes package" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

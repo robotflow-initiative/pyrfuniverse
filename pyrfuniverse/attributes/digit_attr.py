@@ -31,8 +31,8 @@ class DigitAttr(attr.BaseAttr):
         获取传感器数据
 
         Returns:
-            调用此接口并step后，从
-            self.data['light']: 获取RGB灯光图像，
+            调用此接口并step后,从
+            self.data['light']: 获取RGB灯光图像,
             self.data['depth']: 获取深度图像
         """
         msg = OutgoingMessage()

@@ -2,12 +2,27 @@ import math
 import numpy as np
 
 def EncodeIDAsColor(instance_id: int):
+    """
+    获取物体在ID图中的颜色
+
+    Args:
+        instance_id: 物体ID
+    """
     r = (instance_id * 16807 + 187) % 256
     g = (instance_id * 48271 + 79) % 256
     b = (instance_id * 95849 + 233) % 256
     return [r, g, b, 255]
 
-def UnityEularToQuaternion(eular):
+def UnityEularToQuaternion(eular: list) -> list:
+    """
+    Unity欧拉角转四元数
+
+    Args:
+        eular: 欧拉角,长度为3,分别为x,y,z轴的旋转角度,单位为度
+
+    Return:
+        四元数,长度为4,分别为x,y,z,w四个分量
+    """
     xx = math.radians(eular[0])
     yy = math.radians(eular[1])
     zz = math.radians(eular[2])
@@ -17,7 +32,16 @@ def UnityEularToQuaternion(eular):
     w = math.cos(yy / 2) * math.cos(xx / 2) * math.cos(zz / 2) + math.sin(yy / 2) * math.sin(xx / 2) * math.sin(zz / 2)
     return [x, y, z, w]
 
-def UnityQuaternionToEular(quaternion):
+def UnityQuaternionToEular(quaternion: list) -> list:
+    """
+    Unity四元数转欧拉角
+
+    Args:
+        quaternion: 四元数,长度为4,分别为x,y,z,w四个分量
+
+    Return:
+        欧拉角,长度为3,分别为x,y,z轴的旋转角度,单位为度
+    """
     xx = quaternion[0]
     yy = quaternion[1]
     zz = quaternion[2]
@@ -31,11 +55,6 @@ def UnityQuaternionToEular(quaternion):
     return [x, y, z]
 
 def CheckKwargs(kwargs: dict, compulsory_params: list):
-    """Check keyword arguments, make sure all compulsory parameters are included.
-    Args:
-        kwargs: Keyword arguments.
-        compulsory_params: Compulsory parameters.
-    """
     legal = True
     for param in compulsory_params:
         if param not in kwargs.keys():
@@ -43,7 +62,17 @@ def CheckKwargs(kwargs: dict, compulsory_params: list):
             assert legal, \
                 'Parameters illegal, parameter <%s> missing.' % param
 
-def get_matrix(pos, quat):
+def GetMatrix(pos, quat) -> np.ndarray:
+    """
+    位置和四元数转换为矩阵
+
+    Args:
+        pos: 位置,长度为3,分别为x,y,z轴的坐标
+        quat：四元数,长度为4,分别为x,y,z,w四个分量
+
+    Return:
+        ndarray矩阵,shape为(4,4)
+    """
     q = quat.copy()
     n = np.dot(q, q)
     if n < np.finfo(q.dtype).eps:

@@ -143,7 +143,7 @@ def GetAmodalMask(kwargs: dict):
 
 class CameraAttr(attr.BaseAttr):
     """
-    相机类，可获取各种相机截图
+    相机类,可获取各种相机截图
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
@@ -230,10 +230,10 @@ class CameraAttr(attr.BaseAttr):
             width: 图像分辨率宽度
             height: 图像分辨率高度
             fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参，当传入时，width、height、fov参数无效
+            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
 
         Returns:
-            调用此接口并step后，从self.data['rgb']获取结果
+            调用此接口并step后,从self.data['rgb']获取结果
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -261,10 +261,10 @@ class CameraAttr(attr.BaseAttr):
             width: 图像分辨率宽度
             height: 图像分辨率高度
             fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参，当传入时，width、height、fov参数无效
+            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
 
         Returns:
-            调用此接口并step后，从self.data['normal']获取结果
+            调用此接口并step后,从self.data['normal']获取结果
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -286,16 +286,16 @@ class CameraAttr(attr.BaseAttr):
 
     def GetID(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
         """
-        获取相机的ID图像，每个像素的颜色值由物体ID计算而来，见rfuniverse_utility.GetColorFromID
+        获取相机的ID图像,每个像素的颜色值由物体ID计算而来,见rfuniverse_utility.GetColorFromID
 
         Args:
             width: 图像分辨率宽度
             height: 图像分辨率高度
             fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参，当传入时，width、height、fov参数无效
+            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
 
         Returns:
-            调用此接口并step后，从self.data['id_map']获取结果
+            调用此接口并step后,从self.data['id_map']获取结果
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -317,7 +317,7 @@ class CameraAttr(attr.BaseAttr):
 
     def GetDepth(self, zero_dis: float, one_dis: float, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
         """
-        获取相机的深度图像，由于8位深度图精度低，因此需要限制范围以提高精度
+        获取相机的深度图像,由于8位深度图精度低,因此需要限制范围以提高精度
 
         Args:
             zero_dis: 黑色像素表示深度
@@ -325,10 +325,10 @@ class CameraAttr(attr.BaseAttr):
             width: 图像分辨率宽度
             height: 图像分辨率高度
             fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参，当传入时，width、height、fov参数无效
+            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
 
         Returns:
-            调用此接口并step后，从self.data['depth']获取结果
+            调用此接口并step后,从self.data['depth']获取结果
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -352,16 +352,16 @@ class CameraAttr(attr.BaseAttr):
 
     def GetDepthEXR(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
         """
-        获取相机的世界空间深度图像，EXR格式图像支持存储32位信息，因此无需限制范围
+        获取相机的世界空间深度图像,EXR格式图像支持存储32位信息,因此无需限制范围
 
         Args:
             width: 图像分辨率宽度
             height: 图像分辨率高度
             fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参，当传入时，width、height、fov参数无效
+            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
 
         Returns:
-            调用此接口并step后，从self.data['depth_exr']获取结果
+            调用此接口并step后,从self.data['depth_exr']获取结果
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -390,10 +390,10 @@ class CameraAttr(attr.BaseAttr):
             width: 图像分辨率宽度
             height: 图像分辨率高度
             fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参，当传入时，width、height、fov参数无效
+            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
 
         Returns:
-            调用此接口并step后，从self.data['amodal_mask']获取结果
+            调用此接口并step后,从self.data['amodal_mask']获取结果
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -442,10 +442,10 @@ class CameraAttr(attr.BaseAttr):
             height: 图像分辨率高度
             radius: 热力图半径
             fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参，当传入时，width、height、fov参数无效
+            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
 
         Returns:
-            调用此接口并step后，从self.data['heat_map']获取结果
+            调用此接口并step后,从self.data['heat_map']获取结果
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -474,10 +474,10 @@ class CameraAttr(attr.BaseAttr):
             width: 图像分辨率宽度
             height: 图像分辨率高度
             fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参，当传入时，width、height、fov参数无效
+            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
 
         Returns:
-            调用此接口并step后，从self.data['2d_bounding_box']获取结果
+            调用此接口并step后,从self.data['2d_bounding_box']获取结果
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -502,7 +502,7 @@ class CameraAttr(attr.BaseAttr):
         获取物体的3DBBox
 
         Returns:
-            调用此接口并step后，从self.data['3d_bounding_box']获取结果
+            调用此接口并step后,从self.data['3d_bounding_box']获取结果
         """
         msg = OutgoingMessage()
 

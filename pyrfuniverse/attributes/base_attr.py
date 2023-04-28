@@ -183,7 +183,7 @@ def GetWorldPointFromLocal(kwargs: dict) -> OutgoingMessage:
 
 class BaseAttr:
     """
-    基础Attr类，包含物体加载删除移动等通用功能
+    基础Attr类,包含物体加载删除移动等通用功能
     """
     def __init__(self, env, id: int, data=None):
         if data is None:

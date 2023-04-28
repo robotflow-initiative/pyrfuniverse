@@ -11,7 +11,7 @@ from pyrfuniverse.side_channel.side_channel import (
 
 class ActiveLightSensorAttr(attr.CameraAttr):
     """
-    红外深度传感器类，能够获取模拟真实深度相机噪声的深度图
+    红外深度传感器类,能够获取模拟真实深度相机噪声的深度图
     """
     def __init__(self, env, id: int, data=None):
         super().__init__(env, id, data)
@@ -23,7 +23,7 @@ class ActiveLightSensorAttr(attr.CameraAttr):
         解析消息
 
         Returns:
-            self.data['active_depth'] 红外深度图，shape = [w,h]
+            self.data['active_depth'] 红外深度图,shape = [w,h]
         """
         super().parse_message(msg)
         if msg.read_bool() is True:
@@ -70,7 +70,7 @@ class ActiveLightSensorAttr(attr.CameraAttr):
             ir_intrinsic_matrix_local: List[float]红外相机内参
 
         Returns:
-            调用此接口并step后，从self.data['active_depth']获取结果
+            调用此接口并step后,从self.data['active_depth']获取结果
         """
         msg = OutgoingMessage()
 
