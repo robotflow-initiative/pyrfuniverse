@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Franka Robotics RL Environment Tutorial &mdash; pyrfuniverse  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Kinova Gen2 Catching Cloth RL Environment Tutorial" href="kinova_catching_cloth.html" />
+    <link rel="prev" title="Embodied Robot Controlling Example" href="../examples/tobor_move.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            pyrfuniverse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/get_started.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/understanding_pyrfuniverse.html">Understanding pyrfuniverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/advanced_usages.html">Advanced Usage Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/camera_rendering.html">Camera Rendering Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/point_cloud.html">Point Cloud from Images Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/scene_annotation.html">Annotating Image and Scene Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/loading_urdf.html">Loading URDF File Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/pick_and_place.html">Pick and Place Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/tobor_move.html">Embodied Robot Controlling Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Franka Robotics RL Environment Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-scene-in-unity">Build scene in Unity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-new-scene">Create a new scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-general-prefab-into-the-scene">Add general prefab into the scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-the-goal">Create the goal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-franka-robot-arm">Create Franka robot arm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-other-objects">Add other objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-scene-attr-to-agent">Add Scene Attr to Agent</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#write-the-python-codes">Write the python codes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-up-the-environment">Set up the environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#observation">Observation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step">Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reset-franka-robot-and-object">Reset Franka robot and object</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#specify-tasks">Specify tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ur5_water_pushing.html">UR5 Water Pushing RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.envs.html">pyrfuniverse.envs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.attributes.html">pyrfuniverse.attributes package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.utils.html">pyrfuniverse.utils package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrfuniverse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Franka Robotics RL Environment Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/franka_robotics.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="franka-robotics-rl-environment-tutorial">
+<span id="franka-robotics"></span><h1>Franka Robotics RL Environment Tutorial<a class="headerlink" href="#franka-robotics-rl-environment-tutorial" title="Permalink to this heading"></a></h1>
+<p><img alt="franka/franka-pick-and-place.gif" src="../_images/franka-pick-and-place.gif" /></p>
+<p>From the previous pages and examples, you should have some basic knowledge and understanding on the data flow and API usage in RFUniverse. In all examples mentioned above, we use Unity Editor or the default unity executable file as the Unity side server and use pure python code to control and operate objects in Unity. However, our built-in assets cannot be enough for every task in this world. Fortunately, RFUniverse leaves users enough freedom to create their own simulation environments and use their own robots to do anything they want.</p>
+<p>In this tutorial, we will create a Franka robot environment for Reinforcement Learning. The python code will be in OpenAI-Gym style so that most RL algorithms can be used to train directly. The environment setting is inspired by <a class="reference external" href="https://github.com/qgallouedec/panda-gym">panda-gym</a>.</p>
+<section id="requirements">
+<span id="tutorial-requirements"></span><h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Clone the RFUniverse Unity side repository.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mvig-robotflow/rfuniverse.git
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Install the Unity Editor (&gt;= 2021.3) and open the project cloned above.</p></li>
+</ol>
+</section>
+<section id="build-scene-in-unity">
+<h2>Build scene in Unity<a class="headerlink" href="#build-scene-in-unity" title="Permalink to this heading"></a></h2>
+<section id="create-a-new-scene">
+<h3>Create a new scene<a class="headerlink" href="#create-a-new-scene" title="Permalink to this heading"></a></h3>
+<p>First, navigate to <code class="docutils literal notranslate"><span class="pre">Assets/Scene</span></code> in <code class="docutils literal notranslate"><span class="pre">Project</span></code> window and create a new scene with any name (e.g. named <code class="docutils literal notranslate"><span class="pre">Franka-Robotics-RL</span></code>). Then double-click the scene file to open it in Editor.</p>
+</section>
+<section id="add-general-prefab-into-the-scene">
+<h3>Add general prefab into the scene<a class="headerlink" href="#add-general-prefab-into-the-scene" title="Permalink to this heading"></a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">Assets/RFUniverse/Assets/Prefab</span></code>, find a prefab named <code class="docutils literal notranslate"><span class="pre">RFUniverse</span></code> and drag it into the scene <code class="docutils literal notranslate"><span class="pre">Hierarchy</span></code> window. You can click the triangle on the left side of <code class="docutils literal notranslate"><span class="pre">RFUniverse</span></code> in <code class="docutils literal notranslate"><span class="pre">Hierarchy</span></code> window and see the following image.</p>
+<p><img alt="franka/1.png" src="../_images/1.png" /></p>
+<p>The first object, <code class="docutils literal notranslate"><span class="pre">Agent</span></code>, will handle the communication between Python and Unity as well as some settings. The second object, <code class="docutils literal notranslate"><span class="pre">Main</span> <span class="pre">Camera</span></code>, is the camera in a scene to help visualize the scene. The last object, <code class="docutils literal notranslate"><span class="pre">Ground</span></code>, is a plane with texture. All these objects are useful in most scenes so we make them into one prefab.</p>
+<p>After loading <code class="docutils literal notranslate"><span class="pre">RFUniverse</span></code> prefab, please remember to remove the original <code class="docutils literal notranslate"><span class="pre">Main</span> <span class="pre">Camera</span></code> and <code class="docutils literal notranslate"><span class="pre">Directional</span> <span class="pre">Light</span></code> since they have been included in the loaded prefab.</p>
+</section>
+<section id="create-the-goal">
+<span id="create-goal"></span><h3>Create the goal<a class="headerlink" href="#create-the-goal" title="Permalink to this heading"></a></h3>
+<p>Then, create a goal for visualizing. Just like the gifs in <a class="reference external" href="https://github.com/qgallouedec/panda-gym">panda-gym</a>, we also need a ‘shadow’ to show the target position, although this is only for people to see. Right click on the blank space in <code class="docutils literal notranslate"><span class="pre">Hierarchy</span></code> window and select <code class="docutils literal notranslate"><span class="pre">3D</span> <span class="pre">Object</span> <span class="pre">-&gt;</span> <span class="pre">Cube</span></code>. You can name it <code class="docutils literal notranslate"><span class="pre">Goal</span></code>. Then, click on it and set the <code class="docutils literal notranslate"><span class="pre">Transform</span></code> value as the following image.</p>
+<p><img alt="franka/3.png" src="../_images/3.png" /></p>
+<p>During training, this object will be controlled to change transform, so we have to add <code class="docutils literal notranslate"><span class="pre">Attr</span></code> components to it so that our commands will be heard by it. Since we only need to set transform to it, so a game object attribute is enough. Add the component by clicking on it, and click the <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">Component</span></code> button in <code class="docutils literal notranslate"><span class="pre">Inspector</span></code> window. Type in the <code class="docutils literal notranslate"><span class="pre">game</span> <span class="pre">object</span> <span class="pre">attr</span></code> in the text window and you will find the corresponding script. After adding the attr component, you can see an <code class="docutils literal notranslate"><span class="pre">id</span></code> entry below <code class="docutils literal notranslate"><span class="pre">Game</span> <span class="pre">Object</span> <span class="pre">Attr</span></code> title, which means this object should have a unique id so that we can find it. Type in any lucky number for you, e.g., 4321. And finally, since this cube is a ‘shadow’, it should not have colliders. Destroy the collider by clicking the object and right-click the <code class="docutils literal notranslate"><span class="pre">Box</span> <span class="pre">Collider</span></code> component in <code class="docutils literal notranslate"><span class="pre">Inspector</span></code> window and select <code class="docutils literal notranslate"><span class="pre">Remove</span> <span class="pre">Component</span></code>. After all these operations, the <code class="docutils literal notranslate"><span class="pre">Goal</span></code> object should look like this.</p>
+<p><img alt="franka/4.png" src="../_images/4.png" /></p>
+</section>
+<section id="create-franka-robot-arm">
+<h3>Create Franka robot arm<a class="headerlink" href="#create-franka-robot-arm" title="Permalink to this heading"></a></h3>
+<p>Next, let’s move on to add a Franka robot arm into the scene. In <code class="docutils literal notranslate"><span class="pre">Assets/Assets/Prefab/Controller/Arm</span></code>, find the prefab <code class="docutils literal notranslate"><span class="pre">franka</span></code> and drag it into the scene. You can unfold this object and see the hierarchical structure like the following image.</p>
+<p><img alt="franka/2.png" src="../_images/2.png" /></p>
+<p>When you click any moveable part in Franka, you can find the corresponding components have been added. This is because we have made many robot arms prefabs and users can use them directly. If you want to use your own robot arm, just imitate the setting of our robot arms.</p>
+<p>According to <a class="reference external" href="https://github.com/qgallouedec/panda-gym">panda-gym</a>, Franka should locate at position [0.6, 0, 0] in Unity coordinate, so we change the <code class="docutils literal notranslate"><span class="pre">Transform</span></code> component values accordingly.</p>
+</section>
+<section id="add-other-objects">
+<h3>Add other objects<a class="headerlink" href="#add-other-objects" title="Permalink to this heading"></a></h3>
+<p>Finally, let’s add other objects which will not communicate with Python, but may affect the training process.</p>
+<p>In <a class="reference external" href="https://github.com/qgallouedec/panda-gym">panda-gym</a>, there’s a work table under Franka, so we also create one here. Create another cube and set the <code class="docutils literal notranslate"><span class="pre">Transform</span></code> value according to the image below.</p>
+<p><img alt="franka/5.png" src="../_images/5.png" /></p>
+<p>By default, the ground’s position is [0, 0, 0], but Franka has a work table under it, and the ground is under the work table, so we need to change the position of ground. This is the advantage of simulation environment: you can set any object to any place! Let’s set the position of the <code class="docutils literal notranslate"><span class="pre">Ground</span></code> in <code class="docutils literal notranslate"><span class="pre">RFUniverse</span></code> prefab to [0, -0.4, 0].</p>
+<p>After all these settings, your scene should be similar to the following image except the color of <code class="docutils literal notranslate"><span class="pre">Goal</span></code> and the work table. The color setting (more precisely, <a class="reference external" href="https://docs.unity3d.com/Manual/Materials.html">Material</a>) is left to users for discovery.</p>
+<p><img alt="franka/6.png" src="../_images/6.png" /></p>
+</section>
+<section id="add-scene-attr-to-agent">
+<h3>Add Scene Attr to Agent<a class="headerlink" href="#add-scene-attr-to-agent" title="Permalink to this heading"></a></h3>
+<p>Here’s the final step in scene building. Although we have added <code class="docutils literal notranslate"><span class="pre">Attr</span></code> components to many objects, they will not be able to communicate with Python until they are dragged into the <code class="docutils literal notranslate"><span class="pre">BaseAgent.SceneAttr</span></code> value in <code class="docutils literal notranslate"><span class="pre">Agent</span></code>. You can do this by clicking on <code class="docutils literal notranslate"><span class="pre">Agent</span></code> object, then drag the <code class="docutils literal notranslate"><span class="pre">franka</span></code>, <code class="docutils literal notranslate"><span class="pre">Camera</span></code> and <code class="docutils literal notranslate"><span class="pre">Goal</span></code> to <code class="docutils literal notranslate"><span class="pre">Scene</span> <span class="pre">Attr</span></code> under <code class="docutils literal notranslate"><span class="pre">Base</span> <span class="pre">Agent</span> <span class="pre">(Script)</span></code> in <code class="docutils literal notranslate"><span class="pre">Inspector</span></code> window. The final result is like the following.</p>
+<p><img alt="franka/7.png" src="../_images/7.png" /></p>
+</section>
+</section>
+<section id="write-the-python-codes">
+<h2>Write the python codes<a class="headerlink" href="#write-the-python-codes" title="Permalink to this heading"></a></h2>
+<p>The full version code is available <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/pyrfuniverse/envs/robotics/franka_robotics_env.py">here</a>. In this tutorial, we will go through the code and explain some key factors.</p>
+<section id="set-up-the-environment">
+<h3>Set up the environment<a class="headerlink" href="#set-up-the-environment" title="Permalink to this heading"></a></h3>
+<p>You may notice that we didn’t create the manipulatable object in scene. Yes, because the object is built-in and we can load it using code. Of course you can also create it into the scene directly and add <code class="docutils literal notranslate"><span class="pre">Rigidbody</span> <span class="pre">Attr</span></code> components. But here we think it more convenient to load by Python.
+We can load the object using the following code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_env_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_object</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asset_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+            <span class="s1">&#39;InstanceObject&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Rigidbody_Box&#39;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+            <span class="s1">&#39;SetTransform&#39;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height_offset</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">scale</span><span class="o">=</span><span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+        <span class="s2">&quot;SetIKTargetOffset&quot;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="mi">965874</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.105</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+        <span class="s2">&quot;IKTargetDoRotate&quot;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="mi">965874</span><span class="p">,</span>
+        <span class="n">vector3</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">180</span><span class="p">],</span>
+        <span class="n">duration</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">speed_based</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Here, we instanciate the object and assign id 0 to it. Then, we set the IK target and move the Franka robot (whose id is 965874) to a given position.</p>
+</section>
+<section id="observation">
+<h3>Observation<a class="headerlink" href="#observation" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_get_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">gripper_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">9658740</span><span class="p">][</span><span class="s1">&#39;positions&#39;</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">gripper_velocity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">9658740</span><span class="p">][</span><span class="s1">&#39;velocities&#39;</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">gripper_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_gripper_width</span><span class="p">()</span>
+
+    <span class="n">panda_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">gripper_position</span><span class="p">,</span> <span class="n">gripper_velocity</span><span class="p">,</span> <span class="p">[</span><span class="n">gripper_width</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_object</span><span class="p">:</span>
+        <span class="n">object_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;position&#39;</span><span class="p">])</span>
+        <span class="n">object_rotation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;rotation&#39;</span><span class="p">])</span>
+        <span class="n">object_velocity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;velocity&#39;</span><span class="p">])</span>
+        <span class="n">object_angular_vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;angular_vel&#39;</span><span class="p">])</span>
+        <span class="n">achieved_goal</span> <span class="o">=</span> <span class="n">object_position</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">object_position</span> <span class="o">=</span> <span class="n">object_rotation</span> <span class="o">=</span> <span class="n">object_velocity</span> <span class="o">=</span> <span class="n">object_angular_vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">achieved_goal</span> <span class="o">=</span> <span class="n">gripper_position</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">object_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">object_position</span><span class="p">,</span> <span class="n">object_rotation</span><span class="p">,</span> <span class="n">object_velocity</span><span class="p">,</span> <span class="n">object_angular_vel</span><span class="p">))</span>
+
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">panda_obs</span><span class="p">,</span> <span class="n">object_obs</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;observation&#39;</span><span class="p">:</span> <span class="n">obs</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+        <span class="s1">&#39;achieved_goal&#39;</span><span class="p">:</span> <span class="n">achieved_goal</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+        <span class="s1">&#39;desired_goal&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>There are two things need to explain here.</p>
+<p>First, id 9658740 didn’t appear in the scene building process, what’s it? The answer is, this is the Franka Gripper. In RFUniverse, if two articulations also have parent-child relationship, such as franka arm and franka gripper, the child id will be its parent id times 10. And you can see from the Unity Editor that Franka Gripper has four parts: <code class="docutils literal notranslate"><span class="pre">body</span></code>, <code class="docutils literal notranslate"><span class="pre">finger1</span></code>, <code class="docutils literal notranslate"><span class="pre">finger2</span></code> and <code class="docutils literal notranslate"><span class="pre">grasp_point</span></code>, here we only focus on the last part, so the index in the first two lines are 3.</p>
+<p>The second one is the returned observation. Since we want to implement a goal-conditioned environment, the observation variable should be a dict include three keys: <code class="docutils literal notranslate"><span class="pre">observation</span></code>, <code class="docutils literal notranslate"><span class="pre">achieved_goal</span></code> and <code class="docutils literal notranslate"><span class="pre">desired_goal</span></code>. The achieved goal is the current position of object and the desired goal is the position of <code class="docutils literal notranslate"><span class="pre">Goal</span></code>.</p>
+</section>
+<section id="step">
+<h3>Step<a class="headerlink" href="#step" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Params:</span>
+<span class="sd">        action: 4-d numpy array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># print(action)</span>
+    <span class="n">pos_ctrl</span> <span class="o">=</span> <span class="n">action</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.05</span>
+    <span class="n">curr_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">9658740</span><span class="p">][</span><span class="s1">&#39;positions&#39;</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span>
+    <span class="c1"># print(curr_pos)</span>
+    <span class="n">pos_ctrl</span> <span class="o">=</span> <span class="n">curr_pos</span> <span class="o">+</span> <span class="n">pos_ctrl</span>
+
+    <span class="c1"># print(pos_ctrl)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+        <span class="s2">&quot;IKTargetDoMove&quot;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="mi">965874</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="n">pos_ctrl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos_ctrl</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pos_ctrl</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span>
+        <span class="n">duration</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">speed_based</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_gripper</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_gripper_width</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">curr_gripper_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_gripper_width</span><span class="p">()</span>
+        <span class="n">target_gripper_width</span> <span class="o">=</span> <span class="n">curr_gripper_width</span> <span class="o">+</span> <span class="n">action</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.2</span>
+        <span class="n">target_gripper_width</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">target_gripper_width</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_gripper_width</span><span class="p">(</span><span class="n">target_gripper_width</span><span class="p">)</span>
+
+    <span class="c1"># self._set_franka_joints(np.array(joint_positions))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">obs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_obs</span><span class="p">()</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;is_success&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_success</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_reward</span><span class="p">(</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;achieved_goal&#39;</span><span class="p">],</span> <span class="n">obs</span><span class="p">[</span><span class="s1">&#39;desired_goal&#39;</span><span class="p">],</span> <span class="n">info</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_steps</span><span class="p">:</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="n">obs</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span>
+</pre></div>
+</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">step()</span></code> function, we use a 4-d array in range [0, 1] to control the robot arm. The maximum movement in one step is 5cm. We should first control robot arm, then robot gripper, and finally use <code class="docutils literal notranslate"><span class="pre">self._step()</span></code> to wait for Unity finish its simulation. After simulation, we can get observation, compute reward and check success.</p>
+</section>
+<section id="reset-franka-robot-and-object">
+<h3>Reset Franka robot and object<a class="headerlink" href="#reset-franka-robot-and-object" title="Permalink to this heading"></a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">reset()</span></code> function, we should finish this episode and prepare for the next episode by setting all objects in scene to its original status. Here we first reset robot arm by resetting robot arm to init position and opening its gripper.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+        <span class="s2">&quot;IKTargetDoMove&quot;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="mi">965874</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">init_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span>
+        <span class="n">duration</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">speed_based</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+        <span class="s1">&#39;SetJointPositionDirectly&#39;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="mi">9658740</span><span class="p">,</span>
+        <span class="n">joint_positions</span><span class="o">=</span><span class="p">[</span><span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Next, we reset object by setting it to a randomly sampled position.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_reset_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">object_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_range_low</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_range_high</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+        <span class="s1">&#39;SetTransform&#39;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">object_pos</span><span class="p">),</span>
+        <span class="n">rotation</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">object_pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="specify-tasks">
+<h2>Specify tasks<a class="headerlink" href="#specify-tasks" title="Permalink to this heading"></a></h2>
+<p>With the codes of <code class="docutils literal notranslate"><span class="pre">franka_robotics_env.py</span></code>, we can specify some parameters to support different tasks. For example, for <code class="docutils literal notranslate"><span class="pre">Reach</span></code> task, we should set <code class="docutils literal notranslate"><span class="pre">load_object=False</span></code>, <code class="docutils literal notranslate"><span class="pre">target_in_air=True</span></code> and <code class="docutils literal notranslate"><span class="pre">block_gripper=True</span></code>; for <code class="docutils literal notranslate"><span class="pre">Push</span></code> task, we should set <code class="docutils literal notranslate"><span class="pre">load_object=True</span></code>, <code class="docutils literal notranslate"><span class="pre">target_in_air=False</span></code> and <code class="docutils literal notranslate"><span class="pre">block_gripper=True</span></code>. The specified parameters and corresponding task can be found in <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/tree/main/pyrfuniverse/envs/robotics">franka_robotics package</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../examples/tobor_move.html" class="btn btn-neutral float-left" title="Embodied Robot Controlling Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="kinova_catching_cloth.html" class="btn btn-neutral float-right" title="Kinova Gen2 Catching Cloth RL Environment Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, RobotFlow.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

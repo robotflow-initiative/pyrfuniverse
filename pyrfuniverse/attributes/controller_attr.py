@@ -418,46 +418,48 @@ def SetIKTargetOffset(kwargs: dict) -> OutgoingMessage:
 
 class ControllerAttr(attr.ColliderAttr):
     """
-    机械臂控制器类
+    Robot controller class, which will control robot arms, hands and embodied robots.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
-            self.data['number_of_joints'] 机械臂关节数量
+            Dict: A dict containing useful information of this class.
 
-            self.data['positions'] 机械臂节点位置
+            self.data['number_of_joints']: The number of joints in an articulation.
 
-            self.data['rotations'] 机械臂节点旋转角度
+            self.data['positions']: The position of each part in an articulation.
 
-            self.data['quaternion'] 机械臂节点旋转四元数
+            self.data['rotations']: The rotation of each part in an articulation.
 
-            self.data['local_positions'] 机械臂节点局部位置
+            self.data['quaternion']: The quaternion of each part in an articulation.
 
-            self.data['local_rotations'] 机械臂节点局部旋转角度
+            self.data['local_positions']: The local position of each part in an articulation.
 
-            self.data['local_quaternion'] 机械臂节点局部旋转四元数
+            self.data['local_rotations']: The local rotation of each part in an articulation.
 
-            self.data['velocities'] 机械臂节点速度
+            self.data['local_quaternion']: The local quaternion of each part in an articulation.
 
-            self.data['number_of_moveable_joints'] 机械臂活动关节数量
+            self.data['velocities']: The velocity of each part in an articulation.
 
-            self.data['joint_positions'] 机械臂关节在自由度空间下位置
+            self.data['number_of_moveable_joints']: The number of moveable joints in an articulation.
 
-            self.data['joint_velocities'] 机械臂关节在自由度空间下速度
+            self.data['joint_positions']: The joint position of each moveable joint in an articulation.
 
-            self.data['all_stable'] 机械臂所有关节移动完成
+            self.data['joint_velocities']: The joint velocity of each moveable joint in an articulation.
 
-            self.data['move_done'] 机械臂IK移动完成状态
+            self.data['all_stable']: Whether all joints have finished moving.
 
-            self.data['rotate_done'] 机械臂IK旋转完成状态
+            self.data['move_done']: Whether robot arm IK has finished moving.
 
-            self.data['gravity_forces'] InverseDynamics抵消重力所需的力
+            self.data['rotate_done']: Whether robot arm IK has finished rotating.
 
-            self.data['coriolis_centrifugal_forces'] InverseDynamics抵消离心力所需的力
+            self.data['gravity_forces']: Inverse Dynamics force needed to counteract gravity.
 
-            self.data['drive_forces'] InverseDynamics驱动力
+            self.data['coriolis_centrifugal_forces']: Inverse Dynamics force needed to counteract coriolis centrifugal forces.
+
+            self.data['drive_forces']: Inverse Dynamics drive forces.
         """
         super().parse_message(msg)
         self.data['number_of_joints'] = msg.read_int32()
@@ -493,11 +495,11 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetJointPosition(self, joint_positions: list, speed_scales = None):
         """
-        设置机械臂所有关节目标位置
+        Set the target joint position for each moveable joint and move with PD control.
 
         Args:
-            joint_positions: 目标位置
-            speed_scales: 速度倍数
+            joint_positions: A list of float, representing the target joint positions.
+            speed_scales: A list of float, representing the speed scale.
         """
         num_joints = len(joint_positions)
         if speed_scales is None:
@@ -516,10 +518,10 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetJointPositionDirectly(self, joint_positions: list):
         """
-        立即设置机械臂所有关节位置
+        Set the target joint position for each moveable joint and move directly.
 
         Args:
-            joint_positions: 目标位置
+            joint_positions: A list of float, representing the target joint positions.
         """
         num_joints = len(joint_positions)
 
@@ -533,11 +535,11 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetIndexJointPosition(self, index: int, joint_position: float):
         """
-        设置机械臂指定关节目标位置
+        Set the target joint position for a given joint and move with PD control.
 
         Args:
-            index: 关节序号
-            joint_position: 目标位置
+            index: Int, joint index.
+            joint_position: Float, the target joint position.
         """
         msg = OutgoingMessage()
 
@@ -550,11 +552,11 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetIndexJointPositionDirectly(self, index: int, joint_position: float):
         """
-        立即设置机械臂指定关节位置
+        Set the target joint position for a given joint and move directly.
 
         Args:
-            index: 关节序号
-            joint_position: 目标位置
+            index: Int, joint index.
+            joint_position: Float, the target joint position.
         """
         msg = OutgoingMessage()
 
@@ -567,11 +569,11 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetJointPositionContinue(self, interval: int, time_joint_positions: list):
         """
-        持续设置机械臂所有关节目标位置
+        Set the target joint position for each moveable joint and move with PD control continuously.
 
         Args:
-            interval: 设置时间间隔(毫秒)
-            time_joint_positions: 每个time的目标位置
+            interval: Float, the time interval.
+            time_joint_positions: A list of float list, representing the target joint positions at each time step.
 
         Returns:
 
@@ -591,10 +593,10 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetJointVelocity(self, joint_velocitys: list):
         """
-        设置机械臂所有关节目标速度
+        Set the target joint velocity for each moveable joint.
 
         Args:
-            joint_velocitys: 目标速度
+            joint_velocitys: A list of float, representing the target joint velocities.
         """
         msg = OutgoingMessage()
 
@@ -606,11 +608,11 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetIndexJointVelocity(self, index: int, joint_velocity: float):
         """
-        设置机械臂指定关节目标速度
+        Set the target joint velocity for a given joint.
 
         Args:
-            index: 关节序号
-            joint_velocity: 目标速度
+            index: Int, joint index.
+            joint_velocity: A list of float, representing the target joint velocities.
         """
         msg = OutgoingMessage()
 
@@ -623,12 +625,12 @@ class ControllerAttr(attr.ColliderAttr):
 
     def AddJointForce(self, joint_forces: list):
         """
-        为机械臂所有关节施加力
+        Add force to each moveable joint.
 
         Args:
-            joint_forces: 力
+            joint_forces: A list of forces, representing the added forces.
         """
-        num_joints = len(joint_positions)
+        num_joints = len(joint_forces)
 
         msg = OutgoingMessage()
 
@@ -644,13 +646,13 @@ class ControllerAttr(attr.ColliderAttr):
 
     def AddJointForceAtPosition(self, joint_forces: list, force_positions: list):
         """
-        为机械臂所有关节指定位置施加力
+        Add force to each moveable joint at a given position.
 
         Args:
-            joint_forces: 力
-            force_positions: 施力点
+            joint_forces: A list of forces, representing the added forces.
+            force_positions: A list of positions, representing the positions for forces.
         """
-        num_joints = len(joint_positions)
+        num_joints = len(joint_forces)
         assert len(joint_forces) == len(force_positions), \
             'The length of joint_forces and force_positions are not equal.'
 
@@ -671,12 +673,12 @@ class ControllerAttr(attr.ColliderAttr):
 
     def AddJointTorque(self, joint_torques: list):
         """
-        为机械臂所有关节施加力矩
+        Add torque to each moveable joint.
 
         Args:
-            joint_torques: 力矩
+            joint_torques: A list of torques, representing the added torques.
         """
-        num_joints = len(joint_torque)
+        num_joints = len(joint_torques)
 
         msg = OutgoingMessage()
 
@@ -693,14 +695,7 @@ class ControllerAttr(attr.ColliderAttr):
     # only work on unity 2022.1+
     def GetJointInverseDynamicsForce(self):
         """
-        获取机械臂所有关节逆动力学数据
-
-        Returns:
-            调用此接口并step后,从
-            self.data['gravity_forces']
-            self.data['coriolis_centrifugal_forces']
-            self.data['drive_forces']
-            获取结果
+        Get the joint inverse dynamic force of each moveable joint. Note that this function only works in Unity version >= 2022.1.
         """
         msg = OutgoingMessage()
 
@@ -711,10 +706,10 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetImmovable(self, immovable: bool):
         """
-        设置机械臂是否不可移动
+        Set whether the base of articulation is immovable.
 
         Args:
-            immovable: 是否不可移动
+            immovable: Bool, True for immovable, False for movable.
         """
         msg = OutgoingMessage()
 
@@ -726,12 +721,11 @@ class ControllerAttr(attr.ColliderAttr):
 
     def MoveForward(self, distance: float, speed: float):
         """
-        如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动前进
-        最初用于Tobor机器人
+        Move robot forward. Only works if the robot controller has implemented functions inherited from `ICustomMove.cs`. See https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ICustomMove.cs and https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ToborMove.cs for more details.
 
         Args:
-            distance:距离
-            speed:速度
+            distance: Float, distance.
+            speed: Float, velocity.
         """
         msg = OutgoingMessage()
 
@@ -744,12 +738,11 @@ class ControllerAttr(attr.ColliderAttr):
 
     def MoveBack(self, distance: float, speed: float):
         """
-        如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动后退
-        最初用于Tobor机器人
+        Move robot backword. Only works if the robot controller has implemented functions inherited from `ICustomMove.cs`. See https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ICustomMove.cs and https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ToborMove.cs for more details.
 
         Args:
-            distance:距离
-            speed:速度
+            distance: Float, distance.
+            speed: Float, velocity.
         """
         msg = OutgoingMessage()
 
@@ -762,12 +755,11 @@ class ControllerAttr(attr.ColliderAttr):
 
     def TurnLeft(self, angle: float, speed: float):
         """
-        如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动左转
-        最初用于Tobor机器人
+        Turn robot left. Only works if the robot controller has implemented functions inherited from `ICustomMove.cs`. See https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ICustomMove.cs and https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ToborMove.cs for more details.
 
         Args:
-            angle:角度
-            speed:速度
+            angle: Float, rotation angle.
+            speed: Float, velocity.
         """
         msg = OutgoingMessage()
 
@@ -780,12 +772,11 @@ class ControllerAttr(attr.ColliderAttr):
 
     def TurnRight(self, angle: float, speed: float):
         """
-        如果机器人在Unity端添加了继承ICustomMove接口的脚本,可通过此接口驱动右转
-        最初用于Tobor机器人
+        Turn robot right. Only works if the robot controller has implemented functions inherited from `ICustomMove.cs`. See https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ICustomMove.cs and https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ToborMove.cs for more details.
 
         Args:
-            angle:角度
-            speed:速度
+            angle: Float, rotation angle.
+            speed: Float, velocity.
         """
         msg = OutgoingMessage()
 
@@ -798,7 +789,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def GripperOpen(self):
         """
-        如果夹爪在Unity端添加了继承ICustomGripper接口的脚本,可通过此接口驱动张开
+        Open the gripper. Only works if the robot controller has implemented functions inherited from `ICustomGripper.cs`. See https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ICustomGripper.cs and https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/GeneralGripper.cs for more details.
         """
         msg = OutgoingMessage()
 
@@ -809,7 +800,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def GripperClose(self):
         """
-        如果夹爪在Unity端添加了继承ICustomGripper接口的脚本,可通过此接口驱动闭合
+        Close the gripper. Only works if the robot controller has implemented functions inherited from `ICustomGripper.cs`. See https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ICustomGripper.cs and https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/GeneralGripper.cs for more details.
         """
         msg = OutgoingMessage()
 
@@ -820,10 +811,10 @@ class ControllerAttr(attr.ColliderAttr):
 
     def EnabledNativeIK(self, enabled: bool):
         """
-        启用/禁用机械臂的原生IK
+        Enable or disable the native IK algorithm.
 
         Args:
-            enabled: 启用/禁用
+            enabled: Bool, True for enable and False for disable.
         """
         msg = OutgoingMessage()
 
@@ -835,16 +826,13 @@ class ControllerAttr(attr.ColliderAttr):
 
     def IKTargetDoMove(self, position: list, duration: float, speed_based: bool = True, relative: bool = False):
         """
-        原生IK末端点移动
+        Native IK target movement.
 
         Args:
-            position: 绝对位置或相对位置
-            duration: 移动持续时间或移动速度
-            speed_based: 指定duration表示移动持续时间还是移动速度
-            relative: 指定position表示绝对位置还是相对位置
-
-        Returns:
-            当移动完成时,self.data['move_done']会被置为True
+            position: A list of length 3, representing the position.
+            duration: Float, if `speed_based` is True, it represents movement duration; otherwise, it represents movement speed.
+            speed_based: Bool.
+            relative: Bool, if True, `position` is relative; otherwise, `position` is absolute.
         """
         msg = OutgoingMessage()
 
@@ -861,16 +849,13 @@ class ControllerAttr(attr.ColliderAttr):
 
     def IKTargetDoRotate(self, rotation: list, duration: float, speed_based: bool = True, relative: bool = False):
         """
-        原生IK末端点Vector3旋转
+        Native IK target rotation.
 
         Args:
-            rotation: 绝对旋转或相对旋转
-            duration: 旋转持续时间或旋转速度
-            speed_based: 指定duration表示旋转持续时间还是旋转速度
-            relative: 指定position表示绝对旋转还是相对旋转
-
-        Returns:
-            当旋转完成时,self.data['rotate_done']会被置为True
+            rotation: A list of length 3, representing the rotation.
+            duration: Float, if `speed_based` is True, it represents movement duration; otherwise, it represents movement speed.
+            speed_based: Bool.
+            relative: Bool, if True, `rotation` is relative; otherwise, `rotation` is absolute.
         """
         msg = OutgoingMessage()
 
@@ -887,16 +872,13 @@ class ControllerAttr(attr.ColliderAttr):
 
     def IKTargetDoRotateQuaternion(self, quaternion: list, duration: float, speed_based: bool = True, relative: bool = False):
         """
-        原生IK末端点四元数旋转
+        Native IK target rotation using quaternion.
 
         Args:
-            quaternion: 绝对旋转或相对旋转
-            duration: 旋转持续时间或旋转速度
-            speed_based: 指定duration表示旋转持续时间还是旋转速度
-            relative: 指定position表示绝对旋转还是相对旋转
-
-        Returns:
-            当旋转完成时,self.data['rotate_done']会被置为True
+            quaternion: A list of length 4, representing the quaternion.
+            duration: Float, if `speed_based` is True, it represents movement duration; otherwise, it represents movement speed.
+            speed_based: Bool.
+            relative: Bool, if True, `quaternion` is relative; otherwise, `quaternion` is absolute.
         """
         msg = OutgoingMessage()
 
@@ -914,7 +896,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def IKTargetDoComplete(self):
         """
-        使原生IK末端点移动/旋转立即完成
+        Make native IK target movement / rotation complete directly.
         """
         msg = OutgoingMessage()
 
@@ -925,7 +907,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def IKTargetDoKill(self):
         """
-        使原生IK末端点移动/旋转停止
+        Make native IK target movement / rotation stop.
         """
         msg = OutgoingMessage()
 
@@ -936,12 +918,12 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetIKTargetOffset(self, position: list = [0.,0.,0.], rotation: list = [0.,0.,0.], quaternion: list = None):
         """
-        设置原生IK末端点的偏移
+        Set the new IK target by setting offset to the original target of native IK.
 
         Args:
-            position: 偏移位置
-            rotation: 偏移旋转Vector3
-            quaternion: 偏移旋转四元数,此值覆盖rotation
+            position: A list of length 3, representing the position offset to original target.
+            rotation: A list of length 3, representing the rotation offset to original target.
+            quaternion: A list of length 4, representing the quaternion offset to original target. If this parameter is specified, `rotation` will be ignored.
         """
         msg = OutgoingMessage()
 
@@ -965,7 +947,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def WaitDo(self):
         """
-        等待原生IK末端点移动/旋转完成
+        Wait for the native IK target movement / rotation complete.
         """
         while not self.data['move_done'] or not self.data['rotate_done']:
             self.env.step()

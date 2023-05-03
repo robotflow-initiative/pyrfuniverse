@@ -8,16 +8,18 @@ import base64
 
 class DigitAttr(attr.BaseAttr):
     """
-    模拟Digit指尖触觉传感器类
+    Class for simulating DIGIT tactile sensor.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        消息解析
+        Parse messages. This function is called by internal function.
 
         Returns:
-            self.data['light'] RGB灯光图像bytes
+            Dict: A dict containing useful information of this class.
 
-            self.data['depth'] 深度图像bytes
+            self.data['light']: Bytes of RGB light image in DIGIT.
+
+            self.data['depth']: Bytes of depth image in DIGIT.
         """
         super().parse_message(msg)
         if msg.read_bool() is True:
@@ -28,12 +30,8 @@ class DigitAttr(attr.BaseAttr):
 
     def GetData(self):
         """
-        获取传感器数据
+        Get data from DIGIT in RFUniverse.
 
-        Returns:
-            调用此接口并step后,从
-            self.data['light']: 获取RGB灯光图像,
-            self.data['depth']: 获取深度图像
         """
         msg = OutgoingMessage()
 

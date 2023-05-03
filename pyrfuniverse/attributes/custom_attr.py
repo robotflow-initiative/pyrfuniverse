@@ -8,27 +8,41 @@ from pyrfuniverse.side_channel.side_channel import (
 #自定义Attr类示例
 class CustomAttr(attr.BaseAttr):
     """
-    此类为自定义Attr类的示例,不包含实际功能
+    This is an example of custom attribute class, without actual functions.
     """
-    # 消息解析示例
+
     def parse_message(self, msg: IncomingMessage) -> dict:
-        # 先完成所继承的基类的数据读取
+        """
+        Parse messages. This function is called by internal function.
+
+        Returns:
+            Dict: A dict containing useful information of this class.
+
+            data['custom_message']: A custom message
+        """
+        # 1. First, complete the message parsing in parent class.
         super().parse_message(msg)
-        # 按顺序读取数据
-        # 此处读取顺序对应Unity的CustomAttr脚本CollectData函数中的写入顺序
+        
+        # 2. Read the message from Unity in order.
+        # Note that the reading order here should align with 
+        # the writing order in CollectData() of CustomAttr.cs.
         self.data['custom_message'] = msg.read_string()
         return self.data
 
-    # 新增接口示例
+    # An example of new API
     def CustomMessage(self, message: str):
+        # 1. Define an out-going message
         msg = OutgoingMessage()
 
-        # 第一个写入的数据必须是ID
+        # 2. The first data written must be the unique id.
         msg.write_int32(self.id)
-        # 第二个写入的数据必须是消息类型 此处CustomMessage对应Unity新增Attr脚本AnalysisMsg函数switch的一个分支
+
+        # 3. The second data written must be the function name.
+        # The keyword `CustomMessage` here should also be added
+        # as a new branch in AnalysisMsg() in CustomAttr.cs.
         msg.write_string('CustomMessage')
 
-        # 写入数据
+        # 4. Write in the data.
         msg.write_string(message)
 
         self.env.instance_channel.send_message(msg)

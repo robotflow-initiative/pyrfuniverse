@@ -100,16 +100,18 @@ def HumanIKTargetDoKill(kwargs: dict) -> OutgoingMessage:
 
 class HumanbodyAttr(attr.BaseAttr):
     """
-    人体IK类
+    Human body Inverse Kinematic class.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
-            self.data['move_done'] 移动完成
+            Dict: A dict containing useful information of this class.
 
-            self.data['rotate_done'] 旋转完成
+            self.data['move_done']: Whether the movement has finished.
+
+            self.data['rotate_done']: Whether the rotation has finished.
         """
         super().parse_message(msg)
         self.data['move_done'] = msg.read_bool()
@@ -118,17 +120,14 @@ class HumanbodyAttr(attr.BaseAttr):
 
     def HumanIKTargetDoMove(self, index: int, position: list, duration: float, speed_based: bool = True, relative: bool = False):
         """
-        人体IK目标点移动
+        Human body Inverse Kinematics target movement.
 
         Args:
-            index: 移动的目标：0-左手,1-右手,2-左脚,3-右脚,4-头部
-            position: 绝对位置或相对位置
-            duration: 移动持续时间或移动速度
-            speed_based: 指定duration表示移动持续时间还是移动速度
-            relative: 指定position表示绝对位置还是相对位置
-
-        Returns:
-            当移动完成时,self.data['move_done']会被置为True
+            index: Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.
+            position: A list of length 3, representing the position.
+            duration: Float, if `speed_based` is True, it represents movement duration; otherwise, it represents movement speed.
+            speed_based: Bool.
+            relative: Bool, if True, `position` is relative; otherwise, `position` is absolute.
         """
         msg = OutgoingMessage()
 
@@ -146,17 +145,14 @@ class HumanbodyAttr(attr.BaseAttr):
 
     def HumanIKTargetDoRotate(self, index: int, rotation: list, duration: float, speed_based: bool = True, relative: bool = False):
         """
-        人体IK目标点旋转
+        Human body Inverse Kinematics target rotation.
 
         Args:
-            index: 移动的目标：0-左手,1-右手,2-左脚,3-右脚,4-头部
-            rotation: 绝对旋转或相对旋转
-            duration: 旋转持续时间或旋转速度
-            speed_based: 指定duration表示旋转持续时间还是旋转速度
-            relative: 指定position表示绝对旋转还是相对旋转
-
-        Returns:
-            当旋转完成时,self.data['rotate_done']会被置为True
+            index: Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.
+            rotation: A list of length 3, representing the rotation.
+            duration: Float, if `speed_based` is True, it represents movement duration; otherwise, it represents movement speed.
+            speed_based: Bool.
+            relative: Bool, if True, `rotation` is relative; otherwise, `rotation` is absolute.
         """
         msg = OutgoingMessage()
 
@@ -174,17 +170,14 @@ class HumanbodyAttr(attr.BaseAttr):
 
     def HumanIKTargetDoRotateQuaternion(self, index: int, quaternion: list, duration: float, speed_based: bool = True, relative: bool = False):
         """
-        人体IK目标点四元数旋转
+        Human body Inverse Kinematics target rotation using quaternion.
 
         Args:
-            index: 移动的目标：0-左手,1-右手,2-左脚,3-右脚,4-头部
-            quaternion: 绝对旋转或相对旋转
-            duration: 旋转持续时间或旋转速度
-            speed_based: 指定duration表示旋转持续时间还是旋转速度
-            relative: 指定position表示绝对旋转还是相对旋转
-
-        Returns:
-            当旋转完成时,self.data['rotate_done']会被置为True
+            index: Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.
+            quaternion: A list of length 4, representing the quaternion.
+            duration: Float, if `speed_based` is True, it represents movement duration; otherwise, it represents movement speed.
+            speed_based: Bool.
+            relative: Bool, if True, `quaternion` is relative; otherwise, `quaternion` is absolute.
         """
         msg = OutgoingMessage()
 
@@ -205,10 +198,10 @@ class HumanbodyAttr(attr.BaseAttr):
 
     def HumanIKTargetDoComplete(self, index: int):
         """
-        使人体IK目标点移动/旋转立即完成
+        Make the human body IK target movement / rotation complete directly.
 
         Args:
-            index: 移动的目标：0-左手,1-右手,2-左脚,3-右脚,4-头部
+            index: Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.
         """
         msg = OutgoingMessage()
 
@@ -220,10 +213,10 @@ class HumanbodyAttr(attr.BaseAttr):
 
     def HumanIKTargetDoKill(self, index: int):
         """
-        使人体IK目标点移动/旋转停止
+        Make the human body IK target movement / rotation stop.
 
         Args:
-            index: 移动的目标：0-左手,1-右手,2-左脚,3-右脚,4-头部
+            index: Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.
         """
         msg = OutgoingMessage()
 
@@ -235,7 +228,7 @@ class HumanbodyAttr(attr.BaseAttr):
 
     def WaitDo(self):
         """
-        等待人体IK移动/旋转完成
+        Wait for the human body IK target movement / rotation complete.
         """
         while not self.data['move_done'] or not self.data['rotate_done']:
             self.env.step()

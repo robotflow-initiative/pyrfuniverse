@@ -57,13 +57,13 @@ def delete_worker_id(worker_id):
 
 class RFUniverseBaseEnv(ABC):
     """
-    RFUnivers基础环境类
+    RFUniverse base environment class.
 
-    Attributes:
-        executable_file: Unity可执行文件绝对路径,不指定则默认使用最后一次打开的Unity程序,可使用‘@editor’指定为UnityEditor
-        scene_file: Unity场景文件路径,场景文件默认位于StraemingAssets/SceneData
-        assets: 预加载资源列表,列表中的资源会在环境初始化时加载到Unity中
-        graphics: 是否显示图形界面
+    Args:
+        executable_file: Str, the absolute path of Unity executable file. None for last used executable file; "@editor" for using Unity Editor.
+        scene_file: Str, the absolute path of Unity scene JSON file. All JSON files locate at `StraemingAssets/SceneData` by default.
+        assets: List, the list of pre-load assets. All assets in the list will be pre-loaded in Unity when the environment is initialized, which will save time during instanciating.
+        graphics: Bool, True for showing GUI and False for headless mode.
     """
     metadata = {'render.modes': ['human', 'rgb_array']}
 
@@ -148,10 +148,10 @@ class RFUniverseBaseEnv(ABC):
 
     def step(self, count: int = 1):
         """
-        将已经调用的接口消息发送给Unity,执行一步仿真,然后接收Unity返回的数据
+        Send the messages of called functions to Unity and simulate for a step, then accept the data from Unity.
 
         Args:
-            count: 执行的步数
+            count: the number of steps for executing Unity simulation.
         """
         if count < 1:
             count = 1
@@ -160,20 +160,20 @@ class RFUniverseBaseEnv(ABC):
 
     def close(self):
         """
-        关闭环境
+        Close the environment
         """
         delete_worker_id(self.worker_id)
         self.env.close()
 
     def GetAttr(self, id: int):
         """
-        根据ID获取物体
+        Get the attribute instance by object id.
 
         Args:
-            id: 物体ID
+            id: Int, object id.
 
         Returns:
-            Attr物体实例
+            pyrfuniverse.attributes.BaseAttr: An instance of attribute.
         """
         if id not in self.attrs:
             self.attrs[id] = attr.BaseAttr(self, id)
@@ -197,11 +197,11 @@ class RFUniverseBaseEnv(ABC):
 
     def LoadSceneAsync(self, file: str, auto_wait: bool = False) -> None:
         """
-        异步加载场景
+        Load the scene asynchronisely.
 
         Args:
-            file: 场景Json文件,当该值为路径时,从路径加载场景,否则从StreamingAssets加载场景
-            auto_wait: 是否等待加载完成,如果为True,则在加载完成后才返回
+            file: Str, the scene JSON file. If it's a relative path, it will load from `StraemingAssets`.
+            auto_wait: Bool, if True, this function will not return until the loading is done.
         """
         msg = OutgoingMessage()
 
@@ -215,7 +215,7 @@ class RFUniverseBaseEnv(ABC):
 
     def WaitLoadDone(self) -> None:
         """
-        等待加载完成,使用LoadSceneAsync接口后,调用该接口可以等待加载完成
+        Wait for the loading is done.
         """
         self.asset_channel.data['load_done'] = False
         while not self.asset_channel.data['load_done']:
@@ -223,7 +223,7 @@ class RFUniverseBaseEnv(ABC):
 
     def Pend(self) -> None:
         """
-        挂起,直到UnityPlayer中点击EndPend按钮
+        Pend the program until the `EndPend` button in `UnityPlayer` is clicked.
         """
         msg = OutgoingMessage()
 
@@ -237,11 +237,11 @@ class RFUniverseBaseEnv(ABC):
 
     def SendMessage(self, message: str, *args) -> None:
         """
-        发送动态消息给Unity
+        Send message to Unity.
 
         Args:
-            message: 消息头
-            *args: 参数列表,支持的参数类型有：str, bool, int, float, list[float]
+            message: Str, the message head.
+            args: List, the list of parameters. We support str, bool, int, float and List[float] types.
         """
         msg = OutgoingMessage()
 
@@ -265,11 +265,11 @@ class RFUniverseBaseEnv(ABC):
 
     def AddListener(self, message: str, fun):
         """
-        添加动态消息监听
+        Add listener.
 
         Args:
-            message: 消息头
-            fun: 回调函数
+            message: Str, the message head.
+            fun: Callable, the callback function.
         """
         if message in self.asset_channel.messages:
             if fun in self.asset_channel.messages[message]:
@@ -279,11 +279,11 @@ class RFUniverseBaseEnv(ABC):
 
     def RemoveListener(self, message: str, fun):
         """
-        移除动态消息监听
+        Remove listener.
 
         Args:
-            message: 消息头
-            fun: 回调函数
+            message: Str, the message head.
+            fun: Callable, the callback function.
         """
         if message in self.asset_channel.messages:
             if fun in self.asset_channel.messages[message]:
@@ -293,78 +293,80 @@ class RFUniverseBaseEnv(ABC):
 
     def InstanceObject(self, name: str, id: int = None, attr_type: type = attr.BaseAttr):
         """
-        实例化物体
+        Instanciate an object.
+
+        Built-in assets:
+    
+        GameObjectAttr:
+            Basic Objects:
+                "GameObject_Box",
+                "GameObject_Capsule",
+                "GameObject_Cylinder",
+                "GameObject_Sphere",
+                "GameObject_Quad",
+            IGbison Meshes:
+                "Hainesburg_mesh_texture",
+                "Halfway_mesh_texture",
+                "Hallettsville_mesh_texture",
+                "Hambleton_mesh_texture",
+                "Hammon_mesh_texture",
+                "Hatfield_mesh_texture",
+                "Haxtun_mesh_texture",
+                "Haymarket_mesh_texture",
+                "Hendrix_mesh_texture",
+                "Hercules_mesh_texture",
+                "Highspire_mesh_texture",
+                "Hitchland_mesh_texture",
+
+        ColliderAttr:
+            "Collider_Box",
+            "Collider_ObiBox",
+            "Collider_Capsule",
+            "Collider_Cylinder",
+            "Collider_Sphere",
+            "Collider_Quad",
+
+        RigidbodyAttr:
+            Basic Objects:
+                "Rigidbody_Box",
+                "GameObject_Capsule",
+                "Rigidbody_Cylinder",
+                "Rigidbody_Sphere",
+            YCB dataset: 
+                77 models in YCB dataset. See YCB Object and Model Set for detail: https://rse-lab.cs.washington.edu/projects/posecnn/
+
+        ControllerAttr:
+            gripper:
+                "allegro_hand_right",
+                "bhand",
+                "svh",
+                "robotiq_arg2f_85_model",
+                "dh_robotics_ag95_gripper",
+            robot:
+                "kinova_gen3",
+                "kinova_gen3_robotiq85",
+                "ur5",
+                "ur5_robotiq85",
+                "franka_panda",
+                "franka_hand",
+                "tobor_robotiq85_robotiq85",
+                "flexivArm",
+                "flexivArm_ag95",
+                "yumi",
+
+        CameraAttr:
+            "Camera",
+
+        LightAttr:
+            "Light",
 
         Args:
-            name: 物体名
-                RfUniverseRelease中已有的资源类型及名称:
-                    GameObjcetAttr 静态物体:
-                        GameObject_Box,
-                        GameObject_Capsule,
-                        GameObject_Cylinder,
-                        GameObject_Sphere,
-                        GameObject_Quad,
-
-                        IGbison 环境:
-                            Hainesburg_mesh_texture,
-                            Halfway_mesh_texture,
-                            Hallettsville_mesh_texture,
-                            Hambleton_mesh_texture,
-                            Hammon_mesh_texture,
-                            Hatfield_mesh_texture,
-                            Haxtun_mesh_texture,
-                            Haymarket_mesh_texture,
-                            Hendrix_mesh_texture,
-                            Hercules_mesh_texture,
-                            Highspire_mesh_texture,
-                            Hitchland_mesh_texture,
-
-                    ColliderAttr 带有碰撞体的静态物体:
-                        Collider_Box,
-                        Collider_ObiBox,
-                        Collider_Capsule,
-                        Collider_Cylinder,
-                        Collider_Sphere,
-                        Collider_Quad,
-
-                    RigidbodyAttr 刚体:
-                        Rigidbody_Box,
-                        GameObject_Capsule,
-                        Rigidbody_Cylinder,
-                        Rigidbody_Sphere,
-
-                        77个YCB数据集模型: 详见The YCB Object and Model Set: https://rse-lab.cs.washington.edu/projects/posecnn/
-
-                    ControllerAttr 机械臂及关节体:
-                        gripper:
-                            allegro_hand_right,
-                            bhand,
-                            svh,
-                            robotiq_arg2f_85_model,
-                            dh_robotics_ag95_gripper,
-                        robot:
-                            kinova_gen3,
-                            kinova_gen3_robotiq85,
-                            ur5,
-                            ur5_robotiq85,
-                            franka_panda,
-                            franka_hand,
-                            tobor_robotiq85_robotiq85,
-                            flexivArm,
-                            flexivArm_ag95,
-                            yumi,
-
-                    CameraAttr 相机:
-                        Camera,
-
-                    LightAttr 灯光:
-                        Light,
-
-            id: 物体ID
-            attr_type: 物体类型
+            name: Str, object name. Please check the above `built-in assets` list for names.
+            id: Int, object id.
+            attr_type: type(pyrfuniverse.attributes.BaseAttr), the attribute type.
 
         Returns:
-            物体实例
+            type(`attr_type`): The object attribute instance.
         """
         assert id not in self.attrs, \
             'this ID exists'
@@ -385,15 +387,15 @@ class RFUniverseBaseEnv(ABC):
 
     def LoadURDF(self, path: str, id: int = None, native_ik: bool = True) -> attr.ControllerAttr:
         """
-        加载URDF模型
+        Load a model from URDF file.
 
         Args:
-            path: URDF路径
-            id: 物体ID
-            native_ik: 是否启用内置IK
+            path: Str, the URDF file path.
+            id: Int, object id.
+            native_ik: Bool, True for enabling native IK; False for using custom IK.
 
         Returns:
-            ControllerAttr机械臂实例
+            pyrfuniverse.attributes.ControllerAttr: The object attribute intance.
         """
         assert id not in self.attrs, \
             'this ID exists'
@@ -415,14 +417,14 @@ class RFUniverseBaseEnv(ABC):
 
     def LoadMesh(self, path: str, id: int = None) -> attr.RigidbodyAttr:
         """
-        加载Mesh模型
+        Load a model from Mesh file.
 
         Args:
-            path: Mesh路径
-            id: 物体ID
+            path: Str, the Mesh file path.
+            id: Int, object id.
 
         Returns:
-            RigidbodyAttr刚体实例
+            pyrfuniverse.attributes.RigidbodyAttr: The object attribute intance.
         """
         assert id not in self.attrs, \
             'this ID exists'
@@ -443,12 +445,12 @@ class RFUniverseBaseEnv(ABC):
 
     def IgnoreLayerCollision(self, layer1: int, layer2: int, ignore: bool) -> None:
         """
-        忽略或启用指定两个层的碰撞
+        Ignore or enable the collision between two layers.
 
         Args:
-            layer1: 层1
-            layer2: 层1
-            ignore: 是否忽略
+            layer1: Int, the layer number of the first layer.
+            layer2: Int, the layer number of the second layer.
+            ignore: Bool, True for ignoring collision between two layers; False for enabling collision between two layers.
         """
         msg = OutgoingMessage()
 
@@ -461,10 +463,10 @@ class RFUniverseBaseEnv(ABC):
 
     def GetCurrentCollisionPairs(self) -> None:
         """
-        获取当前碰撞对
+        Get the collision pairs of current collision.
 
         Returns:
-            调用此接口并step后,从env.data['CurrentCollisionPairs']中获取碰撞对
+            Call this function and `step()`, the collision pairs can be got from env.data['CurrentCollisionPairs'].
         """
         msg = OutgoingMessage()
 
@@ -474,10 +476,10 @@ class RFUniverseBaseEnv(ABC):
 
     def GetRFMoveColliders(self) -> None:
         """
-        获取RFMove碰撞体
+        Get the RFMove colliders.
 
         Returns:
-            调用此接口并step后,从env.data['RFMoveColliders']中获取碰撞体
+            Call this function and `step()`, the collision pairs can be got from env.data['RFMoveColliders'].
         """
         msg = OutgoingMessage()
 
@@ -487,12 +489,12 @@ class RFUniverseBaseEnv(ABC):
 
     def SetGravity(self, x: float, y: float, z: float) -> None:
         """
-        设置环境重力
+        Set the gravity of environment.
 
         Args:
-            x: 右方向
-            y: 上方向
-            z: 前方向
+            x: Float, gravity on global x-axis (right).
+            y: Float, gravity on global y-axis (up).
+            z: Float, gravity on global z-axis (forward).
         """
         msg = OutgoingMessage()
 
@@ -505,14 +507,14 @@ class RFUniverseBaseEnv(ABC):
 
     def SetGroundPhysicMaterial(self, bounciness: float, dynamic_friction: float, static_friction: float, friction_combine: int, bounce_combine: int) -> None:
         """
-        设置环境地面物理材质
+        Set the physics material of ground in environment.
 
         Args:
-            bounciness: 弹力
-            dynamic_friction: 动摩擦力
-            static_friction: 静摩擦力
-            friction_combine: 摩擦力组合方式
-            bounce_combine: 弹力组合方式
+            bounciness: Float, the bounciness.
+            dynamic_friction: Float, the dynamic friction coefficient (0-1).
+            static_friction: Float, the static friction coefficient (0-1).
+            friction_combine: Int, how friction of two colliding objects is combined. 0 for Average, 1 for Minimum, 2 for Maximum and 3 for Multiply. See https://docs.unity3d.com/Manual/class-PhysicMaterial.html for more details.
+            bounce_combine: Int, how bounciness of two colliding objects is combined. The value representation is the same with `friction_combine`.
         """
         msg = OutgoingMessage()
 
@@ -527,10 +529,10 @@ class RFUniverseBaseEnv(ABC):
 
     def SetTimeStep(self, delta_time: float) -> None:
         """
-        设置环境step时间步长
+        Set the time for a step in Unity.
 
         Args:
-            delta_time: 时间步长(s)
+            delta_time: Float, the time for a step in Unity.
         """
         msg = OutgoingMessage()
 
@@ -541,10 +543,10 @@ class RFUniverseBaseEnv(ABC):
 
     def SetTimeScale(self, time_scale: float) -> None:
         """
-        设置环境时间缩放比例
+        Set the time scale in Unity.
 
         Args:
-            time_scale: 时间缩放比例
+            time_scale: Float, the time scale in Unity.
         """
         msg = OutgoingMessage()
 
@@ -555,11 +557,11 @@ class RFUniverseBaseEnv(ABC):
 
     def SetResolution(self, resolution_x: int, resolution_y: int) -> None:
         """
-        设置窗口分辨率
+        Set the resolution of windowed GUI.
 
         Args:
-            resolution_x: 宽度width分辨率
-            resolution_y: 高度height分辨率
+            resolution_x: Int, window width.
+            resolution_y: Int, window height.
         """
         msg = OutgoingMessage()
 
@@ -571,11 +573,11 @@ class RFUniverseBaseEnv(ABC):
 
     def ExportOBJ(self, items_id: list, save_path: str) -> None:
         """
-        导出指定物体列表为OBJ文件,对于原生Bundle模型,需要在UnityEditor中勾选Read/Write才能正确导出
+        Export the specified object list to OBJ file. For native bundle models, the `Read/Write` must be checked in Unity Editor.
 
         Args:
-            items_id: 物体ID列表
-            save_path: 保存绝对路径
+            items_id: List, the object ids.
+            save_path: Str, the path to save the OBJ files.
         """
         msg = OutgoingMessage()
 
@@ -589,10 +591,10 @@ class RFUniverseBaseEnv(ABC):
 
     def SetShadowDistance(self, distance: float) -> None:
         """
-        设置环境阴影渲染距离
+        Set the shadow distance for rendering in environment.
 
         Args:
-            distance: 距离(m)
+            distance: Float, the shadow distance measured in meter.
         """
         msg = OutgoingMessage()
 
@@ -603,10 +605,10 @@ class RFUniverseBaseEnv(ABC):
 
     def SaveScene(self, file: str) -> None:
         """
-        保存当前场景
+        Save current scene.
 
         Args:
-            file: 存储场景Json路径,当该值为路径时,保存到该路径,否则保存到StreamingAssets
+            file: Str, the file path to save current scene. Default saving to `StreamingAssets` folder.
         """
         msg = OutgoingMessage()
 
@@ -617,7 +619,7 @@ class RFUniverseBaseEnv(ABC):
 
     def ClearScene(self) -> None:
         """
-        清理当前场景
+        Clear current scene.
         """
         msg = OutgoingMessage()
 
@@ -627,10 +629,10 @@ class RFUniverseBaseEnv(ABC):
 
     def AlignCamera(self, camera_id: int) -> None:
         """
-        对齐视口到相机
+        Align current GUI view to a given camera.
 
         Args:
-            camera_id: 相机ID
+            camera_id: Int, camera id.
         """
         msg = OutgoingMessage()
 
@@ -641,11 +643,11 @@ class RFUniverseBaseEnv(ABC):
 
     def SetViewTransform(self, position: list = None, rotation: list = None) -> None:
         """
-        设置视口位置和旋转
+        Set the GUI view.
 
         Args:
-            position: 位置
-            rotation: 旋转
+            position: A list of length 3, representing the position of GUI view.
+            rotation: A list of length 3, representing the rotation of GUI view.
         """
         msg = OutgoingMessage()
 
@@ -669,7 +671,10 @@ class RFUniverseBaseEnv(ABC):
     #Dubug API
     def DebugGraspPoint(self, enabled: bool = True) -> None:
         """
-        Debug显示机械臂末端点
+        Show or hide end effector of robot arm for debug.
+
+        Args:
+            enabled: Bool, True for showing and False for hiding.
         """
         msg = OutgoingMessage()
         msg.write_string('DebugGraspPoint')
@@ -678,7 +683,10 @@ class RFUniverseBaseEnv(ABC):
 
     def DebugObjectPose(self, enabled: bool = True) -> None:
         """
-        Debug显示物体base点
+        Show or hide object base point for debug.
+
+        Args:
+            enabled: Bool, True for showing and False for hiding.
         """
         msg = OutgoingMessage()
         msg.write_string('DebugObjectPose')
@@ -687,15 +695,22 @@ class RFUniverseBaseEnv(ABC):
 
     def DebugCollisionPair(self, enabled: bool = True) -> None:
         """
-        Debug显示物理碰撞对
+        Show or hide collision pairs for debug.
+
+        Args:
+            enabled: Bool, True for showing and False for hiding.
         """
         msg = OutgoingMessage()
         msg.write_string('DebugCollisionPair')
         msg.write_bool(enabled)
         self.debug_channel.send_message(msg)
+    
     def DebugColliderBound(self, enabled: bool = True) -> None:
         """
-        Debug显示碰撞包围盒
+        Show or hide collider bounding box for debug.
+
+        Args:
+            enabled: Bool, True for showing and False for hiding.
         """
         msg = OutgoingMessage()
         msg.write_string('DebugColliderBound')
@@ -704,7 +719,10 @@ class RFUniverseBaseEnv(ABC):
 
     def DebugObjectID(self, enabled: bool = True) -> None:
         """
-        Debug显示碰物体ID
+        Show or hide object id for debug.
+
+        Args:
+            enabled: Bool, True for showing and False for hiding.
         """
         msg = OutgoingMessage()
         msg.write_string('DebugObjectID')
@@ -713,7 +731,10 @@ class RFUniverseBaseEnv(ABC):
 
     def Debug3DBBox(self, enabled: bool = True) -> None:
         """
-        Debug显示物体3DBoundingBox
+        Show or hide 3d bounding box of objects for debug.
+
+        Args:
+            enabled: Bool, True for showing and False for hiding.
         """
         msg = OutgoingMessage()
         msg.write_string('Debug3DBBox')
@@ -722,7 +743,10 @@ class RFUniverseBaseEnv(ABC):
 
     def Debug2DBBox(self, enabled: bool = True) -> None:
         """
-        Debug显示物体2DBoundingBox
+        Show or hide 2d bounding box of objects for debug.
+
+        Args:
+            enabled: Bool, True for showing and False for hiding.
         """
         msg = OutgoingMessage()
         msg.write_string('Debug2DBBox')
@@ -731,7 +755,10 @@ class RFUniverseBaseEnv(ABC):
 
     def DebugJointLink(self, enabled: bool = True) -> None:
         """
-        Debug显示关节体Joint信息
+        Show or hide joint information of articulation for debug.
+
+        Args:
+            enabled: Bool, True for showing and False for hiding.
         """
         msg = OutgoingMessage()
         msg.write_string('DebugJointLink')
@@ -740,10 +767,10 @@ class RFUniverseBaseEnv(ABC):
 
     def SendLog(self, log: str) -> None:
         """
-        发送Log消息并显示在Unity窗口
+        Send log messange and show it on Unity GUI window.
 
         Args:
-            log: Log内容
+            log: Str, log message.
         """
         msg = OutgoingMessage()
         msg.write_string('SendLog')

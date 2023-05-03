@@ -3,10 +3,13 @@ import numpy as np
 
 def EncodeIDAsColor(instance_id: int):
     """
-    获取物体在ID图中的颜色
+    Encode the object id to a color.
 
     Args:
-        instance_id: 物体ID
+        instance_id: Int, the id of the object.
+    
+    Return:
+        List: The encoded color in [r, g, b, 255] format.
     """
     r = (instance_id * 16807 + 187) % 256
     g = (instance_id * 48271 + 79) % 256
@@ -15,13 +18,14 @@ def EncodeIDAsColor(instance_id: int):
 
 def UnityEularToQuaternion(eular: list) -> list:
     """
-    Unity欧拉角转四元数
+    Transform euler angle to quaternion in Unity.
 
     Args:
-        eular: 欧拉角,长度为3,分别为x,y,z轴的旋转角度,单位为度
+        eular: List of length 3, representing euler angle in [x, y, z]
+        order and measured in degree.
 
     Return:
-        四元数,长度为4,分别为x,y,z,w四个分量
+        List: The transformed quaternion in [x, y, z, w] format.
     """
     xx = math.radians(eular[0])
     yy = math.radians(eular[1])
@@ -34,13 +38,14 @@ def UnityEularToQuaternion(eular: list) -> list:
 
 def UnityQuaternionToEular(quaternion: list) -> list:
     """
-    Unity四元数转欧拉角
+    Transform quaternion to euler angle in Unity.
 
     Args:
-        quaternion: 四元数,长度为4,分别为x,y,z,w四个分量
+        quaternion: List of length 4, representing quaternion in [x, y, z, w]
+        order.
 
     Return:
-        欧拉角,长度为3,分别为x,y,z轴的旋转角度,单位为度
+        List: The transformed euler angle in [x, y, z] order and measured in degree.
     """
     xx = quaternion[0]
     yy = quaternion[1]
@@ -64,14 +69,14 @@ def CheckKwargs(kwargs: dict, compulsory_params: list):
 
 def GetMatrix(pos, quat) -> np.ndarray:
     """
-    位置和四元数转换为矩阵
+    Transform the position and quaternion into a transformation matrix.
 
     Args:
-        pos: 位置,长度为3,分别为x,y,z轴的坐标
-        quat：四元数,长度为4,分别为x,y,z,w四个分量
+        pos: List of length 3, representing the [x, y, z] position.
+        quat: List of length 4, representing the [x, y, z, w] quaternion.
 
     Return:
-        ndarray矩阵,shape为(4,4)
+        numpy.ndarray: the transformation matrix.
     """
     q = quat.copy()
     n = np.dot(q, q)

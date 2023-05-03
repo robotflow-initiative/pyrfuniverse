@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Point Cloud from Images Examples &mdash; pyrfuniverse  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Annotating Image and Scene Example" href="scene_annotation.html" />
+    <link rel="prev" title="Camera Rendering Example" href="camera_rendering.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            pyrfuniverse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/get_started.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/understanding_pyrfuniverse.html">Understanding pyrfuniverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/advanced_usages.html">Advanced Usage Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="camera_rendering.html">Camera Rendering Example</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Point Cloud from Images Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#understanding-the-code">Understanding the Code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scene_annotation.html">Annotating Image and Scene Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loading_urdf.html">Loading URDF File Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pick_and_place.html">Pick and Place Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tobor_move.html">Embodied Robot Controlling Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/franka_robotics.html">Franka Robotics RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ur5_water_pushing.html">UR5 Water Pushing RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.envs.html">pyrfuniverse.envs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.attributes.html">pyrfuniverse.attributes package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.utils.html">pyrfuniverse.utils package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrfuniverse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Point Cloud from Images Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/point_cloud.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="point-cloud-from-images-examples">
+<h1>Point Cloud from Images Examples<a class="headerlink" href="#point-cloud-from-images-examples" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>This example will guide you through <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_point_cloud.py">test_point_cloud.py</a> that captures images from cameras in RFUniverse and converts them into point clouds using <code class="docutils literal notranslate"><span class="pre">OpenCV</span></code> and <code class="docutils literal notranslate"><span class="pre">Open3D</span></code> libraries. The code further transforms the point clouds into an appropriate coordinate frame and visualizes them.</p>
+</section>
+<section id="understanding-the-code">
+<h2>Understanding the Code<a class="headerlink" href="#understanding-the-code" title="Permalink to this heading"></a></h2>
+<p>The consists of several sections. Below we will discuss each part of the code line by line.</p>
+<ol class="arabic simple">
+<li><p>Importing Libraries:</p></li>
+</ol>
+<p>The first line of code enable OpenEXR files in OpenCV. The last few lines import the Open3D library and raise an ImportError if it is not installed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENCV_IO_ENABLE_OPENEXR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pyrfuniverse.envs.base_env</span> <span class="kn">import</span> <span class="n">RFUniverseBaseEnv</span>
+<span class="kn">import</span> <span class="nn">pyrfuniverse.utils.depth_processor</span> <span class="k">as</span> <span class="nn">dp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This feature requires open3d, please install with `pip install open3d`&#39;</span><span class="p">)</span>
+    <span class="k">raise</span>
+</pre></div>
+</div>
+<ol class="arabic simple" id="load-json" start="2">
+<li><p>Creating a Simulation Environment Instance and Capturing Images:</p></li>
+</ol>
+<p>The next code creates an instance of the RFUniverse simulation environment by loading a predefined JSON file describing the scene and captures images from cameras in the environment.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">RFUniverseBaseEnv</span><span class="p">(</span><span class="n">scene_file</span><span class="o">=</span><span class="s1">&#39;PointCloud.json&#39;</span><span class="p">)</span>
+
+<span class="n">camera1</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">GetAttr</span><span class="p">(</span><span class="mi">698548</span><span class="p">)</span>
+<span class="n">camera1</span><span class="o">.</span><span class="n">GetDepthEXR</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+<span class="n">camera1</span><span class="o">.</span><span class="n">GetRGB</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+<span class="n">camera1</span><span class="o">.</span><span class="n">GetID</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Transform the RGBD image into point cloud:</p></li>
+</ol>
+<p>The next code set gets rdb image and depth image from camera, as well as corresponding transformation matrix to calculate the point cloud in the camera’s coordinate.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="n">image_rgb</span> <span class="o">=</span> <span class="n">camera1</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;rgb&#39;</span><span class="p">]</span>
+<span class="n">image_depth_exr</span> <span class="o">=</span> <span class="n">camera1</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;depth_exr&#39;</span><span class="p">]</span>
+<span class="n">fov</span> <span class="o">=</span> <span class="n">camera1</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;fov&#39;</span><span class="p">]</span>
+<span class="n">local_to_world_matrix</span> <span class="o">=</span> <span class="n">camera1</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;local_to_world_matrix&#39;</span><span class="p">]</span>
+<span class="n">local_to_world_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">local_to_world_matrix</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">point1</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">image_bytes_to_point_cloud</span><span class="p">(</span><span class="n">image_rgb</span><span class="p">,</span> <span class="n">image_depth_exr</span><span class="p">,</span> <span class="n">fov</span><span class="p">,</span> <span class="n">local_to_world_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Calculate the point cloud from the second camera.</p></li>
+</ol>
+<p>The next code set is the same process as the above. For the second camera in this scene, calculate the point cloud in its coordinate.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">camera2</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">GetAttr</span><span class="p">(</span><span class="mi">698550</span><span class="p">)</span>
+<span class="n">camera2</span><span class="o">.</span><span class="n">GetDepthEXR</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+<span class="n">camera2</span><span class="o">.</span><span class="n">GetRGB</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+<span class="n">camera2</span><span class="o">.</span><span class="n">GetID</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">)</span>
+
+<span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="n">image_rgb</span> <span class="o">=</span> <span class="n">camera2</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;rgb&#39;</span><span class="p">]</span>
+<span class="n">image_depth_exr</span> <span class="o">=</span> <span class="n">camera2</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;depth_exr&#39;</span><span class="p">]</span>
+<span class="n">fov</span> <span class="o">=</span> <span class="n">camera2</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;fov&#39;</span><span class="p">]</span>
+<span class="n">local_to_world_matrix</span> <span class="o">=</span> <span class="n">camera2</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;local_to_world_matrix&#39;</span><span class="p">]</span>
+<span class="n">local_to_world_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">local_to_world_matrix</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">point2</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">image_bytes_to_point_cloud</span><span class="p">(</span><span class="n">image_rgb</span><span class="p">,</span> <span class="n">image_depth_exr</span><span class="p">,</span> <span class="n">fov</span><span class="p">,</span> <span class="n">local_to_world_matrix</span><span class="p">)</span>
+
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Transforming the points from Unity Coordinate to Open3d Coordinate:</p></li>
+</ol>
+<p>The next few lines of code transform the points. The “transform” method applies the necessary transformation to bring the point clouds into a suitable coordinate frame.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">point1</span><span class="o">.</span><span class="n">transform</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">point2</span><span class="o">.</span><span class="n">transform</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Visualizing the Point Clouds:</p></li>
+</ol>
+<p>The final lines of code visualize the point clouds using Open3D’s visualization module.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">coorninate</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="o">.</span><span class="n">create_coordinate_frame</span><span class="p">()</span>
+<span class="n">o3d</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">draw_geometries</span><span class="p">([</span><span class="n">point1</span><span class="p">,</span> <span class="n">point2</span><span class="p">,</span> <span class="n">coorninate</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="camera_rendering.html" class="btn btn-neutral float-left" title="Camera Rendering Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="scene_annotation.html" class="btn btn-neutral float-right" title="Annotating Image and Scene Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, RobotFlow.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

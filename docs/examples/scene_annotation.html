@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annotating Image and Scene Example &mdash; pyrfuniverse  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Loading URDF File Examples" href="loading_urdf.html" />
+    <link rel="prev" title="Point Cloud from Images Examples" href="point_cloud.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            pyrfuniverse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/get_started.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/understanding_pyrfuniverse.html">Understanding pyrfuniverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/advanced_usages.html">Advanced Usage Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="camera_rendering.html">Camera Rendering Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_cloud.html">Point Cloud from Images Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Annotating Image and Scene Example</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#understanding-the-code">Understanding the Code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="loading_urdf.html">Loading URDF File Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pick_and_place.html">Pick and Place Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tobor_move.html">Embodied Robot Controlling Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/franka_robotics.html">Franka Robotics RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ur5_water_pushing.html">UR5 Water Pushing RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.envs.html">pyrfuniverse.envs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.attributes.html">pyrfuniverse.attributes package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.utils.html">pyrfuniverse.utils package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrfuniverse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Annotating Image and Scene Example</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/scene_annotation.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="annotating-image-and-scene-example">
+<h1>Annotating Image and Scene Example<a class="headerlink" href="#annotating-image-and-scene-example" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>This example will guide you through <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_label.py">test_label.py</a> which captures an image from an RFUniverse simulation environment, annotates it with various information, and saves the annotated image.</p>
+</section>
+<section id="understanding-the-code">
+<h2>Understanding the Code<a class="headerlink" href="#understanding-the-code" title="Permalink to this heading"></a></h2>
+<p>The code consists of several sections. Below we will discuss each part of the code line by line.</p>
+<ol class="arabic simple">
+<li><p>Importing Libraries:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrfuniverse.envs.base_env</span> <span class="kn">import</span> <span class="n">RFUniverseBaseEnv</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Creating a Simulation Environment Instance:</p></li>
+</ol>
+<p>This line of code creates an instance of the RFUniverse simulation environment by loading a predefined JSON file describing the scene.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">RFUniverseBaseEnv</span><span class="p">(</span><span class="n">scene_file</span><span class="o">=</span><span class="s1">&#39;SimpleYCBModel.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Creating a Camera and capturing its image and scene:</p></li>
+</ol>
+<p>The next set of code retrieves the camera object by its ID and captures its RGB, depth, normal, amodal mask images, 2d bounding box, and 3d bounding box. It also retrieves the object IDs from the camera object’s ID map.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<span class="n">camera</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">GetAttr</span><span class="p">(</span><span class="mi">981613</span><span class="p">)</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">GetRGB</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">GetID</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">GetNormal</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">GetDepth</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">GetAmodalMask</span><span class="p">(</span><span class="mi">655797</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">Get2DBBox</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">Get3DBBox</span><span class="p">()</span>
+
+<span class="n">id_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;id_map&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">id_map</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imdecode</span><span class="p">(</span><span class="n">id_map</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Annotating the Captured Images:</p></li>
+</ol>
+<p>The next set of code annotates the images by overlaying a rectangle around each identified object. The ID map is used to identify the location, size and ID of the objects in the image.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;2d_bounding_box:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;2d_bounding_box&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;2d_bounding_box&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;2d_bounding_box&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;position&#39;</span><span class="p">]</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;2d_bounding_box&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">]</span>
+    <span class="n">tl_point</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="mi">512</span> <span class="o">-</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">br_point</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="mi">512</span> <span class="o">-</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">id_map</span><span class="p">,</span> <span class="n">tl_point</span><span class="p">,</span> <span class="n">br_point</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;3d_bounding_box:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;3d_bounding_box&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;3d_bounding_box&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Saving the Annotated Image:</p></li>
+</ol>
+<p>The next set of code displays each annotated image and saves the annotated image into a file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&quot;Image with Object Annotations&quot;</span><span class="p">,</span> <span class="n">id_map</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;annotated_image.png&#39;</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">id_map</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Cleaning Up:</p></li>
+</ol>
+<p>The last set of code cleans up the simulation environment.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">Pend</span><span class="p">()</span>
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="point_cloud.html" class="btn btn-neutral float-left" title="Point Cloud from Images Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="loading_urdf.html" class="btn btn-neutral float-right" title="Loading URDF File Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, RobotFlow.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

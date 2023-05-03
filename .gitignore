@@ -12,4 +12,8 @@ Temp/
 
 dist/
 
-Doc/
+Doc/_build/
+Doc/_static/
+Doc/_templates/
+Doc/locales/
+

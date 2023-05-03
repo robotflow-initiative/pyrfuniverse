@@ -49,14 +49,16 @@ def SetColor(kwargs: dict) -> OutgoingMessage:
 
 class GameObjectAttr(attr.BaseAttr):
     """
-    基本视觉物体类
+    Basic game object attribute class.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
-            self.data['3d_bounding_box'] 物体3D包围盒
+            Dict: A dict containing useful information of this class.
+
+            self.data['3d_bounding_box']: The 3d bounding box of objects.
         """
         super().parse_message(msg)
         if msg.read_bool():
@@ -68,10 +70,10 @@ class GameObjectAttr(attr.BaseAttr):
 
     def SetColor(self, color: list):
         """
-        设置物体颜色
+        Set object color.
 
         Args:
-            color: 颜色,长度为4,分别为RGBA[0-1]
+            color: A list of length 4, represenging r, g, b and a. Each float is in range (0, 1).
         """
         msg = OutgoingMessage()
 
@@ -84,10 +86,10 @@ class GameObjectAttr(attr.BaseAttr):
 
     def EnabledRender(self, enabled: bool):
         """
-        启用或禁用渲染
+        Enable or disable rendering system.
 
         Args:
-            enabled: 是否启用渲染
+            enabled: Bool, Ture for enable rendering and False for disable rendering.
         """
         msg = OutgoingMessage()
 
@@ -99,10 +101,10 @@ class GameObjectAttr(attr.BaseAttr):
 
     def SetTexture(self, path: str):
         """
-        设置物体纹理
+        Set the texture of object.
 
         Args:
-            path: 纹理贴图绝对路径
+            path: Str, the absolute path for texture file.
         """
         msg = OutgoingMessage()
 
@@ -114,12 +116,8 @@ class GameObjectAttr(attr.BaseAttr):
 
     def Get3DBBox(self):
         """
-        获取该物体3D Bounding Box
-
-        Returns:
-            调用此接口并step后,从
-            self.data['3d_bounding_box']
-            获取结果
+        Get the 3d bounding box of this object.
+        
         """
         msg = OutgoingMessage()
 

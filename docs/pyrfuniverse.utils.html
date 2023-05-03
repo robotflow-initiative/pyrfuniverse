@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyrfuniverse.utils package &mdash; pyrfuniverse  文档</title>
+  <title>pyrfuniverse.utils package &mdash; pyrfuniverse  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -14,10 +14,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
-        <script src="_static/translations.js"></script>
     <script src="_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="search.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="pyrfuniverse.attributes package" href="pyrfuniverse.attributes.html" /> 
 </head>
 
@@ -34,13 +33,36 @@
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="markdown/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="markdown/get_started.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="markdown/understanding_pyrfuniverse.html">Understanding pyrfuniverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="markdown/advanced_usages.html">Advanced Usage Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/camera_rendering.html">Camera Rendering Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/point_cloud.html">Point Cloud from Images Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/scene_annotation.html">Annotating Image and Scene Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/loading_urdf.html">Loading URDF File Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/pick_and_place.html">Pick and Place Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/tobor_move.html">Embodied Robot Controlling Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/franka_robotics.html">Franka Robotics RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/ur5_water_pushing.html">UR5 Water Pushing RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="pyrfuniverse.envs.html">pyrfuniverse.envs package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyrfuniverse.attributes.html">pyrfuniverse.attributes package</a></li>
@@ -72,19 +94,19 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pyrfuniverse</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="页面导航">
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">pyrfuniverse.utils package</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/pyrfuniverse.utils.rst.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="_sources/pyrfuniverse.utils.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -93,209 +115,285 @@
            <div itemprop="articleBody">
              
   <section id="pyrfuniverse-utils-package">
-<h1>pyrfuniverse.utils package<a class="headerlink" href="#pyrfuniverse-utils-package" title="此标题的永久链接"></a></h1>
+<h1>pyrfuniverse.utils package<a class="headerlink" href="#pyrfuniverse-utils-package" title="Permalink to this heading"></a></h1>
 <section id="module-pyrfuniverse.utils.depth_processor">
-<span id="pyrfuniverse-utils-depth-processor-module"></span><h2>pyrfuniverse.utils.depth_processor module<a class="headerlink" href="#module-pyrfuniverse.utils.depth_processor" title="此标题的永久链接"></a></h2>
+<span id="pyrfuniverse-utils-depth-processor-module"></span><h2>pyrfuniverse.utils.depth_processor module<a class="headerlink" href="#module-pyrfuniverse.utils.depth_processor" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_bytes_to_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rgb_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud" title="永久链接至目标"></a></dt>
-<dd><p>使用rgb与深度图bytes以及相机fov生成世界空间点云</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_bytes_to_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rgb_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud" title="Permalink to this definition"></a></dt>
+<dd><p>Use the raw bytes of RGB image and depth image, as well as the camera
+FOV and extrinsic matrix to generate point cloud in global coordinate.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>rgb_bytes</strong> – rgb图bytes</p></li>
-<li><p><strong>depth_bytes</strong> – 深度图bytes</p></li>
-<li><p><strong>fov</strong> – 摄像机fov</p></li>
-<li><p><strong>extrinsic_matrix</strong> – 相机外参矩阵</p></li>
+<li><p><strong>rgb_bytes</strong> – Bytes, raw bytes of RGB image.</p></li>
+<li><p><strong>depth_bytes</strong> – Bytes, raw bytes of depth image.</p></li>
+<li><p><strong>fov</strong> – Float, camera Field Of View (FOV).</p></li>
+<li><p><strong>extrinsic_matrix</strong> – Numpy.ndarray, the extrinsic matrix of camera.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The point cloud.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>open3d.geometry.PointCloud</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.image_array_to_point_cloud">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_array_to_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_rgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_array_to_point_cloud" title="永久链接至目标"></a></dt>
-<dd><p>使用rgb与深度图以及相机fov生成世界空间点云</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_array_to_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_rgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_array_to_point_cloud" title="Permalink to this definition"></a></dt>
+<dd><p>Use the RGB image and depth image, as well as the camera
+FOV and extrinsic matrix to generate point cloud in global coordinate.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>image_rgb</strong> – rgb图像素颜色ndarray,shape为(H,W,3)</p></li>
-<li><p><strong>image_depth</strong> – 深度图像素颜色ndarray,shape为(H,W,3)</p></li>
-<li><p><strong>fov</strong> – 摄像机fov</p></li>
-<li><p><strong>extrinsic_matrix</strong> – 相机外参矩阵</p></li>
+<li><p><strong>image_rgb</strong> – Numpy.ndarray, in shape (H,W,3), the RGB image.</p></li>
+<li><p><strong>image_depth</strong> – Numpy.ndarray, in shape (H,W,3), the depth image.</p></li>
+<li><p><strong>fov</strong> – Float, camera Field Of View (FOV).</p></li>
+<li><p><strong>extrinsic_matrix</strong> – Numpy.ndarray, the extrinsic matrix of camera.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The point cloud.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>open3d.geometry.PointCloud</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.depth_to_point_cloud">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">depth_to_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">organized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.depth_to_point_cloud" title="永久链接至目标"></a></dt>
-<dd><p>使用深度图以及相机fov生成点云</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">depth_to_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">organized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.depth_to_point_cloud" title="Permalink to this definition"></a></dt>
+<dd><p>Use the depth image and the camera FOV to generate point cloud in
+camera coordinate.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>depth</strong> – 深度图像素颜色ndarray,shape为(H,W,3)</p></li>
-<li><p><strong>fov</strong> – 摄像机fov</p></li>
-<li><p><strong>organized</strong> – 是否保持点云有序,若为True,则返回的点云shape为(H,W,3),否则为(H*W,3)</p></li>
+<li><p><strong>depth</strong> – Numpy.ndarray, in shape (H,W,3), the depth image.</p></li>
+<li><p><strong>fov</strong> – Float, camera Field Of View (FOV).</p></li>
+<li><p><strong>organized</strong> – Bool, whether keep the point organized. If True, the returned shape of point cloud is (H,W,3); If False, the returned shape of point cloud is (H*W,3).</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The point cloud.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>open3d.geometry.PointCloud</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud_intrinsic_matrix">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_bytes_to_point_cloud_intrinsic_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rgb_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud_intrinsic_matrix" title="永久链接至目标"></a></dt>
-<dd><p>使用rgb与深度图bytes以及相机内参矩阵生成世界空间点云</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_bytes_to_point_cloud_intrinsic_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rgb_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_bytes_to_point_cloud_intrinsic_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Use the raw bytes of RGB image and depth image, as well as the camera
+intrinsic matrix and extrinsic matrix to generate point cloud in global coordinate.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>rgb_bytes</strong> – rgb图bytes</p></li>
-<li><p><strong>depth_bytes</strong> – 深度图bytes</p></li>
-<li><p><strong>intrinsic_matrix</strong> – 相机内参矩阵</p></li>
-<li><p><strong>extrinsic_matrix</strong> – 相机外参矩阵</p></li>
+<li><p><strong>rgb_bytes</strong> – Bytes, raw bytes of RGB image.</p></li>
+<li><p><strong>depth_bytes</strong> – Bytes, raw bytes of depth image.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – Numpy.ndarray, the intrinsic matrix of camera.</p></li>
+<li><p><strong>extrinsic_matrix</strong> – Numpy.ndarray, the extrinsic matrix of camera.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The point cloud.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>open3d.geometry.PointCloud</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.image_array_to_point_cloud_intrinsic_matrix">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_array_to_point_cloud_intrinsic_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_rgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_array_to_point_cloud_intrinsic_matrix" title="永久链接至目标"></a></dt>
-<dd><p>使用rgb与深度图以及相机内参矩阵生成世界空间点云</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_array_to_point_cloud_intrinsic_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_rgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_array_to_point_cloud_intrinsic_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Use the RGB image and depth image, as well as the camera
+intrinsic matrix and extrinsic matrix to generate point cloud in global coordinate.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>image_rgb</strong> – rgb图像素颜色ndarray,shape为(H,W,3)</p></li>
-<li><p><strong>image_depth</strong> – 深度图像素颜色ndarray,shape为(H,W,3)</p></li>
-<li><p><strong>intrinsic_matrix</strong> – 相机内参矩阵</p></li>
-<li><p><strong>extrinsic_matrix</strong> – 相机外参矩阵</p></li>
+<li><p><strong>image_rgb</strong> – Numpy.ndarray, in shape (H,W,3), the RGB image.</p></li>
+<li><p><strong>image_depth</strong> – Numpy.ndarray, in shape (H,W,3), the depth image.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – Numpy.ndarray, the intrinsic matrix of camera.</p></li>
+<li><p><strong>extrinsic_matrix</strong> – Numpy.ndarray, the extrinsic matrix of camera.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The point cloud.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>open3d.geometry.PointCloud</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.image_open3d_to_point_cloud_intrinsic_matrix">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_open3d_to_point_cloud_intrinsic_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_open3d_to_point_cloud_intrinsic_matrix" title="永久链接至目标"></a></dt>
-<dd><p>使用open3d格式的rgb与深度图以及相机内参矩阵生成世界空间点云</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">image_open3d_to_point_cloud_intrinsic_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.image_open3d_to_point_cloud_intrinsic_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Use the RGB image and depth image in open3d.geometry.Image format, as well as the camera
+intrinsic matrix and extrinsic matrix to generate point cloud in global coordinate.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>color</strong> – open3d格式的rgb图</p></li>
-<li><p><strong>depth</strong> – open3d格式的深度图</p></li>
-<li><p><strong>intrinsic_matrix</strong> – 相机内参矩阵</p></li>
-<li><p><strong>extrinsic_matrix</strong> – 相机外参矩阵</p></li>
+<li><p><strong>color</strong> – open3d.geometry.Image, the RGB image.</p></li>
+<li><p><strong>depth</strong> – open3d.geometry.Image, the depth image.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – Numpy.ndarray, the intrinsic matrix of camera.</p></li>
+<li><p><strong>extrinsic_matrix</strong> – Numpy.ndarray, the extrinsic matrix of camera.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The point cloud.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>open3d.geometry.PointCloud</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_color">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">mask_point_cloud_with_id_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_color" title="永久链接至目标"></a></dt>
-<dd><p>使用mask/id图对点云进行过滤</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">mask_point_cloud_with_id_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_color" title="Permalink to this definition"></a></dt>
+<dd><p>Mask the point cloud with given segmentation masks and target color.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pcd</strong> – open3d点云</p></li>
-<li><p><strong>image_mask</strong> – mask/id图,shape为(H,W,3)</p></li>
-<li><p><strong>color</strong> – 需要筛选出的像素颜色</p></li>
+<li><p><strong>pcd</strong> – open3d.geometry.PointCloud, the point cloud.</p></li>
+<li><p><strong>image_mask</strong> – numpy.ndarray, the segmentation mask in shape (H,W,3).</p></li>
+<li><p><strong>color</strong> – List, the target color list.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The point cloud.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>open3d.geometry.PointCloud</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_gray_color">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">mask_point_cloud_with_id_gray_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_gray_color" title="永久链接至目标"></a></dt>
-<dd><p>使用单通道mask/id图对点云进行过滤</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">mask_point_cloud_with_id_gray_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.mask_point_cloud_with_id_gray_color" title="Permalink to this definition"></a></dt>
+<dd><p>Mask the point cloud with given gray-scale segmentation masks and target color.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pcd</strong> – open3d点云</p></li>
-<li><p><strong>image_mask</strong> – 单通道mask/id图,shape为(H,W)</p></li>
-<li><p><strong>color</strong> – 需要筛选出的像素灰度</p></li>
+<li><p><strong>pcd</strong> – open3d.geometry.PointCloud, the point cloud.</p></li>
+<li><p><strong>image_mask</strong> – numpy.ndarray, the segmentation mask in shape (H,W).</p></li>
+<li><p><strong>color</strong> – Int, the target gray-scale color.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The point cloud.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>open3d.geometry.PointCloud</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.depth_processor.filter_active_depth_point_cloud_with_exact_depth_point_cloud">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">filter_active_depth_point_cloud_with_exact_depth_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active_pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact_pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.filter_active_depth_point_cloud_with_exact_depth_point_cloud" title="永久链接至目标"></a></dt>
-<dd><p>使用精确的点云过滤红外点云,外出距离过远的点</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.depth_processor.</span></span><span class="sig-name descname"><span class="pre">filter_active_depth_point_cloud_with_exact_depth_point_cloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active_pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact_pcd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PointCloud</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.depth_processor.filter_active_depth_point_cloud_with_exact_depth_point_cloud" title="Permalink to this definition"></a></dt>
+<dd><p>Use exact point cloud to filter IR-based active point cloud based on a tolerance distance.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>active_pcd</strong> – 红外点云</p></li>
-<li><p><strong>exact_pcd</strong> – 精确点云</p></li>
-<li><p><strong>max_distance</strong> – 允许的最大距离</p></li>
+<li><p><strong>active_pcd</strong> – open3d.geometry.PointCloud, the IR-based active point cloud.</p></li>
+<li><p><strong>exact_pcd</strong> – open3d.geometry.PointCloud, the exact point cloud.</p></li>
+<li><p><strong>max_distance</strong> – float, the maximum tolerance distance.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The point cloud.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>open3d.geometry.PointCloud</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
 <section id="module-pyrfuniverse.utils.rfuniverse_utility">
-<span id="pyrfuniverse-utils-rfuniverse-utility-module"></span><h2>pyrfuniverse.utils.rfuniverse_utility module<a class="headerlink" href="#module-pyrfuniverse.utils.rfuniverse_utility" title="此标题的永久链接"></a></h2>
+<span id="pyrfuniverse-utils-rfuniverse-utility-module"></span><h2>pyrfuniverse.utils.rfuniverse_utility module<a class="headerlink" href="#module-pyrfuniverse.utils.rfuniverse_utility" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.rfuniverse_utility.EncodeIDAsColor">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">EncodeIDAsColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.EncodeIDAsColor" title="永久链接至目标"></a></dt>
-<dd><p>获取物体在ID图中的颜色</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">EncodeIDAsColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.EncodeIDAsColor" title="Permalink to this definition"></a></dt>
+<dd><p>Encode the object id to a color.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>instance_id</strong> – 物体ID</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>instance_id</strong> – Int, the id of the object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The encoded color in [r, g, b, 255] format.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.rfuniverse_utility.UnityEularToQuaternion">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">UnityEularToQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eular</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.UnityEularToQuaternion" title="永久链接至目标"></a></dt>
-<dd><p>Unity欧拉角转四元数</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">UnityEularToQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eular</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.UnityEularToQuaternion" title="Permalink to this definition"></a></dt>
+<dd><p>Transform euler angle to quaternion in Unity.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>eular</strong> – 欧拉角,长度为3,分别为x,y,z轴的旋转角度,单位为度</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eular</strong> – List of length 3, representing euler angle in [x, y, z]</p></li>
+<li><p><strong>degree.</strong> (<em>order and measured in</em>) – </p></li>
+</ul>
 </dd>
-<dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>四元数,长度为4,分别为x,y,z,w四个分量</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The transformed quaternion in [x, y, z, w] format.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.rfuniverse_utility.UnityQuaternionToEular">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">UnityQuaternionToEular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.UnityQuaternionToEular" title="永久链接至目标"></a></dt>
-<dd><p>Unity四元数转欧拉角</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">UnityQuaternionToEular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.UnityQuaternionToEular" title="Permalink to this definition"></a></dt>
+<dd><p>Transform quaternion to euler angle in Unity.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>quaternion</strong> – 四元数,长度为4,分别为x,y,z,w四个分量</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quaternion</strong> – List of length 4, representing quaternion in [x, y, z, w]</p></li>
+<li><p><strong>order.</strong> – </p></li>
+</ul>
 </dd>
-<dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>欧拉角,长度为3,分别为x,y,z轴的旋转角度,单位为度</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The transformed euler angle in [x, y, z] order and measured in degree.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.rfuniverse_utility.GetMatrix">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">GetMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quat</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.GetMatrix" title="永久链接至目标"></a></dt>
-<dd><p>位置和四元数转换为矩阵</p>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">GetMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quat</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.GetMatrix" title="Permalink to this definition"></a></dt>
+<dd><p>Transform the position and quaternion into a transformation matrix.</p>
 <dl class="field-list simple">
-<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pos</strong> – 位置,长度为3,分别为x,y,z轴的坐标</p></li>
-<li><p><strong>quat：四元数</strong> – </p></li>
-<li><p><strong>长度为4</strong> – </p></li>
-<li><p><strong>分别为x</strong> – </p></li>
-<li><p><strong>y</strong> – </p></li>
-<li><p><strong>z</strong> – </p></li>
-<li><p><strong>w四个分量</strong> – </p></li>
+<li><p><strong>pos</strong> – List of length 3, representing the [x, y, z] position.</p></li>
+<li><p><strong>quat</strong> – List of length 4, representing the [x, y, z, w] quaternion.</p></li>
 </ul>
 </dd>
-<dt class="field-even">返回<span class="colon">:</span></dt>
-<dd class="field-even"><p>ndarray矩阵,shape为(4,4)</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the transformation matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -306,19 +404,19 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="pyrfuniverse.attributes.html" class="btn btn-neutral float-left" title="pyrfuniverse.attributes package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyrfuniverse.attributes.html" class="btn btn-neutral float-left" title="pyrfuniverse.attributes package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; 版权所有 2023, RobotFlow.</p>
+    <p>&#169; Copyright 2023, RobotFlow.</p>
   </div>
 
-  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
-    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
    
 
 </footer>

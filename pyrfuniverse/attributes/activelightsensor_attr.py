@@ -11,7 +11,8 @@ from pyrfuniverse.side_channel.side_channel import (
 
 class ActiveLightSensorAttr(attr.CameraAttr):
     """
-    红外深度传感器类,能够获取模拟真实深度相机噪声的深度图
+    Class of IR-based depth sensor, which can simulate the noise of 
+    real-world depth camera and produce depth image in similar pattern.
     """
     def __init__(self, env, id: int, data=None):
         super().__init__(env, id, data)
@@ -20,10 +21,11 @@ class ActiveLightSensorAttr(attr.CameraAttr):
 
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
-            self.data['active_depth'] 红外深度图,shape = [w,h]
+            Dict: A dict containing useful information of this class.\n
+            self.data['active_depth']: IR-based depth, shape = (w,h)
         """
         super().parse_message(msg)
         if msg.read_bool() is True:
@@ -63,14 +65,11 @@ class ActiveLightSensorAttr(attr.CameraAttr):
 
     def GetActiveDepth(self, main_intrinsic_matrix_local: list, ir_intrinsic_matrix_local: list):
         """
-        获取红外深度图
+        Get IR-based depth image.
 
         Args:
-            main_intrinsic_matrix_local: List[float]主相机内参
-            ir_intrinsic_matrix_local: List[float]红外相机内参
-
-        Returns:
-            调用此接口并step后,从self.data['active_depth']获取结果
+            main_intrinsic_matrix_local: List[float] The intrinsic matrix of main camera.
+            ir_intrinsic_matrix_local: List[float] The intrinsic matrix of IR-based camera.
         """
         msg = OutgoingMessage()
 
