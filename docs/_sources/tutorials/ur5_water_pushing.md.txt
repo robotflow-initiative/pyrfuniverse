@@ -117,6 +117,8 @@ After adding codes, remember to add `CustomAttr` component to `Zibra Liquid` and
 
 ## Write Python codes
 
+The full version code is available [here](https://github.com/mvig-robotflow/pyrfuniverse/blob/main/pyrfuniverse/envs/multi_physics/ur5_water_shooting.py). In this tutorial, we will go through the code and explain some key factors.
+
 ### Observations
 
 We also make this environment goal-conditioned. In observation, we get robot end effector pose and velocity, as well as the object pose and velocity.

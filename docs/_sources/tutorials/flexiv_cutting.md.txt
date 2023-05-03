@@ -148,6 +148,8 @@ def ReloadCurrentScene(kwargs: dict) -> OutgoingMessage:
 
 ## Write Python codes
 
+The full version code is available [here](https://github.com/mvig-robotflow/pyrfuniverse/blob/main/pyrfuniverse/envs/multi_physics/flexiv_cutting.py). In this tutorial, we will go through the code and explain some key factors.
+
 ### Observations
 
 In this experiment, we pre-set a target pose for knife and want to train robot control end effector to make the knife-in-hand achieve the target pose. Thus, we package it in a goal-conditioned RL environment and collect end effector pose, velocity as well as knife pose and velocity and target pose as the observation.

@@ -303,7 +303,7 @@ Don't forget to delete the `FallingClothSolver` in `Hierarchy` window since we w
 
 ## Write Python codes
 
-Until now, we have finished preparation on Unity side. Now let's move to Python side and write the OpenAI-Gym style codes!
+Until now, we have finished preparation on Unity side. Now let's move to Python side and write the OpenAI-Gym style codes! The full version code is available [here](https://github.com/mvig-robotflow/pyrfuniverse/blob/main/pyrfuniverse/envs/multi_physics/kinova_gen2_catching_cloth_env.py). In this tutorial, we will go through the code and explain some key factors.
 
 ### Pre-load assets
 

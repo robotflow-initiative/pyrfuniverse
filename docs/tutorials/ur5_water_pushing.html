@@ -162,7 +162,7 @@
 <section id="let-zibra-liquid-knows-everything">
 <h3>Let Zibra Liquid knows everything<a class="headerlink" href="#let-zibra-liquid-knows-everything" title="Permalink to this heading"></a></h3>
 <p>Unitl now, the basic objects are all done. However, <code class="docutils literal notranslate"><span class="pre">Zibra</span> <span class="pre">Liquid</span></code> hasn’t known what objects are in the scene. We need to add the cube to <code class="docutils literal notranslate"><span class="pre">Colliders</span></code> attributes and <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span> <span class="pre">Emitter</span></code> and <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span> <span class="pre">Void</span></code> to <code class="docutils literal notranslate"><span class="pre">Manipulators</span></code> attributes. Also, the water range is a organizable parameter. So please organize the parameters align with the following two images.</p>
-<p><img alt="water/1.PNG" src="../_images/11.PNG" />
+<p><img alt="water/1.PNG" src="../_images/1.PNG" />
 <img alt="water/2.PNG" src="../_images/21.PNG" /></p>
 <p>Up to now, the scene is partially finished. The ‘partially’ here is because we haven’t created the custom attributes to support controlling liquid. Let’s move on to the next section.</p>
 <p><img alt="water/7.PNG" src="../_images/7.PNG" /></p>
@@ -221,6 +221,7 @@
 </section>
 <section id="write-python-codes">
 <h2>Write Python codes<a class="headerlink" href="#write-python-codes" title="Permalink to this heading"></a></h2>
+<p>The full version code is available <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/pyrfuniverse/envs/multi_physics/ur5_water_shooting.py">here</a>. In this tutorial, we will go through the code and explain some key factors.</p>
 <section id="observations">
 <h3>Observations<a class="headerlink" href="#observations" title="Permalink to this heading"></a></h3>
 <p>We also make this environment goal-conditioned. In observation, we get robot end effector pose and velocity, as well as the object pose and velocity.</p>
