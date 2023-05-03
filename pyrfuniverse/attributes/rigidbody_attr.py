@@ -50,16 +50,18 @@ def SetVelocity(kwargs: dict) -> OutgoingMessage:
 
 class RigidbodyAttr(attr.ColliderAttr):
     """
-    刚体类
+    Rigid body class.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
-            self.data['velocity'] 刚体速度 Vecter3
+            Dict: A dict containing useful information of this class.
 
-            self.data['angular_vel'] 刚体角速度 Vecter3
+            self.data['velocity']: The velocity of the object.
+
+            self.data['angular_vel']: The angular velcity of the object.
         """
         super().parse_message(msg)
         self.data['velocity'] = [msg.read_float32() for _ in range(3)]
@@ -68,10 +70,10 @@ class RigidbodyAttr(attr.ColliderAttr):
 
     def SetMass(self, mass: float):
         """
-        设置刚体质量
+        Set the mass of this rigid body object
 
         Args:
-            mass: 刚体质量
+            mass: Float, representing the mass of this rigid body.
         """
         msg = OutgoingMessage()
 
@@ -83,10 +85,10 @@ class RigidbodyAttr(attr.ColliderAttr):
 
     def AddForce(self, force: list):
         """
-        为刚体施加力
+        Add force to this rigid body object.
 
         Args:
-            force: 力 Vecter3
+            force: A list of length 3, representing the force added to this rigid body.
         """
         msg = OutgoingMessage()
 
@@ -100,10 +102,10 @@ class RigidbodyAttr(attr.ColliderAttr):
 
     def SetVelocity(self, velocity: list):
         """
-        设置刚体速度
+        Set the velocity of this rigid body object.
 
         Args:
-            velocity: 速度 Vecter3
+            velocity: A list of length 3, representing the velocity of this rigid body.
         """
         msg = OutgoingMessage()
 

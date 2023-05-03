@@ -10,13 +10,17 @@ import tempfile
 
 def image_bytes_to_point_cloud(rgb_bytes: bytes, depth_bytes: bytes, fov: float, extrinsic_matrix: np.ndarray):
     """
-    使用rgb与深度图bytes以及相机fov生成世界空间点云
+    Use the raw bytes of RGB image and depth image, as well as the camera
+    FOV and extrinsic matrix to generate point cloud in global coordinate.
 
     Args:
-        rgb_bytes: rgb图bytes
-        depth_bytes: 深度图bytes
-        fov: 摄像机fov
-        extrinsic_matrix: 相机外参矩阵
+        rgb_bytes: Bytes, raw bytes of RGB image.
+        depth_bytes: Bytes, raw bytes of depth image.
+        fov: Float, camera Field Of View (FOV).
+        extrinsic_matrix: Numpy.ndarray, the extrinsic matrix of camera.
+    
+    Return:
+        open3d.geometry.PointCloud: The point cloud.
     """
     image_rgb = np.frombuffer(rgb_bytes, dtype=np.uint8)
     image_rgb = cv2.imdecode(image_rgb, cv2.IMREAD_COLOR)
@@ -37,13 +41,17 @@ def image_bytes_to_point_cloud(rgb_bytes: bytes, depth_bytes: bytes, fov: float,
 
 def image_array_to_point_cloud(image_rgb: np.ndarray, image_depth: np.ndarray, fov: float, extrinsic_matrix: np.ndarray):
     """
-    使用rgb与深度图以及相机fov生成世界空间点云
+    Use the RGB image and depth image, as well as the camera
+    FOV and extrinsic matrix to generate point cloud in global coordinate.
 
     Args:
-        image_rgb: rgb图像素颜色ndarray,shape为(H,W,3)
-        image_depth: 深度图像素颜色ndarray,shape为(H,W,3)
-        fov: 摄像机fov
-        extrinsic_matrix: 相机外参矩阵
+        image_rgb: Numpy.ndarray, in shape (H,W,3), the RGB image.
+        image_depth: Numpy.ndarray, in shape (H,W,3), the depth image.
+        fov: Float, camera Field Of View (FOV).
+        extrinsic_matrix: Numpy.ndarray, the extrinsic matrix of camera.
+    
+    Return:
+        open3d.geometry.PointCloud: The point cloud.
     """
     points = depth_to_point_cloud(image_depth, fov=fov, organized=False)
     pcd = o3d.geometry.PointCloud()
@@ -58,12 +66,16 @@ def image_array_to_point_cloud(image_rgb: np.ndarray, image_depth: np.ndarray, f
 
 def depth_to_point_cloud(depth: np.ndarray, fov: float, organized=False):
     """
-    使用深度图以及相机fov生成点云
+    Use the depth image and the camera FOV to generate point cloud in
+    camera coordinate.
 
     Args:
-        depth: 深度图像素颜色ndarray,shape为(H,W,3)
-        fov: 摄像机fov
-        organized: 是否保持点云有序,若为True,则返回的点云shape为(H,W,3),否则为(H*W,3)
+        depth: Numpy.ndarray, in shape (H,W,3), the depth image.
+        fov: Float, camera Field Of View (FOV).
+        organized: Bool, whether keep the point organized. If True, the returned shape of point cloud is (H,W,3); If False, the returned shape of point cloud is (H*W,3).
+    
+    Return:
+        open3d.geometry.PointCloud: The point cloud.
     """
     width = depth.shape[0]
     height = depth.shape[1]
@@ -96,13 +108,17 @@ def depth_to_point_cloud(depth: np.ndarray, fov: float, organized=False):
 
 def image_bytes_to_point_cloud_intrinsic_matrix(rgb_bytes: bytes, depth_bytes: bytes, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
     """
-    使用rgb与深度图bytes以及相机内参矩阵生成世界空间点云
+    Use the raw bytes of RGB image and depth image, as well as the camera
+    intrinsic matrix and extrinsic matrix to generate point cloud in global coordinate.
 
     Args:
-        rgb_bytes: rgb图bytes
-        depth_bytes: 深度图bytes
-        intrinsic_matrix: 相机内参矩阵
-        extrinsic_matrix: 相机外参矩阵
+        rgb_bytes: Bytes, raw bytes of RGB image.
+        depth_bytes: Bytes, raw bytes of depth image.
+        intrinsic_matrix: Numpy.ndarray, the intrinsic matrix of camera.
+        extrinsic_matrix: Numpy.ndarray, the extrinsic matrix of camera.
+    
+    Return:
+        open3d.geometry.PointCloud: The point cloud.
     """
     temp_file_path = osp.join(tempfile.gettempdir(), f'temp_img_{int(random.uniform(10000000,99999999))}.png')
     with open(temp_file_path, 'wb') as f:
@@ -132,13 +148,17 @@ def image_bytes_to_point_cloud_intrinsic_matrix(rgb_bytes: bytes, depth_bytes: b
 
 def image_array_to_point_cloud_intrinsic_matrix(image_rgb: np.ndarray, image_depth: np.ndarray, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
     """
-    使用rgb与深度图以及相机内参矩阵生成世界空间点云
+    Use the RGB image and depth image, as well as the camera
+    intrinsic matrix and extrinsic matrix to generate point cloud in global coordinate.
 
     Args:
-        image_rgb: rgb图像素颜色ndarray,shape为(H,W,3)
-        image_depth: 深度图像素颜色ndarray,shape为(H,W,3)
-        intrinsic_matrix: 相机内参矩阵
-        extrinsic_matrix: 相机外参矩阵
+        image_rgb: Numpy.ndarray, in shape (H,W,3), the RGB image.
+        image_depth: Numpy.ndarray, in shape (H,W,3), the depth image.
+        intrinsic_matrix: Numpy.ndarray, the intrinsic matrix of camera.
+        extrinsic_matrix: Numpy.ndarray, the extrinsic matrix of camera.
+    
+    Return:
+        open3d.geometry.PointCloud: The point cloud.
     """
     temp_file_path = osp.join(tempfile.gettempdir(), f'temp_img_{int(random.uniform(10000000,99999999))}.png')
 
@@ -161,13 +181,17 @@ def image_array_to_point_cloud_intrinsic_matrix(image_rgb: np.ndarray, image_dep
 
 def image_open3d_to_point_cloud_intrinsic_matrix(color: o3d.geometry.Image, depth: o3d.geometry.Image, intrinsic_matrix: np.ndarray, extrinsic_matrix: np.ndarray):
     """
-    使用open3d格式的rgb与深度图以及相机内参矩阵生成世界空间点云
+    Use the RGB image and depth image in open3d.geometry.Image format, as well as the camera
+    intrinsic matrix and extrinsic matrix to generate point cloud in global coordinate.
 
     Args:
-        color: open3d格式的rgb图
-        depth: open3d格式的深度图
-        intrinsic_matrix: 相机内参矩阵
-        extrinsic_matrix: 相机外参矩阵
+        color: open3d.geometry.Image, the RGB image.
+        depth: open3d.geometry.Image, the depth image.
+        intrinsic_matrix: Numpy.ndarray, the intrinsic matrix of camera.
+        extrinsic_matrix: Numpy.ndarray, the extrinsic matrix of camera.
+    
+    Return:
+        open3d.geometry.PointCloud: The point cloud.
     """
     rgbd_image = o3d.geometry.RGBDImage.create_from_color_and_depth(
         color, depth, depth_trunc=20, convert_rgb_to_intensity=False)
@@ -190,12 +214,15 @@ def image_open3d_to_point_cloud_intrinsic_matrix(color: o3d.geometry.Image, dept
 
 def mask_point_cloud_with_id_color(pcd: o3d.geometry.PointCloud, image_mask: np.ndarray, color:list):
     """
-    使用mask/id图对点云进行过滤
+    Mask the point cloud with given segmentation masks and target color.
 
     Args:
-        pcd: open3d点云
-        image_mask: mask/id图,shape为(H,W,3)
-        color: 需要筛选出的像素颜色
+        pcd: open3d.geometry.PointCloud, the point cloud.
+        image_mask: numpy.ndarray, the segmentation mask in shape (H,W,3).
+        color: List, the target color list.
+    
+    Return:
+        open3d.geometry.PointCloud: The point cloud.
     """
     image_mask = image_mask.reshape(-1, 3)
     index = np.argwhere(image_mask == color)[:, 0]
@@ -208,12 +235,15 @@ def mask_point_cloud_with_id_color(pcd: o3d.geometry.PointCloud, image_mask: np.
 
 def mask_point_cloud_with_id_gray_color(pcd: o3d.geometry.PointCloud, image_mask: np.ndarray, color:int):
     """
-    使用单通道mask/id图对点云进行过滤
+    Mask the point cloud with given gray-scale segmentation masks and target color.
 
     Args:
-        pcd: open3d点云
-        image_mask: 单通道mask/id图,shape为(H,W)
-        color: 需要筛选出的像素灰度
+        pcd: open3d.geometry.PointCloud, the point cloud.
+        image_mask: numpy.ndarray, the segmentation mask in shape (H,W).
+        color: Int, the target gray-scale color.
+    
+    Return:
+        open3d.geometry.PointCloud: The point cloud.
     """
     image_mask = image_mask.reshape(-1)
     index = np.argwhere(image_mask == color).reshape(-1)
@@ -226,12 +256,15 @@ def mask_point_cloud_with_id_gray_color(pcd: o3d.geometry.PointCloud, image_mask
 
 def filter_active_depth_point_cloud_with_exact_depth_point_cloud(active_pcd: o3d.geometry.PointCloud, exact_pcd: o3d.geometry.PointCloud, max_distance:float = 0.05):
     """
-    使用精确的点云过滤红外点云,外出距离过远的点
+    Use exact point cloud to filter IR-based active point cloud based on a tolerance distance.
 
     Args:
-        active_pcd: 红外点云
-        exact_pcd: 精确点云
-        max_distance: 允许的最大距离
+        active_pcd: open3d.geometry.PointCloud, the IR-based active point cloud.
+        exact_pcd: open3d.geometry.PointCloud, the exact point cloud.
+        max_distance: float, the maximum tolerance distance.
+    
+    Return:
+        open3d.geometry.PointCloud: The point cloud.
     """
     active_point = np.array(active_pcd.points)
     exact_point = np.array(exact_pcd.points)

@@ -7,13 +7,14 @@ from pyrfuniverse.side_channel.side_channel import (
 
 class ClothAttr(attr.BaseAttr):
     """
-    ObiCloth类
+    Obi cloth class.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
+            Dict: A dict containing useful information of this class.
 
         """
         super().parse_message(msg)

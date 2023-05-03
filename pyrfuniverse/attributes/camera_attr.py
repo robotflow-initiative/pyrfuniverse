@@ -143,36 +143,39 @@ def GetAmodalMask(kwargs: dict):
 
 class CameraAttr(attr.BaseAttr):
     """
-    相机类,可获取各种相机截图
+    Camera attribute class, which can capture many kinds of screenshot
+    of the scene in RFUniverse.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
-            self.data['width'] 图像宽度
+            Dict: A dict containing useful information of this class.
+        
+            self.data['width']: The width of image.
 
-            self.data['height'] 图像高度
+            self.data['height']: The height of image.
 
-            self.data['fov'] 相机FOV
+            self.data['fov']: The field of view of camera.
 
-            self.data['rgb'] RGB图像bytes
+            self.data['rgb']: The bytes of rgb image.
 
-            self.data['normal'] 法线图像bytes
+            self.data['normal']: The bytes of normal image.
 
-            self.data['id_map'] ID图像bytes
+            self.data['id_map']: The bytes of instance segmentation mask image.
 
-            self.data['depth'] 深度图像bytes
+            self.data['depth']: The bytes of depth image.
 
-            self.data['depth_exr'] EXR深度图像bytes
+            self.data['depth_exr']: The bytes of depth image in exr format.
 
-            self.data['amodal_mask'] amodal_mask图bytes
+            self.data['amodal_mask']: The bytes of amodal mask image.
 
-            self.data['heat_map'] heat_map图bytes
+            self.data['heat_map']: The bytes of heat map image.
 
-            self.data['2d_bounding_box'] 相机屏幕坐标系下2d_bounding_box数据
+            self.data['2d_bounding_box']: The 2d bouding box of objects in camera (image) coordinate.
 
-            self.data['3d_bounding_box'] 世界空间3d_bounding_box数据
+            self.data['3d_bounding_box']: The 3d bounding box of objects in world coordinate.
         """
         super().parse_message(msg)
         self.data['width'] = msg.read_int32()
@@ -213,7 +216,7 @@ class CameraAttr(attr.BaseAttr):
 
     def AlignView(self):
         """
-        使相机对准当前视口视角
+        Make the camera in RFUniverse align the current view in GUI.
         """
         msg = OutgoingMessage()
 
@@ -224,16 +227,13 @@ class CameraAttr(attr.BaseAttr):
 
     def GetRGB(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
         """
-        获取相机的RGB图像
+        Get the camera RGB image.
 
         Args:
-            width: 图像分辨率宽度
-            height: 图像分辨率高度
-            fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
-
-        Returns:
-            调用此接口并step后,从self.data['rgb']获取结果
+            width: Int, the width of image.
+            height: Int, the height of image.
+            fov: Float, the field of view for camera.
+            intrinsic_matrix: A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -255,16 +255,13 @@ class CameraAttr(attr.BaseAttr):
 
     def GetNormal(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
         """
-        获取相机的世界空间法线图像
+        Get the normal image in world coordinate.
 
         Args:
-            width: 图像分辨率宽度
-            height: 图像分辨率高度
-            fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
-
-        Returns:
-            调用此接口并step后,从self.data['normal']获取结果
+            width: Int, the width of image.
+            height: Int, the height of image.
+            fov: Float, the field of view for camera.
+            intrinsic_matrix: A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -286,16 +283,13 @@ class CameraAttr(attr.BaseAttr):
 
     def GetID(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
         """
-        获取相机的ID图像,每个像素的颜色值由物体ID计算而来,见rfuniverse_utility.GetColorFromID
+        Get the instance segmentation mask image. The color for each pixel is computed from object ID, see `pyrfuniverse.utils.rfuniverse_utility.GetColorFromID` for more details.
 
         Args:
-            width: 图像分辨率宽度
-            height: 图像分辨率高度
-            fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
-
-        Returns:
-            调用此接口并step后,从self.data['id_map']获取结果
+            width: Int, the width of image.
+            height: Int, the height of image.
+            fov: Float, the field of view for camera.
+            intrinsic_matrix: A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -317,18 +311,15 @@ class CameraAttr(attr.BaseAttr):
 
     def GetDepth(self, zero_dis: float, one_dis: float, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
         """
-        获取相机的深度图像,由于8位深度图精度低,因此需要限制范围以提高精度
+        Get the depth image from camera. Since eacg pixel of depth image returned from this function is 8-bit, user should limit the depth range (`zero_dis` and `one_dis`) for more accurate results.
 
         Args:
-            zero_dis: 黑色像素表示深度
-            one_dis: 白像素表示深度
-            width: 图像分辨率宽度
-            height: 图像分辨率高度
-            fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
-
-        Returns:
-            调用此接口并step后,从self.data['depth']获取结果
+            zero_dis: The minimum distance in calculation.
+            one_dis: The maximum distance in calculation.
+            width: Int, the width of image.
+            height: Int, the height of image.
+            fov: Float, the field of view for camera.
+            intrinsic_matrix: A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -352,16 +343,13 @@ class CameraAttr(attr.BaseAttr):
 
     def GetDepthEXR(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
         """
-        获取相机的世界空间深度图像,EXR格式图像支持存储32位信息,因此无需限制范围
+        Get the depth image from camera. This function returns EXR format image bytes and each pixel is 32-bit.
 
         Args:
-            width: 图像分辨率宽度
-            height: 图像分辨率高度
-            fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
-
-        Returns:
-            调用此接口并step后,从self.data['depth_exr']获取结果
+            width: Int, the width of image.
+            height: Int, the height of image.
+            fov: Float, the field of view for camera.
+            intrinsic_matrix: A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -383,17 +371,14 @@ class CameraAttr(attr.BaseAttr):
 
     def GetAmodalMask(self, target_id: int, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
         """
-        获取目标物体的Amodal Mask图像
+        Get the amodal mask image for target object.
 
         Args:
-            target_id: 目标物体ID
-            width: 图像分辨率宽度
-            height: 图像分辨率高度
-            fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
-
-        Returns:
-            调用此接口并step后,从self.data['amodal_mask']获取结果
+            target_id: The target object ID.
+            width: Int, the width of image.
+            height: Int, the height of image.
+            fov: Float, the field of view for camera.
+            intrinsic_matrix: A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -435,17 +420,14 @@ class CameraAttr(attr.BaseAttr):
 
     def GetHeatMap(self, width: int = 512, height: int = 512, radius: int = 50, fov: float = 60., intrinsic_matrix=None):
         """
-        获取目标物体的HeatMap图像
+        Get the heat map image.
 
         Args:
-            width: 图像分辨率宽度
-            height: 图像分辨率高度
-            radius: 热力图半径
-            fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
-
-        Returns:
-            调用此接口并step后,从self.data['heat_map']获取结果
+            width: Int, the width of image.
+            height: Int, the height of image.
+            radius: The radius of heat map.
+            fov: Float, the field of view for camera.
+            intrinsic_matrix: A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -468,16 +450,14 @@ class CameraAttr(attr.BaseAttr):
 
     def Get2DBBox(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix=None):
         """
-        获取相机中物体的2DBBox
+        Get the 2d bounding box of objects in current camera view.
 
         Args:
-            width: 图像分辨率宽度
-            height: 图像分辨率高度
-            fov: 相机FOV
-            intrinsic_matrix: List[9]相机内参,当传入时,width、height、fov参数无效
-
-        Returns:
-            调用此接口并step后,从self.data['2d_bounding_box']获取结果
+            width: Int, the width of image.
+            height: Int, the height of image.
+            radius: The radius of heat map.
+            fov: Float, the field of view for camera.
+            intrinsic_matrix: A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
         if intrinsic_matrix is None:
             intrinsic_matrix = []
@@ -499,10 +479,7 @@ class CameraAttr(attr.BaseAttr):
 
     def Get3DBBox(self):
         """
-        获取物体的3DBBox
-
-        Returns:
-            调用此接口并step后,从self.data['3d_bounding_box']获取结果
+        Get the 3d bounding box of objects in world coordinate.
         """
         msg = OutgoingMessage()
 

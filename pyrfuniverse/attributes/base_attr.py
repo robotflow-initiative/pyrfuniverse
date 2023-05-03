@@ -183,7 +183,8 @@ def GetWorldPointFromLocal(kwargs: dict) -> OutgoingMessage:
 
 class BaseAttr:
     """
-    基础Attr类,包含物体加载删除移动等通用功能
+    Base attribute class, which includes general functions such as 
+    object loading, deleting and transforming.
     """
     def __init__(self, env, id: int, data=None):
         if data is None:
@@ -194,28 +195,30 @@ class BaseAttr:
 
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
-            self.data['name'] 物体名称
+            Dict: A dict containing useful information of this class.
 
-            self.data['position'] 物体世界坐标
+            self.data['name']: The name of the object.
 
-            self.data['rotation'] 物体世界欧拉角
+            self.data['position']: The position of the object in world coordinate.
 
-            self.data['quaternion'] 物体世界四元数
+            self.data['rotation']: The euler angle of the object in world coordinate.
 
-            self.data['local_position'] 物体局部坐标
+            self.data['quaternion']: The quaternion of the object in world coordinate.
 
-            self.data['local_rotation'] 物体局部欧拉角
+            self.data['local_position']: The position of the object in its parent's local coordinate.
 
-            self.data['local_quaternion'] 物体局部四元数
+            self.data['local_rotation']: The euler angle of the object in its parent's local coordinate.
 
-            self.data['local_to_world_matrix'] 物体局部坐标转世界坐标矩阵
+            self.data['local_quaternion']: The quaternion of the object in its parent's local coordinate.
 
-            self.data['result_local_point'] 物体局部坐标转世界坐标结果
+            self.data['local_to_world_matrix']: The transformation matrix from local to world coordinate.
 
-            self.data['result_world_point'] 物体世界坐标转局部坐标结果
+            self.data['result_local_point']: The result of transforming object from local to world coordinate.
+
+            self.data['result_world_point']: The result of transforming object from world to local coordinate.
         """
         self.data['name'] = msg.read_string()
         self.data['position'] = [msg.read_float32() for _ in range(3)]
@@ -235,25 +238,26 @@ class BaseAttr:
 
     def SetType(self, attr_type: type):
         """
-        设置物体Attr类型
+        Set the attribute type of this object
 
         Args:
-            attr_type:类型参数
+            attr_type: Any attribute in pyrfuniverse.attributes.
 
-        Returns:目标类型实例
+        Returns:
+            The target attribute.
         """
         self.env.attrs[self.id] = attr_type(self.env, self.id, self.data)
         return self.env.attrs[self.id]
 
     def SetTransform(self, position: list = None, rotation: list = None, scale: list = None, is_world: bool = True):
         """
-        使用Vector3设置物体pose
+        Set the transform of this object, including position, rotation, scale and coordinate.
 
         Args:
-            position: 位置
-            rotation: 旋转
-            scale: 缩放
-            is_world: 世界空间/局部空间
+            position: A list of length 3, representing the target position value of object.
+            rotation: A list of length 3, representing the target euler angle value of object.
+            scale: A list of length 3, representing the target scale value of object.
+            is_world: Bool, True for world coordinate, False for local coordinate.
         """
         msg = OutgoingMessage()
 
@@ -283,11 +287,11 @@ class BaseAttr:
 
     def Translate(self, translation: list, is_world: bool = True):
         """
-        物体平移
+        Translate this object.
 
         Args:
-            translation: 平移量
-            is_world: 世界空间/局部空间
+            translation: A list of length 3, representing the translation from current position.
+            is_world: Bool, True for world coordinate, False for local coordinate.
         """
         msg = OutgoingMessage()
 
@@ -301,11 +305,11 @@ class BaseAttr:
 
     def Rotate(self, rotation: list, is_world: bool = True):
         """
-        物体旋转
+        Rotate this object.
 
         Args:
-            rotation: 旋转量
-            is_world: 世界空间/局部空间
+            rotation: A list of length 3, representing the euler-angle-format rotation from current euler angle.
+            is_world: Bool, True for world coordinate, False for local coordinate.
         """
         msg = OutgoingMessage()
 
@@ -319,11 +323,11 @@ class BaseAttr:
 
     def SetRotationQuaternion(self, quaternion: list = None, is_world: bool = True):
         """
-        使用四元数设置物体旋转
+        Rotate this object using quaternion.
 
         Args:
-            quaternion: 四元数
-            is_world: 世界空间or局部空间
+            quaternion: A list of length 4, representing the quaternion from current pose.
+            is_world: Bool, True for world coordinate, False for local coordinate.
         """
         msg = OutgoingMessage()
 
@@ -339,10 +343,10 @@ class BaseAttr:
 
     def SetActive(self, active: bool):
         """
-        设置物体激活状态
+        Set the activeness of this obeject.
 
         Args:
-            active: 激活/非激活
+            active: Bool, True for active, False for inactive.
         """
         msg = OutgoingMessage()
 
@@ -354,11 +358,11 @@ class BaseAttr:
 
     def SetParent(self, parent_id: int, parent_name: str = ''):
         """
-        设置父物体
+        Set the parent of this object.
 
         Args:
-            parent_id: 父物体ID
-            parent_name: 父物体内节点名
+            parent_id: Int, the id of parent object.
+            parent_name: Str, the name of parent object.
         """
         msg = OutgoingMessage()
 
@@ -371,10 +375,10 @@ class BaseAttr:
 
     def SetLayer(self, layer: int):
         """
-        设置物体层
+        Set the layer in Unity of this object.
 
         Args:
-            layer: 层编号
+            layer: Int, the number of layer.
         """
         msg = OutgoingMessage()
 
@@ -386,10 +390,10 @@ class BaseAttr:
 
     def Copy(self, new_id: int):
         """
-        复制物体
+        Duplicate an object.
 
         Args:
-            new_id: 新物体的ID
+            new_id: Int, the id of new object.
         """
         msg = OutgoingMessage()
 
@@ -404,7 +408,7 @@ class BaseAttr:
 
     def Destroy(self):
         """
-        删除物体
+        Destroy this object in Unity.
         """
         msg = OutgoingMessage()
 
@@ -416,10 +420,10 @@ class BaseAttr:
 
     def SetRFMoveColliderActive(self, active: bool):
         """
-        设置物体在RFMove中的碰撞开关
+        Set the collider active or inactive in RFMove.
 
         Args:
-            active:
+            active: Bool, True for active and False for inactive.
         """
         msg = OutgoingMessage()
 
@@ -431,10 +435,10 @@ class BaseAttr:
 
     def GetLoaclPointFromWorld(self, point: list):
         """
-        转换局部坐标到世界坐标
+        Transform a point from local coordinate to world coordinate.
 
         Args:
-            point:局部坐标
+            point: A list of length 3, representing the position of a point.
         """
         msg = OutgoingMessage()
 
@@ -448,10 +452,10 @@ class BaseAttr:
 
     def GetWorldPointFromLocal(self, point: list):
         """
-        转换世界坐标到局部坐标
+        Transform a point from world coordinate to local coordinate.
 
         Args:
-            point:世界坐标
+            point: A list of length 3, representing the position of a point.
         """
         msg = OutgoingMessage()
 

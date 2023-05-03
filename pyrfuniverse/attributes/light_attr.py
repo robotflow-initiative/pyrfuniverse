@@ -9,7 +9,7 @@ from pyrfuniverse.side_channel.side_channel import (
 
 class LightType(Enum):
     """
-    光源类型,与Unity中的LightType一致
+    The type of light, keeping same name with LightType (https://docs.unity3d.com/ScriptReference/LightType.html) in Unity.
     """
     Spot = 0
     Directional = 1
@@ -20,7 +20,7 @@ class LightType(Enum):
 
 class LightShadow(Enum):
     """
-    阴影类型,与Unity中的LightShadows一致
+    The type of shadow, keeping same name with LightShadows (https://docs.unity3d.com/ScriptReference/LightShadows.html) in Unity.
     """
     NoneShadow = 0
     Hard = 1
@@ -29,24 +29,24 @@ class LightShadow(Enum):
 
 class LightAttr(attr.BaseAttr):
     """
-    灯光类
+    Light attribute class.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
-
+            Dict: A dict containing useful information of this class.
         """
         super().parse_message(msg)
         return self.data
 
     def SetColor(self, color: list):
         """
-        设置灯光颜色
+        Set the color of light.
 
         Args:
-            color: 颜色,长度为3,分别为RGB三个通道的值,范围为0-1
+            color: A list of length 3, representing the R, G and B channel, in range [0, 1].
         """
         msg = OutgoingMessage()
 
@@ -59,10 +59,10 @@ class LightAttr(attr.BaseAttr):
 
     def SetType(self, light_type: LightType):
         """
-        设置灯光类型
+        Set the type of light.
 
         Args:
-            light_type: 灯光类型,参考LightType
+            light_type: LightType, the type of light.
         """
         msg = OutgoingMessage()
 
@@ -74,10 +74,10 @@ class LightAttr(attr.BaseAttr):
 
     def SetShadow(self, light_shadow: LightShadow):
         """
-        设置灯光阴影类型
+        Set the type of shadow.
 
         Args:
-            light_shadow: 灯光阴影类型,参考LightShadow
+            light_shadow: LightShadow, the type of the shadow.
         """
         msg = OutgoingMessage()
 
@@ -89,10 +89,10 @@ class LightAttr(attr.BaseAttr):
 
     def SetIntensity(self, light_intensity: float):
         """
-        设置灯光强度
+        Set the intensity of light.
 
         Args:
-            light_intensity: 灯光强度
+            light_intensity: Float, the intensity of light.
         """
         msg = OutgoingMessage()
 
@@ -104,10 +104,10 @@ class LightAttr(attr.BaseAttr):
 
     def SetRange(self, light_range: float):
         """
-        设置灯光范围(仅灯光类型为Spot和Point时有效)
+        Set the range of light. (Only available when the LightType is `LightType.Spot` or `LightType.Point`)
 
         Args:
-            light_range: 灯光范围
+            light_range: Float, the range of light.
         """
         msg = OutgoingMessage()
 
@@ -119,10 +119,10 @@ class LightAttr(attr.BaseAttr):
 
     def SetSpotAngle(self, spot_angle: float):
         """
-        设置灯光角度(仅灯光类型为Spot时有效)
+        Set the angle of light. (Only available when the LightType is `LightType.Spot`)
 
         Args:
-            spot_angle: 灯光角度
+            spot_angle: Float, the angle of light.
         """
         msg = OutgoingMessage()
 

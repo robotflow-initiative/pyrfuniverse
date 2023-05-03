@@ -47,6 +47,7 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
 
         self.seed(seed)
         self._env_setup()
+        self.init_pos = np.array(self.instance_channel.data[9658740]['positions'][3])
         self.t = 0
         self.goal = self._sample_goal()
         self.action_space = spaces.Box(
@@ -124,12 +125,10 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
         # self.ik_controller.reset()
 
         if self.load_object and self.target_in_air:
-            # Move the robot arm to the object's position, which can accelerate training process
-            # joint_positions = self.ik_controller.calculate_ik(object_pos)
             self.instance_channel.set_action(
                 "IKTargetDoMove",
                 id=965874,
-                position=[object_pos[0], object_pos[1] + 0.1, object_pos[2]],
+                position=[self.init_pos[0], self.init_pos[1], self.init_pos[2]],
                 duration=0,
                 speed_based=False,
             )

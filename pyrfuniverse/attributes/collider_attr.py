@@ -19,21 +19,21 @@ def GenerateVHACDColider(kwargs: dict) -> OutgoingMessage:
 
 class ColliderAttr(attr.GameObjectAttr):
     """
-    具有碰撞体的物体类
+    Collider class for objects who have collider in Unity.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
-
+            Dict: A dict containing useful information of this class.
         """
         super().parse_message(msg)
         return self.data
 
     def GenerateVHACDColider(self):
         """
-        使用VHACD算法生成物体碰撞体
+        Generate convex colliders using VHACD algorithm.
         """
         msg = OutgoingMessage()
 

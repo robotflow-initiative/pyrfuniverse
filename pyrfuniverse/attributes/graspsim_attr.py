@@ -7,22 +7,24 @@ from pyrfuniverse.side_channel.side_channel import (
 
 class GraspSimAttr(attr.BaseAttr):
     """
-    抓取测试农场仿真类
+    Grasp pose simulation class.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        消息解析
+        Parse messages. This function is called by internal function.
 
         Returns:
-            self.data['done'] 模拟是否完成
+            Dict: A dict containing useful information of this class.
 
-            self.data['points'] 抓点列表
+            self.data['done']: Whether the simulation is done
 
-            self.data['quaternions'] 抓点对应的四元数列表
+            self.data['points']: The list of grasp points.
 
-            self.data['width'] 抓点对应的抓型宽度列表
+            self.data['quaternions']: The list of grasping pose quaternions.
 
-            self.data['success'] 抓点对应的抓取结果列表
+            self.data['width']: The list of gripper width of grasping pose.
+
+            self.data['success']: The list of success or failure of the grasing pose.
         """
         super().parse_message(msg)
         self.data['done'] = msg.read_bool()
@@ -38,24 +40,18 @@ class GraspSimAttr(attr.BaseAttr):
 
     def StartGraspSim(self, mesh: str, gripper: str, points: list, normals: list, depth_range_min: float, depth_range_max: float, depth_lerp_count: int, angle_lerp_count: int, parallel_count: int = 100):
         """
-        开始模拟抓取
+        Start simulating grasping.
 
         Args:
-            mesh: 物体网格路径
-            gripper: 夹爪
-            points: 抓点列表
-            normals: 法线列表
-            depth_range_min: 抓型深度范围最小值
-            depth_range_max: 抓型深度范围最大值
-            depth_lerp_count: 抓型深度插值数量
-            angle_lerp_count: 抓型角度插值数量
-            parallel_count: 并行抓取数
-
-        Returns:
-            当模拟完成时,self.data['done']会被置为True
-            self.data['points']为抓点列表
-            self.data['quaternions']为抓点对应的四元数列表
-            self.data['width']为抓点对应的抓型宽度列表
+            mesh: Str, the absolute path to .obj file.
+            gripper: Str, the name of the gripper.
+            points: A list of float, representing the grasping points.
+            normals: A list of float, representing the normals.
+            depth_range_min: Float, the minimum depth of grasp pose.
+            depth_range_max: Float, the maximum depth of grasp pose.
+            depth_lerp_count: Int, the interpolation count of depth.
+            angle_lerp_count: Int, the interpolation count of angle.
+            parallel_count: Int, the count of parallel grasping.
         """
         msg = OutgoingMessage()
 
@@ -75,20 +71,17 @@ class GraspSimAttr(attr.BaseAttr):
 
     def GenerateGraspPose(self, mesh: str, gripper: str, points: list, normals: list, depth_range_min: float, depth_range_max: float, depth_lerp_count: int, angle_lerp_count: int):
         """
-        生成抓取姿态
+        Generate grasp poses and visualize grasp results.
 
         Args:
-            mesh: 物体网格路径
-            gripper: 夹爪
-            points: 抓点列表
-            normals: 法线列表
-            depth_range_min: 抓型深度范围最小值
-            depth_range_max: 抓型深度范围最大值
-            depth_lerp_count: 抓型深度插值数量
-            angle_lerp_count: 抓型角度插值数量
-
-        Returns:
-            生成并显示抓取姿态
+            mesh: Str, the absolute path to .obj file.
+            gripper: Str, the name of the gripper.
+            points: A list of float, representing the grasping points.
+            normals: A list of float, representing the normals.
+            depth_range_min: Float, the minimum depth of grasp pose.
+            depth_range_max: Float, the maximum depth of grasp pose.
+            depth_lerp_count: Int, the interpolation count of depth.
+            angle_lerp_count: Int, the interpolation count of angle.
         """
         msg = OutgoingMessage()
 
@@ -107,18 +100,14 @@ class GraspSimAttr(attr.BaseAttr):
 
     def StartGraspTest(self, mesh: str, gripper: str, points: list, quaternions: list, parallel_count: int = 100):
         """
-        对现有抓型进行抓取测试
+        Start testing the grasp based on current grasp poses.
 
         Args:
-            mesh: 物体网格路径
-            gripper: 夹爪
-            points: 抓点列表
-            quaternions: 四元数列表
-            parallel_count: 并行抓取数
-
-        Returns:
-            当模拟完成时,self.data['done']会被置为True
-            self.data['success']为抓取结果列表
+            mesh: Str, the absolute path to .obj file.
+            gripper: Str, the name of the gripper.
+            points: A list of float, representing the grasping points.
+            quaternions: A list of float, representing the quaternions.
+            parallel_count: Int, the interpolation count of angle.
         """
         msg = OutgoingMessage()
 
@@ -134,13 +123,13 @@ class GraspSimAttr(attr.BaseAttr):
 
     def ShowGraspPose(self, mesh: str, gripper: str, positions: list, quaternions: list):
         """
-        显示抓取姿态
+        Display grasp poses.
 
         Args:
-            mesh: 物体网格路径
-            gripper: 夹爪
-            positions: 抓点列表
-            quaternions: 四元数列表
+            mesh: Str, the absolute path to .obj file.
+            gripper: Str, the name of the gripper.
+            points: A list of float, representing the grasping points.
+            quaternions: A list of float, representing the quaternions.
         """
         msg = OutgoingMessage()
 

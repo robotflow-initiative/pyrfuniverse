@@ -9,27 +9,28 @@ from pyrfuniverse.side_channel.side_channel import (
 
 class PointCloudAttr(attr.BaseAttr):
     """
-    点云渲染类
+    Point cloud rendering class.
     """
     def parse_message(self, msg: IncomingMessage) -> dict:
         """
-        解析消息
+        Parse messages. This function is called by internal function.
 
         Returns:
-
+            Dict: A dict containing useful information of this class.
         """
         super().parse_message(msg)
         return self.data
 
     def ShowPointCloud(self, positions: list = [], colors: list = [], ply_path: str = None, radius: float = 0.01):
         """
-        显示点云
+        Display point cloud in Unity.
 
         Args:
-            positions: 点位置列表
-            colors: 点颜色列表
-            ply_path: .ply文件列表,如果不为空,则positions和colors参数无效
-            radius: 点半径
+            positions: A list of positions of points in a point cloud.
+            colors: A list of colors of points (range [0, 1]) in a point cloud.
+            ply_path: Str, the absolute path of `.ply` file. If this parameter is specified, `positions`
+                and `colors` will be ignored.
+            radius: Float, the radius of the point cloud.
         """
         msg = OutgoingMessage()
 
@@ -47,10 +48,10 @@ class PointCloudAttr(attr.BaseAttr):
 
     def SetRadius(self, radius: float):
         """
-        设置点半径
+        Set the radius for points in a point cloud.
 
         Args:
-            radius: 半径
+            radius: Float, the radius.
         """
         msg = OutgoingMessage()
 
