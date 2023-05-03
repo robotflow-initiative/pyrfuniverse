@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UR5 Water Pushing RL Environment Tutorial &mdash; pyrfuniverse  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Flexiv Cutting RL Environment Tutorial" href="flexiv_cutting.html" />
+    <link rel="prev" title="Kinova Gen2 Catching Cloth RL Environment Tutorial" href="kinova_catching_cloth.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            pyrfuniverse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/get_started.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/understanding_pyrfuniverse.html">Understanding pyrfuniverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/advanced_usages.html">Advanced Usage Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/camera_rendering.html">Camera Rendering Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/point_cloud.html">Point Cloud from Images Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/scene_annotation.html">Annotating Image and Scene Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/loading_urdf.html">Loading URDF File Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/pick_and_place.html">Pick and Place Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/tobor_move.html">Embodied Robot Controlling Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="franka_robotics.html">Franka Robotics RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">UR5 Water Pushing RL Environment Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-scene-in-unity">Build scene in Unity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#add-general-prefab-into-a-new-scene">Add general prefab into a new scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-ur5-robot">Add UR5 robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-zibra-liquid-emitter-and-void">Create Zibra Liquid, Emitter and Void</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-rigid-cube">Create a rigid cube</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-target-range-for-visualization">Create a target range for visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#let-zibra-liquid-knows-everything">Let Zibra Liquid knows everything</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#add-custom-attributes">Add custom attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#write-python-codes">Write Python codes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#observations">Observations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reset-scene">Reset Scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step">Step</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.envs.html">pyrfuniverse.envs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.attributes.html">pyrfuniverse.attributes package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.utils.html">pyrfuniverse.utils package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrfuniverse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">UR5 Water Pushing RL Environment Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/ur5_water_pushing.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ur5-water-pushing-rl-environment-tutorial">
+<span id="ur5-water"></span><h1>UR5 Water Pushing RL Environment Tutorial<a class="headerlink" href="#ur5-water-pushing-rl-environment-tutorial" title="Permalink to this heading"></a></h1>
+<p><img alt="water/water_pushing.jpg" src="../_images/water_pushing.jpg" /></p>
+<p>In this tutorial, we will continue the multi-physics attribute of RFUniverse and build an RL environment for simulating a UR5 robot grasping a water pipe. The UR5 agent should be trained to move to correct position and make the water push a cube to its target range. This environment is also RL-supported and codes will be in OpenAI-Gym style.</p>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Clone the RFUniverse Unity side repository.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mvig-robotflow/rfuniverse.git
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Install the Unity Editor (&gt;= 2021.3) and open the project cloned above.</p></li>
+<li><p>Install <a class="reference external" href="https://assetstore.unity.com/packages/tools/physics/zibra-liquids-200718">Zibra Liquid Plugin</a>.</p></li>
+</ol>
+</section>
+<section id="build-scene-in-unity">
+<h2>Build scene in Unity<a class="headerlink" href="#build-scene-in-unity" title="Permalink to this heading"></a></h2>
+<p>First of all, just like the previous tutorials, we must setup the scene in Unity Editor. In this experiment, we will use a UR5 robot as the agent. But the most important part is to use Zibra Liquid to simulate water and interact with a rigid cube. We will look in the process step by step.</p>
+<section id="add-general-prefab-into-a-new-scene">
+<h3>Add general prefab into a new scene<a class="headerlink" href="#add-general-prefab-into-a-new-scene" title="Permalink to this heading"></a></h3>
+<p>This is to add <code class="docutils literal notranslate"><span class="pre">RFUniverse</span></code> into a newly created scene. This step is the same with previous tutorials.</p>
+</section>
+<section id="add-ur5-robot">
+<h3>Add UR5 robot<a class="headerlink" href="#add-ur5-robot" title="Permalink to this heading"></a></h3>
+<p>Next, we should add a UR5 robot into this scene. We have also prepared UR5 robot with Robotiq85 gripper in Assets/Assets/Prefab/Controller/Arm, just drag it into the scene. Don’t forget to drag the robot to Scene Attr under Base Agent (Script) in Inspector window to setup communication. In this experiment, we set the scale to 15.</p>
+</section>
+<section id="create-zibra-liquid-emitter-and-void">
+<h3>Create Zibra Liquid, Emitter and Void<a class="headerlink" href="#create-zibra-liquid-emitter-and-void" title="Permalink to this heading"></a></h3>
+<p>In this experiment, we will have three objects relative to liquid simulation. First of all, according to <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span></code> usage, we should have a <code class="docutils literal notranslate"><span class="pre">Zibra</span> <span class="pre">Liquid</span></code> object which can handle simulation. Create it by right click on the blank space in <code class="docutils literal notranslate"><span class="pre">Hierarchy</span></code> window and select <code class="docutils literal notranslate"><span class="pre">Zibra</span> <span class="pre">-&gt;</span> <span class="pre">Zibra</span> <span class="pre">Liquid</span></code>. Next, create a <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span> <span class="pre">Emitter</span></code> object in the similar way. The <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span> <span class="pre">Emitter</span></code> object is responsible for producing water, so in our setting, we should place it as a child game object of gripper, just like the following image.</p>
+<p><img alt="water/4.PNG" src="../_images/41.PNG" /></p>
+<p>Then, create a <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span> <span class="pre">Void</span></code>, which can collect the produced water so that these water cannot affect our objects.</p>
+<p><img alt="water/3.PNG" src="../_images/31.PNG" /></p>
+</section>
+<section id="create-a-rigid-cube">
+<h3>Create a rigid cube<a class="headerlink" href="#create-a-rigid-cube" title="Permalink to this heading"></a></h3>
+<p>Let’s move on. In our experiment, there will be a rigid object pushed by water. We select it as a cube. Create a cube and add <code class="docutils literal notranslate"><span class="pre">RigidBody</span></code> componet as well as the <code class="docutils literal notranslate"><span class="pre">RigidbodyAttr</span></code> component on it. Currently, the cube can communicate with Python, but it cannot interact with <code class="docutils literal notranslate"><span class="pre">Zibra</span> <span class="pre">Liquid</span></code> directly. To achieve the interaction, we should add a component named <code class="docutils literal notranslate"><span class="pre">Zibra</span> <span class="pre">Neural</span> <span class="pre">SDF</span></code> on cube and press the <code class="docutils literal notranslate"><span class="pre">Generate</span> <span class="pre">SDF</span></code> button to calculate an SDF for interaction.</p>
+<p><img alt="water/5.PNG" src="../_images/51.PNG" /></p>
+<p>After setting the SDF, we should also set the physics parameters of this cube to avoid the task too simple or too difficult. Set the <code class="docutils literal notranslate"><span class="pre">Material</span></code> in <code class="docutils literal notranslate"><span class="pre">Box</span> <span class="pre">Collider</span></code> with a <code class="docutils literal notranslate"><span class="pre">Physical</span> <span class="pre">Material</span></code> named <code class="docutils literal notranslate"><span class="pre">Slide</span></code> to enlower the friction between cube and ground. And set the mass to 0.5kg for the rigid body. After setting, the <code class="docutils literal notranslate"><span class="pre">Inspector</span></code> window will be same with the following image. Don’t forget to add the cube to <code class="docutils literal notranslate"><span class="pre">Agent</span></code>.</p>
+<p><img alt="water/6.PNG" src="../_images/6.PNG" /></p>
+</section>
+<section id="create-a-target-range-for-visualization">
+<h3>Create a target range for visualization<a class="headerlink" href="#create-a-target-range-for-visualization" title="Permalink to this heading"></a></h3>
+<p>Recall that in franka robotcis tutorial, we use a ‘shadow’ cube to represent the target range. In this experiment, we will also need that. Please refer to <a class="reference internal" href="franka_robotics.html#create-goal"><span class="std std-ref">Create the goal</span></a> and create a goal in this scene.</p>
+</section>
+<section id="let-zibra-liquid-knows-everything">
+<h3>Let Zibra Liquid knows everything<a class="headerlink" href="#let-zibra-liquid-knows-everything" title="Permalink to this heading"></a></h3>
+<p>Unitl now, the basic objects are all done. However, <code class="docutils literal notranslate"><span class="pre">Zibra</span> <span class="pre">Liquid</span></code> hasn’t known what objects are in the scene. We need to add the cube to <code class="docutils literal notranslate"><span class="pre">Colliders</span></code> attributes and <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span> <span class="pre">Emitter</span></code> and <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span> <span class="pre">Void</span></code> to <code class="docutils literal notranslate"><span class="pre">Manipulators</span></code> attributes. Also, the water range is a organizable parameter. So please organize the parameters align with the following two images.</p>
+<p><img alt="water/1.PNG" src="../_images/11.PNG" />
+<img alt="water/2.PNG" src="../_images/21.PNG" /></p>
+<p>Up to now, the scene is partially finished. The ‘partially’ here is because we haven’t created the custom attributes to support controlling liquid. Let’s move on to the next section.</p>
+<p><img alt="water/7.PNG" src="../_images/7.PNG" /></p>
+</section>
+</section>
+<section id="add-custom-attributes">
+<h2>Add custom attributes<a class="headerlink" href="#add-custom-attributes" title="Permalink to this heading"></a></h2>
+<p>In this experiment, we need to think about how to reset <code class="docutils literal notranslate"><span class="pre">Zibra</span> <span class="pre">Liquid</span></code> in the scene and how to control the volume and initial speed of <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span> <span class="pre">Emitter</span></code>. The first problem is easy to solve: In <code class="docutils literal notranslate"><span class="pre">Zibra</span> <span class="pre">Liquid</span></code>, disable it and then enable it will result in a new start of water simulation. The second problem can be solved by passing parameters from Pyton. Thus, we can add these functions to <code class="docutils literal notranslate"><span class="pre">CustomAttr.cs</span></code> and <code class="docutils literal notranslate"><span class="pre">custom_attr.py</span></code>.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">void</span><span class="w"> </span><span class="nf">SetZibraLiquid</span><span class="p">(</span><span class="n">IncomingMessage</span><span class="w"> </span><span class="n">msg</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">isEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="n">ReadBoolean</span><span class="p">();</span>
+<span class="w">    </span><span class="n">gameObject</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="n">isEnabled</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">void</span><span class="w"> </span><span class="nf">SetZibraLiquidEmitter</span><span class="p">(</span><span class="n">IncomingMessage</span><span class="w"> </span><span class="n">msg</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">volumePerSimTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="n">ReadFloat32</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">initVelocityX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="n">ReadFloat32</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">initVelocityY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="n">ReadFloat32</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">initVelocityZ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="n">ReadFloat32</span><span class="p">();</span>
+<span class="w">    </span><span class="n">ZibraLiquidEmitter</span><span class="w"> </span><span class="n">emitter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetComponent</span><span class="o">&lt;</span><span class="n">ZibraLiquidEmitter</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="n">emitter</span><span class="p">.</span><span class="n">VolumePerSimTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">volumePerSimTime</span><span class="p">;</span>
+<span class="w">    </span><span class="n">emitter</span><span class="p">.</span><span class="n">InitialVelocity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UnityEngine</span><span class="p">.</span><span class="n">Vector3</span><span class="p">(</span><span class="n">initVelocityX</span><span class="p">,</span><span class="w"> </span><span class="n">initVelocityY</span><span class="p">,</span><span class="w"> </span><span class="n">initVelocityZ</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">SetZibraLiquid</span><span class="p">(</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutgoingMessage</span><span class="p">:</span>
+    <span class="n">compulsory_params</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;enable&#39;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">utility</span><span class="o">.</span><span class="n">CheckKwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">compulsory_params</span><span class="p">)</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">OutgoingMessage</span><span class="p">()</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">write_int32</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="s1">&#39;SetZibraLiquid&#39;</span><span class="p">)</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">write_bool</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;enable&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">msg</span>
+
+<span class="k">def</span> <span class="nf">SetZibraLiquidEmitter</span><span class="p">(</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutgoingMessage</span><span class="p">:</span>
+    <span class="n">compulsory_params</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;volumePerSimTime&#39;</span><span class="p">,</span> <span class="s1">&#39;initVelocity&#39;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">utility</span><span class="o">.</span><span class="n">CheckKwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">compulsory_params</span><span class="p">)</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">OutgoingMessage</span><span class="p">()</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">write_int32</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="s1">&#39;SetZibraLiquidEmitter&#39;</span><span class="p">)</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">write_float32</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;volumePerSimTime&#39;</span><span class="p">])</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">write_float32</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;initVelocity&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">write_float32</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;initVelocity&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">write_float32</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;initVelocity&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">msg</span>
+</pre></div>
+</div>
+<p>After adding codes, remember to add <code class="docutils literal notranslate"><span class="pre">CustomAttr</span></code> component to <code class="docutils literal notranslate"><span class="pre">Zibra</span> <span class="pre">Liquid</span></code> and <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span> <span class="pre">Emitter</span></code>, as well as drag these two game objects to <code class="docutils literal notranslate"><span class="pre">Agent</span></code> to setup communication.</p>
+</section>
+<section id="write-python-codes">
+<h2>Write Python codes<a class="headerlink" href="#write-python-codes" title="Permalink to this heading"></a></h2>
+<section id="observations">
+<h3>Observations<a class="headerlink" href="#observations" title="Permalink to this heading"></a></h3>
+<p>We also make this environment goal-conditioned. In observation, we get robot end effector pose and velocity, as well as the object pose and velocity.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_get_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">eef_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_eef_position</span><span class="p">()</span>
+    <span class="n">eef_vel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_eef_velocity</span><span class="p">()</span>
+    <span class="n">eef_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_gripper_width</span><span class="p">()</span>
+    <span class="n">robot_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">eef_pos</span><span class="p">,</span> <span class="n">eef_vel</span><span class="p">,</span> <span class="p">[</span><span class="n">eef_width</span><span class="p">]))</span>
+
+    <span class="n">object_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cube_pos</span><span class="p">()</span>
+    <span class="n">object_vel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cube_velocity</span><span class="p">()</span>
+    <span class="n">object_rot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cube_rotation</span><span class="p">()</span>
+    <span class="n">object_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">object_pos</span><span class="p">,</span> <span class="n">object_rot</span><span class="p">,</span> <span class="n">object_vel</span><span class="p">))</span>
+
+    <span class="n">achieved_goal</span> <span class="o">=</span> <span class="n">object_pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">desired_goal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;observation&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">robot_obs</span><span class="p">,</span> <span class="n">object_obs</span><span class="p">)),</span>
+        <span class="s1">&#39;achieved_goal&#39;</span><span class="p">:</span> <span class="n">achieved_goal</span><span class="p">,</span>
+        <span class="s1">&#39;desired_goal&#39;</span><span class="p">:</span> <span class="n">desired_goal</span>
+    <span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">_get_eef_position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;robotiq85&#39;</span><span class="p">]][</span><span class="s1">&#39;positions&#39;</span><span class="p">][</span><span class="mi">7</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">_get_eef_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;robotiq85&#39;</span><span class="p">]][</span><span class="s1">&#39;velocities&#39;</span><span class="p">][</span><span class="mi">7</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">_get_gripper_width</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">left_finger_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;left_finger&#39;</span><span class="p">]][</span><span class="s1">&#39;position&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">right_finger_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;right_finger&#39;</span><span class="p">]][</span><span class="s1">&#39;position&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span><span class="p">(</span><span class="n">left_finger_pos</span><span class="p">,</span> <span class="n">right_finger_pos</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_get_target_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]][</span><span class="s1">&#39;position&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">_get_cube_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;cube&#39;</span><span class="p">]][</span><span class="s1">&#39;position&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">_get_cube_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;cube&#39;</span><span class="p">]][</span><span class="s1">&#39;velocity&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">_get_cube_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;cube&#39;</span><span class="p">]][</span><span class="s1">&#39;rotation&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+</pre></div>
+</div>
+</section>
+<section id="reset-scene">
+<h3>Reset Scene<a class="headerlink" href="#reset-scene" title="Permalink to this heading"></a></h3>
+<p>When resetting scene, we will set UR5 to its initial pose, and then reset the liquid by first disabling liquid, then enabling liquid. After liquid reset, we reset the object to a random sampled position.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ik_controller</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">init_joint_positions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ik_controller</span><span class="o">.</span><span class="n">calculate_ik_recursive</span><span class="p">(</span>
+        <span class="n">unity_eef_pos</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">init_pos</span><span class="p">,</span>
+        <span class="n">eef_orn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eef_orn</span>
+    <span class="p">)</span>
+    <span class="n">init_joint_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_gripper_width</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_set_ur5_robotiq85_directly</span><span class="p">(</span><span class="n">init_joint_positions</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_reset_liquid</span><span class="p">()</span>
+    <span class="n">object_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reset_object</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">goal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_goal</span><span class="p">(</span><span class="n">object_pos</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_obs</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">_reset_liquid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;SetZibraLiquid&#39;</span><span class="p">,</span>
+        <span class="n">attr_name</span><span class="o">=</span><span class="s1">&#39;custom_attr&#39;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;liquid&#39;</span><span class="p">],</span>
+        <span class="n">enable</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;SetZibraLiquid&#39;</span><span class="p">,</span>
+        <span class="n">attr_name</span><span class="o">=</span><span class="s1">&#39;custom_attr&#39;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;liquid&#39;</span><span class="p">],</span>
+        <span class="n">enable</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">_reset_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">object_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np_random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
+        <span class="n">low</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">object_range_low</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">object_range_high</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,)</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+        <span class="s1">&#39;SetTransform&#39;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;cube&#39;</span><span class="p">],</span>
+        <span class="n">position</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">object_pos</span><span class="p">),</span>
+        <span class="n">rotation</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">object_pos</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="step">
+<h3>Step<a class="headerlink" href="#step" title="Permalink to this heading"></a></h3>
+<p>During step, we will first accept the passed in parameters and control robot arm. We set the <code class="docutils literal notranslate"><span class="pre">ZibraLiquid</span> <span class="pre">Emitter</span></code> volume and initial velocity to be proportional to the gripper width. After simulation, we get the observation and compute reward as well as gathering other information.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="n">delta_pos</span> <span class="o">=</span> <span class="n">action</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="o">*</span> <span class="mf">0.05</span>
+    <span class="n">curr_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_eef_position</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+    <span class="n">target_pos</span> <span class="o">=</span> <span class="n">curr_pos</span> <span class="o">+</span> <span class="n">delta_pos</span>
+    <span class="n">joint_positions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ik_controller</span><span class="o">.</span><span class="n">calculate_ik_recursive</span><span class="p">(</span>
+        <span class="n">unity_eef_pos</span><span class="o">=</span><span class="n">target_pos</span><span class="p">,</span>
+        <span class="n">eef_orn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eef_orn</span>
+    <span class="p">)</span>
+
+    <span class="n">delta_width</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.02</span>
+    <span class="n">curr_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_gripper_width</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+    <span class="n">target_width</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">curr_width</span> <span class="o">+</span> <span class="n">delta_width</span><span class="p">),</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.085</span><span class="p">)</span>
+    <span class="n">joint_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target_width</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_set_ur5_robotiq85</span><span class="p">(</span><span class="n">joint_positions</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_set_liquid_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_gripper_width</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_obs</span><span class="p">()</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;is_success&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_success</span><span class="p">(</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;achieved_goal&#39;</span><span class="p">],</span> <span class="n">obs</span><span class="p">[</span><span class="s1">&#39;desired_goal&#39;</span><span class="p">])</span>
+    <span class="p">}</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_reward</span><span class="p">(</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;achieved_goal&#39;</span><span class="p">],</span> <span class="n">obs</span><span class="p">[</span><span class="s1">&#39;desired_goal&#39;</span><span class="p">],</span> <span class="n">info</span><span class="p">)</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">fail</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_fail</span><span class="p">(</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;achieved_goal&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">fail</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_steps</span> <span class="ow">or</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;is_success&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="n">obs</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span>
+
+<span class="k">def</span> <span class="nf">_set_liquid_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gripper_width</span><span class="p">):</span>
+    <span class="n">prop</span> <span class="o">=</span> <span class="n">gripper_width</span> <span class="o">/</span> <span class="mf">0.085</span>
+    <span class="n">volume_per_time_step</span> <span class="o">=</span> <span class="n">prop</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_per_time_step_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+        <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prop</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_per_time_step_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">liquid_init_velocity</span> <span class="o">=</span> <span class="n">prop</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">liquid_init_velocity_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+        <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prop</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">liquid_init_velocity_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">instance_channel</span><span class="o">.</span><span class="n">set_action</span><span class="p">(</span>
+        <span class="s1">&#39;SetZibraLiquidEmitter&#39;</span><span class="p">,</span>
+        <span class="n">attr_name</span><span class="o">=</span><span class="s1">&#39;custom_attr&#39;</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">object2id</span><span class="p">[</span><span class="s1">&#39;emitter&#39;</span><span class="p">],</span>
+        <span class="n">volumePerSimTime</span><span class="o">=</span><span class="n">volume_per_time_step</span><span class="p">,</span>
+        <span class="n">initVelocity</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">liquid_init_velocity</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="kinova_catching_cloth.html" class="btn btn-neutral float-left" title="Kinova Gen2 Catching Cloth RL Environment Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="flexiv_cutting.html" class="btn btn-neutral float-right" title="Flexiv Cutting RL Environment Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, RobotFlow.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

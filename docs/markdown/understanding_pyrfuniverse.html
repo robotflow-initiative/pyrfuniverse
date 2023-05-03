@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Understanding pyrfuniverse &mdash; pyrfuniverse  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Advanced Usage Guides" href="advanced_usages.html" />
+    <link rel="prev" title="Get Started" href="get_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            pyrfuniverse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Understanding pyrfuniverse</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-basic-usage-and-data-flow-in-pyrfuniverse-attributes">The basic usage and data flow in pyrfuniverse.attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extend-custom-attributes-and-api">Extend custom attributes and API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_usages.html">Advanced Usage Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/camera_rendering.html">Camera Rendering Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/point_cloud.html">Point Cloud from Images Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/scene_annotation.html">Annotating Image and Scene Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/loading_urdf.html">Loading URDF File Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/pick_and_place.html">Pick and Place Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/tobor_move.html">Embodied Robot Controlling Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/franka_robotics.html">Franka Robotics RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ur5_water_pushing.html">UR5 Water Pushing RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.envs.html">pyrfuniverse.envs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.attributes.html">pyrfuniverse.attributes package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.utils.html">pyrfuniverse.utils package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrfuniverse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Understanding pyrfuniverse</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/markdown/understanding_pyrfuniverse.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="understanding-pyrfuniverse">
+<span id="understanding-pyrfuniverse-1"></span><h1>Understanding pyrfuniverse<a class="headerlink" href="#understanding-pyrfuniverse" title="Permalink to this heading"></a></h1>
+<p>In <code class="docutils literal notranslate"><span class="pre">pyrfuniverse</span></code>, we provide a lot of useful API to help users build their own simulation environment and verify or train with any algorithms. To achieve this, we have to find a way to communicate between Unity and Python, since most algorithms are implemented in Python, not C# (which is Unity official support language). We build our own communication system based on <a class="reference external" href="https://github.com/Unity-Technologies/ml-agents">ML-Agents</a> and we are working on implementing a more light-weight communication base from scratch.</p>
+<p>In this page, you will know the basic usage of <a class="reference internal" href="../pyrfuniverse.attributes.html#pyrfuniverse-attributes"><span class="std std-ref">pyrfuniverse.attributes</span></a> module and how to extend your own API if we haven’t provided the function you need.</p>
+<section id="the-basic-usage-and-data-flow-in-pyrfuniverse-attributes">
+<h2>The basic usage and data flow in pyrfuniverse.attributes<a class="headerlink" href="#the-basic-usage-and-data-flow-in-pyrfuniverse-attributes" title="Permalink to this heading"></a></h2>
+<p>In <code class="docutils literal notranslate"><span class="pre">pyrfuniverse.attributes</span></code>, we provide all useful APIs which can operate the agents in Unity do whatever you want. For example, you can move a robot arm by setting target joint positions or capture a screenshot of camera by sending a signal. As you can see, different operations will need various parameters and may return multiple values. This will need a case-by-case implementation, both in Python and Unity (C#).</p>
+<p>Each class in <code class="docutils literal notranslate"><span class="pre">pyrfuniverse.attributes</span></code> will have a member variable named <code class="docutils literal notranslate"><span class="pre">id</span></code> with a unique value, and it’s bind with a unique object in Unity. When we call a function from the instance of such attribute, it will ‘tell’ the object in Unity what to do.</p>
+<p>Let’s take camera_attr for example.</p>
+<p>First, let’s import classes and define our environment with assets.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrfuniverse.envs.base_env</span> <span class="kn">import</span> <span class="n">RFUniverseBaseEnv</span>
+<span class="kn">import</span> <span class="nn">pyrfuniverse.attributes</span> <span class="k">as</span> <span class="nn">attr</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">RFUniverseBaseEnv</span><span class="p">(</span><span class="n">assets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Camera&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Then, we will instanciate a camera object with a given ID and the corresponding attribute type. Since we instanciate a camera here, we will use a <code class="docutils literal notranslate"><span class="pre">CameraAttr</span></code> class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">camera</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">InstanceObject</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Camera&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mi">123456</span><span class="p">,</span> <span class="n">attr_type</span><span class="o">=</span><span class="n">attr</span><span class="o">.</span><span class="n">CameraAttr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, we can use the awesome APIs provided in <code class="docutils literal notranslate"><span class="pre">CameraAttr</span></code> class. Let’s
+set the camera to a given pose and get some images from the camera.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">camera</span><span class="o">.</span><span class="n">SetTransform</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">GetDepth</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">zero_dis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">one_dis</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">GetDepthEXR</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+<span class="n">camera</span><span class="o">.</span><span class="n">GetRGB</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After the codes above, Unity has accepted our operations and the instanciated camera will begin working! Now we have to wait Unity handle these work and we can get our image back. In <code class="docutils literal notranslate"><span class="pre">pyrfuniverse</span></code>, we use a simple function <code class="docutils literal notranslate"><span class="pre">step()</span></code> to wait for Unity handle all complex work.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After a short wait, we can finally get our images and process them.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;depth_exr&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;rgb&#39;</span><span class="p">])</span>
+<span class="n">image_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;rgb&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">image_np</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imdecode</span><span class="p">(</span><span class="n">image_np</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">image_np</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&quot;rgb&quot;</span><span class="p">,</span> <span class="n">image_np</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>From the above example, as you can see, we use provided API to operate any object, and get the useful information back from a dict member variable named <code class="docutils literal notranslate"><span class="pre">data</span></code>. Of course, there are more keys in <code class="docutils literal notranslate"><span class="pre">data</span></code>. For the full list of keys, please refer to <a class="reference internal" href="../pyrfuniverse.attributes.html#pyrfuniverse-attributes"><span class="std std-ref">pyrfuniverse.attributes</span></a> documentation. Note that data keys in parent class is also available in the child class: i.e., <code class="docutils literal notranslate"><span class="pre">CameraAttr.data['position']</span></code> is available though key ‘position’ is only listed in <code class="docutils literal notranslate"><span class="pre">BaseAttr.data</span></code>, since <code class="docutils literal notranslate"><span class="pre">CameraAttr</span></code> is inherited from <code class="docutils literal notranslate"><span class="pre">BaseAttr</span></code>.</p>
+</section>
+<section id="extend-custom-attributes-and-api">
+<h2>Extend custom attributes and API<a class="headerlink" href="#extend-custom-attributes-and-api" title="Permalink to this heading"></a></h2>
+<p>We have mentioned above that operations in <code class="docutils literal notranslate"><span class="pre">pyrfuniverse</span></code> all need a case-by-case implementation, both in Python and Unity (C#). Thus, when we want to extend a custom attribute, we must also implement both Python and C#.</p>
+<p>For the python side, please refer to <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/pyrfuniverse/attributes/custom_attr.py">custom_attr.py</a> and add codes according to the comments.</p>
+<p>For the Unity side, please refer to <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Attributes/CustomAttr.cs">CustomAttr.cs</a> and add codes according to the comments.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="get_started.html" class="btn btn-neutral float-left" title="Get Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advanced_usages.html" class="btn btn-neutral float-right" title="Advanced Usage Guides" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, RobotFlow.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

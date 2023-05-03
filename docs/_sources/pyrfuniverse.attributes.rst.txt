@@ -1,3 +1,5 @@
+.. _pyrfuniverse_attributes:
+
 pyrfuniverse.attributes package
 ===============================
 

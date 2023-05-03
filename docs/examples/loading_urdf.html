@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading URDF File Examples &mdash; pyrfuniverse  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pick and Place Example" href="pick_and_place.html" />
+    <link rel="prev" title="Annotating Image and Scene Example" href="scene_annotation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            pyrfuniverse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/get_started.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/understanding_pyrfuniverse.html">Understanding pyrfuniverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown/advanced_usages.html">Advanced Usage Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="camera_rendering.html">Camera Rendering Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="point_cloud.html">Point Cloud from Images Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_annotation.html">Annotating Image and Scene Example</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Loading URDF File Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#understanding-the-code">Understanding the Code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pick_and_place.html">Pick and Place Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tobor_move.html">Embodied Robot Controlling Example</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/franka_robotics.html">Franka Robotics RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ur5_water_pushing.html">UR5 Water Pushing RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.envs.html">pyrfuniverse.envs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.attributes.html">pyrfuniverse.attributes package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyrfuniverse.utils.html">pyrfuniverse.utils package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pyrfuniverse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Loading URDF File Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/loading_urdf.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="loading-urdf-file-examples">
+<h1>Loading URDF File Examples<a class="headerlink" href="#loading-urdf-file-examples" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>This example will guide you through <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_load_urdf.py">test_load_urdf</a> that loads various URDF (Unified Robot Description Format) models into RFUniverse and controls the movement of a selected robot.</p>
+</section>
+<section id="understanding-the-code">
+<h2>Understanding the Code<a class="headerlink" href="#understanding-the-code" title="Permalink to this heading"></a></h2>
+<p>The code consists of several sections. Below we will discuss each part of the code line by line.</p>
+<ol class="arabic simple">
+<li><p>Importing Libraries:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrfuniverse.envs.base_env</span> <span class="kn">import</span> <span class="n">RFUniverseBaseEnv</span>
+<span class="kn">import</span> <span class="nn">pyrfuniverse.utils.rfuniverse_utility</span> <span class="k">as</span> <span class="nn">utility</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Creating a Simulation Environment Instance:</p></li>
+</ol>
+<p>This line of code creates an instance of the RFUniverse simulation environment.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">RFUniverseBaseEnv</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Loading URDF Files:</p></li>
+</ol>
+<p>The next code loads various URDF models, including UR5, YUMI, and Kinova Gen3 into the RFUniverse simulation environment. For more robots we support, please refer to <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/tree/main/Assets/Assets/Prefab/Controller">rfuniverse_robot_list</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ur5</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">LoadURDF</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../URDF/UR5/ur5_robot.urdf&#39;</span><span class="p">),</span> <span class="n">native_ik</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ur5</span><span class="o">.</span><span class="n">SetTransform</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">yumi</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">LoadURDF</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../URDF/yumi_description/urdf/yumi.urdf&#39;</span><span class="p">),</span> <span class="n">native_ik</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">yumi</span><span class="o">.</span><span class="n">SetTransform</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">kinova</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">LoadURDF</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../URDF/kinova_gen3/GEN3_URDF_V12.urdf&#39;</span><span class="p">),</span> <span class="n">native_ik</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">kinova</span><span class="o">.</span><span class="n">SetTransform</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Control Robot Movement:</p></li>
+</ol>
+<p>The next code section moves and rotates the UR5 robot manipulator by setting its inverse kinematics (IK) target, performing the move, and waiting for the move to complete. The “duration” parameter specifies the time taken for the movement, and the “relative” parameter specifies whether the movement is relative to the previous position or not.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ur5</span><span class="o">.</span><span class="n">IKTargetDoMove</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">duration</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<span class="n">ur5</span><span class="o">.</span><span class="n">WaitDo</span><span class="p">()</span>
+
+<span class="n">ur5</span><span class="o">.</span><span class="n">IKTargetDoMove</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">duration</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<span class="n">ur5</span><span class="o">.</span><span class="n">WaitDo</span><span class="p">()</span>
+
+<span class="n">ur5</span><span class="o">.</span><span class="n">IKTargetDoMove</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="n">duration</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ur5</span><span class="o">.</span><span class="n">IKTargetDoRotateQuaternion</span><span class="p">(</span><span class="n">quaternion</span><span class="o">=</span><span class="n">utility</span><span class="o">.</span><span class="n">UnityEularToQuaternion</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">relative</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<span class="n">ur5</span><span class="o">.</span><span class="n">WaitDo</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Running the Simulation:</p></li>
+</ol>
+<p>The final section of code runs the simulation continuously.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>By modifying the path parameter in the “LoadURDF” method, you can load any URDF model into the RFUniverse simulation environment.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="scene_annotation.html" class="btn btn-neutral float-left" title="Annotating Image and Scene Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pick_and_place.html" class="btn btn-neutral float-right" title="Pick and Place Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, RobotFlow.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
