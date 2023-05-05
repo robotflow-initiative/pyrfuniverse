@@ -5,7 +5,6 @@ from pyrfuniverse.side_channel.side_channel import (
 )
 
 
-#自定义Attr类示例
 class CustomAttr(attr.BaseAttr):
     """
     This is an example of custom attribute class, without actual functions.

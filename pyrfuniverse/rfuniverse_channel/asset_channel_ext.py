@@ -3,31 +3,36 @@ from pyrfuniverse.side_channel.side_channel import (
     OutgoingMessage,
 )
 
+
 class AssetChannelExt:
+    """
+    This is an example of extend asset channel, without actual functions.
+    """
     def __init__(self, env):
         self.env = env
         self.data = {}
 
-    # 消息解析
     def parse_message(self, msg: IncomingMessage, msg_type: str) -> dict:
         self.data = {}
-        # 根据头字符串添加自己的分支
-        # 此处CustomMessage对应Unity中AssetManagerExt脚本CustomMessage接口函数中写入的第一个头字符串
+        # 1.Switch data read based on message type
         if msg_type == 'CustomMessage':
-            # 按顺序读取数据
-            # 此处读取顺序对应Unity中使用SendMetaDataToPython前写入顺序
+            # 2. Read the message from Unity in order.
+            # Note that the reading order here should align with
+            # the writing order in CustomMessage() of AssetManagerExt.cs.
             data = msg.read_string()
             self.data['custom_message'] = data
-        # 将数据写入到data中返回
+        # 3. Return the data
         return self.data
 
-    # 新增接口示例
     def CustomMessage(self, message: str):
+        # 1. Define an out-going message
         msg = OutgoingMessage()
-        # 第一个写入的数据必须是消息类型
-        # 此处CustomMessage对应Unity中AssetManagerExt脚本AnalysisMsg函数switch的CustomMessage分支
+
+        # 2. The first data written must be the function name.
+        # The keyword `CustomMessage` here should also be added
+        # as a new branch in AnalysisMsg() in AssetManagerExt.cs.
         msg.write_string('CustomMessage')
-        # 按顺序写入自己想要发送的数据
+        # 3. Write in the data.
         msg.write_string(message)
 
         self.env.asset_channel.send_message(msg)

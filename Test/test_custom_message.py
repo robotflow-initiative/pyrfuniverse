@@ -10,13 +10,13 @@ env = RFUniverseBaseEnv(
 )
 
 # asset_channel custom message
-env.ext.CustomMessage(message='this is a asset channel python to unity custom message')
+env.ext.CustomMessage(message='this is asset channel custom message')
 env.step()
 print(env.data['custom_message'])
 
 # instance_channel custom message
 custom = env.InstanceObject(name='CustomAttr', id=123456, attr_type=attr.CustomAttr)
-custom.CustomMessage(message='this is a instance channel python to unity custom message')
+custom.CustomMessage(message='this is instance channel custom message')
 env.step()
 print(custom.data['custom_message'])
 
@@ -33,7 +33,7 @@ env.AddListener('DynamicMessage', dynamic_function)
 env.SendMessage(
     'DynamicMessage',
     123456,
-    'this is a python to unity dynamic message',
+    'this is dynamic message',
     True,
     4849.6564,
     [616445.085, 9489984.0, 65419596.0, 9849849.0]
