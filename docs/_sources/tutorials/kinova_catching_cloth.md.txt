@@ -5,7 +5,29 @@
 
 In this tutorial, we will begin the multi-physics attributes in RFUniverse and create a scene in which a Kinova Gen2 robot arm tries to catch the falling cloth object. This environment is also RL-supported and codes will be in OpenAI-Gym style.
 
-## Requirements
+## Quick Start
+
+For users who are not familiar with Unity Editor, we have built this scene in the latest version of [RFUniverse Release](https://github.com/mvig-robotflow/rfuniverse/releases). Please download it, follow [README](https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md) to setup your environment and enjoy!
+
+To use this environment, you can use the following code, which is also available [here](https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_catching_cloth_gym.py).
+
+```python
+from pyrfuniverse.envs.multi_physics import KinovaGen2CatchingClothEnv
+
+env = KinovaGen2CatchingClothEnv(urdf_file='../Mesh/jaco/j2s7s300_gym.urdf')
+env.reset()
+
+while 1:
+    obs, reward, done, info = env.step(env.action_space.sample())
+    if done:
+        env.reset()
+```
+
+## Build Scene in Unity
+
+First of all, we should build the scene in Unity Editor. In this experiment, we need a Kinova Gen2 (also known as Jaco) robot and a cloth which can interact with our robot. Besides, thanks to the awesome work of Obi Cloth, we can also add a Force Zone to the cloth to further affect its behavior and interaction to make this task more difficult and interesting. Let's build this scene step by step.
+
+### Requirements
 
 1. Clone the RFUniverse Unity side repository.
 ```bash
@@ -13,10 +35,6 @@ In this tutorial, we will begin the multi-physics attributes in RFUniverse and c
 ```
 2. Install the Unity Editor (>= 2021.3) and open the project cloned above.
 3. Install [Obi Cloth Plugin](https://assetstore.unity.com/packages/tools/physics/obi-cloth-81333).
-
-## Build Scene in Unity
-
-First of all, we should build the scene in Unity Editor. In this experiment, we need a Kinova Gen2 (also known as Jaco) robot and a cloth which can interact with our robot. Besides, thanks to the awesome work of Obi Cloth, we can also add a Force Zone to the cloth to further affect its behavior and interaction to make this task more difficult and interesting. Let's build this scene step by step.
 
 ### Add general prefab into a new scene
 

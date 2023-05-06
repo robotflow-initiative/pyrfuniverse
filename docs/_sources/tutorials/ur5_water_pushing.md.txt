@@ -5,7 +5,31 @@
 
 In this tutorial, we will continue the multi-physics attribute of RFUniverse and build an RL environment for simulating a UR5 robot grasping a water pipe. The UR5 agent should be trained to move to correct position and make the water push a cube to its target range. This environment is also RL-supported and codes will be in OpenAI-Gym style.
 
-## Requirements
+Warning: The plug-in of this scene is only available on Windows platform. If your algorithm needs to run on Linux, we recommend using [Windows WSL](https://learn.microsoft.com/en-us/windows/wsl/install) as the algorithm-end and Windows for the simulation-end. In this way, you do not need to modify any code.
+
+## Quick Start
+
+For users who are not familiar with Unity Editor, we have built this scene in the latest version of [RFUniverse Release](https://github.com/mvig-robotflow/rfuniverse/releases). Please download it, follow [README](https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md) to setup your environment and enjoy!
+
+To use this environment, you can use the following code, which is also available [here](https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_water_shooting_gym.py).
+
+```python
+from pyrfuniverse.envs.multi_physics import UR5WaterShootingEnv
+
+env = UR5WaterShootingEnv(urdf_file='../Mesh/UR5/ur5_robotiq_85.urdf')
+env.reset()
+
+while 1:
+    obs, reward, done, info = env.step(env.action_space.sample())
+    if done:
+        env.reset()
+```
+
+## Build scene in Unity
+
+First of all, just like the previous tutorials, we must setup the scene in Unity Editor. In this experiment, we will use a UR5 robot as the agent. But the most important part is to use Zibra Liquid to simulate water and interact with a rigid cube. We will look in the process step by step.
+
+### Requirements
 
 1. Clone the RFUniverse Unity side repository.
 ```bash
@@ -13,10 +37,6 @@ In this tutorial, we will continue the multi-physics attribute of RFUniverse and
 ```
 2. Install the Unity Editor (>= 2021.3) and open the project cloned above.
 3. Install [Zibra Liquid Plugin](https://assetstore.unity.com/packages/tools/physics/zibra-liquids-200718).
-
-## Build scene in Unity
-
-First of all, just like the previous tutorials, we must setup the scene in Unity Editor. In this experiment, we will use a UR5 robot as the agent. But the most important part is to use Zibra Liquid to simulate water and interact with a rigid cube. We will look in the process step by step.
 
 ### Add general prefab into a new scene
 

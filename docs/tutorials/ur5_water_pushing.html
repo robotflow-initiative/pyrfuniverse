@@ -47,22 +47,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../markdown/understanding_pyrfuniverse.html">Understanding pyrfuniverse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../markdown/advanced_usages.html">Advanced Usage Guides</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../examples/camera_rendering.html">Camera Rendering Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/point_cloud.html">Point Cloud from Images Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/scene_annotation.html">Annotating Image and Scene Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/loading_urdf.html">Loading URDF File Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/pick_and_place.html">Pick and Place Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/tobor_move.html">Embodied Robot Controlling Example</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="franka_robotics.html">Franka Robotics RL Environment Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">UR5 Water Pushing RL Environment Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-scene-in-unity">Build scene in Unity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#add-general-prefab-into-a-new-scene">Add general prefab into a new scene</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#add-ur5-robot">Add UR5 robot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-zibra-liquid-emitter-and-void">Create Zibra Liquid, Emitter and Void</a></li>
@@ -81,6 +73,15 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/camera_rendering.html">Camera Rendering Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/point_cloud.html">Point Cloud from Images Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/scene_annotation.html">Annotating Image and Scene Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/loading_urdf.html">Loading URDF File Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/pick_and_place.html">Pick and Place Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/tobor_move.html">Embodied Robot Controlling Example</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -117,8 +118,28 @@
 <span id="ur5-water"></span><h1>UR5 Water Pushing RL Environment Tutorial<a class="headerlink" href="#ur5-water-pushing-rl-environment-tutorial" title="Permalink to this heading"></a></h1>
 <p><img alt="water/water_pushing.jpg" src="../_images/water_pushing.jpg" /></p>
 <p>In this tutorial, we will continue the multi-physics attribute of RFUniverse and build an RL environment for simulating a UR5 robot grasping a water pipe. The UR5 agent should be trained to move to correct position and make the water push a cube to its target range. This environment is also RL-supported and codes will be in OpenAI-Gym style.</p>
+<p>Warning: The plug-in of this scene is only available on Windows platform. If your algorithm needs to run on Linux, we recommend using <a class="reference external" href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows WSL</a> as the algorithm-end and Windows for the simulation-end. In this way, you do not need to modify any code.</p>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<p>For users who are not familiar with Unity Editor, we have built this scene in the latest version of <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/releases">RFUniverse Release</a>. Please download it, follow <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md">README</a> to setup your environment and enjoy!</p>
+<p>To use this environment, you can use the following code, which is also available <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_water_shooting_gym.py">here</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrfuniverse.envs.multi_physics</span> <span class="kn">import</span> <span class="n">UR5WaterShootingEnv</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">UR5WaterShootingEnv</span><span class="p">(</span><span class="n">urdf_file</span><span class="o">=</span><span class="s1">&#39;../Mesh/UR5/ur5_robotiq_85.urdf&#39;</span><span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+<span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">obs</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="build-scene-in-unity">
+<h2>Build scene in Unity<a class="headerlink" href="#build-scene-in-unity" title="Permalink to this heading"></a></h2>
+<p>First of all, just like the previous tutorials, we must setup the scene in Unity Editor. In this experiment, we will use a UR5 robot as the agent. But the most important part is to use Zibra Liquid to simulate water and interact with a rigid cube. We will look in the process step by step.</p>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p>Clone the RFUniverse Unity side repository.</p></li>
 </ol>
@@ -130,9 +151,6 @@
 <li><p>Install <a class="reference external" href="https://assetstore.unity.com/packages/tools/physics/zibra-liquids-200718">Zibra Liquid Plugin</a>.</p></li>
 </ol>
 </section>
-<section id="build-scene-in-unity">
-<h2>Build scene in Unity<a class="headerlink" href="#build-scene-in-unity" title="Permalink to this heading"></a></h2>
-<p>First of all, just like the previous tutorials, we must setup the scene in Unity Editor. In this experiment, we will use a UR5 robot as the agent. But the most important part is to use Zibra Liquid to simulate water and interact with a rigid cube. We will look in the process step by step.</p>
 <section id="add-general-prefab-into-a-new-scene">
 <h3>Add general prefab into a new scene<a class="headerlink" href="#add-general-prefab-into-a-new-scene" title="Permalink to this heading"></a></h3>
 <p>This is to add <code class="docutils literal notranslate"><span class="pre">RFUniverse</span></code> into a newly created scene. This step is the same with previous tutorials.</p>

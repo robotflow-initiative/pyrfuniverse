@@ -18,7 +18,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Kinova Gen2 Catching Cloth RL Environment Tutorial" href="kinova_catching_cloth.html" />
-    <link rel="prev" title="Embodied Robot Controlling Example" href="../examples/tobor_move.html" /> 
+    <link rel="prev" title="Advanced Usage Guides" href="../markdown/advanced_usages.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,20 +47,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../markdown/understanding_pyrfuniverse.html">Understanding pyrfuniverse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../markdown/advanced_usages.html">Advanced Usage Guides</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../examples/camera_rendering.html">Camera Rendering Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/point_cloud.html">Point Cloud from Images Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/scene_annotation.html">Annotating Image and Scene Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/loading_urdf.html">Loading URDF File Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/pick_and_place.html">Pick and Place Example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/tobor_move.html">Embodied Robot Controlling Example</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Franka Robotics RL Environment Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-scene-in-unity">Build scene in Unity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-new-scene">Create a new scene</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#add-general-prefab-into-the-scene">Add general prefab into the scene</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-the-goal">Create the goal</a></li>
@@ -82,6 +74,15 @@
 <li class="toctree-l1"><a class="reference internal" href="kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ur5_water_pushing.html">UR5 Water Pushing RL Environment Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/camera_rendering.html">Camera Rendering Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/point_cloud.html">Point Cloud from Images Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/scene_annotation.html">Annotating Image and Scene Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/loading_urdf.html">Loading URDF File Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/pick_and_place.html">Pick and Place Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/tobor_move.html">Embodied Robot Controlling Example</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -119,8 +120,41 @@
 <p><img alt="franka/franka-pick-and-place.gif" src="../_images/franka-pick-and-place.gif" /></p>
 <p>From the previous pages and examples, you should have some basic knowledge and understanding on the data flow and API usage in RFUniverse. In all examples mentioned above, we use Unity Editor or the default unity executable file as the Unity side server and use pure python code to control and operate objects in Unity. However, our built-in assets cannot be enough for every task in this world. Fortunately, RFUniverse leaves users enough freedom to create their own simulation environments and use their own robots to do anything they want.</p>
 <p>In this tutorial, we will create a Franka robot environment for Reinforcement Learning. The python code will be in OpenAI-Gym style so that most RL algorithms can be used to train directly. The environment setting is inspired by <a class="reference external" href="https://github.com/qgallouedec/panda-gym">panda-gym</a>.</p>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<p>For users who are not familiar with Unity Editor, we have built this scene in the latest version of <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/releases">RFUniverse Release</a>. Please download it, follow <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md">README</a> to setup your environment and enjoy!</p>
+<p>To use this environment, you can use the following code, which is also available <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_pick_and_place_gym.py">here</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrfuniverse.envs.robotics</span> <span class="kn">import</span> <span class="n">FrankaRoboticsEnv</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">FrankaRoboticsEnv</span><span class="p">(</span>
+    <span class="c1"># executable_file=&#39;@editor&#39;,</span>
+    <span class="n">scene_file</span><span class="o">=</span><span class="s1">&#39;FrankaRobotics.json&#39;</span><span class="p">,</span>
+    <span class="n">max_episode_length</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">reward_type</span><span class="o">=</span><span class="s1">&#39;sparse&#39;</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">load_object</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">target_in_air</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">block_gripper</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">target_xz_range</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">target_y_range</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+    <span class="n">object_xz_range</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">asset_bundle_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">assets</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Rigidbody_Box&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+<span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">obs</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="build-scene-in-unity">
+<h2>Build scene in Unity<a class="headerlink" href="#build-scene-in-unity" title="Permalink to this heading"></a></h2>
 <section id="requirements">
-<span id="tutorial-requirements"></span><h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="tutorial-requirements"></span><h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p>Clone the RFUniverse Unity side repository.</p></li>
 </ol>
@@ -131,8 +165,6 @@
 <li><p>Install the Unity Editor (&gt;= 2021.3) and open the project cloned above.</p></li>
 </ol>
 </section>
-<section id="build-scene-in-unity">
-<h2>Build scene in Unity<a class="headerlink" href="#build-scene-in-unity" title="Permalink to this heading"></a></h2>
 <section id="create-a-new-scene">
 <h3>Create a new scene<a class="headerlink" href="#create-a-new-scene" title="Permalink to this heading"></a></h3>
 <p>First, navigate to <code class="docutils literal notranslate"><span class="pre">Assets/Scene</span></code> in <code class="docutils literal notranslate"><span class="pre">Project</span></code> window and create a new scene with any name (e.g. named <code class="docutils literal notranslate"><span class="pre">Franka-Robotics-RL</span></code>). Then double-click the scene file to open it in Editor.</p>
@@ -338,7 +370,7 @@ We can load the object using the following code.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../examples/tobor_move.html" class="btn btn-neutral float-left" title="Embodied Robot Controlling Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../markdown/advanced_usages.html" class="btn btn-neutral float-left" title="Advanced Usage Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="kinova_catching_cloth.html" class="btn btn-neutral float-right" title="Kinova Gen2 Catching Cloth RL Environment Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

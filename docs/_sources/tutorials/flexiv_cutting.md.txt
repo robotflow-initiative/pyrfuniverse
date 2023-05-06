@@ -5,7 +5,29 @@
 
 In this tutorial, we will continue the multi-physics attributes to set up a goal-conditioned RL environment for cutting banana using Flexiv robot. The cutting is implemented by deleting vertices to a `.msh` file, which contains many vertices at surface as well as inside. The cut object is modeled with FEM. As you can see from the image above, our cutting can achieve real-time and real cutting.
 
-## Requirements
+Warning: The plug-in of this scene is only available on Windows platform. If your algorithm needs to run on Linux, we recommend using [Windows WSL](https://learn.microsoft.com/en-us/windows/wsl/install) as the algorithm-end and Windows for the simulation-end. In this way, you do not need to modify any code.
+
+## Quick Start
+
+For users who are not familiar with Unity Editor, we have built this scene in the latest version of [RFUniverse Release](https://github.com/mvig-robotflow/rfuniverse/releases). Please download it, follow [README](https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md) to setup your environment and enjoy!
+
+To use this environment, you can use the following code, which is also available [here](https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_flexiv_cutting_gym.py).
+
+```python
+from pyrfuniverse.envs.multi_physics import FlexivCuttingEnv
+
+env = FlexivCuttingEnv()
+env.reset()
+
+while 1:
+    obs, reward, done, info = env.step(env.action_space.sample())
+    if done:
+        env.reset()
+```
+
+## Build scene in Unity
+
+### Requirements
 
 1. Clone the RFUniverse Unity side repository.
 ```bash
@@ -13,8 +35,6 @@ In this tutorial, we will continue the multi-physics attributes to set up a goal
 ```
 2. Install the Unity Editor (>= 2021.3) and open the project cloned above.
 3. Install [Sofa Unity Plugin](https://www.sofa-framework.org/applications/marketplace/sofa-asset-for-unity3d/).
-
-## Build scene in Unity
 
 ### Add general prefab into a new scene
 

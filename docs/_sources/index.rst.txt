@@ -17,6 +17,15 @@ pyrfuniverse API Documentation
 
 .. toctree::
    :maxdepth: 1
+   :caption: Tutorials
+
+   tutorials/franka_robotics
+   tutorials/kinova_catching_cloth
+   tutorials/ur5_water_pushing
+   tutorials/flexiv_cutting
+
+.. toctree::
+   :maxdepth: 1
    :caption: Examples
 
    examples/camera_rendering
@@ -25,15 +34,6 @@ pyrfuniverse API Documentation
    examples/loading_urdf
    examples/pick_and_place
    examples/tobor_move
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Tutorials
-
-   tutorials/franka_robotics
-   tutorials/kinova_catching_cloth
-   tutorials/ur5_water_pushing
-   tutorials/flexiv_cutting
 
 .. toctree::
    :maxdepth: 1

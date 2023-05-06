@@ -12,13 +12,15 @@ To help users get familiar with RFUniverse, we write this documentation and hope
 
 In introduction part, we also prepare other contents including [Get Started](get_started_1), [Understanding pyrfuniverse](understanding_pyrfuniverse_1) and [Advanced Usage Guides](advanced_usage_guides). We strongly recommend users go through these pages before proceeding.
 
-## Examples
-
-In examples part, we provide some examples where users can test their installation, try our APIs and extend their functions.
-
 ## Tutorials
 
-In tutorial part, we use 4 cases to teach users how to build an RL environment using `Unity` and `pyrfuniverse` from scratch. The 4 cases include rigid and multi-body dynamics, air-solid interaction, fluid-solid interaction as well as physics-based cutting. Meanwhile, all these environments are corresponding to the experiments in paper.
+In tutorial part, we use 4 cases to teach users how to build an RL environment using `Unity` and `pyrfuniverse` from scratch. The 4 cases include rigid and multi-body dynamics, air-solid interaction, fluid-solid interaction as well as physics-based cutting. Meanwhile, all these environments are corresponding to the experiments in paper. 
+
+For users who are not familiar with Unity Editor, we also provide a 'Quick Start' option at the beginning where users can use our pre-build package directly.
+
+## Examples
+
+In examples part, we provide several documented examples where users can test their installation, try our APIs, get familiar with `pyrfuniverse` API and usages, as well as extend their functions.
 
 ## API Reference
 

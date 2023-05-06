@@ -18,7 +18,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pyrfuniverse.attributes package" href="pyrfuniverse.attributes.html" />
-    <link rel="prev" title="Flexiv Cutting RL Environment Tutorial" href="tutorials/flexiv_cutting.html" /> 
+    <link rel="prev" title="Embodied Robot Controlling Example" href="examples/tobor_move.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,6 +47,13 @@
 <li class="toctree-l1"><a class="reference internal" href="markdown/understanding_pyrfuniverse.html">Understanding pyrfuniverse</a></li>
 <li class="toctree-l1"><a class="reference internal" href="markdown/advanced_usages.html">Advanced Usage Guides</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/franka_robotics.html">Franka Robotics RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/ur5_water_pushing.html">UR5 Water Pushing RL Environment Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="examples/camera_rendering.html">Camera Rendering Example</a></li>
@@ -55,13 +62,6 @@
 <li class="toctree-l1"><a class="reference internal" href="examples/loading_urdf.html">Loading URDF File Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/pick_and_place.html">Pick and Place Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/tobor_move.html">Embodied Robot Controlling Example</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/franka_robotics.html">Franka Robotics RL Environment Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/ur5_water_pushing.html">UR5 Water Pushing RL Environment Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/flexiv_cutting.html">Flexiv Cutting RL Environment Tutorial</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
@@ -72,6 +72,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.close"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.close()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.GetAttr"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.GetAttr()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.LoadSceneAsync"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.LoadSceneAsync()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SwitchSceneAsync"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.SwitchSceneAsync()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.WaitLoadDone"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.WaitLoadDone()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Pend"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.Pend()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SendMessage"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.SendMessage()</span></code></a></li>
@@ -207,6 +208,20 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> – Str, the scene JSON file. If it’s a relative path, it will load from <cite>StraemingAssets</cite>.</p></li>
+<li><p><strong>auto_wait</strong> – Bool, if True, this function will not return until the loading is done.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SwitchSceneAsync">
+<span class="sig-name descname"><span class="pre">SwitchSceneAsync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_wait</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SwitchSceneAsync" title="Permalink to this definition"></a></dt>
+<dd><p>Switch the scene asynchronisely.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Str, the scene name.</p></li>
 <li><p><strong>auto_wait</strong> – Bool, if True, this function will not return until the loading is done.</p></li>
 </ul>
 </dd>
@@ -721,7 +736,7 @@ garbage collected or when the program exits.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="tutorials/flexiv_cutting.html" class="btn btn-neutral float-left" title="Flexiv Cutting RL Environment Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples/tobor_move.html" class="btn btn-neutral float-left" title="Embodied Robot Controlling Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="pyrfuniverse.attributes.html" class="btn btn-neutral float-right" title="pyrfuniverse.attributes package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

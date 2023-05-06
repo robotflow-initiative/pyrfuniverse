@@ -7,15 +7,48 @@ From the previous pages and examples, you should have some basic knowledge and u
 
 In this tutorial, we will create a Franka robot environment for Reinforcement Learning. The python code will be in OpenAI-Gym style so that most RL algorithms can be used to train directly. The environment setting is inspired by [panda-gym](https://github.com/qgallouedec/panda-gym).
 
+## Quick Start
+
+For users who are not familiar with Unity Editor, we have built this scene in the latest version of [RFUniverse Release](https://github.com/mvig-robotflow/rfuniverse/releases). Please download it, follow [README](https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md) to setup your environment and enjoy!
+
+To use this environment, you can use the following code, which is also available [here](https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_pick_and_place_gym.py).
+
+```python
+from pyrfuniverse.envs.robotics import FrankaRoboticsEnv
+
+env = FrankaRoboticsEnv(
+    # executable_file='@editor',
+    scene_file='FrankaRobotics.json',
+    max_episode_length=500,
+    reward_type='sparse',
+    seed=None,
+    tolerance=0.05,
+    load_object=True,
+    target_in_air=True,
+    block_gripper=False,
+    target_xz_range=0.15,
+    target_y_range=0.6,
+    object_xz_range=0.15,
+    asset_bundle_file=None,
+    assets=['Rigidbody_Box']
+)
+env.reset()
+
+while 1:
+    obs, reward, done, info = env.step(env.action_space.sample())
+    if done:
+        env.reset()
+```
+
+## Build scene in Unity
+
 (tutorial_requirements)=
-## Requirements
+### Requirements
 1. Clone the RFUniverse Unity side repository.
 ```bash
     git clone https://github.com/mvig-robotflow/rfuniverse.git
 ```
 2. Install the Unity Editor (>= 2021.3) and open the project cloned above.
-
-## Build scene in Unity
 
 ### Create a new scene
 First, navigate to `Assets/Scene` in `Project` window and create a new scene with any name (e.g. named `Franka-Robotics-RL`). Then double-click the scene file to open it in Editor.
