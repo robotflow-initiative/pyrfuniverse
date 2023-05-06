@@ -47,7 +47,7 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
 
         self.seed(seed)
         self._env_setup()
-        self.init_pos = np.array(self.instance_channel.data[9658740]['positions'][3])
+        self.init_pos = [0.15, 0.3, 0]
         self.t = 0
         self.goal = self._sample_goal()
         self.action_space = spaces.Box(
