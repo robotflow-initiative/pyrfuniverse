@@ -1,12 +1,9 @@
 import math
-from pyrfuniverse.envs import RFUniverseBaseEnv
 from pyrfuniverse.envs import RFUniverseGymWrapper
-from pyrfuniverse.assets import join_path
 from pyrfuniverse.utils.jaco_controller import RFUniverseJacoController
 import numpy as np
 from gym import spaces
 from gym.utils import seeding
-import copy
 import pybullet as p
 
 
@@ -16,13 +13,14 @@ class KinovaGen2CatchingClothEnv(RFUniverseGymWrapper):
     y_bound = 3.8
     kinova_init_y = 4.8
     object2id = {
-        'kinova': 221584,
-        'target': 1234,
+        'kinova': 1001,
+        'target': 1000,
         'cloth': 89212
     }
 
     def __init__(
             self,
+            urdf_file,
             lock_eef_height=False,
             with_force_zone=False,
             force_zone_intensity=1,
@@ -31,11 +29,12 @@ class KinovaGen2CatchingClothEnv(RFUniverseGymWrapper):
             cloth_init_pos_min=(-1.5, 8, 3.3),
             cloth_init_pos_max=(1.5, 8, 6.3),
             executable_file=None,
-            assets=('FallingClothSolver',),
+            assets=['FallingClothSolver'],
     ):
         super().__init__(
-            executable_file,
-            assets=list(assets)
+            executable_file=executable_file,
+            scene_file='CatchingCloth.json',
+            assets=assets
         )
         self.lock_eef_height = lock_eef_height
         self.with_force_zone = with_force_zone
@@ -48,10 +47,8 @@ class KinovaGen2CatchingClothEnv(RFUniverseGymWrapper):
         self.eef_orn = p.getQuaternionFromEuler(np.array([0, 0, 0]))
 
         self.seed()
-        # self._load_cloth()
-        self.ik_controller = RFUniverseJacoController(
-            robot_urdf=join_path('Robots/jaco/j2s7s300_gym.urdf')
-        )
+        self._load_cloth()
+        self.ik_controller = RFUniverseJacoController(urdf_file)
         self.t = 0
         if not self.lock_eef_height:
             self.action_space = spaces.Box(

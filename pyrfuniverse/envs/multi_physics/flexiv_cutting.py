@@ -1,12 +1,9 @@
 from pyrfuniverse.envs import RFUniverseGymGoalWrapper
-from pyrfuniverse.envs import RFUniverseBaseEnv
 import numpy as np
 from gym import spaces
 from gym.utils import seeding
 import math
 from pyrfuniverse.utils.interpolate_utils import sine_interpolate
-import copy
-import os
 
 
 class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
@@ -17,7 +14,6 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
         'target': 9413,
         'knife': 35452,
         'goal_knife': 35451,
-        'reloader': 15555
     }
 
     def __init__(
@@ -38,7 +34,7 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
             executable_file=executable_file,
             assets=assets
         )
-
+        self._reload_scene()
         self.scale = 5
         self.fixed_delta_time = 0.02
         self.max_steps = max_steps
@@ -250,12 +246,7 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
         self._init_ag95()
 
     def _reload_scene(self):
-        self.instance_channel.set_action(
-            'ReloadCurrentScene',
-            id=self.object2id['reloader'],
-            preserve=True,
-            preservedObjectName='Agent'
-        )
+        self.SwitchSceneAsync('FlexivSOFA', True)
         self._step()
 
     def _init_flexiv_target_offset(self, offset):

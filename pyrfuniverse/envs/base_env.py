@@ -124,10 +124,10 @@ class RFUniverseBaseEnv(ABC):
                 no_graphics=not self.graphics,
             )
         self._SendVersion()
-        if self.scene_file is not None:
-            self.LoadSceneAsync(self.scene_file, True)
         if len(self.assets) > 0:
             self._PreLoadAssetsAsync(self.assets, True)
+        if self.scene_file is not None:
+            self.LoadSceneAsync(self.scene_file, True)
         self.env.reset()
 
     def _init_channels(self, kwargs: dict):
@@ -207,6 +207,24 @@ class RFUniverseBaseEnv(ABC):
 
         msg.write_string('LoadSceneAsync')
         msg.write_string(file)
+
+        self.asset_channel.send_message(msg)
+
+        if auto_wait:
+            self.WaitLoadDone()
+
+    def SwitchSceneAsync(self, name: str, auto_wait: bool = False) -> None:
+        """
+        Switch the scene asynchronisely.
+
+        Args:
+            name: Str, the scene name.
+            auto_wait: Bool, if True, this function will not return until the loading is done.
+        """
+        msg = OutgoingMessage()
+
+        msg.write_string('SwitchSceneAsync')
+        msg.write_string(name)
 
         self.asset_channel.send_message(msg)
 

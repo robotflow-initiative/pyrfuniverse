@@ -1,5 +1,7 @@
 import warnings
 
+import numpy as np
+
 from pyrfuniverse.side_channel.side_channel import (
     IncomingMessage,
     OutgoingMessage,
@@ -124,8 +126,8 @@ class AssetChannel(RFUniverseChannel):
                 msg.write_bool(i)
             elif type(i) == int:
                 msg.write_int32(i)
-            elif type(i) == float:
-                msg.write_float32(i)
+            elif type(i) == float or type(i) == np.float32 or type(i) == np.float64:
+                msg.write_float32(float(i))
             elif type(i) == list and type(i[0]) == float:
                 msg.write_float32_list(i)
             else:

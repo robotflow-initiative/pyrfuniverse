@@ -6,7 +6,6 @@ __all__ = [
     'KinovaGen2CatchingClothEnv', 'UR5WaterShootingEnv', 'FlexivCuttingEnv'
 ]
 
-from pyrfuniverse.assets import join_path
 try:
     from gym.envs.registration import register
 
@@ -17,7 +16,7 @@ try:
             'lock_eef_height': True,
             'with_force_zone': True,
             'max_steps': 100,
-            'executable_file': join_path('KinovaGen2CatchingCloth/RFUniverse.x86_64')
+            # 'executable_file': join_path('KinovaGen2CatchingCloth/RFUniverse.x86_64')
         },
     )
 

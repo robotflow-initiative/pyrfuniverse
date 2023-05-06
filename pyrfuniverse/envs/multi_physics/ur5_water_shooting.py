@@ -1,32 +1,27 @@
 from pyrfuniverse.envs import RFUniverseGymGoalWrapper
-from pyrfuniverse.envs import RFUniverseBaseEnv
 from pyrfuniverse.utils.ur5_controller import RFUniverseUR5Controller
-from pyrfuniverse import assets_path
 import numpy as np
 import pybullet as p
 from gym import spaces
 from gym.utils import seeding
 import math
-import copy
-import os
 
 
 class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
     metadata = {'render.modes': ['human', 'rgb_array']}
     object2id = {
-        'ur5': 184297,
-        'robotiq85': 1842970,
-        'target': 9413,
-        'right_finger': 18429700,
-        'left_finger': 18429701,
-        'liquid': 15973,
-        'emitter': 159730,
-        'cube': 35452,
-        'goal': 35451
+        'ur5': 1001,
+        'robotiq85': 10010,
+        'target': 1003,
+        'right_finger': 100100,
+        'left_finger': 100101,
+        'cube': 1002,
+        'goal': 1000
     }
 
     def __init__(
             self,
+            urdf_file,
             max_steps=100,
             object_range_low=(-20, 1, -5),
             object_range_high=(-16, 1, 5),
@@ -40,6 +35,7 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
     ):
         super().__init__(
             executable_file=executable_file,
+            scene_file='WaterShooting.json',
             assets=assets
         )
 
@@ -53,8 +49,7 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
         self.volume_per_time_step_range = np.array(volume_per_time_step_range)
         self.liquid_init_velocity_range = np.array(liquid_init_velocity_range)
 
-        self.ik_controller = RFUniverseUR5Controller(
-            os.path.join(assets_path, 'UR5/ur5_robotiq_85.urdf'),
+        self.ik_controller = RFUniverseUR5Controller(urdf_file,
             init_joint_positions=[0, -2 * math.pi / 3, math.pi / 2, 0, 0, 0]
         )
         self.eef_orn = p.getQuaternionFromEuler(np.array([-math.pi / 2, 0, -math.pi / 2]))
@@ -186,19 +181,9 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
         return np.array(goal)
 
     def _reset_liquid(self):
-        self.instance_channel.set_action(
-            action='SetZibraLiquid',
-            attr_name='custom_attr',
-            id=self.object2id['liquid'],
-            enable=False
-        )
+        self.asset_channel.SendMessage('SetZibraLiquid', False)
         self._step()
-        self.instance_channel.set_action(
-            action='SetZibraLiquid',
-            attr_name='custom_attr',
-            id=self.object2id['liquid'],
-            enable=True
-        )
+        self.asset_channel.SendMessage('SetZibraLiquid', True)
         self._step()
 
     def _reset_object(self):
@@ -295,13 +280,7 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
             (1 - prop) * self.volume_per_time_step_range[0]
         liquid_init_velocity = prop * self.liquid_init_velocity_range[1] + \
             (1 - prop) * self.liquid_init_velocity_range[0]
-        self.instance_channel.set_action(
-            'SetZibraLiquidEmitter',
-            attr_name='custom_attr',
-            id=self.object2id['emitter'],
-            volumePerSimTime=volume_per_time_step,
-            initVelocity=[0, -liquid_init_velocity, 0]
-        )
+        self.asset_channel.SendMessage('SetZibraLiquidEmitter', volume_per_time_step, 0., -liquid_init_velocity, 0.)
         self._step()
 
     def _check_success(self, achieved_goal, desired_goal):
