@@ -50,7 +50,7 @@
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Franka Robotics RL Environment Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start-with-prebuilt-scene">Quick Start with prebuilt scene</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-scene-in-unity">Build scene in Unity</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-a-new-scene">Create a new scene</a></li>
@@ -118,10 +118,10 @@
   <section id="franka-robotics-rl-environment-tutorial">
 <span id="franka-robotics"></span><h1>Franka Robotics RL Environment Tutorial<a class="headerlink" href="#franka-robotics-rl-environment-tutorial" title="Permalink to this heading"></a></h1>
 <p><img alt="franka/franka-pick-and-place.gif" src="../_images/franka-pick-and-place.gif" /></p>
-<p>From the previous pages and examples, you should have some basic knowledge and understanding on the data flow and API usage in RFUniverse. In all examples mentioned above, we use Unity Editor or the default unity executable file as the Unity side server and use pure python code to control and operate objects in Unity. However, our built-in assets cannot be enough for every task in this world. Fortunately, RFUniverse leaves users enough freedom to create their own simulation environments and use their own robots to do anything they want.</p>
+<p>From previous pages, you should have some basic knowledge and understanding on the data flow and API usage in RFUniverse. In the <a class="reference internal" href="../markdown/understanding_pyrfuniverse.html#first-example"><span class="std std-ref">example</span></a> mentioned ealier, we use the default unity executable file as the Unity side server and use pure python code to control and operate objects in Unity. Besides, we can also use Unity Editor to open our <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse">Unity project</a> as the Unity side server. However, our built-in assets cannot be enough for every task in this world. Fortunately, RFUniverse leaves users enough freedom to create their own simulation environments and use their own robots to do anything they want.</p>
 <p>In this tutorial, we will create a Franka robot environment for Reinforcement Learning. The python code will be in OpenAI-Gym style so that most RL algorithms can be used to train directly. The environment setting is inspired by <a class="reference external" href="https://github.com/qgallouedec/panda-gym">panda-gym</a>.</p>
-<section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<section id="quick-start-with-prebuilt-scene">
+<h2>Quick Start with prebuilt scene<a class="headerlink" href="#quick-start-with-prebuilt-scene" title="Permalink to this heading"></a></h2>
 <p>For users who are not familiar with Unity Editor, we have built this scene in the latest version of <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/releases">RFUniverse Release</a>. Please download it, follow <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md">README</a> to setup your environment and enjoy!</p>
 <p>To use this environment, you can use the following code, which is also available <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_pick_and_place_gym.py">here</a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrfuniverse.envs.robotics</span> <span class="kn">import</span> <span class="n">FrankaRoboticsEnv</span>

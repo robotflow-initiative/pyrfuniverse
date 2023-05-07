@@ -52,7 +52,7 @@
 <li class="toctree-l1"><a class="reference internal" href="franka_robotics.html">Franka Robotics RL Environment Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">UR5 Water Pushing RL Environment Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start-with-prebuilt-scene">Quick Start with prebuilt scene</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-scene-in-unity">Build scene in Unity</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#add-general-prefab-into-a-new-scene">Add general prefab into a new scene</a></li>
@@ -119,8 +119,8 @@
 <p><img alt="water/water_pushing.jpg" src="../_images/water_pushing.jpg" /></p>
 <p>In this tutorial, we will continue the multi-physics attribute of RFUniverse and build an RL environment for simulating a UR5 robot grasping a water pipe. The UR5 agent should be trained to move to correct position and make the water push a cube to its target range. This environment is also RL-supported and codes will be in OpenAI-Gym style.</p>
 <p>Warning: The plug-in of this scene is only available on Windows platform. If your algorithm needs to run on Linux, we recommend using <a class="reference external" href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows WSL</a> as the algorithm-end and Windows for the simulation-end. In this way, you do not need to modify any code.</p>
-<section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<section id="quick-start-with-prebuilt-scene">
+<h2>Quick Start with prebuilt scene<a class="headerlink" href="#quick-start-with-prebuilt-scene" title="Permalink to this heading"></a></h2>
 <p>For users who are not familiar with Unity Editor, we have built this scene in the latest version of <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/releases">RFUniverse Release</a>. Please download it, follow <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md">README</a> to setup your environment and enjoy!</p>
 <p>To use this environment, you can use the following code, which is also available <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_water_shooting_gym.py">here</a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrfuniverse.envs.multi_physics</span> <span class="kn">import</span> <span class="n">UR5WaterShootingEnv</span>

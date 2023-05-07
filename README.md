@@ -5,7 +5,7 @@
 `pyrfuniverse` is a python package used to interact with `RFUniverse` simulation environment. It is developed upon
 [ML-Agents](https://github.com/Unity-Technologies/ml-agents) and produce new features.
 
-[Documentation](https://mvig-robotflow.github.io/pyrfuniverse/)
+[Documentation](https://docs.robotflow.ai/pyrfuniverse)
 
 [Homepage](https://sites.google.com/view/rfuniverse)
 

@@ -53,7 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="kinova_catching_cloth.html">Kinova Gen2 Catching Cloth RL Environment Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ur5_water_pushing.html">UR5 Water Pushing RL Environment Tutorial</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Flexiv Cutting RL Environment Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start-with-prebuilt-scene">Quick Start with prebuilt scene</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-scene-in-unity">Build scene in Unity</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#add-general-prefab-into-a-new-scene">Add general prefab into a new scene</a></li>
@@ -117,8 +117,8 @@
 <p><img alt="cutting/cutting.jpg" src="../_images/cutting.jpg" /></p>
 <p>In this tutorial, we will continue the multi-physics attributes to set up a goal-conditioned RL environment for cutting banana using Flexiv robot. The cutting is implemented by deleting vertices to a <code class="docutils literal notranslate"><span class="pre">.msh</span></code> file, which contains many vertices at surface as well as inside. The cut object is modeled with FEM. As you can see from the image above, our cutting can achieve real-time and real cutting.</p>
 <p>Warning: The plug-in of this scene is only available on Windows platform. If your algorithm needs to run on Linux, we recommend using <a class="reference external" href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows WSL</a> as the algorithm-end and Windows for the simulation-end. In this way, you do not need to modify any code.</p>
-<section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h2>
+<section id="quick-start-with-prebuilt-scene">
+<h2>Quick Start with prebuilt scene<a class="headerlink" href="#quick-start-with-prebuilt-scene" title="Permalink to this heading"></a></h2>
 <p>For users who are not familiar with Unity Editor, we have built this scene in the latest version of <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/releases">RFUniverse Release</a>. Please download it, follow <a class="reference external" href="https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md">README</a> to setup your environment and enjoy!</p>
 <p>To use this environment, you can use the following code, which is also available <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_flexiv_cutting_gym.py">here</a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrfuniverse.envs.multi_physics</span> <span class="kn">import</span> <span class="n">FlexivCuttingEnv</span>

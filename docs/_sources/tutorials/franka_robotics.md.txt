@@ -3,11 +3,11 @@
 
 ![franka/franka-pick-and-place.gif](franka/franka-pick-and-place.gif)
 
-From the previous pages and examples, you should have some basic knowledge and understanding on the data flow and API usage in RFUniverse. In all examples mentioned above, we use Unity Editor or the default unity executable file as the Unity side server and use pure python code to control and operate objects in Unity. However, our built-in assets cannot be enough for every task in this world. Fortunately, RFUniverse leaves users enough freedom to create their own simulation environments and use their own robots to do anything they want.
+From previous pages, you should have some basic knowledge and understanding on the data flow and API usage in RFUniverse. In the [example](first_example) mentioned ealier, we use the default unity executable file as the Unity side server and use pure python code to control and operate objects in Unity. Besides, we can also use Unity Editor to open our [Unity project](https://github.com/mvig-robotflow/rfuniverse) as the Unity side server. However, our built-in assets cannot be enough for every task in this world. Fortunately, RFUniverse leaves users enough freedom to create their own simulation environments and use their own robots to do anything they want.
 
 In this tutorial, we will create a Franka robot environment for Reinforcement Learning. The python code will be in OpenAI-Gym style so that most RL algorithms can be used to train directly. The environment setting is inspired by [panda-gym](https://github.com/qgallouedec/panda-gym).
 
-## Quick Start
+## Quick Start with prebuilt scene
 
 For users who are not familiar with Unity Editor, we have built this scene in the latest version of [RFUniverse Release](https://github.com/mvig-robotflow/rfuniverse/releases). Please download it, follow [README](https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md) to setup your environment and enjoy!
 

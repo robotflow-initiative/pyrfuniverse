@@ -7,7 +7,7 @@ In this tutorial, we will continue the multi-physics attributes to set up a goal
 
 Warning: The plug-in of this scene is only available on Windows platform. If your algorithm needs to run on Linux, we recommend using [Windows WSL](https://learn.microsoft.com/en-us/windows/wsl/install) as the algorithm-end and Windows for the simulation-end. In this way, you do not need to modify any code.
 
-## Quick Start
+## Quick Start with prebuilt scene
 
 For users who are not familiar with Unity Editor, we have built this scene in the latest version of [RFUniverse Release](https://github.com/mvig-robotflow/rfuniverse/releases). Please download it, follow [README](https://github.com/mvig-robotflow/rfuniverse/blob/main/README.md) to setup your environment and enjoy!
 
