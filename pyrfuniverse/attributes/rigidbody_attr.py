@@ -116,3 +116,18 @@ class RigidbodyAttr(attr.ColliderAttr):
         msg.write_float32(velocity[2])
 
         self.env.instance_channel.send_message(msg)
+
+    def SetKinematic(self, is_kinematic: bool):
+        """
+        Set the Rigidbody is kinematic or not.
+
+        Args:
+            is_kinematic: is kinematic or not.
+        """
+        msg = OutgoingMessage()
+
+        msg.write_int32(self.id)
+        msg.write_string('SetKinematic')
+        msg.write_bool(is_kinematic)
+
+        self.env.instance_channel.send_message(msg)

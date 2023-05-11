@@ -1,5 +1,6 @@
 import random
 from abc import ABC
+import numpy as np
 from pyrfuniverse.side_channel.side_channel import (
     IncomingMessage,
     OutgoingMessage,
@@ -272,8 +273,8 @@ class RFUniverseBaseEnv(ABC):
                 msg.write_bool(i)
             elif type(i) == int:
                 msg.write_int32(i)
-            elif type(i) == float:
-                msg.write_float32(i)
+            elif type(i) == float or type(i) == np.float32 or type(i) == np.float64:
+                msg.write_float32(float(i))
             elif type(i) == list and type(i[0]) == float:
                 msg.write_float32_list(i)
             else:
@@ -520,6 +521,20 @@ class RFUniverseBaseEnv(ABC):
         msg.write_float32(x)
         msg.write_float32(y)
         msg.write_float32(z)
+
+        self.asset_channel.send_message(msg)
+
+    def SetGroundActive(self, active: bool) -> None:
+        """
+        Set the ground active or inactive.
+
+        Args:
+            active: Bool, active or inactive the ground.
+        """
+        msg = OutgoingMessage()
+
+        msg.write_string('SetGroundActive')
+        msg.write_bool(active)
 
         self.asset_channel.send_message(msg)
 
