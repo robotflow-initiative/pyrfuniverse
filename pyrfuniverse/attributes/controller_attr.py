@@ -483,6 +483,12 @@ class ControllerAttr(attr.ColliderAttr):
         self.data['joint_positions'] = msg.read_float32_list()
         # Each joint velocity
         self.data['joint_velocities'] = msg.read_float32_list()
+        # Each joint acceleration
+        self.data['joint_acceleration'] = msg.read_float32_list()
+        # Each joint lower limit
+        self.data['joint_lower_limit'] = msg.read_float32_list()
+        # Each joint upper limit
+        self.data['joint_upper_limit'] = msg.read_float32_list()
         # Whether all parts are stable
         self.data['all_stable'] = msg.read_bool()
         self.data['move_done'] = msg.read_bool()

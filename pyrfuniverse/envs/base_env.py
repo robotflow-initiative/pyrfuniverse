@@ -275,8 +275,11 @@ class RFUniverseBaseEnv(ABC):
                 msg.write_int32(i)
             elif type(i) == float or type(i) == np.float32 or type(i) == np.float64:
                 msg.write_float32(float(i))
-            elif type(i) == list and type(i[0]) == float:
-                msg.write_float32_list(i)
+            elif type(i) == list:
+                if type(i[0]) == float:
+                    msg.write_float32_list(i)
+                else:
+                    print(f'dont support list element:{type(i[0])}')
             else:
                 print(f'dont support this data type:{type(i)}')
 

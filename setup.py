@@ -24,7 +24,7 @@ setup(
         "gym==0.21.0",
         "opencv-contrib-python",
     ],
-    python_requires=">=3.6.1,<3.10",
+    python_requires=">=3.6.1",
 )
 
 
