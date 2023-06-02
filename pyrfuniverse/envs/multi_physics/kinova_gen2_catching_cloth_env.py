@@ -1,5 +1,6 @@
 import math
 from pyrfuniverse.envs import RFUniverseGymWrapper
+import pyrfuniverse.attributes as attr
 from pyrfuniverse.utils.jaco_controller import RFUniverseJacoController
 import numpy as np
 from gym import spaces
@@ -132,69 +133,36 @@ class KinovaGen2CatchingClothEnv(RFUniverseGymWrapper):
         return np.concatenate((catcher_position, cloth_position, eef_velocity, cloth_velocity, force_zone_parameters))
 
     def _init_scene(self):
-        self.instance_channel.set_action(
-            action='SetTransform',
-            id=self.object2id['kinova'],
-            scale=[self.scale, self.scale, self.scale]
-        )
+        self.attrs[self.object2id['kinova']].SetTransform(scale=[self.scale, self.scale, self.scale])
         self._step()
 
     def _load_cloth(self):
-        self.asset_channel.set_action(
-            action='InstanceObject',
-            name='FallingClothSolver',
-            id=self.object2id['cloth']
-        )
-        self.instance_channel.set_action(
-            'SetTransform',
-            id=self.object2id['cloth'],
-            position=list(self.np_random.uniform(low=self.cloth_init_pos_min, high=self.cloth_init_pos_max)),
-        )
-        self.instance_channel.set_action(
-            'SetSolverParameters',
-            attr_name='falling_cloth_attr',
-            id=self.object2id['cloth'],
-            gravity=[0, -9.8, 0],
-        )
+        cloth = self.InstanceObject(name='FallingClothSolver', id=self.object2id['cloth'], attr_type=attr.FallingClothAttr)
+        cloth.SetTransform(position=list(self.np_random.uniform(low=self.cloth_init_pos_min, high=self.cloth_init_pos_max)))
+        cloth.SetSolverParameters(gravity=[0, -9.8, 0])
         if self.with_force_zone:
-            self.instance_channel.set_action(
-                'SetForceZoneParameters',
-                attr_name='falling_cloth_attr',
-                id=self.object2id['cloth'],
-                orientation=self.np_random.uniform(-180, 180),
-                intensity=self.force_zone_intensity,
-                turbulence=self.force_zone_turbulence,
-                turbulence_frequency=2,
-            )
+            cloth.SetForceZoneParameters(orientation=self.np_random.uniform(-180, 180),
+                                         intensity=self.force_zone_intensity,
+                                         turbulence=self.force_zone_turbulence,
+                                         turbulence_frequency=2)
         self._step()
 
     def _destroy_cloth(self):
-        self.instance_channel.set_action(
-            action='Destroy',
-            id=self.object2id['cloth']
-        )
+        self.attrs[self.object2id['cloth']].Destroy()
         self._step()
 
     def _set_kinova_joints(self, joint_positions):
         joint_positions[7] = 50
         joint_positions[8] = 50
         joint_positions[9] = 50
-        self.instance_channel.set_action(
-            'SetJointPosition',
-            id=self.object2id['kinova'],
-            joint_positions=list(joint_positions[0:10]),
-        )
+        self.attrs[self.object2id['kinova']].SetJointPosition(joint_positions=list(joint_positions[0:10]))
         self._step()
 
     def _set_kinova_joints_directly(self, joint_positions):
         joint_positions[7] = 50
         joint_positions[8] = 50
         joint_positions[9] = 50
-        self.instance_channel.set_action(
-            'SetJointPositionDirectly',
-            id=self.object2id['kinova'],
-            joint_positions=list(joint_positions[0:10]),
-        )
+        self.attrs[self.object2id['kinova']].SetJointPositionDirectly(joint_positions=list(joint_positions[0:10]))
         self._step()
 
     def _get_eef_position(self):

@@ -171,11 +171,7 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
             goal_z = 0
 
         goal = [float(goal_x), 0, float(goal_z)]
-        self.instance_channel.set_action(
-            'SetTransform',
-            id=self.object2id['goal'],
-            position=list(goal),
-        )
+        self.attrs[self.object2id['goal']].SetTransform(position=list(goal))
         self._step()
 
         return np.array(goal)
@@ -190,12 +186,8 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
         object_pos = self.np_random.uniform(
             low=self.object_range_low, high=self.object_range_high, size=(3,)
         )
-        self.instance_channel.set_action(
-            'SetTransform',
-            id=self.object2id['cube'],
-            position=list(object_pos),
-            rotation=[0, 0, 0]
-        )
+        self.attrs[self.object2id['cube']].SetTransform(position=list(object_pos),
+                                                        rotation=[0, 0, 0])
         self._step()
         return object_pos.copy()
 
@@ -227,41 +219,21 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
         return np.array(self.instance_channel.data[self.object2id['cube']]['rotation']) / 180 * math.pi
 
     def _set_ur5_robotiq85(self, joint_positions):
-        self.instance_channel.set_action(
-            attr_name='controller_attr',
-            action='SetJointPosition',
-            id=self.object2id['ur5'],
-            joint_positions=list(joint_positions[:6])
-        )
+        self.attrs[self.object2id['ur5']].SetJointPosition(joint_positions=list(joint_positions[:6]))
         self._step()
 
         width = joint_positions[6]
         gripper_angle = self._compute_gripper_angle(width)
-        self.instance_channel.set_action(
-            attr_name='controller_attr',
-            action='SetJointPosition',
-            id=self.object2id['robotiq85'],
-            joint_positions=[gripper_angle, gripper_angle]
-        )
+        self.attrs[self.object2id['robotiq85']].SetJointPosition(joint_positions=[gripper_angle, gripper_angle])
         self._step()
 
     def _set_ur5_robotiq85_directly(self, joint_positions):
-        self.instance_channel.set_action(
-            attr_name='controller_attr',
-            action='SetJointPositionDirectly',
-            id=self.object2id['ur5'],
-            joint_positions=list(joint_positions[:6])
-        )
+        self.attrs[self.object2id['ur5']].SetJointPositionDirectly(joint_positions=list(joint_positions[:6]))
         self._step()
 
         width = joint_positions[6]
         gripper_angle = self._compute_gripper_angle(width)
-        self.instance_channel.set_action(
-            attr_name='controller_attr',
-            action='SetJointPositionDirectly',
-            id=self.object2id['robotiq85'],
-            joint_positions=[gripper_angle, gripper_angle]
-        )
+        self.attrs[self.object2id['robotiq85']].SetJointPositionDirectly(joint_positions=[gripper_angle, gripper_angle])
         self._step()
 
     def _distance(self, pos1, pos2):

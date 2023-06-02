@@ -12,7 +12,7 @@ from pyrfuniverse.attributes.humanbody_attr import HumanbodyAttr
 from pyrfuniverse.attributes.graspsim_attr import GraspSimAttr
 from pyrfuniverse.attributes.digit_attr import DigitAttr
 from pyrfuniverse.attributes.pointcloud_attr import PointCloudAttr
-from pyrfuniverse.attributes.falling_cloth_attr import FallingClothAttr
+from pyrfuniverse.attributes.fallingcloth_attr import FallingClothAttr
 from pyrfuniverse.attributes.custom_attr import CustomAttr
 from pyrfuniverse.attributes.omplmanager_attr import OmplManagerAttr
 
@@ -21,6 +21,6 @@ __all__ = [
     'collider_attr', 'controller_attr', 'gameobject_attr',
     'rigidbody_attr', 'cloth_attr', 'softbody_attr',
     'humanbody_attr', 'graspsim_attr', 'digit_attr',
-    'pointcloud_attr', 'falling_cloth_attr', 'custom_attr',
+    'pointcloud_attr', 'fallingcloth_attr.py', 'custom_attr',
     'omplmanager_attr'
 ]
