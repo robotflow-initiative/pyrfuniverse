@@ -8,7 +8,6 @@ Author: Jieyi Zhang
 INTERPOLATE_NUM = 300
 DEFAULT_PLANNING_TIME = 500.0
 
-from ompl import util as ou
 from ompl import base as ob
 from ompl import geometric as og
 
@@ -91,7 +90,6 @@ class OmplManagerAttr(attr.BaseAttr):
         msg.write_float32_list(positions)
 
         self.env.instance_channel.send_message(msg)
-        self.env.step(1)
 
 
 class RFUStateSpace(ob.RealVectorStateSpace):
@@ -151,7 +149,9 @@ class RFUOMPL():
     def is_state_valid(self, state):
         # check if a given state will lead a collision
         self.manager.set_state(self.state_to_list(state))
-        self.env.step(1)
+        # self.env.SetNextStepNoTimeConsuming()
+        self.env.step()
+        self.env.step()
         return not self.manager.is_collision
 
     def set_planner(self, planner_name):
@@ -227,6 +227,7 @@ class RFUOMPL():
 
         # reset robot state
         self.manager.set_state(orig_robot_state)
+        self.env.step(50)
         return res, sol_path_list
 
     def plan(self, goal, allowed_time = DEFAULT_PLANNING_TIME):
@@ -252,7 +253,7 @@ class RFUOMPL():
                     self.env.step(100)
             else:
                 self.manager.set_state(q)
-            self.env.step(1)
+            self.env.step()
 
     def set_state_sampler(self, state_sampler):
         self.space.set_state_sampler(state_sampler)
