@@ -22,5 +22,4 @@ ur5.IKTargetDoRotateQuaternion(quaternion=utility.UnityEularToQuaternion([0, 90,
 env.step()
 ur5.WaitDo()
 
-while 1:
-    env.step()
+env.Pend()
