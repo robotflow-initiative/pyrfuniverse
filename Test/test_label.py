@@ -51,10 +51,10 @@ print('2d_bounding_box:')
 for i in camera.data['2d_bounding_box']:
     print(i)
     print(camera.data['2d_bounding_box'][i])
-    position = camera.data['2d_bounding_box'][i]['position']
-    size = camera.data['2d_bounding_box'][i]['size']
-    tl_point = (int(position[0] + size[0]/2), int(512 - position[1] + size[1]/2))
-    br_point = (int(position[0] - size[0]/2), int(512 - position[1] - size[1]/2))
+    center = camera.data['2d_bounding_box'][i][0:2]
+    size = camera.data['2d_bounding_box'][i][2:4]
+    tl_point = (int(center[0] + size[0] / 2), int(512 - center[1] + size[1] / 2))
+    br_point = (int(center[0] - size[0] / 2), int(512 - center[1] - size[1] / 2))
     cv2.rectangle(id_map, tl_point, br_point, (255, 255, 255), 1)
 
 #3d_bounding_box

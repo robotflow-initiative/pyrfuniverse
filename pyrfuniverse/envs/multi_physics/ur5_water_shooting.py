@@ -1,4 +1,4 @@
-from pyrfuniverse.envs import RFUniverseGymGoalWrapper
+from pyrfuniverse.envs.gym_goal_wrapper import RFUniverseGymGoalWrapper
 from pyrfuniverse.utils.ur5_controller import RFUniverseUR5Controller
 import numpy as np
 import pybullet as p
@@ -177,9 +177,9 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
         return np.array(goal)
 
     def _reset_liquid(self):
-        self.asset_channel.SendMessage('SetZibraLiquid', False)
+        self.SendMessage('SetZibraLiquid', False)
         self._step()
-        self.asset_channel.SendMessage('SetZibraLiquid', True)
+        self.SendMessage('SetZibraLiquid', True)
         self._step()
 
     def _reset_object(self):
@@ -192,31 +192,31 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
         return object_pos.copy()
 
     def _get_eef_position(self):
-        return np.array(self.instance_channel.data[self.object2id['robotiq85']]['positions'][7])
+        return np.array(self.attrs[self.object2id['robotiq85']].data['positions'][7])
 
     def _get_eef_velocity(self):
-        return np.array(self.instance_channel.data[self.object2id['robotiq85']]['velocities'][7])
+        return np.array(self.attrs[self.object2id['robotiq85']].data['velocities'][7])
 
     def _get_gripper_width(self):
         left_finger_pos = np.array(
-            self.instance_channel.data[self.object2id['left_finger']]['position']
+            self.attrs[self.object2id['left_finger']].data['position']
         )
         right_finger_pos = np.array(
-            self.instance_channel.data[self.object2id['right_finger']]['position']
+            self.attrs[self.object2id['right_finger']].data['position']
         )
         return self._distance(left_finger_pos, right_finger_pos)
 
     def _get_target_pos(self):
-        return np.array(self.instance_channel.data[self.object2id['target']]['position'])
+        return np.array(self.attrs[self.object2id['target']].data['position'])
 
     def _get_cube_pos(self):
-        return np.array(self.instance_channel.data[self.object2id['cube']]['position'])
+        return np.array(self.attrs[self.object2id['cube']].data['position'])
 
     def _get_cube_velocity(self):
-        return np.array(self.instance_channel.data[self.object2id['cube']]['velocity'])
+        return np.array(self.attrs[self.object2id['cube']].data['velocity'])
 
     def _get_cube_rotation(self):
-        return np.array(self.instance_channel.data[self.object2id['cube']]['rotation']) / 180 * math.pi
+        return np.array(self.attrs[self.object2id['cube']].data['rotation']) / 180 * math.pi
 
     def _set_ur5_robotiq85(self, joint_positions):
         self.attrs[self.object2id['ur5']].SetJointPosition(joint_positions=list(joint_positions[:6]))
@@ -252,7 +252,7 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
             (1 - prop) * self.volume_per_time_step_range[0]
         liquid_init_velocity = prop * self.liquid_init_velocity_range[1] + \
             (1 - prop) * self.liquid_init_velocity_range[0]
-        self.asset_channel.SendMessage('SetZibraLiquidEmitter', volume_per_time_step, 0., -liquid_init_velocity, 0.)
+        self.SendMessage('SetZibraLiquidEmitter', volume_per_time_step, 0., -liquid_init_velocity, 0.)
         self._step()
 
     def _check_success(self, achieved_goal, desired_goal):

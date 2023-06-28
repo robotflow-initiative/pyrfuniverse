@@ -1,186 +1,3 @@
-from pyrfuniverse.side_channel.side_channel import (
-    IncomingMessage,
-    OutgoingMessage,
-)
-import pyrfuniverse.utils.rfuniverse_utility as utility
-
-
-def SetTransform(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id']
-    optional_params = ['position', 'rotation', 'scale', 'is_world']
-    utility.CheckKwargs(kwargs, compulsory_params)
-    msg = OutgoingMessage()
-    msg.write_int32(kwargs['id'])
-    msg.write_string('SetTransform')
-    position = None
-    set_position = False
-    rotation = None
-    set_rotation = False
-    scale = None
-    set_scale = False
-
-    if 'position' in kwargs:  # position
-        position = kwargs['position']
-        set_position = True
-        assert type(position) == list and len(position) == 3, \
-            'Argument position must be a 3-d list.'
-
-    if 'rotation' in kwargs:  # rotation
-        rotation = kwargs['rotation']
-        set_rotation = True
-        assert type(rotation) == list and len(rotation) == 3, \
-            'Argument rotation must be a 3-d list.'
-
-    if 'scale' in kwargs:  # scale
-        scale = kwargs['scale']
-        set_scale = True
-        assert type(scale) == list and len(scale) == 3, \
-            'Argument rotation must be a 3-d list.'
-
-    msg.write_bool(set_position)
-    msg.write_bool(set_rotation)
-    msg.write_bool(set_scale)
-
-    if set_position:
-        for i in range(3):
-            msg.write_float32(position[i])
-
-    if set_rotation:
-        for i in range(3):
-            msg.write_float32(rotation[i])
-
-    if set_scale:
-        for i in range(3):
-            msg.write_float32(scale[i])
-
-    if 'is_world' in kwargs.keys():
-        msg.write_bool(kwargs['is_world'])
-    else:
-        msg.write_bool(True)
-    return msg
-
-
-def SetRotationQuaternion(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'quaternion']
-    optional_params = ['is_world']
-    utility.CheckKwargs(kwargs, compulsory_params)
-    msg = OutgoingMessage()
-    msg.write_int32(kwargs['id'])
-    msg.write_string('SetRotationQuaternion')
-    for i in range(4):
-        msg.write_float32(kwargs['quaternion'][i])
-    if 'is_world' in kwargs.keys():
-        msg.write_bool(kwargs['is_world'])
-    else:
-        msg.write_bool(True)
-    return msg
-
-
-def SetActive(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'active']
-    optional_params = []
-    utility.CheckKwargs(kwargs, compulsory_params)
-    msg = OutgoingMessage()
-
-    msg.write_int32(kwargs['id'])
-    msg.write_string('SetActive')
-    msg.write_bool(kwargs['active'])
-
-    return msg
-
-
-def SetParent(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'parent_id', 'parent_name']
-    optional_params = []
-    utility.CheckKwargs(kwargs, compulsory_params)
-    msg = OutgoingMessage()
-
-    msg.write_int32(kwargs['id'])
-    msg.write_string('SetParent')
-    msg.write_int32(kwargs['parent_id'])
-    msg.write_string(kwargs['parent_name'])
-
-    return msg
-
-
-def SetLayer(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'layer']
-    optional_params = []
-    utility.CheckKwargs(kwargs, compulsory_params)
-    msg = OutgoingMessage()
-
-    msg.write_int32(kwargs['id'])
-    msg.write_string('SetLayer')
-    msg.write_int32(kwargs['layer'])
-
-    return msg
-
-
-def Copy(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'copy_id']
-    optional_params = []
-    utility.CheckKwargs(kwargs, compulsory_params)
-    msg = OutgoingMessage()
-
-    msg.write_int32(kwargs['id'])
-    msg.write_string('Copy')
-    msg.write_int32(kwargs['copy_id'])
-    return msg
-
-
-def Destroy(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id']
-    optional_params = []
-    utility.CheckKwargs(kwargs, compulsory_params)
-    msg = OutgoingMessage()
-
-    msg.write_int32(kwargs['id'])
-    msg.write_string('Destroy')
-
-    return msg
-
-
-def SetRFMoveColliderActive(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'active']
-    optional_params = []
-    utility.CheckKwargs(kwargs, compulsory_params)
-    msg = OutgoingMessage()
-
-    msg.write_int32(kwargs['id'])
-    msg.write_string('SetRFMoveColliderActive')
-    msg.write_bool(kwargs['active'])
-
-    return msg
-
-
-def GetLoaclPointFromWorld(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'point']
-    optional_params = []
-    utility.CheckKwargs(kwargs, compulsory_params)
-    msg = OutgoingMessage()
-
-    msg.write_int32(kwargs['id'])
-    msg.write_string('GetLoaclPointFromWorld')
-    msg.write_float32(kwargs['point'][0])
-    msg.write_float32(kwargs['point'][1])
-    msg.write_float32(kwargs['point'][2])
-    return msg
-
-
-def GetWorldPointFromLocal(kwargs: dict) -> OutgoingMessage:
-    compulsory_params = ['id', 'point']
-    optional_params = []
-    utility.CheckKwargs(kwargs, compulsory_params)
-    msg = OutgoingMessage()
-
-    msg.write_int32(kwargs['id'])
-    msg.write_string('GetWorldPointFromLocal')
-    msg.write_float32(kwargs['point'][0])
-    msg.write_float32(kwargs['point'][1])
-    msg.write_float32(kwargs['point'][2])
-    return msg
-
-
 class BaseAttr:
     """
     Base attribute class, which includes general functions such as 
@@ -193,7 +10,7 @@ class BaseAttr:
         self.id = id
         self.data = data
 
-    def parse_message(self, msg: IncomingMessage) -> dict:
+    def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
 
@@ -220,21 +37,11 @@ class BaseAttr:
 
             self.data['result_world_point']: The result of transforming object from world to local coordinate.
         """
-        self.data['name'] = msg.read_string()
-        self.data['position'] = [msg.read_float32() for _ in range(3)]
-        self.data['rotation'] = [msg.read_float32() for _ in range(3)]
-        self.data['quaternion'] = [msg.read_float32() for _ in range(4)]
-        self.data['local_position'] = [msg.read_float32() for _ in range(3)]
-        self.data['local_rotation'] = [msg.read_float32() for _ in range(3)]
-        self.data['local_quaternion'] = [msg.read_float32() for _ in range(4)]
-
-        self.data['local_to_world_matrix'] = msg.read_float32_list()
-
-        if msg.read_bool() is True:
-            self.data['result_local_point'] = msg.read_float32_list()
-        if msg.read_bool() is True:
-            self.data['result_world_point'] = msg.read_float32_list()
+        self.data = data
         return self.data
+
+    def _send_data(self, message: str, *args):
+        self.env._send_instance_data(self.id, message, *args)
 
     def SetType(self, attr_type: type):
         """
@@ -259,67 +66,43 @@ class BaseAttr:
             scale: A list of length 3, representing the target scale value of object.
             is_world: Bool, True for world coordinate, False for local coordinate.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('SetTransform')
-        msg.write_bool(position is not None)
-        msg.write_bool(rotation is not None)
-        msg.write_bool(scale is not None)
         if position is not None:
-            assert type(position) == list and len(position) == 3, \
-                'Argument position must be a 3-d list.'
-            for i in range(3):
-                msg.write_float32(position[i])
+            assert len(position) == 3, 'position length must be 3'
+            position = [float(i) for i in position]
         if rotation is not None:
-            assert type(rotation) == list and len(rotation) == 3, \
-                'Argument rotation must be a 3-d list.'
-            for i in range(3):
-                msg.write_float32(rotation[i])
+            assert len(rotation) == 3, 'rotation length must be 3'
+            rotation = [float(i) for i in rotation]
         if scale is not None:
-            assert type(scale) == list and len(scale) == 3, \
-                'Argument rotation must be a 3-d list.'
-            for i in range(3):
-                msg.write_float32(scale[i])
-        msg.write_bool(is_world)
+            assert len(scale) == 3, 'scale length must be 3'
+            scale = [float(i) for i in scale]
 
-        self.env.instance_channel.send_message(msg)
+        self._send_data('SetTransform', position, rotation, scale, is_world)
 
-    def Translate(self, translation: list, is_world: bool = True):
+    def SetPosition(self, position: list = None, is_world: bool = True):
         """
-        Translate this object.
+        Set the position of this object
 
         Args:
-            translation: A list of length 3, representing the translation from current position.
+            position: A list of length 3, representing the target position value of object.
             is_world: Bool, True for world coordinate, False for local coordinate.
         """
-        msg = OutgoingMessage()
+        assert len(position) == 3, 'position length must be 3'
+        position = [float(i) for i in position]
 
-        msg.write_int32(self.id)
-        msg.write_string('Translate')
-        for i in range(3):
-            msg.write_float32(translation[i])
-        msg.write_bool(is_world)
+        self._send_data('SetPosition', position, is_world)
 
-        self.env.instance_channel.send_message(msg)
-
-    def Rotate(self, rotation: list, is_world: bool = True):
+    def SetRotation(self, rotation: list = None, is_world: bool = True):
         """
-        Rotate this object.
+        Set the rotation of this object
 
         Args:
-            rotation: A list of length 3, representing the euler-angle-format rotation from current euler angle.
+            rotation: A list of length 3, representing the target euler angle value of object.
             is_world: Bool, True for world coordinate, False for local coordinate.
         """
-        msg = OutgoingMessage()
+        assert len(rotation) == 3, 'rotation length must be 3'
+        rotation = [float(i) for i in rotation]
 
-        msg.write_int32(self.id)
-        msg.write_string('Rotate')
-        for i in range(3):
-            msg.write_float32(rotation[i])
-        msg.write_bool(is_world)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('SetRotation', rotation, is_world)
 
     def SetRotationQuaternion(self, quaternion: list = None, is_world: bool = True):
         """
@@ -329,17 +112,48 @@ class BaseAttr:
             quaternion: A list of length 4, representing the quaternion from current pose.
             is_world: Bool, True for world coordinate, False for local coordinate.
         """
-        msg = OutgoingMessage()
+        assert len(quaternion) == 4, 'quaternion length must be 4'
+        quaternion = [float(i) for i in quaternion]
 
-        msg.write_int32(self.id)
-        msg.write_string('SetRotationQuaternion')
-        assert type(quaternion) == list and len(quaternion) == 3, \
-            'Argument quaternion must be a 4-d list.'
-        for i in range(4):
-            msg.write_float32(quaternion[i])
-        msg.write_bool(is_world)
+        self._send_data('SetRotationQuaternion', quaternion, is_world)
 
-        self.env.instance_channel.send_message(msg)
+    def SetScale(self, scale: list = None):
+        """
+        Set the scale of this object
+
+        Args:
+            scale: A list of length 3, representing the target scale value of object.
+        """
+        assert len(scale) == 3, 'scale length must be 3'
+        scale = [float(i) for i in scale]
+
+        self._send_data('SetScale', scale)
+
+    def Translate(self, translation: list, is_world: bool = True):
+        """
+        Translate this object.
+
+        Args:
+            translation: A list of length 3, representing the translation from current position.
+            is_world: Bool, True for world coordinate, False for local coordinate.
+        """
+        assert len(translation) == 3, 'translation length must be 3'
+        translation = [float(i) for i in translation]
+
+        self._send_data('Translate', translation, is_world)
+
+    def Rotate(self, rotation: list, is_world: bool = True):
+        """
+        Rotate this object.
+
+        Args:
+            rotation: A list of length 3, representing the euler-angle-format rotation from current euler angle.
+            is_world: Bool, True for world coordinate, False for local coordinate.
+        """
+        assert len(rotation) == 3, 'rotation length must be 3'
+        rotation = [float(i) for i in rotation]
+
+        self._send_data('Rotate', rotation, is_world)
 
     def SetActive(self, active: bool):
         """
@@ -348,13 +162,7 @@ class BaseAttr:
         Args:
             active: Bool, True for active, False for inactive.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('SetActive')
-        msg.write_bool(active)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('SetActive', active)
 
     def SetParent(self, parent_id: int, parent_name: str = ''):
         """
@@ -364,14 +172,7 @@ class BaseAttr:
             parent_id: Int, the id of parent object.
             parent_name: Str, the name of parent object.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('SetParent')
-        msg.write_int32(parent_id)
-        msg.write_string(parent_name)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('SetParent', parent_id, parent_name)
 
     def SetLayer(self, layer: int):
         """
@@ -380,13 +181,7 @@ class BaseAttr:
         Args:
             layer: Int, the number of layer.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('SetLayer')
-        msg.write_int32(layer)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('SetLayer', layer)
 
     def Copy(self, new_id: int):
         """
@@ -395,13 +190,7 @@ class BaseAttr:
         Args:
             new_id: Int, the id of new object.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('Copy')
-        msg.write_int32(new_id)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('Copy', new_id)
 
         self.env.attrs[new_id] = type(self)(self.env, new_id, self.data)
         return self.env.attrs[new_id]
@@ -410,12 +199,8 @@ class BaseAttr:
         """
         Destroy this object in Unity.
         """
-        msg = OutgoingMessage()
+        self._send_data('Destroy')
 
-        msg.write_int32(self.id)
-        msg.write_string('Destroy')
-
-        self.env.instance_channel.send_message(msg)
         self.env.attrs.pop(self.id)
 
     def SetRFMoveColliderActive(self, active: bool):
@@ -425,13 +210,7 @@ class BaseAttr:
         Args:
             active: Bool, True for active and False for inactive.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('SetRFMoveColliderActive')
-        msg.write_bool(active)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('SetRFMoveColliderActive', active)
 
     def GetLoaclPointFromWorld(self, point: list):
         """
@@ -440,15 +219,10 @@ class BaseAttr:
         Args:
             point: A list of length 3, representing the position of a point.
         """
-        msg = OutgoingMessage()
+        assert len(point) == 3, 'point length must be 3'
+        point = [float(i) for i in point]
 
-        msg.write_int32(self.id)
-        msg.write_string('GetLoaclPointFromWorld')
-        msg.write_float32(point[0])
-        msg.write_float32(point[1])
-        msg.write_float32(point[2])
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('GetLoaclPointFromWorld', point)
 
     def GetWorldPointFromLocal(self, point: list):
         """
@@ -457,12 +231,7 @@ class BaseAttr:
         Args:
             point: A list of length 3, representing the position of a point.
         """
-        msg = OutgoingMessage()
+        assert len(point) == 3, 'point length must be 3'
+        point = [float(i) for i in point]
 
-        msg.write_int32(self.id)
-        msg.write_string('GetWorldPointFromLocal')
-        msg.write_float32(point[0])
-        msg.write_float32(point[1])
-        msg.write_float32(point[2])
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('GetWorldPointFromLocal', point)

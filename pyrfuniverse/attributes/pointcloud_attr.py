@@ -1,27 +1,22 @@
 import numpy as np
-
 import pyrfuniverse.attributes as attr
-from pyrfuniverse.side_channel.side_channel import (
-    IncomingMessage,
-    OutgoingMessage,
-)
 
 
 class PointCloudAttr(attr.BaseAttr):
     """
     Point cloud rendering class.
     """
-    def parse_message(self, msg: IncomingMessage) -> dict:
+    def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
 
         Returns:
             Dict: A dict containing useful information of this class.
         """
-        super().parse_message(msg)
-        return self.data
+        super().parse_message(data)
 
-    def ShowPointCloud(self, positions: list = [], colors: list = [], ply_path: str = None, radius: float = 0.01):
+    def ShowPointCloud(self, positions: np.ndarray = None, colors: np.ndarray = None, ply_path: str = None,
+                       radius: float = 0.01):
         """
         Display point cloud in Unity.
 
@@ -32,19 +27,7 @@ class PointCloudAttr(attr.BaseAttr):
                 and `colors` will be ignored.
             radius: Float, the radius of the point cloud.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('ShowPointCloud')
-        msg.write_bool(ply_path is not None)
-        if ply_path is not None:
-            msg.write_string(ply_path)
-        else:
-            msg.write_float32_list(np.array(positions).reshape(-1).tolist())
-            msg.write_float32_list(np.array(colors).reshape(-1).tolist())
-        msg.write_float32(radius)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('ShowPointCloud', ply_path, positions, colors, radius)
 
     def SetRadius(self, radius: float):
         """
@@ -53,10 +36,4 @@ class PointCloudAttr(attr.BaseAttr):
         Args:
             radius: Float, the radius.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('SetRadius')
-        msg.write_float32(radius)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('SetRadius', radius)

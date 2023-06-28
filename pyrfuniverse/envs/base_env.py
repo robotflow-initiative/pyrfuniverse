@@ -1,59 +1,13 @@
 import random
+import subprocess
 from abc import ABC
+import socket
 import numpy as np
-from pyrfuniverse.side_channel.side_channel import (
-    IncomingMessage,
-    OutgoingMessage,
-)
 import pyrfuniverse
-from pyrfuniverse.environment import UnityEnvironment
-from pyrfuniverse.side_channel.environment_parameters_channel import EnvironmentParametersChannel
-from pyrfuniverse.rfuniverse_channel import AssetChannel
-from pyrfuniverse.rfuniverse_channel import AssetChannelExt
-from pyrfuniverse.rfuniverse_channel import InstanceChannel
-from pyrfuniverse.rfuniverse_channel import DebugChannel
 import pyrfuniverse.attributes as attr
-import gym
+from pyrfuniverse.side_channel import IncomingMessage, OutgoingMessage
+from pyrfuniverse.utils.rfuniverse_communicator import RFUniverseCommunicator
 import os
-
-
-def select_available_worker_id():
-    if not os.path.exists(pyrfuniverse.user_path):
-        os.makedirs(pyrfuniverse.user_path)
-    log_file = os.path.join(pyrfuniverse.user_path, 'worker_id_log')
-
-    worker_id = 1
-    worker_id_in_use = []
-    if os.path.exists(log_file):
-        with open(log_file, 'r') as f:
-            worker_ids = f.readlines()
-            for line in worker_ids:
-                worker_id_in_use.append(int(line))
-        while worker_id in worker_id_in_use:
-            worker_id += 1
-
-    worker_id_in_use.append(worker_id)
-    with open(log_file, 'w') as f:
-        for id in worker_id_in_use:
-            f.write(str(id) + '\n')
-
-    return worker_id
-
-
-def delete_worker_id(worker_id):
-    log_file = os.path.join(pyrfuniverse.user_path, 'worker_id_log')
-
-    worker_id_in_use = []
-    if os.path.exists(log_file):
-        with open(log_file, 'r') as f:
-            worker_ids = f.readlines()
-            for line in worker_ids:
-                worker_id_in_use.append(int(line))
-
-    worker_id_in_use.remove(worker_id)
-    with open(log_file, 'w') as f:
-        for id in worker_id_in_use:
-            f.write(str(id) + '\n')
 
 
 class RFUniverseBaseEnv(ABC):
@@ -72,80 +26,133 @@ class RFUniverseBaseEnv(ABC):
         self,
         executable_file: str = None,
         scene_file: str = None,
-        custom_channels=None,
-        assets=None,
+        assets: list = [],
         graphics: bool = True,
-        **kwargs
+        port: int = 5004
     ):
-        if custom_channels is None:
-            custom_channels = []
-        if assets is None:
-            assets = []
         # time step
         self.t = 0
-        self.worker_id = select_available_worker_id()
-        # initialize rfuniverse channels
-        self.channels = custom_channels.copy()
-        self._init_channels(kwargs)
-        self.assets = assets
-        # initialize environment
         self.executable_file = executable_file
         self.scene_file = scene_file
+        self.pre_load_assets = assets
         self.graphics = graphics
+
         self.attrs = {}
         self.data = {}
-        self.ext = AssetChannelExt(self)
-        self._init_env()
+        self.listen_messages = {}
+        self.listen_object = {}
+        self.port = port
 
-    def _init_env(self):
-        if str(self.executable_file).lower() == '@editor':
-            self.env = UnityEnvironment(
-                worker_id=0,
-                side_channels=self.channels,
-                no_graphics=not self.graphics,
-            )
-        elif self.executable_file is not None:
-            self.env = UnityEnvironment(
-                worker_id=self.worker_id,
-                file_name=self.executable_file,
-                side_channels=self.channels,
-                no_graphics=not self.graphics,
-            )
-        elif os.path.exists(pyrfuniverse.executable_file):
-            self.env = UnityEnvironment(
-                worker_id=self.worker_id,
-                file_name=pyrfuniverse.executable_file,
-                side_channels=self.channels,
-                no_graphics=not self.graphics,
-            )
+        if self.executable_file is None:
+            self.executable_file = pyrfuniverse.executable_file
+
+        if self.executable_file == '' or self.executable_file == '@editor':
+            print('play unity editor')
+            self.process = None
+        elif os.path.exists(self.executable_file):
+            self.port = self._get_port()
+            self.process = self._start_unity_env(self.executable_file, self.port)
         else:
-            self.env = UnityEnvironment(
-                worker_id=0,
-                side_channels=self.channels,
-                no_graphics=not self.graphics,
-            )
-        self._SendVersion()
-        if len(self.assets) > 0:
-            self._PreLoadAssetsAsync(self.assets, True)
+            raise Exception('executable file not exists')
+        self.communicator = RFUniverseCommunicator(port=self.port, receive_data_callback=self._receive_data)
+        self._send_debug_data('SendVersion', pyrfuniverse.__version__)
+        if len(self.pre_load_assets) > 0:
+            self.PreLoadAssetsAsync(assets, True)
         if self.scene_file is not None:
             self.LoadSceneAsync(self.scene_file, True)
-        self.env.reset()
 
-    def _init_channels(self, kwargs: dict):
-        # Compulsory channels
-        # Environment parameters channel
-        self.env_param_channel = EnvironmentParametersChannel()
-        self.channels.append(self.env_param_channel)
-        # RFUniverse channel
-        self.asset_channel = AssetChannel(self, 'd587efc8-9eb7-11ec-802a-18c04d443e7d')
-        self.instance_channel = InstanceChannel(self, '09bfcf57-9120-43dc-99f8-abeeec59df0f')
-        self.debug_channel = DebugChannel(self, '02ac5776-6a7c-54e4-011d-b4c4723831c9')
-        self.channels.append(self.asset_channel)
-        self.channels.append(self.instance_channel)
-        self.channels.append(self.debug_channel)
+    def _get_port(self) -> int:
+        executable_port = 5005
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        while True:
+            try:
+                s.bind(("localhost", executable_port))
+                s.close()
+                return executable_port
+            except OSError:
+                executable_port += 1
+                continue
+
+    def _start_unity_env(self, executable_file: str, port: int) -> subprocess.Popen:
+        arg = [executable_file]
+        if not self.graphics:
+            arg.extend(["-nographics", "-batchmode"])
+        arg.append(f'-port:{port}')
+        return subprocess.Popen(arg)
+
+    def _receive_data(self, objs: list) -> None:
+        type = objs[0]
+        objs = objs[1:]
+        if type == 'Env':
+            self._parse_env_data(objs)
+        elif type == 'Instance':
+            self._parse_instence_data(objs)
+        elif type == 'Debug':
+            self._parse_debug_data(objs)
+        elif type == 'Message':
+            self._parse_message_data(objs)
+        elif type == 'Object':
+            self._parse_object_data(objs)
+        return
+    def _parse_env_data(self, objs: list) -> None:
+        type = objs[0]
+        objs = objs[1:]
+        if type == 'LoadDone':
+            self.data['load_done'] = True
+        elif type == 'PendDone':
+            self.data['pend_done'] = True
+        elif type == 'RFMoveColliders':
+            self.data['colliders'] = objs[0]
+        elif type == 'CurrentCollisionPairs':
+            self.data['collision_pairs'] = objs[0]
+        else:
+            print(f'unknown env data type: {type}')
+
+    def _parse_instence_data(self, objs: list) -> None:
+        this_object_id = objs[0]
+        this_object_type = objs[1]
+        this_object_data = objs[2]
+
+        attr_type = eval('attr.' + this_object_type)
+        if this_object_id not in self.attrs:
+            self.attrs[this_object_id] = attr_type(self, this_object_id)
+        elif type(self.attrs[this_object_id]) != attr_type:
+            self.attrs[this_object_id] = attr_type(self, this_object_id, self.attrs[this_object_id].data)
+
+        self.data[this_object_id] = self.attrs[this_object_id].parse_message(this_object_data)
+
+    def _parse_debug_data(self, objs: list) -> None:
+        return
+
+    def _parse_message_data(self, objs: list) -> None:
+        msg = objs[0]
+        objs = objs[1:]
+        if msg in self.listen_messages:
+            self.listen_messages[msg](IncomingMessage(objs[0]))
+
+    def _parse_object_data(self, objs: list) -> None:
+        head = objs[0]
+        objs = objs[1:]
+        if head in self.listen_object:
+            self.listen_object[head](objs)
+
+    def _send_env_data(self, *args) -> None:
+        self.communicator.send_object('Env', *args)
+
+    def _send_instance_data(self, *args) -> None:
+        self.communicator.send_object('Instance', *args)
+
+    def _send_debug_data(self, *args) -> None:
+        self.communicator.send_object('Debug', *args)
+
+    def _send_message_data(self, *args) -> None:
+        self.communicator.send_object('Message', *args)
+
+    def _send_object_data(self, *args) -> None:
+        self.communicator.send_object('Object', *args)
 
     def _step(self):
-        self.env.step()
+        self.communicator.sync_step()
 
     def step(self, count: int = 1):
         """
@@ -157,14 +164,14 @@ class RFUniverseBaseEnv(ABC):
         if count < 1:
             count = 1
         for _ in range(count):
-            self.env.step()
+            self._step()
 
     def close(self):
         """
         Close the environment
         """
-        delete_worker_id(self.worker_id)
-        self.env.close()
+        if self.process is not None:
+            self.process.kill()
 
     def GetAttr(self, id: int):
         """
@@ -176,25 +183,22 @@ class RFUniverseBaseEnv(ABC):
         Returns:
             pyrfuniverse.attributes.BaseAttr: An instance of attribute.
         """
-        if id not in self.attrs:
-            self.attrs[id] = attr.BaseAttr(self, id)
+        assert id in self.attrs, 'this ID not exists'
         return self.attrs[id]
 
     #Env API
-    def _PreLoadAssetsAsync(self, names: list, auto_wait: bool = False) -> None:
-        msg = OutgoingMessage()
+    def PreLoadAssetsAsync(self, names: list, auto_wait: bool = False) -> None:
+        """
+        PreLoad the asset.
 
-        msg.write_string('PreLoadAssetsAsync')
-        count = len(names)
-        msg.write_int32(count)
-        for i in range(count):
-            msg.write_string(names[i])
-
-        self.asset_channel.send_message(msg)
+        Args:
+            names: list, the name of assets.
+            auto_wait: Bool, if True, this function will not return until the loading is done.
+        """
+        self._send_env_data('PreLoadAssetsAsync', names)
 
         if auto_wait:
             self.WaitLoadDone()
-
 
     def LoadSceneAsync(self, file: str, auto_wait: bool = False) -> None:
         """
@@ -204,12 +208,7 @@ class RFUniverseBaseEnv(ABC):
             file: Str, the scene JSON file. If it's a relative path, it will load from `StraemingAssets`.
             auto_wait: Bool, if True, this function will not return until the loading is done.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('LoadSceneAsync')
-        msg.write_string(file)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('LoadSceneAsync', file)
 
         if auto_wait:
             self.WaitLoadDone()
@@ -222,12 +221,7 @@ class RFUniverseBaseEnv(ABC):
             name: Str, the scene name.
             auto_wait: Bool, if True, this function will not return until the loading is done.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('SwitchSceneAsync')
-        msg.write_string(name)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('SwitchSceneAsync', name)
 
         if auto_wait:
             self.WaitLoadDone()
@@ -236,23 +230,19 @@ class RFUniverseBaseEnv(ABC):
         """
         Wait for the loading is done.
         """
-        self.asset_channel.data['load_done'] = False
-        while not self.asset_channel.data['load_done']:
-            self.env.step()
+        self.data['load_done'] = False
+        while not self.data['load_done']:
+            self._step()
 
     def Pend(self) -> None:
         """
         Pend the program until the `EndPend` button in `UnityPlayer` is clicked.
         """
-        msg = OutgoingMessage()
+        self._send_env_data('Pend')
 
-        msg.write_string('Pend')
-
-        self.asset_channel.send_message(msg)
-
-        self.asset_channel.data['pend_done'] = False
-        while not self.asset_channel.data['pend_done']:
-            self.env.step()
+        self.data['pend_done'] = False
+        while not self.data['pend_done']:
+            self._step()
 
     def SendMessage(self, message: str, *args) -> None:
         """
@@ -260,12 +250,9 @@ class RFUniverseBaseEnv(ABC):
 
         Args:
             message: Str, the message head.
-            args: List, the list of parameters. We support str, bool, int, float and List[float] types.
+            *args: List, the list of parameters. We support str, bool, int, float and List[float] types.
         """
         msg = OutgoingMessage()
-
-        msg.write_string('SendMessage')
-        msg.write_string(message)
         for i in args:
             if type(i) == str:
                 msg.write_string(i)
@@ -275,15 +262,21 @@ class RFUniverseBaseEnv(ABC):
                 msg.write_int32(i)
             elif type(i) == float or type(i) == np.float32 or type(i) == np.float64:
                 msg.write_float32(float(i))
-            elif type(i) == list:
-                if type(i[0]) == float:
-                    msg.write_float32_list(i)
-                else:
-                    print(f'dont support list element:{type(i[0])}')
+            elif type(i) == list and type(i[0]) == float:
+                msg.write_float32_list(i)
             else:
                 print(f'dont support this data type:{type(i)}')
+        self._send_message_data(message, msg.buffer)
 
-        self.asset_channel.send_message(msg)
+    def SendObject(self, head: str, *args) -> None:
+        """
+        Send object to Unity.
+
+        Args:
+            head: Str, the message head.
+            *args: List, the list of parameters. We support str, bool, int, float and List[float] types.
+        """
+        self._send_object_data(head, *args)
 
     def AddListener(self, message: str, fun):
         """
@@ -293,11 +286,7 @@ class RFUniverseBaseEnv(ABC):
             message: Str, the message head.
             fun: Callable, the callback function.
         """
-        if message in self.asset_channel.messages:
-            if fun in self.asset_channel.messages[message]:
-                self.asset_channel.messages[message].append(fun)
-        else:
-            self.asset_channel.messages[message] = [fun]
+        self.listen_messages[message] = fun
 
     def RemoveListener(self, message: str, fun):
         """
@@ -307,11 +296,26 @@ class RFUniverseBaseEnv(ABC):
             message: Str, the message head.
             fun: Callable, the callback function.
         """
-        if message in self.asset_channel.messages:
-            if fun in self.asset_channel.messages[message]:
-                self.asset_channel.messages[message].remove(fun)
-            if len(self.asset_channel.messages[message]) == 0:
-                self.asset_channel.messages[message].pop(message)
+        self.listen_messages.pop(message)
+
+    def AddListenerObject(self, type: str, fun):
+        """
+        Add object listener.
+
+        Args:
+            type: Str, the message head.
+            fun: Callable, the callback function.
+        """
+        self.listen_object[type] = fun
+
+    def RemoveListenerObject(self, type: str):
+        """
+        Remove object listener.
+
+        Args:
+            type: Str, the message head.
+        """
+        self.listen_object.pop(type)
 
     def InstanceObject(self, name: str, id: int = None, attr_type: type = attr.BaseAttr):
         """
@@ -396,13 +400,7 @@ class RFUniverseBaseEnv(ABC):
         while id is None or id in self.attrs:
             id = random.randint(100000, 999999)
 
-        msg = OutgoingMessage()
-
-        msg.write_string('InstanceObject')
-        msg.write_string(name)
-        msg.write_int32(id)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('InstanceObject', name, id)
 
         self.attrs[id] = attr_type(self, id)
         return self.attrs[id]
@@ -425,14 +423,7 @@ class RFUniverseBaseEnv(ABC):
         while id is None or id in self.attrs:
             id = random.randint(100000, 999999)
 
-        msg = OutgoingMessage()
-
-        msg.write_string('LoadURDF')
-        msg.write_int32(id)
-        msg.write_string(path)
-        msg.write_bool(native_ik)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('LoadURDF', id, path, native_ik)
 
         self.attrs[id] = attr.ControllerAttr(self, id)
         return self.attrs[id]
@@ -454,13 +445,7 @@ class RFUniverseBaseEnv(ABC):
         while id is None or id in self.attrs:
             id = random.randint(100000, 999999)
 
-        msg = OutgoingMessage()
-
-        msg.write_string('LoadMesh')
-        msg.write_int32(id)
-        msg.write_string(path)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('LoadMesh', id, path)
 
         self.attrs[id] = attr.RigidbodyAttr(self, id)
         return self.attrs[id]
@@ -474,14 +459,7 @@ class RFUniverseBaseEnv(ABC):
             layer2: Int, the layer number of the second layer.
             ignore: Bool, True for ignoring collision between two layers; False for enabling collision between two layers.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('IgnoreLayerCollision')
-        msg.write_int32(layer1)
-        msg.write_int32(layer2)
-        msg.write_bool(ignore)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('IgnoreLayerCollision', layer1, layer2, ignore)
 
     def GetCurrentCollisionPairs(self) -> None:
         """
@@ -490,11 +468,7 @@ class RFUniverseBaseEnv(ABC):
         Returns:
             Call this function and `step()`, the collision pairs can be got from env.data['CurrentCollisionPairs'].
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('GetCurrentCollisionPairs')
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('GetCurrentCollisionPairs')
 
     def GetRFMoveColliders(self) -> None:
         """
@@ -503,11 +477,7 @@ class RFUniverseBaseEnv(ABC):
         Returns:
             Call this function and `step()`, the collision pairs can be got from env.data['RFMoveColliders'].
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('GetRFMoveColliders')
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('GetRFMoveColliders')
 
     def SetGravity(self, x: float, y: float, z: float) -> None:
         """
@@ -518,14 +488,7 @@ class RFUniverseBaseEnv(ABC):
             y: Float, gravity on global y-axis (up).
             z: Float, gravity on global z-axis (forward).
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('SetGravity')
-        msg.write_float32(x)
-        msg.write_float32(y)
-        msg.write_float32(z)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('SetGravity', [float(x), float(y), float(z)])
 
     def SetGroundActive(self, active: bool) -> None:
         """
@@ -534,12 +497,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             active: Bool, active or inactive the ground.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('SetGroundActive')
-        msg.write_bool(active)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('GetRFMoveColliders', active)
 
     def SetGroundPhysicMaterial(self, bounciness: float, dynamic_friction: float, static_friction: float, friction_combine: int, bounce_combine: int) -> None:
         """
@@ -552,16 +510,7 @@ class RFUniverseBaseEnv(ABC):
             friction_combine: Int, how friction of two colliding objects is combined. 0 for Average, 1 for Minimum, 2 for Maximum and 3 for Multiply. See https://docs.unity3d.com/Manual/class-PhysicMaterial.html for more details.
             bounce_combine: Int, how bounciness of two colliding objects is combined. The value representation is the same with `friction_combine`.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('SetGroundPhysicMaterial')
-        msg.write_float32(bounciness)
-        msg.write_float32(dynamic_friction)
-        msg.write_float32(static_friction)
-        msg.write_int32(friction_combine)
-        msg.write_int32(bounce_combine)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('SetGroundPhysicMaterial', float(bounciness), float(dynamic_friction), float(static_friction), friction_combine, bounce_combine)
 
     def SetTimeStep(self, delta_time: float) -> None:
         """
@@ -570,12 +519,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             delta_time: Float, the time for a step in Unity.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('SetTimeStep')
-        msg.write_float32(delta_time)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('SetTimeStep', delta_time)
 
     def SetTimeScale(self, time_scale: float) -> None:
         """
@@ -584,12 +528,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             time_scale: Float, the time scale in Unity.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('SetTimeScale')
-        msg.write_float32(time_scale)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('SetTimeScale', time_scale)
 
     def SetResolution(self, resolution_x: int, resolution_y: int) -> None:
         """
@@ -599,13 +538,7 @@ class RFUniverseBaseEnv(ABC):
             resolution_x: Int, window width.
             resolution_y: Int, window height.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('SetResolution')
-        msg.write_int32(resolution_x)
-        msg.write_int32(resolution_y)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('SetResolution', resolution_x, resolution_y)
 
     def ExportOBJ(self, items_id: list, save_path: str) -> None:
         """
@@ -615,15 +548,7 @@ class RFUniverseBaseEnv(ABC):
             items_id: List, the object ids.
             save_path: Str, the path to save the OBJ files.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('ExportOBJ')
-        msg.write_int32(len(items_id))
-        for i in items_id:
-            msg.write_int32(i)
-        msg.write_string(save_path)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('ExportOBJ', items_id, save_path)
 
     def SetShadowDistance(self, distance: float) -> None:
         """
@@ -632,12 +557,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             distance: Float, the shadow distance measured in meter.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('SetShadowDistance')
-        msg.write_float32(distance)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('SetShadowDistance', float(distance))
 
     def SaveScene(self, file: str) -> None:
         """
@@ -646,22 +566,13 @@ class RFUniverseBaseEnv(ABC):
         Args:
             file: Str, the file path to save current scene. Default saving to `StreamingAssets` folder.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('SaveScene')
-        msg.write_string(file)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('SaveScene', file)
 
     def ClearScene(self) -> None:
         """
         Clear current scene.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('ClearScene')
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('ClearScene')
 
     def AlignCamera(self, camera_id: int) -> None:
         """
@@ -670,12 +581,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             camera_id: Int, camera id.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('AlignCamera')
-        msg.write_int32(camera_id)
-
-        self.asset_channel.send_message(msg)
+        self._send_env_data('AlignCamera', camera_id)
 
     def SetViewTransform(self, position: list = None, rotation: list = None) -> None:
         """
@@ -685,23 +591,29 @@ class RFUniverseBaseEnv(ABC):
             position: A list of length 3, representing the position of GUI view.
             rotation: A list of length 3, representing the rotation of GUI view.
         """
-        msg = OutgoingMessage()
-
-        msg.write_string('SetViewTransform')
-        msg.write_bool(position is not None)
-        msg.write_bool(rotation is not None)
         if position is not None:
             assert type(position) == list and len(position) == 3, \
                 'Argument position must be a 3-d list.'
-            for i in range(3):
-                msg.write_float32(position[i])
+            position = [float(i) for i in position]
         if rotation is not None:
             assert type(rotation) == list and len(rotation) == 3, \
                 'Argument rotation must be a 3-d list.'
-            for i in range(3):
-                msg.write_float32(rotation[i])
+            rotation = [float(i) for i in rotation]
 
-        self.asset_channel.send_message(msg)
+        self._send_env_data('SetViewTransform', position, rotation)
+
+    def SetViewBackGround(self, color: list = None) -> None:
+        """
+        Set the GUI view.
+
+        Args:
+            color: A list of length 3, background color of GUI view. None : default skybox.
+        """
+        if color is not None:
+            assert type(color) == list and len(color) == 3, 'color length must be 3'
+            color = [float(i) for i in color]
+
+        self._send_env_data('SetViewBackGround', color)
 
 
     #Dubug API
@@ -712,10 +624,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        msg = OutgoingMessage()
-        msg.write_string('DebugGraspPoint')
-        msg.write_bool(enabled)
-        self.debug_channel.send_message(msg)
+        self._send_debug_data('DebugGraspPoint', enabled)
 
     def DebugObjectPose(self, enabled: bool = True) -> None:
         """
@@ -724,10 +633,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        msg = OutgoingMessage()
-        msg.write_string('DebugObjectPose')
-        msg.write_bool(enabled)
-        self.debug_channel.send_message(msg)
+        self._send_debug_data('DebugObjectPose', enabled)
 
     def DebugCollisionPair(self, enabled: bool = True) -> None:
         """
@@ -736,10 +642,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        msg = OutgoingMessage()
-        msg.write_string('DebugCollisionPair')
-        msg.write_bool(enabled)
-        self.debug_channel.send_message(msg)
+        self._send_debug_data('DebugCollisionPair', enabled)
     
     def DebugColliderBound(self, enabled: bool = True) -> None:
         """
@@ -748,10 +651,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        msg = OutgoingMessage()
-        msg.write_string('DebugColliderBound')
-        msg.write_bool(enabled)
-        self.debug_channel.send_message(msg)
+        self._send_debug_data('DebugColliderBound', enabled)
 
     def DebugObjectID(self, enabled: bool = True) -> None:
         """
@@ -760,10 +660,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        msg = OutgoingMessage()
-        msg.write_string('DebugObjectID')
-        msg.write_bool(enabled)
-        self.debug_channel.send_message(msg)
+        self._send_debug_data('DebugObjectID', enabled)
 
     def Debug3DBBox(self, enabled: bool = True) -> None:
         """
@@ -772,10 +669,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        msg = OutgoingMessage()
-        msg.write_string('Debug3DBBox')
-        msg.write_bool(enabled)
-        self.debug_channel.send_message(msg)
+        self._send_debug_data('Debug3DBBox', enabled)
 
     def Debug2DBBox(self, enabled: bool = True) -> None:
         """
@@ -784,10 +678,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        msg = OutgoingMessage()
-        msg.write_string('Debug2DBBox')
-        msg.write_bool(enabled)
-        self.debug_channel.send_message(msg)
+        self._send_debug_data('Debug2DBBox', enabled)
 
     def DebugJointLink(self, enabled: bool = True) -> None:
         """
@@ -796,10 +687,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        msg = OutgoingMessage()
-        msg.write_string('DebugJointLink')
-        msg.write_bool(enabled)
-        self.debug_channel.send_message(msg)
+        self._send_debug_data('DebugJointLink', enabled)
 
     def SendLog(self, log: str) -> None:
         """
@@ -808,64 +696,5 @@ class RFUniverseBaseEnv(ABC):
         Args:
             log: Str, log message.
         """
-        msg = OutgoingMessage()
-        msg.write_string('SendLog')
-        msg.write_string(log)
-        self.debug_channel.send_message(msg)
+        self._send_debug_data('SendLog', log)
 
-    def _SendVersion(self) -> None:
-        msg = OutgoingMessage()
-        msg.write_string('SendVersion')
-        msg.write_string(pyrfuniverse.__version__)
-        self.debug_channel.send_message(msg)
-
-
-
-class RFUniverseGymWrapper(RFUniverseBaseEnv, gym.Env):
-
-    def __init__(
-            self,
-            executable_file: str = None,
-            scene_file: str = None,
-            custom_channels: list = [],
-            assets: list = [],
-            **kwargs
-    ):
-        RFUniverseBaseEnv.__init__(
-            self,
-            executable_file=executable_file,
-            scene_file=scene_file,
-            custom_channels=custom_channels,
-            assets=assets,
-            **kwargs,
-        )
-
-    def close(self):
-        RFUniverseBaseEnv.close(self)
-
-
-class RFUniverseGymGoalWrapper(gym.GoalEnv, RFUniverseBaseEnv):
-
-    def __init__(
-            self,
-            executable_file: str = None,
-            scene_file: str = None,
-            custom_channels: list = [],
-            assets: list = [],
-            **kwargs
-
-    ):
-        RFUniverseBaseEnv.__init__(
-            self,
-            executable_file=executable_file,
-            scene_file=scene_file,
-            custom_channels=custom_channels,
-            assets=assets,
-            **kwargs,
-        )
-
-    def reset(self):
-        gym.GoalEnv.reset(self)
-
-    def close(self):
-        RFUniverseBaseEnv.close(self)

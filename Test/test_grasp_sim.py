@@ -1,16 +1,13 @@
 import os
 import numpy as np
-
 try:
     import pandas as pd
 except ImportError:
-    print('This feature requires pandas, please install with `pip install pandas`')
-    raise
+    raise Exception('This feature requires pandas, please install with `pip install pandas`')
 try:
     import open3d as o3d
 except ImportError:
-    print('This feature requires open3d, please install with `pip install open3d`')
-    raise
+    raise Exception('This feature requires open3d, please install with `pip install open3d`')
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
 
@@ -64,7 +61,9 @@ quaternions = grasp_sim.data['quaternions']
 quaternions = np.array(quaternions).reshape([-1, 4])
 width = grasp_sim.data['width']
 width = np.array(width).reshape([-1, 1])
-print(points.shape)
+
+env.close()
+
 data = np.concatenate((points, quaternions, width), axis=1)
 csv = pd.DataFrame(data, columns=['x', 'y', 'z', 'qx', 'qy', 'qz', 'qw', 'width'])
 

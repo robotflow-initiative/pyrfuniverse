@@ -1,5 +1,5 @@
 import math
-from pyrfuniverse.envs import RFUniverseGymWrapper
+from pyrfuniverse.envs.gym_wrapper_env import RFUniverseGymWrapper
 import pyrfuniverse.attributes as attr
 from pyrfuniverse.utils.jaco_controller import RFUniverseJacoController
 import numpy as np
@@ -166,25 +166,25 @@ class KinovaGen2CatchingClothEnv(RFUniverseGymWrapper):
         self._step()
 
     def _get_eef_position(self):
-        return np.array(self.instance_channel.data[self.object2id['kinova']]['positions'][15]) / self.scale
+        return np.array(self.attrs[self.object2id['kinova']].data['positions'][15]) / self.scale
 
     def _get_eef_velocity(self):
-        return np.array(self.instance_channel.data[self.object2id['kinova']]['velocities'][15]) / self.scale
+        return np.array(self.attrs[self.object2id['kinova']].data['velocities'][15]) / self.scale
 
     def _get_target_position(self):
-        return np.array(self.instance_channel.data[self.object2id['target']]['position']) / self.scale
+        return np.array(self.attrs[self.object2id['target']].data['position']) / self.scale
 
     def _get_cloth_position(self):
-        return np.array(self.instance_channel.data[self.object2id['cloth']]['avg_position']) / self.scale
+        return np.array(self.attrs[self.object2id['cloth']].data['avg_position']) / self.scale
 
     def _get_cloth_velocity(self):
-        return np.array(self.instance_channel.data[self.object2id['cloth']]['avg_velocity']) / self.scale
+        return np.array(self.attrs[self.object2id['cloth']].data['avg_velocity']) / self.scale
 
     def _get_force_zone_parameters(self):
         return np.array([
-            self.instance_channel.data[self.object2id['cloth']]['force_zone_orientation'] / 180 * math.pi,
-            self.instance_channel.data[self.object2id['cloth']]['force_zone_intensity'],
-            self.instance_channel.data[self.object2id['cloth']]['force_zone_turbulence'],
+            self.attrs[self.object2id['cloth']].data['force_zone_orientation'] / 180 * math.pi,
+            self.attrs[self.object2id['cloth']].data['force_zone_intensity'],
+            self.attrs[self.object2id['cloth']].data['force_zone_turbulence'],
         ])
 
     def _check_fail(self, obs):

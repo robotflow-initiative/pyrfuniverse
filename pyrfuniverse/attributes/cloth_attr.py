@@ -1,15 +1,11 @@
 import pyrfuniverse.attributes as attr
-from pyrfuniverse.side_channel.side_channel import (
-    IncomingMessage,
-    OutgoingMessage,
-)
 
 
 class ClothAttr(attr.BaseAttr):
     """
     Obi cloth class.
     """
-    def parse_message(self, msg: IncomingMessage) -> dict:
+    def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
 
@@ -17,5 +13,4 @@ class ClothAttr(attr.BaseAttr):
             Dict: A dict containing useful information of this class.
 
         """
-        super().parse_message(msg)
-        return self.data
+        super().parse_message(data)

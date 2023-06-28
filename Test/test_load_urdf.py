@@ -10,6 +10,7 @@ yumi = env.LoadURDF(path=os.path.abspath('../URDF/yumi_description/urdf/yumi.urd
 yumi.SetTransform(position=[2, 0, 0])
 kinova = env.LoadURDF(path=os.path.abspath('../URDF/kinova_gen3/GEN3_URDF_V12.urdf'), native_ik=False)
 kinova.SetTransform(position=[3, 0, 0])
+env.step()
 
 ur5.IKTargetDoMove(position=[0, 0.5, 0], duration=0.1, relative=True)
 env.step()

@@ -1,4 +1,4 @@
-from pyrfuniverse.envs import RFUniverseGymGoalWrapper
+from pyrfuniverse.envs.gym_goal_wrapper import RFUniverseGymGoalWrapper
 import numpy as np
 from gym import spaces
 from gym.utils import seeding
@@ -68,7 +68,7 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
         """
         # print(action)
         pos_ctrl = action[:3] * 0.05
-        curr_pos = np.array(self.instance_channel.data[9658740]['positions'][3])
+        curr_pos = np.array(self.attrs[9658740].data['positions'][3])
         # print(curr_pos)
         pos_ctrl = curr_pos + pos_ctrl
 
@@ -109,7 +109,6 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
 
     def reset(self):
         super().reset()
-        self.env.reset()
         self.t = 0
         self.goal = self._sample_goal()
         object_pos = None
@@ -153,8 +152,8 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
             return -distance
 
     def _get_obs(self):
-        gripper_position = np.array(self.instance_channel.data[9658740]['positions'][3])
-        gripper_velocity = np.array(self.instance_channel.data[9658740]['velocities'][3])
+        gripper_position = np.array(self.attrs[9658740].data['positions'][3])
+        gripper_velocity = np.array(self.attrs[9658740].data['velocities'][3])
         gripper_width = self._get_gripper_width()
         # gripper_joint_position = np.array(self.articulation_channel.data[1]['joint_positions'])
         # gripper_joint_velocity = np.array(self.articulation_channel.data[1]['joint_velocities'])
@@ -162,10 +161,10 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
         panda_obs = np.concatenate((gripper_position, gripper_velocity, [gripper_width]))
 
         if self.load_object:
-            object_position = np.array(self.instance_channel.data[0]['position'])
-            object_rotation = np.array(self.instance_channel.data[0]['rotation'])
-            object_velocity = np.array(self.instance_channel.data[0]['velocity'])
-            object_angular_vel = np.array(self.instance_channel.data[0]['angular_vel'])
+            object_position = np.array(self.attrs[0].data['position'])
+            object_rotation = np.array(self.attrs[0].data['rotation'])
+            object_velocity = np.array(self.attrs[0].data['velocity'])
+            object_angular_vel = np.array(self.attrs[0].data['angular_vel'])
             # object_rel_pos = object_position - gripper_position
             # object_velocity = object_velocity - gripper_velocity
             achieved_goal = object_position.copy()
@@ -213,7 +212,7 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
         self.attrs[9658740].SetJointPosition(joint_positions=[w, w])
 
     def _get_gripper_width(self) -> float:
-        gripper_joint_positions = copy.deepcopy(self.instance_channel.data[9658740]['joint_positions'])
+        gripper_joint_positions = copy.deepcopy(self.attrs[9658740].data['joint_positions'])
         return -1 * (gripper_joint_positions[0] + gripper_joint_positions[1])
 
     def _check_success(self, obs):

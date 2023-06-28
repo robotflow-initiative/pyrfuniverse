@@ -1,4 +1,4 @@
-from pyrfuniverse.envs import RFUniverseBaseEnv
+from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import numpy as np
 import math
 

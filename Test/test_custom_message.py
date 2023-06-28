@@ -1,6 +1,6 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
-from pyrfuniverse.side_channel.side_channel import (
+from pyrfuniverse.side_channel import (
     IncomingMessage,
     OutgoingMessage,
 )
@@ -8,11 +8,6 @@ from pyrfuniverse.side_channel.side_channel import (
 env = RFUniverseBaseEnv(
     assets=['CustomAttr']
 )
-
-# asset_channel custom message
-env.ext.CustomMessage(message='this is asset channel custom message')
-env.step()
-print(env.data['custom_message'])
 
 # instance_channel custom message
 custom = env.InstanceObject(name='CustomAttr', id=123456, attr_type=attr.CustomAttr)

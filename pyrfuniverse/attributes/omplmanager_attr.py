@@ -10,11 +10,6 @@ DEFAULT_PLANNING_TIME = 500.0
 
 from ompl import base as ob
 from ompl import geometric as og
-
-from pyrfuniverse.side_channel.side_channel import (
-    IncomingMessage,
-    OutgoingMessage,
-)
 import copy
 import pyrfuniverse.attributes as attr
 
@@ -37,10 +32,9 @@ class OmplManagerAttr(attr.BaseAttr):
         self.joint_lower_limit = []
         self.joint_upper_limit = []
 
-    def parse_message(self, msg: IncomingMessage) -> dict:
-        super().parse_message(msg)
-        self.is_collision = msg.read_bool()
-        return self.data
+    def parse_message(self, data: dict):
+        super().parse_message(data)
+        self.is_collision = data['is_collide']
 
     def modify_robot(self, robot_id: int):
         self.robot_attr = self.env.GetAttr(robot_id)
@@ -48,13 +42,7 @@ class OmplManagerAttr(attr.BaseAttr):
         self.joint_lower_limit = self.robot_attr.data['joint_lower_limit']
         self.joint_upper_limit = self.robot_attr.data['joint_upper_limit']
 
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('ModifyRobot')
-        msg.write_int32(robot_id)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('ModifyRobot', robot_id)
 
     def get_cur_state(self) -> list:
         """
@@ -81,15 +69,13 @@ class OmplManagerAttr(attr.BaseAttr):
         self.state = [0.0] * self.joint_num
         self._set_joint_positions(self.state)
 
-    def _set_joint_positions(self, positions):
+    def _set_joint_positions(self, positions: list):
         self.is_collision = False
 
-        msg = OutgoingMessage()
-        msg.write_int32(self.id)
-        msg.write_string('SetJointState')
-        msg.write_float32_list(positions)
+        self._send_data('SetJointState', positions)
 
-        self.env.instance_channel.send_message(msg)
+    def RestoreRobot(self, robot_id: int):
+        self._send_data('RestoreRobot', robot_id)
 
 
 class RFUStateSpace(ob.RealVectorStateSpace):
@@ -150,8 +136,7 @@ class RFUOMPL():
         # check if a given state will lead a collision
         self.manager.set_state(self.state_to_list(state))
         # self.env.SetNextStepNoTimeConsuming()
-        self.env.step()
-        self.env.step()
+        self.env.step(2)
         return not self.manager.is_collision
 
     def set_planner(self, planner_name):

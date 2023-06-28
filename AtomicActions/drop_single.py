@@ -15,13 +15,11 @@ if __name__ == '__main__':
     pi = math.pi
 
     env.step('right', np.array([0.3, 0.85, 0.933]))
-    env.step('right', np.array([0.3, 0.77, 0.933]))
+    env.step('right', np.array([0.3, 0.75, 0.933]))
     env.close_gripper('right')
-
+    env.step('right', np.array([0.3, 0.85, 0.933]))
     env.step('right', np.array([1, 0.85, 0.662]), orientation=p.getQuaternionFromEuler([pi / 2, pi / 2, 0]))
     env.open_gripper('right')
-
-    # env.close()
 
     while True:
         env._step()
