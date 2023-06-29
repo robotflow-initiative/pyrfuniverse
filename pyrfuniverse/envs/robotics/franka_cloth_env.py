@@ -1,4 +1,4 @@
-from pyrfuniverse.envs.gym_goal_wrapper import RFUniverseGymGoalWrapper
+from pyrfuniverse.envs.gym_goal_wrapper_env import RFUniverseGymGoalWrapper
 import numpy as np
 import math
 import copy

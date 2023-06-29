@@ -1,4 +1,4 @@
-from pyrfuniverse.envs.gym_goal_wrapper import RFUniverseGymGoalWrapper
+from pyrfuniverse.envs.gym_goal_wrapper_env import RFUniverseGymGoalWrapper
 # from pyrfuniverse.utils import RFUniverseController
 import numpy as np
 from gym import spaces

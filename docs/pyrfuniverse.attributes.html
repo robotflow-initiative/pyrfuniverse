@@ -80,9 +80,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">BaseAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetType"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetType()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetTransform"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetTransform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetPosition"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetPosition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRotation"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetRotation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRotationQuaternion"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetRotationQuaternion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetScale"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetScale()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Translate"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Translate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Rotate"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Rotate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRotationQuaternion"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetRotationQuaternion()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetActive"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetActive()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetParent"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetParent()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetLayer"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetLayer()</span></code></a></li>
@@ -233,6 +236,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetMass"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetMass()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.AddForce"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.AddForce()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetVelocity"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetVelocity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetKinematic"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetKinematic()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -285,7 +289,7 @@
 real-world depth camera and produce depth image in similar pattern.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -301,13 +305,13 @@ real-world depth camera and produce depth image in similar pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth">
-<span class="sig-name descname"><span class="pre">GetActiveDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_intrinsic_matrix_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_intrinsic_matrix_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetActiveDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_intrinsic_matrix_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_intrinsic_matrix_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth" title="Permalink to this definition"></a></dt>
 <dd><p>Get IR-based depth image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>main_intrinsic_matrix_local</strong> – List[float] The intrinsic matrix of main camera.</p></li>
-<li><p><strong>ir_intrinsic_matrix_local</strong> – List[float] The intrinsic matrix of IR-based camera.</p></li>
+<li><p><strong>main_intrinsic_matrix_local</strong> – np.ndarray The intrinsic matrix of main camera.</p></li>
+<li><p><strong>ir_intrinsic_matrix_local</strong> – np.ndarray The intrinsic matrix of IR-based camera.</p></li>
 </ul>
 </dd>
 </dl>
@@ -326,7 +330,7 @@ real-world depth camera and produce depth image in similar pattern.</p>
 object loading, deleting and transforming.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -380,6 +384,59 @@ object loading, deleting and transforming.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetPosition">
+<span class="sig-name descname"><span class="pre">SetPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetPosition" title="Permalink to this definition"></a></dt>
+<dd><p>Set the position of this object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – A list of length 3, representing the target position value of object.</p></li>
+<li><p><strong>is_world</strong> – Bool, True for world coordinate, False for local coordinate.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetRotation">
+<span class="sig-name descname"><span class="pre">SetRotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRotation" title="Permalink to this definition"></a></dt>
+<dd><p>Set the rotation of this object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotation</strong> – A list of length 3, representing the target euler angle value of object.</p></li>
+<li><p><strong>is_world</strong> – Bool, True for world coordinate, False for local coordinate.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetRotationQuaternion">
+<span class="sig-name descname"><span class="pre">SetRotationQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRotationQuaternion" title="Permalink to this definition"></a></dt>
+<dd><p>Rotate this object using quaternion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quaternion</strong> – A list of length 4, representing the quaternion from current pose.</p></li>
+<li><p><strong>is_world</strong> – Bool, True for world coordinate, False for local coordinate.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetScale">
+<span class="sig-name descname"><span class="pre">SetScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetScale" title="Permalink to this definition"></a></dt>
+<dd><p>Set the scale of this object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scale</strong> – A list of length 3, representing the target scale value of object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.Translate">
 <span class="sig-name descname"><span class="pre">Translate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Translate" title="Permalink to this definition"></a></dt>
 <dd><p>Translate this object.</p>
@@ -401,20 +458,6 @@ object loading, deleting and transforming.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>rotation</strong> – A list of length 3, representing the euler-angle-format rotation from current euler angle.</p></li>
-<li><p><strong>is_world</strong> – Bool, True for world coordinate, False for local coordinate.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetRotationQuaternion">
-<span class="sig-name descname"><span class="pre">SetRotationQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRotationQuaternion" title="Permalink to this definition"></a></dt>
-<dd><p>Rotate this object using quaternion.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>quaternion</strong> – A list of length 4, representing the quaternion from current pose.</p></li>
 <li><p><strong>is_world</strong> – Bool, True for world coordinate, False for local coordinate.</p></li>
 </ul>
 </dd>
@@ -520,7 +563,7 @@ object loading, deleting and transforming.</p>
 of the scene in RFUniverse.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -553,7 +596,7 @@ of the scene in RFUniverse.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetRGB">
-<span class="sig-name descname"><span class="pre">GetRGB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetRGB" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetRGB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetRGB" title="Permalink to this definition"></a></dt>
 <dd><p>Get the camera RGB image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -561,7 +604,7 @@ of the scene in RFUniverse.</p>
 <li><p><strong>width</strong> – Int, the width of image.</p></li>
 <li><p><strong>height</strong> – Int, the height of image.</p></li>
 <li><p><strong>fov</strong> – Float, the field of view for camera.</p></li>
-<li><p><strong>intrinsic_matrix</strong> – A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
 </ul>
 </dd>
 </dl>
@@ -569,7 +612,7 @@ of the scene in RFUniverse.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetNormal">
-<span class="sig-name descname"><span class="pre">GetNormal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetNormal" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetNormal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetNormal" title="Permalink to this definition"></a></dt>
 <dd><p>Get the normal image in world coordinate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -577,7 +620,7 @@ of the scene in RFUniverse.</p>
 <li><p><strong>width</strong> – Int, the width of image.</p></li>
 <li><p><strong>height</strong> – Int, the height of image.</p></li>
 <li><p><strong>fov</strong> – Float, the field of view for camera.</p></li>
-<li><p><strong>intrinsic_matrix</strong> – A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
 </ul>
 </dd>
 </dl>
@@ -585,7 +628,7 @@ of the scene in RFUniverse.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetID">
-<span class="sig-name descname"><span class="pre">GetID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetID" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetID" title="Permalink to this definition"></a></dt>
 <dd><p>Get the instance segmentation mask image. The color for each pixel is computed from object ID, see <cite>pyrfuniverse.utils.rfuniverse_utility.GetColorFromID</cite> for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -593,7 +636,7 @@ of the scene in RFUniverse.</p>
 <li><p><strong>width</strong> – Int, the width of image.</p></li>
 <li><p><strong>height</strong> – Int, the height of image.</p></li>
 <li><p><strong>fov</strong> – Float, the field of view for camera.</p></li>
-<li><p><strong>intrinsic_matrix</strong> – A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
 </ul>
 </dd>
 </dl>
@@ -601,7 +644,7 @@ of the scene in RFUniverse.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth">
-<span class="sig-name descname"><span class="pre">GetDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zero_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zero_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth" title="Permalink to this definition"></a></dt>
 <dd><p>Get the depth image from camera. Since eacg pixel of depth image returned from this function is 8-bit, user should limit the depth range (<cite>zero_dis</cite> and <cite>one_dis</cite>) for more accurate results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -611,7 +654,7 @@ of the scene in RFUniverse.</p>
 <li><p><strong>width</strong> – Int, the width of image.</p></li>
 <li><p><strong>height</strong> – Int, the height of image.</p></li>
 <li><p><strong>fov</strong> – Float, the field of view for camera.</p></li>
-<li><p><strong>intrinsic_matrix</strong> – A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
 </ul>
 </dd>
 </dl>
@@ -619,7 +662,7 @@ of the scene in RFUniverse.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR">
-<span class="sig-name descname"><span class="pre">GetDepthEXR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetDepthEXR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR" title="Permalink to this definition"></a></dt>
 <dd><p>Get the depth image from camera. This function returns EXR format image bytes and each pixel is 32-bit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -627,7 +670,7 @@ of the scene in RFUniverse.</p>
 <li><p><strong>width</strong> – Int, the width of image.</p></li>
 <li><p><strong>height</strong> – Int, the height of image.</p></li>
 <li><p><strong>fov</strong> – Float, the field of view for camera.</p></li>
-<li><p><strong>intrinsic_matrix</strong> – A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
 </ul>
 </dd>
 </dl>
@@ -635,7 +678,7 @@ of the scene in RFUniverse.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetAmodalMask">
-<span class="sig-name descname"><span class="pre">GetAmodalMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetAmodalMask" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetAmodalMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetAmodalMask" title="Permalink to this definition"></a></dt>
 <dd><p>Get the amodal mask image for target object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -644,7 +687,7 @@ of the scene in RFUniverse.</p>
 <li><p><strong>width</strong> – Int, the width of image.</p></li>
 <li><p><strong>height</strong> – Int, the height of image.</p></li>
 <li><p><strong>fov</strong> – Float, the field of view for camera.</p></li>
-<li><p><strong>intrinsic_matrix</strong> – A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
 </ul>
 </dd>
 </dl>
@@ -652,7 +695,7 @@ of the scene in RFUniverse.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetHeatMap">
-<span class="sig-name descname"><span class="pre">GetHeatMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetHeatMap" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetHeatMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetHeatMap" title="Permalink to this definition"></a></dt>
 <dd><p>Get the heat map image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -661,7 +704,7 @@ of the scene in RFUniverse.</p>
 <li><p><strong>height</strong> – Int, the height of image.</p></li>
 <li><p><strong>radius</strong> – The radius of heat map.</p></li>
 <li><p><strong>fov</strong> – Float, the field of view for camera.</p></li>
-<li><p><strong>intrinsic_matrix</strong> – A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
 </ul>
 </dd>
 </dl>
@@ -669,7 +712,7 @@ of the scene in RFUniverse.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.Get2DBBox">
-<span class="sig-name descname"><span class="pre">Get2DBBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.Get2DBBox" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">Get2DBBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.Get2DBBox" title="Permalink to this definition"></a></dt>
 <dd><p>Get the 2d bounding box of objects in current camera view.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -678,7 +721,7 @@ of the scene in RFUniverse.</p>
 <li><p><strong>height</strong> – Int, the height of image.</p></li>
 <li><p><strong>radius</strong> – The radius of heat map.</p></li>
 <li><p><strong>fov</strong> – Float, the field of view for camera.</p></li>
-<li><p><strong>intrinsic_matrix</strong> – A list of length 9, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
 </ul>
 </dd>
 </dl>
@@ -702,7 +745,7 @@ of the scene in RFUniverse.</p>
 <p>Obi cloth class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.cloth_attr.ClothAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -726,7 +769,7 @@ of the scene in RFUniverse.</p>
 <p>Collider class for objects who have collider in Unity.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.collider_attr.ColliderAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -756,7 +799,7 @@ of the scene in RFUniverse.</p>
 <p>Robot controller class, which will control robot arms, hands and embodied robots.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -788,7 +831,7 @@ of the scene in RFUniverse.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition">
-<span class="sig-name descname"><span class="pre">SetJointPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_scales</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">SetJointPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_scales</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition" title="Permalink to this definition"></a></dt>
 <dd><p>Set the target joint position for each moveable joint and move with PD control.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -851,7 +894,6 @@ of the scene in RFUniverse.</p>
 </ul>
 </dd>
 </dl>
-<p>Returns:</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1104,7 +1146,7 @@ of the scene in RFUniverse.</p>
 <p>Class for simulating DIGIT tactile sensor.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.digit_attr.DigitAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1137,7 +1179,7 @@ of the scene in RFUniverse.</p>
 <p>Basic game object attribute class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1202,7 +1244,7 @@ of the scene in RFUniverse.</p>
 <p>Grasp pose simulation class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1306,7 +1348,7 @@ of the scene in RFUniverse.</p>
 <p>Human body Inverse Kinematic class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1426,7 +1468,7 @@ of the scene in RFUniverse.</p>
 <p>Light attribute class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1516,7 +1558,7 @@ of the scene in RFUniverse.</p>
 <p>Point cloud rendering class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1530,7 +1572,7 @@ of the scene in RFUniverse.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.ShowPointCloud">
-<span class="sig-name descname"><span class="pre">ShowPointCloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ply_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.ShowPointCloud" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ShowPointCloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ply_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr.ShowPointCloud" title="Permalink to this definition"></a></dt>
 <dd><p>Display point cloud in Unity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1568,7 +1610,7 @@ and <cite>colors</cite> will be ignored.</p></li>
 <p>Rigid body class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1616,6 +1658,17 @@ and <cite>colors</cite> will be ignored.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetKinematic">
+<span class="sig-name descname"><span class="pre">SetKinematic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_kinematic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetKinematic" title="Permalink to this definition"></a></dt>
+<dd><p>Set the Rigidbody is kinematic or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>is_kinematic</strong> – is kinematic or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -1628,7 +1681,7 @@ and <cite>colors</cite> will be ignored.</p></li>
 <p>Obi Softbody class</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.softbody_attr.SoftbodyAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IncomingMessage</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr.parse_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr.parse_message" title="Permalink to this definition"></a></dt>
 <dd><p>Parse messages. This function is called by internal function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
