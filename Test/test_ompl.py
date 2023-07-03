@@ -1,6 +1,9 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
-import pyrfuniverse.attributes.omplmanager_attr as rfu_ompl
+try:
+    import pyrfuniverse.attributes.omplmanager_attr as rfu_ompl
+except ImportError:
+    raise Exception('This feature requires ompl, see: https://github.com/ompl/ompl')
 
 env = RFUniverseBaseEnv(assets=['franka_panda', 'Collider_Box', 'OmplManager'])
 

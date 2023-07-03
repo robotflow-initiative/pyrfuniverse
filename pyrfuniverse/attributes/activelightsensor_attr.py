@@ -3,10 +3,6 @@ import cv2
 import numpy as np
 import pyrfuniverse.attributes as attr
 import pyrfuniverse.utils.active_depth_generate as active_depth
-from pyrfuniverse.side_channel.side_channel import (
-    IncomingMessage,
-    OutgoingMessage,
-)
 
 
 class ActiveLightSensorAttr(attr.CameraAttr):
@@ -16,10 +12,10 @@ class ActiveLightSensorAttr(attr.CameraAttr):
     """
     def __init__(self, env, id: int, data=None):
         super().__init__(env, id, data)
-        self.main_intrinsic_matrix = np.eye(4)
-        self.ir_intrinsic_matrix = np.eye(4)
+        self.main_intrinsic_matrix = np.eye(3)
+        self.ir_intrinsic_matrix = np.eye(3)
 
-    def parse_message(self, msg: IncomingMessage) -> dict:
+    def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
 
@@ -27,10 +23,10 @@ class ActiveLightSensorAttr(attr.CameraAttr):
             Dict: A dict containing useful information of this class.\n
             self.data['active_depth']: IR-based depth, shape = (w,h)
         """
-        super().parse_message(msg)
-        if msg.read_bool() is True:
-            self.data['ir_left'] = base64.b64decode(msg.read_string())
-            self.data['ir_right'] = base64.b64decode(msg.read_string())
+        super().parse_message(data)
+        if 'ir_left' in self.data and 'ir_right' in self.data:
+            self.data['ir_left'] = base64.b64decode(self.data['ir_left'])
+            self.data['ir_right'] = base64.b64decode(self.data['ir_right'])
 
             image_left = np.frombuffer(self.data['ir_left'], dtype=np.uint8)
             image_left = cv2.imdecode(image_left, cv2.IMREAD_COLOR)[..., 2]
@@ -61,22 +57,15 @@ class ActiveLightSensorAttr(attr.CameraAttr):
                                                                                         use_noise=False)
             self.data['active_depth'][self.data['active_depth'] > 8.] = 0
             self.data['active_depth'][self.data['active_depth'] < 0.1] = 0
-        return self.data
 
-    def GetActiveDepth(self, main_intrinsic_matrix_local: list, ir_intrinsic_matrix_local: list):
+    def GetActiveDepth(self, main_intrinsic_matrix_local: np.ndarray, ir_intrinsic_matrix_local: np.ndarray):
         """
         Get IR-based depth image.
 
         Args:
-            main_intrinsic_matrix_local: List[float] The intrinsic matrix of main camera.
-            ir_intrinsic_matrix_local: List[float] The intrinsic matrix of IR-based camera.
+            main_intrinsic_matrix_local: np.ndarray The intrinsic matrix of main camera.
+            ir_intrinsic_matrix_local: np.ndarray The intrinsic matrix of IR-based camera.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('GetActiveDepth')
-        self.main_intrinsic_matrix = np.reshape(main_intrinsic_matrix_local, [3, 3]).T
-        self.ir_intrinsic_matrix = np.reshape(ir_intrinsic_matrix_local, [3, 3]).T
-        msg.write_float32_list(self.ir_intrinsic_matrix.T.reshape([-1]).tolist())
-
-        self.env.instance_channel.send_message(msg)
+        self.main_intrinsic_matrix = main_intrinsic_matrix_local
+        self.ir_intrinsic_matrix = ir_intrinsic_matrix_local
+        self._send_data('GetActiveDepth', self.ir_intrinsic_matrix)

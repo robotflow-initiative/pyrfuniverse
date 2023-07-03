@@ -5,22 +5,23 @@ import numpy as np
 try:
     import open3d as o3d
 except ImportError:
-    print('This feature requires open3d, please install with `pip install open3d`')
-    raise
+    raise Exception('This feature requires open3d, please install with `pip install open3d`')
 import pyrfuniverse.utils.rfuniverse_utility as utility
 import pyrfuniverse.utils.depth_processor as dp
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 
-env = RFUniverseBaseEnv(scene_file='ActiveDepth.json')
 
+nd_main_intrinsic_matrix = np.array([[600, 0, 240],
+                                     [0, 600, 240],
+                                     [0, 0, 1]])
+nd_ir_intrinsic_matrix = np.array([[480, 0, 240],
+                                   [0, 480, 240],
+                                   [0, 0, 1]])
+
+env = RFUniverseBaseEnv(scene_file='ActiveDepth.json')
 active_light_sensor_1 = env.GetAttr(789789)
 
-main_intrinsic_matrix = [600, 0, 0, 0, 600, 0, 240, 240, 1]
-ir_intrinsic_matrix = [480, 0, 0, 0, 480, 0, 240, 240, 1]
-
-nd_main_intrinsic_matrix = np.reshape(main_intrinsic_matrix, [3, 3]).T
-
-active_light_sensor_1.GetRGB(intrinsic_matrix=main_intrinsic_matrix)
+active_light_sensor_1.GetRGB(intrinsic_matrix=nd_main_intrinsic_matrix)
 env.step()
 image_byte = active_light_sensor_1.data['rgb']
 image_rgb = np.frombuffer(image_byte, dtype=np.uint8)
@@ -28,24 +29,25 @@ image_rgb = cv2.imdecode(image_rgb, cv2.IMREAD_COLOR)
 image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
 image_rgb = np.transpose(image_rgb, [1, 0, 2])
 
-active_light_sensor_1.GetID(intrinsic_matrix=main_intrinsic_matrix)
+active_light_sensor_1.GetID(intrinsic_matrix=nd_main_intrinsic_matrix)
 env.step()
 image_id = active_light_sensor_1.data['id_map']
 image_id = np.frombuffer(image_id, dtype=np.uint8)
 image_id = cv2.imdecode(image_id, cv2.IMREAD_COLOR)
 image_id = cv2.cvtColor(image_id, cv2.COLOR_BGR2RGB)
 
-active_light_sensor_1.GetDepthEXR(intrinsic_matrix=main_intrinsic_matrix)
+active_light_sensor_1.GetDepthEXR(intrinsic_matrix=nd_main_intrinsic_matrix)
 env.step()
 image_depth_exr = active_light_sensor_1.data['depth_exr']
 
-active_light_sensor_1.GetActiveDepth(main_intrinsic_matrix_local = main_intrinsic_matrix, ir_intrinsic_matrix_local = ir_intrinsic_matrix)
+active_light_sensor_1.GetActiveDepth(main_intrinsic_matrix_local=nd_main_intrinsic_matrix,
+                                     ir_intrinsic_matrix_local=nd_ir_intrinsic_matrix)
 env.step()
 image_active_depth = active_light_sensor_1.data['active_depth']
 image_active_depth = np.transpose(image_active_depth, [1, 0])
 
 local_to_world_matrix = active_light_sensor_1.data['local_to_world_matrix']
-local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
+# local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
 
 # point = dp.image_array_to_point_cloud(image_rgb, image_active_depth, 45, local_to_world_matrix)
 
@@ -60,7 +62,7 @@ filtered_point_cloud1 = dp.filter_active_depth_point_cloud_with_exact_depth_poin
 
 active_light_sensor_2 = env.GetAttr(123123)
 
-active_light_sensor_2.GetRGB(intrinsic_matrix=main_intrinsic_matrix)
+active_light_sensor_2.GetRGB(intrinsic_matrix=nd_main_intrinsic_matrix)
 env.step()
 image_byte = active_light_sensor_2.data['rgb']
 image_rgb = np.frombuffer(image_byte, dtype=np.uint8)
@@ -68,31 +70,33 @@ image_rgb = cv2.imdecode(image_rgb, cv2.IMREAD_COLOR)
 image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
 image_rgb = np.transpose(image_rgb, [1, 0, 2])
 
-active_light_sensor_2.GetID(intrinsic_matrix=main_intrinsic_matrix)
+active_light_sensor_2.GetID(intrinsic_matrix=nd_main_intrinsic_matrix)
 env.step()
 image_id = active_light_sensor_2.data['id_map']
 image_id = np.frombuffer(image_id, dtype=np.uint8)
 image_id = cv2.imdecode(image_id, cv2.IMREAD_COLOR)
 image_id = cv2.cvtColor(image_id, cv2.COLOR_BGR2RGB)
 
-active_light_sensor_2.GetDepthEXR(intrinsic_matrix=main_intrinsic_matrix)
+active_light_sensor_2.GetDepthEXR(intrinsic_matrix=nd_main_intrinsic_matrix)
 env.step()
-image_depth_exr = env.instance_channel.data[123123]['depth_exr']
+image_depth_exr = active_light_sensor_2.data['depth_exr']
 
-active_light_sensor_2.GetActiveDepth(main_intrinsic_matrix_local = main_intrinsic_matrix, ir_intrinsic_matrix_local = ir_intrinsic_matrix)
+active_light_sensor_2.GetActiveDepth(main_intrinsic_matrix_local=nd_main_intrinsic_matrix,
+                                     ir_intrinsic_matrix_local=nd_ir_intrinsic_matrix)
 env.step()
 image_active_depth = active_light_sensor_2.data['active_depth']
 image_active_depth = np.transpose(image_active_depth, [1, 0])
 
 local_to_world_matrix = active_light_sensor_2.data['local_to_world_matrix']
-local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
 
 env.close()
 
 # point = dp.image_array_to_point_cloud(image_rgb, image_active_depth, 45, local_to_world_matrix)
-real_point_cloud2 = dp.image_bytes_to_point_cloud_intrinsic_matrix(image_byte, image_depth_exr, nd_main_intrinsic_matrix, local_to_world_matrix)
+real_point_cloud2 = dp.image_bytes_to_point_cloud_intrinsic_matrix(image_byte, image_depth_exr,
+                                                                   nd_main_intrinsic_matrix, local_to_world_matrix)
 real_point_cloud2 = dp.mask_point_cloud_with_id_color(real_point_cloud2, image_id, color)
-active_point_cloud2 = dp.image_array_to_point_cloud_intrinsic_matrix(image_rgb, image_active_depth, nd_main_intrinsic_matrix, local_to_world_matrix)
+active_point_cloud2 = dp.image_array_to_point_cloud_intrinsic_matrix(image_rgb, image_active_depth,
+                                                                     nd_main_intrinsic_matrix, local_to_world_matrix)
 active_point_cloud2 = dp.mask_point_cloud_with_id_color(active_point_cloud2, image_id, color)
 filtered_point_cloud2 = dp.filter_active_depth_point_cloud_with_exact_depth_point_cloud(active_point_cloud2, real_point_cloud2)
 

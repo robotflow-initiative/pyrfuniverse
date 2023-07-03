@@ -1,5 +1,4 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-import pyrfuniverse.utils.rfuniverse_utility as utility
 import os
 
 env = RFUniverseBaseEnv()

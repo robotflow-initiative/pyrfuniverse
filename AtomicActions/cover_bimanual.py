@@ -21,8 +21,8 @@ if __name__ == '__main__':
     )
 
     env.double_step(
-        left_pos=np.array([-0.35,0.63, 0.791000009]),
-        right_pos=np.array([0.35,0.63, 0.791000009])
+        left_pos=np.array([-0.35, 0.63, 0.791000009]),
+        right_pos=np.array([0.35, 0.63, 0.791000009])
     )
 
     env.double_close()

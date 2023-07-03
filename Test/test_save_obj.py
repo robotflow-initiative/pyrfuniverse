@@ -1,5 +1,4 @@
 import os
-
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
 

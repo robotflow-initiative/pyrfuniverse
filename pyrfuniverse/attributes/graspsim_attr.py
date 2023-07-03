@@ -1,15 +1,11 @@
 import pyrfuniverse.attributes as attr
-from pyrfuniverse.side_channel.side_channel import (
-    IncomingMessage,
-    OutgoingMessage,
-)
 
 
 class GraspSimAttr(attr.BaseAttr):
     """
     Grasp pose simulation class.
     """
-    def parse_message(self, msg: IncomingMessage) -> dict:
+    def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
 
@@ -26,19 +22,10 @@ class GraspSimAttr(attr.BaseAttr):
 
             self.data['success']: The list of success or failure of the grasing pose.
         """
-        super().parse_message(msg)
-        self.data['done'] = msg.read_bool()
-        if self.data['done']:
-            mode = msg.read_int32()
-            if mode == 0:
-                self.data['points'] = msg.read_float32_list()
-                self.data['quaternions'] = msg.read_float32_list()
-                self.data['width'] = msg.read_float32_list()
-            if mode == 1:
-                self.data['success'] = msg.read_float32_list()
-        return self.data
+        super().parse_message(data)
 
-    def StartGraspSim(self, mesh: str, gripper: str, points: list, normals: list, depth_range_min: float, depth_range_max: float, depth_lerp_count: int, angle_lerp_count: int, parallel_count: int = 100):
+    def StartGraspSim(self, mesh: str, gripper: str, points: list, normals: list, depth_range_min: float,
+                      depth_range_max: float, depth_lerp_count: int, angle_lerp_count: int, parallel_count: int = 100):
         """
         Start simulating grasping.
 
@@ -53,23 +40,11 @@ class GraspSimAttr(attr.BaseAttr):
             angle_lerp_count: Int, the interpolation count of angle.
             parallel_count: Int, the count of parallel grasping.
         """
-        msg = OutgoingMessage()
+        self._send_data('StartGraspSim', mesh, gripper, points, normals, float(depth_range_min), float(depth_range_max),
+                        depth_lerp_count, angle_lerp_count, parallel_count)
 
-        msg.write_int32(self.id)
-        msg.write_string('StartGraspSim')
-        msg.write_string(mesh)
-        msg.write_string(gripper)
-        msg.write_float32_list(points)
-        msg.write_float32_list(normals)
-        msg.write_float32(depth_range_min)
-        msg.write_float32(depth_range_max)
-        msg.write_int32(depth_lerp_count)
-        msg.write_int32(angle_lerp_count)
-        msg.write_int32(parallel_count)
-
-        self.env.instance_channel.send_message(msg)
-
-    def GenerateGraspPose(self, mesh: str, gripper: str, points: list, normals: list, depth_range_min: float, depth_range_max: float, depth_lerp_count: int, angle_lerp_count: int):
+    def GenerateGraspPose(self, mesh: str, gripper: str, points: list, normals: list, depth_range_min: float,
+                          depth_range_max: float, depth_lerp_count: int, angle_lerp_count: int):
         """
         Generate grasp poses and visualize grasp results.
 
@@ -83,20 +58,8 @@ class GraspSimAttr(attr.BaseAttr):
             depth_lerp_count: Int, the interpolation count of depth.
             angle_lerp_count: Int, the interpolation count of angle.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('GenerateGraspPose')
-        msg.write_string(mesh)
-        msg.write_string(gripper)
-        msg.write_float32_list(points)
-        msg.write_float32_list(normals)
-        msg.write_float32(depth_range_min)
-        msg.write_float32(depth_range_max)
-        msg.write_int32(depth_lerp_count)
-        msg.write_int32(angle_lerp_count)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('GenerateGraspPose', mesh, gripper, points, normals, float(depth_range_min), float(depth_range_max),
+                        depth_lerp_count, angle_lerp_count)
 
     def StartGraspTest(self, mesh: str, gripper: str, points: list, quaternions: list, parallel_count: int = 100):
         """
@@ -109,17 +72,7 @@ class GraspSimAttr(attr.BaseAttr):
             quaternions: A list of float, representing the quaternions.
             parallel_count: Int, the interpolation count of angle.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('StartGraspTest')
-        msg.write_string(mesh)
-        msg.write_string(gripper)
-        msg.write_float32_list(points)
-        msg.write_float32_list(quaternions)
-        msg.write_int32(parallel_count)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('StartGraspTest', mesh, gripper, points, quaternions, parallel_count)
 
     def ShowGraspPose(self, mesh: str, gripper: str, positions: list, quaternions: list):
         """
@@ -131,13 +84,4 @@ class GraspSimAttr(attr.BaseAttr):
             points: A list of float, representing the grasping points.
             quaternions: A list of float, representing the quaternions.
         """
-        msg = OutgoingMessage()
-
-        msg.write_int32(self.id)
-        msg.write_string('ShowGraspPose')
-        msg.write_string(mesh)
-        msg.write_string(gripper)
-        msg.write_float32_list(positions)
-        msg.write_float32_list(quaternions)
-
-        self.env.instance_channel.send_message(msg)
+        self._send_data('ShowGraspPose', mesh, gripper, positions, quaternions)
