@@ -230,7 +230,7 @@ class ControllerAttr(attr.ColliderAttr):
         Enable or disable the native IK algorithm.
 
         Args:
-            enabled: Bool, True for enable and False for disable.
+            enabled: Bool, True for enable and False for disable.When it is True, through the IKTatGetDo*** interface, according to the end pose.When it is False, through the SetJoint*** interface, according to the joint movement.NativeIK can only take effect when it is started during initialization.
         """
         self._send_data('EnabledNativeIK', enabled)
 

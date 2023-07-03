@@ -47,13 +47,13 @@ class RFUniverseBaseEnv(ABC):
             self.executable_file = pyrfuniverse.executable_file
 
         if self.executable_file == '' or self.executable_file == '@editor':
-            print('play unity editor')
+            print('Waiting for UnityEditor Play...')
             self.process = None
         elif os.path.exists(self.executable_file):
             self.port = self._get_port()
             self.process = self._start_unity_env(self.executable_file, self.port)
         else:
-            raise Exception('executable file not exists')
+            raise Exception('Executable file not exists')
         self.communicator = RFUniverseCommunicator(port=self.port, receive_data_callback=self._receive_data)
         self._send_debug_data('SendVersion', pyrfuniverse.__version__)
         if len(self.pre_load_assets) > 0:
@@ -405,25 +405,25 @@ class RFUniverseBaseEnv(ABC):
         self.attrs[id] = attr_type(self, id)
         return self.attrs[id]
 
-    def LoadURDF(self, path: str, id: int = None, native_ik: bool = True) -> attr.ControllerAttr:
+    def LoadURDF(self, path: str, id: int = None, native_ik: bool = True, axis: str = 'y') -> attr.ControllerAttr:
         """
         Load a model from URDF file.
 
         Args:
             path: Str, the URDF file path.
             id: Int, object id.
-            native_ik: Bool, True for enabling native IK; False for using custom IK.
+            native_ik: Bool, True for enabling native IK; False for using custom IK.When it is True, through the IKTargetDo*** interface, according to the end pose.When it is False, through the SetJoint*** interface, according to the joint movement.
+            axis: Str, import axis, This can be 'z' or 'y', depending on the URDF file
 
         Returns:
             pyrfuniverse.attributes.ControllerAttr: The object attribute intance.
         """
-        assert id not in self.attrs, \
-            'this ID exists'
+        assert id not in self.attrs, 'this ID exists'
 
         while id is None or id in self.attrs:
             id = random.randint(100000, 999999)
 
-        self._send_env_data('LoadURDF', id, path, native_ik)
+        self._send_env_data('LoadURDF', id, path, native_ik, axis)
 
         self.attrs[id] = attr.ControllerAttr(self, id)
         return self.attrs[id]
@@ -519,7 +519,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             delta_time: Float, the time for a step in Unity.
         """
-        self._send_env_data('SetTimeStep', delta_time)
+        self._send_env_data('SetTimeStep', float(delta_time))
 
     def SetTimeScale(self, time_scale: float) -> None:
         """
@@ -528,7 +528,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             time_scale: Float, the time scale in Unity.
         """
-        self._send_env_data('SetTimeScale', time_scale)
+        self._send_env_data('SetTimeScale', float(time_scale))
 
     def SetResolution(self, resolution_x: int, resolution_y: int) -> None:
         """

@@ -18,7 +18,7 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
 
     def __init__(
             self,
-            max_steps=50,
+            max_steps=200,
             knife_pos_min=(-0.5, 0.05, -0.07),
             knife_pos_max=(-0.6, 0.07, 0.06),
             knife_rot_min=(90, 0, -30),
@@ -54,7 +54,6 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
         self.goal = self._sample_goal()
         self.t = 0
         self._init_env_()
-
         self.action_space = spaces.Box(
             low=-1,
             high=1,
@@ -291,7 +290,7 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
         return np.array(self.attrs[self.object2id['ag95']].data['rotations'][9]) / 180 * math.pi
 
     def _get_eef_quat(self):
-        return np.array(self.attrs[self.object2id['ag95']].data['quaternion'][9])
+        return np.array(self.attrs[self.object2id['ag95']].data['quaternions'][9])
 
     def _get_eef_velocity(self):
         return np.array(self.attrs[self.object2id['ag95']].data['velocities'][9]) / self.scale

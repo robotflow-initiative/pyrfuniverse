@@ -15,11 +15,15 @@ class RFUniverseCommunicator(threading.Thread):
         self.on_receive_data = receive_data_callback
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # self.server.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 1024*1024*10)
         self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.server.bind(('0.0.0.0', port))
+        self.server.bind(('localhost', port))
+        print(f'Waiting for connections on port: {port}...')
         self.server.listen(1)
         self.client, self.addr = self.server.accept()
+        print(f'Connected successfully')
+        self.client.settimeout(None)
+        self.client.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 1024 * 1024 * 10)
+        self.client.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 1024 * 1024 * 10)
         self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         if self.is_async:
             self.start()
