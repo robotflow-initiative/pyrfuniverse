@@ -114,17 +114,17 @@
 <p>Linux：<code class="docutils literal notranslate"><span class="pre">RFUniverse_For_Linux/RFUniverse.x86_64</span></code></p>
 <p>Windows：<code class="docutils literal notranslate"><span class="pre">RFUniverse_For_Windows/RFUniverse.exe</span></code></p>
 </li>
-<li><p>Clone the pyrfuniverse, switch to the Tag with the <strong>same version number</strong> as the RFUniverse Release (e.g. v0.8.3):</p>
+<li><p>Clone the pyrfuniverse, switch to the Tag with the <font color=red><strong>same version number</strong></font> as the RFUniverse Release (e.g. v0.9.10):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mvig-robotflow/pyrfuniverse.git
 <span class="nb">cd</span><span class="w"> </span>pyrfuniverse
-git<span class="w"> </span>checkout<span class="w"> </span>v0.8.3
+git<span class="w"> </span>checkout<span class="w"> </span>v0.9.10
 </pre></div>
 </div>
 </li>
-<li><p>Create a conda environment and activate it, install the ‘pyrfuniverse’ package with the <strong>same version number</strong> as the RFUniverse Release (e.g. v0.8.3):</p>
+<li><p>Create a conda environment and activate it, install the ‘pyrfuniverse’ package with the <font color=red><strong>same version number</strong></font> as the RFUniverse Release (e.g. v0.9.10):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>rfuniverse<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8<span class="w"> </span>-y
 conda<span class="w"> </span>activate<span class="w"> </span>rfuniverse
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">pyrfuniverse</span><span class="o">==</span><span class="m">0</span>.9.10
 </pre></div>
 </div>
 </li>

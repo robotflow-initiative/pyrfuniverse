@@ -1,4 +1,5 @@
 (get_started_1)=
+
 # Get Started
 
 ## Installation
@@ -8,26 +9,26 @@ Follow the steps below to configure and run the sample scene through the publish
 1. Download the [RFUniverse Releases](https://github.com/mvig-robotflow/rfuniverse/releases) and unzip it:
    
     Run the program once, enter the scene and then close it:
-
+   
     Linux：`RFUniverse_For_Linux/RFUniverse.x86_64`
-
+   
     Windows：`RFUniverse_For_Windows/RFUniverse.exe`
 
-2. Clone the pyrfuniverse, switch to the Tag with the **same version number** as the RFUniverse Release (e.g. v0.8.3):
+2. Clone the pyrfuniverse, switch to the Tag with the <font color=red>**same version number**</font> as the RFUniverse Release (e.g. v0.9.10):
    
    ```bash
    git clone https://github.com/mvig-robotflow/pyrfuniverse.git
    cd pyrfuniverse
-   git checkout v0.8.3
+   git checkout v0.9.10
    ```
 
-3. Create a conda environment and activate it, install the 'pyrfuniverse' package with the **same version number** as the RFUniverse Release (e.g. v0.8.3):
-    
-    ```bash
-    conda create -n rfuniverse python=3.8 -y
-    conda activate rfuniverse
-    pip install -e .
-    ```
+3. Create a conda environment and activate it, install the 'pyrfuniverse' package with the <font color=red>**same version number**</font> as the RFUniverse Release (e.g. v0.9.10):
+   
+   ```bash
+   conda create -n rfuniverse python=3.8 -y
+   conda activate rfuniverse
+   pip install pyrfuniverse==0.9.10
+   ```
 
 4. Run any Python script under 'pyrfuniverse/Test' (some scripts may require installation of large packages such as 'pybullet', 'open3d', etc.):
    
