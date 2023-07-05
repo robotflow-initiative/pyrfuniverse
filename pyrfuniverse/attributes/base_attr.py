@@ -212,7 +212,7 @@ class BaseAttr:
         """
         self._send_data('SetRFMoveColliderActive', active)
 
-    def GetLoaclPointFromWorld(self, point: list):
+    def GetLocalPointFromWorld(self, point: list):
         """
         Transform a point from local coordinate to world coordinate.
 
