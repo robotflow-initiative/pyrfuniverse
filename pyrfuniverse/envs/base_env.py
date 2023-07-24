@@ -43,19 +43,23 @@ class RFUniverseBaseEnv(ABC):
         self.listen_object = {}
         self.port = port
 
+        self.log_level = 1
+        self.log_map = {'Log': 3, 'Warning': 2, 'Error': 1, 'Exception': 1, 'Assert': 1}
+
         if self.executable_file is None:
             self.executable_file = pyrfuniverse.executable_file
 
         if self.executable_file == '' or self.executable_file == '@editor':
-            print('Waiting for UnityEditor Play...')
+            print('Waiting for UnityEditor play...')
             self.process = None
         elif os.path.exists(self.executable_file):
             self.port = self._get_port()
             self.process = self._start_unity_env(self.executable_file, self.port)
         else:
             raise Exception('Executable file not exists')
-        self.communicator = RFUniverseCommunicator(port=self.port, receive_data_callback=self._receive_data)
-        self._send_debug_data('SendVersion', pyrfuniverse.__version__)
+        self.communicator = RFUniverseCommunicator(port=self.port,
+                                                   receive_data_callback=self._receive_data)
+        self._send_debug_data('SetPythonVersion', pyrfuniverse.__version__)
         if len(self.pre_load_assets) > 0:
             self.PreLoadAssetsAsync(assets, True)
         if self.scene_file is not None:
@@ -81,32 +85,35 @@ class RFUniverseBaseEnv(ABC):
         return subprocess.Popen(arg)
 
     def _receive_data(self, objs: list) -> None:
-        type = objs[0]
+        msg = objs[0]
         objs = objs[1:]
-        if type == 'Env':
+        if msg == 'Env':
             self._parse_env_data(objs)
-        elif type == 'Instance':
+        elif msg == 'Instance':
             self._parse_instence_data(objs)
-        elif type == 'Debug':
+        elif msg == 'Debug':
             self._parse_debug_data(objs)
-        elif type == 'Message':
+        elif msg == 'Message':
             self._parse_message_data(objs)
-        elif type == 'Object':
+        elif msg == 'Object':
             self._parse_object_data(objs)
         return
+
     def _parse_env_data(self, objs: list) -> None:
-        type = objs[0]
+        msg = objs[0]
         objs = objs[1:]
-        if type == 'LoadDone':
+        if msg == 'Close':
+            self.close()
+        elif msg == 'LoadDone':
             self.data['load_done'] = True
-        elif type == 'PendDone':
+        elif msg == 'PendDone':
             self.data['pend_done'] = True
-        elif type == 'RFMoveColliders':
+        elif msg == 'RFMoveColliders':
             self.data['colliders'] = objs[0]
-        elif type == 'CurrentCollisionPairs':
+        elif msg == 'CurrentCollisionPairs':
             self.data['collision_pairs'] = objs[0]
         else:
-            print(f'unknown env data type: {type}')
+            print(f'unknown env data type: {msg}')
 
     def _parse_instence_data(self, objs: list) -> None:
         this_object_id = objs[0]
@@ -122,6 +129,13 @@ class RFUniverseBaseEnv(ABC):
         self.data[this_object_id] = self.attrs[this_object_id].parse_message(this_object_data)
 
     def _parse_debug_data(self, objs: list) -> None:
+        msg = objs[0]
+        objs = objs[1:]
+        if msg == 'Log':
+            if self.log_map[objs[0]] <= self.log_level:
+                print(f'Unity Env Log Type:{objs[0]}\nCondition:{objs[1]}\nStackTrace:{objs[2]}')
+        else:
+            print(f'unknown debug data type: {msg}')
         return
 
     def _parse_message_data(self, objs: list) -> None:
@@ -152,6 +166,11 @@ class RFUniverseBaseEnv(ABC):
         self.communicator.send_object('Object', *args)
 
     def _step(self):
+        """
+        Send the messages of called functions to Unity and simulate for a step, then accept the data from Unity.
+        """
+        if not self.communicator.connected:
+            raise Exception('Unity Env not connected')
         self.communicator.sync_step()
 
     def step(self, count: int = 1):
@@ -172,6 +191,8 @@ class RFUniverseBaseEnv(ABC):
         """
         if self.process is not None:
             self.process.kill()
+        if self.communicator is not None:
+            self.communicator.close()
 
     def GetAttr(self, id: int):
         """
@@ -405,7 +426,7 @@ class RFUniverseBaseEnv(ABC):
         self.attrs[id] = attr_type(self, id)
         return self.attrs[id]
 
-    def LoadURDF(self, path: str, id: int = None, native_ik: bool = True, axis: str = 'y') -> attr.ControllerAttr:
+    def LoadURDF(self, path: str, id: int = None, native_ik: bool = False, axis: str = 'y') -> attr.ControllerAttr:
         """
         Load a model from URDF file.
 
@@ -463,19 +484,13 @@ class RFUniverseBaseEnv(ABC):
 
     def GetCurrentCollisionPairs(self) -> None:
         """
-        Get the collision pairs of current collision.
-
-        Returns:
-            Call this function and `step()`, the collision pairs can be got from env.data['CurrentCollisionPairs'].
+        Get the collision pairs of current collision. After calling this method and stepping once, the result will be saved in env.data['CurrentCollisionPairs']
         """
         self._send_env_data('GetCurrentCollisionPairs')
 
     def GetRFMoveColliders(self) -> None:
         """
-        Get the RFMove colliders.
-
-        Returns:
-            Call this function and `step()`, the collision pairs can be got from env.data['RFMoveColliders'].
+        Get the RFMove colliders. After calling this method and stepping once, the result will be saved in env.data['RFMoveColliders']
         """
         self._send_env_data('GetRFMoveColliders')
 

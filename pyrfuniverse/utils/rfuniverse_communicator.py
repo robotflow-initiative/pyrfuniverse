@@ -1,3 +1,4 @@
+import math
 import struct
 import socket
 import threading
@@ -13,22 +14,29 @@ class RFUniverseCommunicator(threading.Thread):
         # self.sync_send_bytes_queue = []
         self.read_offset = 0
         self.on_receive_data = receive_data_callback
-
+        self.port = port
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.server.bind(('localhost', port))
-        print(f'Waiting for connections on port: {port}...')
+        self.server.bind(('localhost', self.port))
+        print(f'Waiting for connections on port: {self.port}...')
         self.server.listen(1)
         self.client, self.addr = self.server.accept()
         print(f'Connected successfully')
+        self.connected = True
         self.client.settimeout(None)
-        self.client.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 1024 * 1024 * 10)
-        self.client.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 1024 * 1024 * 10)
+        self.buffer_size = 1024 * 10
+        # self.client.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, self.buffer_size)
+        # self.client.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, self.buffer_size)
         self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         if self.is_async:
             self.start()
         else:
             self.receive_step()
+
+    def close(self):
+        self.client.close()
+        self.server.close()
+        self.connected = False
 
     def run(self):
         while True:
@@ -49,6 +57,8 @@ class RFUniverseCommunicator(threading.Thread):
     def receive_step(self):
         # sync_receive_objects_queue = []
         while True:
+            if not self.connected:
+                return
             data = self.receive_bytes()
             objs = self.receive_object(data)
             if len(objs) > 0 and objs[0] == "StepEnd":
@@ -61,14 +71,34 @@ class RFUniverseCommunicator(threading.Thread):
         # sync_receive_objects_queue.clear()
 
     def receive_bytes(self):
+        if not self.connected:
+            return
         data = self.client.recv(4)
-        length = int.from_bytes(data, byteorder='little', signed=False)
-        return self.client.recv(length)
+        length = int.from_bytes(data, byteorder='little', signed=True)
+        buffer = bytearray(length)
+        offset = 0
+        while offset < length:
+            offset_max = offset + self.buffer_size
+            if offset_max > length:
+                offset_max = length
+            buffer[offset: offset_max] = self.client.recv(offset_max-offset)
+            offset = offset_max
+        return bytes(buffer)
+        # return self.client.recv(length)
 
     def send_bytes(self, data: bytes):
+        if not self.connected:
+            return
         length = len(data).to_bytes(4, byteorder='little', signed=False)
         self.client.send(length)
-        self.client.send(data)
+        offset = 0
+        while offset < len(data):
+            offset_max = offset + self.buffer_size
+            if offset_max > len(data):
+                offset_max = len(data)
+            self.client.send(data[offset: offset_max])
+            offset = offset_max
+        # self.client.send(data)
         if platform == 'linux':
             self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
 

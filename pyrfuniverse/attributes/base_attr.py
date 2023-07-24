@@ -155,6 +155,21 @@ class BaseAttr:
 
         self._send_data('Rotate', rotation, is_world)
 
+    def LookAt(self, target: list, world_up: list):
+        """
+        Rotates the transform so the forward vector points at target's current position.
+
+        Args:
+            target: A list of length 3, target to point towards.
+            world_up: A list of length 3, vector specifying the upward direction.
+        """
+        assert len(target) == 3, 'target length must be 3'
+        target = [float(i) for i in target]
+        assert len(world_up) == 3, 'world_up length must be 3'
+        world_up = [float(i) for i in world_up]
+
+        self._send_data('LookAt', target, world_up)
+
     def SetActive(self, active: bool):
         """
         Set the activeness of this obeject.
@@ -214,7 +229,7 @@ class BaseAttr:
 
     def GetLocalPointFromWorld(self, point: list):
         """
-        Transform a point from local coordinate to world coordinate.
+        Transform a point from local coordinate to world coordinate. After calling this method and stepping once, the result will be saved in self.data['result_local_point']
 
         Args:
             point: A list of length 3, representing the position of a point.
@@ -222,11 +237,11 @@ class BaseAttr:
         assert len(point) == 3, 'point length must be 3'
         point = [float(i) for i in point]
 
-        self._send_data('GetLoaclPointFromWorld', point)
+        self._send_data('GetLocalPointFromWorld', point)
 
     def GetWorldPointFromLocal(self, point: list):
         """
-        Transform a point from world coordinate to local coordinate.
+        Transform a point from world coordinate to local coordinate. After calling this method and stepping once, the result will be saved in self.data['result_world_point']
 
         Args:
             point: A list of length 3, representing the position of a point.
