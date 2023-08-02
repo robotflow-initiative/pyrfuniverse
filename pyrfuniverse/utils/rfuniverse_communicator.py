@@ -24,7 +24,7 @@ class RFUniverseCommunicator(threading.Thread):
         print(f'Connected successfully')
         self.connected = True
         self.client.settimeout(None)
-        self.buffer_size = 1024 * 10
+        # self.buffer_size = 1024 * 10
         # self.client.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, self.buffer_size)
         # self.client.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, self.buffer_size)
         self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
@@ -60,10 +60,12 @@ class RFUniverseCommunicator(threading.Thread):
             if not self.connected:
                 return
             data = self.receive_bytes()
-            objs = self.receive_object(data)
-            if len(objs) > 0 and objs[0] == "StepEnd":
-                break
-            self.on_receive_data(objs)
+            if data is not None and len(data) > 0:
+                objs = self.receive_object(data)
+                if len(objs) > 0 and objs[0] == "StepEnd":
+
+                    break
+                self.on_receive_data(objs)
         #     sync_receive_objects_queue.append(objs)
         # if self.on_receive_data is not None:
         #     for item in sync_receive_objects_queue:
@@ -71,36 +73,32 @@ class RFUniverseCommunicator(threading.Thread):
         # sync_receive_objects_queue.clear()
 
     def receive_bytes(self):
-        if not self.connected:
-            return
         data = self.client.recv(4)
-        length = int.from_bytes(data, byteorder='little', signed=True)
-        buffer = bytearray(length)
-        offset = 0
-        while offset < length:
-            offset_max = offset + self.buffer_size
-            if offset_max > length:
-                offset_max = length
-            buffer[offset: offset_max] = self.client.recv(offset_max-offset)
-            offset = offset_max
-        return bytes(buffer)
-        # return self.client.recv(length)
+        length = int.from_bytes(data, byteorder='little', signed=False)
+        if length == 0:
+            return None
+        buffer = bytearray()
+        while len(buffer) < length:
+            buffer.extend(self.client.recv(length - len(buffer)))
+        return buffer
 
     def send_bytes(self, data: bytes):
         if not self.connected:
             return
         length = len(data).to_bytes(4, byteorder='little', signed=False)
         self.client.send(length)
-        offset = 0
-        while offset < len(data):
-            offset_max = offset + self.buffer_size
-            if offset_max > len(data):
-                offset_max = len(data)
-            self.client.send(data[offset: offset_max])
-            offset = offset_max
-        # self.client.send(data)
-        if platform == 'linux':
-            self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
+        self.client.send(data)
+
+        # offset = 0
+        # while offset < len(data):
+        #     offset_max = offset + self.buffer_size
+        #     if offset_max > len(data):
+        #         offset_max = len(data)
+        #     self.client.send(data[offset: offset_max])
+        #     offset = offset_max
+        # # self.client.send(data)
+        # if platform == 'linux':
+        #     self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
 
     def receive_object(self, data: bytes) -> list:
         self.read_offset = 0
