@@ -31,7 +31,7 @@ class RFUniverseBaseEnv(ABC):
         graphics: bool = True,
         port: int = 5004,
         proc_id=0,
-        iflog=True,
+        log_level=1,
     ):
         # time step
         self.t = 0
@@ -46,8 +46,8 @@ class RFUniverseBaseEnv(ABC):
         self.listen_object = {}
         self.port = port
 
-        self.iflog = iflog
-        self.log_level = 1
+        self.log_level = log_level
+
         self.log_map = {"Log": 3, "Warning": 2, "Error": 1, "Exception": 1, "Assert": 1}
 
         if self.executable_file is None:
@@ -96,10 +96,12 @@ class RFUniverseBaseEnv(ABC):
         arg = [executable_file]
         if not self.graphics:
             arg.extend(["-nographics", "-batchmode"])
-        if not self.iflog:
-            arg.append("-nolog")
+        if self.log_level == 0:
+            proc_out = subprocess.DEVNULL
+        else:
+            proc_out = None
         arg.append(f"-port:{port}")
-        return subprocess.Popen(arg)
+        return subprocess.Popen(arg, stdout=proc_out, stderr=proc_out)
 
     def _receive_data(self, objs: list) -> None:
         msg = objs[0]
