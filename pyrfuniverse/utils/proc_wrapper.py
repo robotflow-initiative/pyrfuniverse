@@ -29,7 +29,9 @@ def _worker(
                 observation, reward, done, info = env.step(data)
                 if done.all():
                     # save final observation where user can get it, then reset
-                    info["terminal_observation"] = observation
+                    # TODO - bug here
+                    # for _i, _o in zip([info, observation]):
+                    #     _i["terminal_observation"] = _o
                     observation = env.reset()
                 remote.send((observation, reward, done, info))
             elif cmd == "seed":
@@ -86,7 +88,7 @@ class SubprocVecEnv(VecEnv):
 
     def __init__(
         self,
-        env_fns: List[Callable[[]]],
+        env_fns: List[Callable[[], gym.Env]],
         start_method: Optional[str] = None,
         n_agents=32,
     ):

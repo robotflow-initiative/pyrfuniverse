@@ -6,6 +6,7 @@ import numpy as np
 import pyrfuniverse
 import pyrfuniverse.attributes as attr
 from pyrfuniverse.side_channel import IncomingMessage, OutgoingMessage
+from pyrfuniverse.utils.locker import Locker
 from pyrfuniverse.utils.rfuniverse_communicator import RFUniverseCommunicator
 import os
 
@@ -72,7 +73,8 @@ class RFUniverseBaseEnv(ABC):
         )
         self.port = self.communicator.port  # update port
         if PROC_TYPE == "release":
-            self.process = self._start_unity_env(self.executable_file, self.port)
+            with Locker('config'): # unity process will try to modify the config file
+                self.process = self._start_unity_env(self.executable_file, self.port)
         self.communicator.online()
         self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
         if len(self.pre_load_assets) > 0:
