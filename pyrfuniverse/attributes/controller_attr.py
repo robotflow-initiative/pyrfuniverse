@@ -101,7 +101,8 @@ class ControllerAttr(attr.ColliderAttr):
             interval: Float, the time interval.
             time_joint_positions: A list of float list, representing the target joint positions at each time step.
         """
-        time_joint_positions = [float(i) for i in time_joint_positions]
+        for i in range(len(time_joint_positions)):
+            time_joint_positions[i] = [float(j) for j in time_joint_positions[i]]
         self._send_data('SetJointPositionContinue', interval, time_joint_positions)
 
     def SetJointVelocity(self, joint_velocitys: list):

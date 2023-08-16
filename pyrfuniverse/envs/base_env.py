@@ -40,7 +40,7 @@ class RFUniverseBaseEnv(ABC):
         self.scene_file = scene_file
         self.pre_load_assets = assets
         self.graphics = graphics
-
+        self.process = None
         self.attrs = {}
         self.data = {}
         self.listen_messages = {}

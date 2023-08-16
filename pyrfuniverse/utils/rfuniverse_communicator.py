@@ -36,7 +36,6 @@ class RFUniverseCommunicator(threading.Thread):
                         print(f"discover port {self.port}")
                         return
                     except OSError:
-                        # self.port += int(os.environ['PORT_OFFSET'])
                         self.port += 256
                 raise OSError("No available port")
         else:
@@ -49,9 +48,6 @@ class RFUniverseCommunicator(threading.Thread):
         print(f"Connected successfully")
         self.connected = True
         self.client.settimeout(None)
-        # self.buffer_size = 1024 * 10
-        # self.client.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, self.buffer_size)
-        # self.client.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, self.buffer_size)
         self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         if self.is_async:
             self.start()
@@ -90,11 +86,6 @@ class RFUniverseCommunicator(threading.Thread):
                 if len(objs) > 0 and objs[0] == "StepEnd":
                     break
                 self.on_receive_data(objs)
-        #     sync_receive_objects_queue.append(objs)
-        # if self.on_receive_data is not None:
-        #     for item in sync_receive_objects_queue:
-        #         self.on_receive_data(item)
-        # sync_receive_objects_queue.clear()
 
     def receive_bytes(self):
         data = self.client.recv(4)
@@ -113,16 +104,8 @@ class RFUniverseCommunicator(threading.Thread):
         self.client.send(length)
         self.client.send(data)
 
-        # offset = 0
-        # while offset < len(data):
-        #     offset_max = offset + self.buffer_size
-        #     if offset_max > len(data):
-        #         offset_max = len(data)
-        #     self.client.send(data[offset: offset_max])
-        #     offset = offset_max
-        # # self.client.send(data)
-        # if platform == 'linux':
-        #     self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
+        if platform == 'linux':
+            self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
 
     def receive_object(self, data: bytes) -> list:
         self.read_offset = 0

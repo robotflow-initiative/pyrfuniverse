@@ -218,15 +218,6 @@ class BaseAttr:
 
         self.env.attrs.pop(self.id)
 
-    def SetRFMoveColliderActive(self, active: bool):
-        """
-        Set the collider active or inactive in RFMove.
-
-        Args:
-            active: Bool, True for active and False for inactive.
-        """
-        self._send_data('SetRFMoveColliderActive', active)
-
     def GetLocalPointFromWorld(self, point: list):
         """
         Transform a point from local coordinate to world coordinate. After calling this method and stepping once, the result will be saved in self.data['result_local_point']
