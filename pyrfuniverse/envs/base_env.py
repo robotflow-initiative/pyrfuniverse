@@ -6,6 +6,7 @@ import numpy as np
 import pyrfuniverse
 import pyrfuniverse.attributes as attr
 from pyrfuniverse.side_channel import IncomingMessage, OutgoingMessage
+from pyrfuniverse.utils.locker import Locker
 from pyrfuniverse.utils.rfuniverse_communicator import RFUniverseCommunicator
 import os
 
@@ -20,7 +21,8 @@ class RFUniverseBaseEnv(ABC):
         assets: List, the list of pre-load assets. All assets in the list will be pre-loaded in Unity when the environment is initialized, which will save time during instanciating.
         graphics: Bool, True for showing GUI and False for headless mode.
     """
-    metadata = {'render.modes': ['human', 'rgb_array']}
+
+    metadata = {"render.modes": ["human", "rgb_array"]}
 
     def __init__(
         self,
@@ -28,7 +30,9 @@ class RFUniverseBaseEnv(ABC):
         scene_file: str = None,
         assets: list = [],
         graphics: bool = True,
-        port: int = 5004
+        port: int = 5004,
+        proc_id=0,
+        log_level=1,
     ):
         # time step
         self.t = 0
@@ -43,23 +47,36 @@ class RFUniverseBaseEnv(ABC):
         self.listen_object = {}
         self.port = port
 
-        self.log_level = 1
-        self.log_map = {'Log': 3, 'Warning': 2, 'Error': 1, 'Exception': 1, 'Assert': 1}
+        self.log_level = log_level
+
+        self.log_map = {"Log": 3, "Warning": 2, "Error": 1, "Exception": 1, "Assert": 1}
 
         if self.executable_file is None:
             self.executable_file = pyrfuniverse.executable_file
 
-        if self.executable_file == '' or self.executable_file == '@editor':
-            print('Waiting for UnityEditor play...')
-            self.process = None
-        elif os.path.exists(self.executable_file):
-            self.port = self._get_port()
-            self.process = self._start_unity_env(self.executable_file, self.port)
-        else:
-            raise Exception('Executable file not exists')
-        self.communicator = RFUniverseCommunicator(port=self.port,
-                                                   receive_data_callback=self._receive_data)
-        self._send_debug_data('SetPythonVersion', pyrfuniverse.__version__)
+        PROC_TYPE = ""  # editor or release
+        if self.executable_file == "" or self.executable_file == "@editor":  # editor
+            assert proc_id == 0, "proc_id must be 0 when using editor"
+            print("Waiting for UnityEditor play...")
+            PROC_TYPE = "editor"
+            self.port = 5004
+        elif os.path.exists(self.executable_file):  # release
+            PROC_TYPE = "release"
+            self.port = 5005 + proc_id  # default release port
+        else:  # error
+            raise ValueError(f"Executable file {self.executable_file} not exists")
+
+        self.communicator = RFUniverseCommunicator(
+            port=self.port,
+            receive_data_callback=self._receive_data,
+            proc_type=PROC_TYPE,
+        )
+        self.port = self.communicator.port  # update port
+        if PROC_TYPE == "release":
+            with Locker('config'): # unity process will try to modify the config file
+                self.process = self._start_unity_env(self.executable_file, self.port)
+        self.communicator.online()
+        self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
         if len(self.pre_load_assets) > 0:
             self.PreLoadAssetsAsync(assets, True)
         if self.scene_file is not None:
@@ -81,61 +98,71 @@ class RFUniverseBaseEnv(ABC):
         arg = [executable_file]
         if not self.graphics:
             arg.extend(["-nographics", "-batchmode"])
-        arg.append(f'-port:{port}')
-        return subprocess.Popen(arg)
+        if self.log_level == 0:
+            proc_out = subprocess.DEVNULL
+        else:
+            proc_out = None
+        arg.append(f"-port:{port}")
+        return subprocess.Popen(arg, stdout=proc_out, stderr=proc_out)
 
     def _receive_data(self, objs: list) -> None:
         msg = objs[0]
         objs = objs[1:]
-        if msg == 'Env':
+        if msg == "Env":
             self._parse_env_data(objs)
-        elif msg == 'Instance':
+        elif msg == "Instance":
             self._parse_instence_data(objs)
-        elif msg == 'Debug':
+        elif msg == "Debug":
             self._parse_debug_data(objs)
-        elif msg == 'Message':
+        elif msg == "Message":
             self._parse_message_data(objs)
-        elif msg == 'Object':
+        elif msg == "Object":
             self._parse_object_data(objs)
         return
 
     def _parse_env_data(self, objs: list) -> None:
         msg = objs[0]
         objs = objs[1:]
-        if msg == 'Close':
+        if msg == "Close":
             self.close()
-        elif msg == 'LoadDone':
-            self.data['load_done'] = True
-        elif msg == 'PendDone':
-            self.data['pend_done'] = True
-        elif msg == 'RFMoveColliders':
-            self.data['colliders'] = objs[0]
-        elif msg == 'CurrentCollisionPairs':
-            self.data['collision_pairs'] = objs[0]
+        elif msg == "LoadDone":
+            self.data["load_done"] = True
+        elif msg == "PendDone":
+            self.data["pend_done"] = True
+        elif msg == "RFMoveColliders":
+            self.data["colliders"] = objs[0]
+        elif msg == "CurrentCollisionPairs":
+            self.data["collision_pairs"] = objs[0]
         else:
-            print(f'unknown env data type: {msg}')
+            print(f"unknown env data type: {msg}")
 
     def _parse_instence_data(self, objs: list) -> None:
         this_object_id = objs[0]
         this_object_type = objs[1]
         this_object_data = objs[2]
 
-        attr_type = eval('attr.' + this_object_type)
+        attr_type = eval("attr." + this_object_type)
         if this_object_id not in self.attrs:
             self.attrs[this_object_id] = attr_type(self, this_object_id)
         elif type(self.attrs[this_object_id]) != attr_type:
-            self.attrs[this_object_id] = attr_type(self, this_object_id, self.attrs[this_object_id].data)
+            self.attrs[this_object_id] = attr_type(
+                self, this_object_id, self.attrs[this_object_id].data
+            )
 
-        self.data[this_object_id] = self.attrs[this_object_id].parse_message(this_object_data)
+        self.data[this_object_id] = self.attrs[this_object_id].parse_message(
+            this_object_data
+        )
 
     def _parse_debug_data(self, objs: list) -> None:
         msg = objs[0]
         objs = objs[1:]
-        if msg == 'Log':
+        if msg == "Log":
             if self.log_map[objs[0]] <= self.log_level:
-                print(f'Unity Env Log Type:{objs[0]}\nCondition:{objs[1]}\nStackTrace:{objs[2]}')
+                print(
+                    f"Unity Env Log Type:{objs[0]}\nCondition:{objs[1]}\nStackTrace:{objs[2]}"
+                )
         else:
-            print(f'unknown debug data type: {msg}')
+            print(f"unknown debug data type: {msg}")
         return
 
     def _parse_message_data(self, objs: list) -> None:
@@ -151,26 +178,26 @@ class RFUniverseBaseEnv(ABC):
             self.listen_object[head](objs)
 
     def _send_env_data(self, *args) -> None:
-        self.communicator.send_object('Env', *args)
+        self.communicator.send_object("Env", *args)
 
     def _send_instance_data(self, *args) -> None:
-        self.communicator.send_object('Instance', *args)
+        self.communicator.send_object("Instance", *args)
 
     def _send_debug_data(self, *args) -> None:
-        self.communicator.send_object('Debug', *args)
+        self.communicator.send_object("Debug", *args)
 
     def _send_message_data(self, *args) -> None:
-        self.communicator.send_object('Message', *args)
+        self.communicator.send_object("Message", *args)
 
     def _send_object_data(self, *args) -> None:
-        self.communicator.send_object('Object', *args)
+        self.communicator.send_object("Object", *args)
 
     def _step(self):
         """
         Send the messages of called functions to Unity and simulate for a step, then accept the data from Unity.
         """
         if not self.communicator.connected:
-            raise Exception('Unity Env not connected')
+            raise Exception("Unity Env not connected")
         self.communicator.sync_step()
 
     def step(self, count: int = 1):
@@ -204,10 +231,10 @@ class RFUniverseBaseEnv(ABC):
         Returns:
             pyrfuniverse.attributes.BaseAttr: An instance of attribute.
         """
-        assert id in self.attrs, 'this ID not exists'
+        assert id in self.attrs, "this ID not exists"
         return self.attrs[id]
 
-    #Env API
+    # Env API
     def PreLoadAssetsAsync(self, names: list, auto_wait: bool = False) -> None:
         """
         PreLoad the asset.
@@ -216,7 +243,7 @@ class RFUniverseBaseEnv(ABC):
             names: list, the name of assets.
             auto_wait: Bool, if True, this function will not return until the loading is done.
         """
-        self._send_env_data('PreLoadAssetsAsync', names)
+        self._send_env_data("PreLoadAssetsAsync", names)
 
         if auto_wait:
             self.WaitLoadDone()
@@ -229,7 +256,7 @@ class RFUniverseBaseEnv(ABC):
             file: Str, the scene JSON file. If it's a relative path, it will load from `StraemingAssets`.
             auto_wait: Bool, if True, this function will not return until the loading is done.
         """
-        self._send_env_data('LoadSceneAsync', file)
+        self._send_env_data("LoadSceneAsync", file)
 
         if auto_wait:
             self.WaitLoadDone()
@@ -242,7 +269,7 @@ class RFUniverseBaseEnv(ABC):
             name: Str, the scene name.
             auto_wait: Bool, if True, this function will not return until the loading is done.
         """
-        self._send_env_data('SwitchSceneAsync', name)
+        self._send_env_data("SwitchSceneAsync", name)
 
         if auto_wait:
             self.WaitLoadDone()
@@ -251,18 +278,18 @@ class RFUniverseBaseEnv(ABC):
         """
         Wait for the loading is done.
         """
-        self.data['load_done'] = False
-        while not self.data['load_done']:
+        self.data["load_done"] = False
+        while not self.data["load_done"]:
             self._step()
 
     def Pend(self) -> None:
         """
         Pend the program until the `EndPend` button in `UnityPlayer` is clicked.
         """
-        self._send_env_data('Pend')
+        self._send_env_data("Pend")
 
-        self.data['pend_done'] = False
-        while not self.data['pend_done']:
+        self.data["pend_done"] = False
+        while not self.data["pend_done"]:
             self._step()
 
     def SendMessage(self, message: str, *args) -> None:
@@ -286,7 +313,7 @@ class RFUniverseBaseEnv(ABC):
             elif type(i) == list and type(i[0]) == float:
                 msg.write_float32_list(i)
             else:
-                print(f'dont support this data type:{type(i)}')
+                print(f"dont support this data type:{type(i)}")
         self._send_message_data(message, msg.buffer)
 
     def SendObject(self, head: str, *args) -> None:
@@ -338,12 +365,14 @@ class RFUniverseBaseEnv(ABC):
         """
         self.listen_object.pop(type)
 
-    def InstanceObject(self, name: str, id: int = None, attr_type: type = attr.BaseAttr):
+    def InstanceObject(
+        self, name: str, id: int = None, attr_type: type = attr.BaseAttr
+    ):
         """
         Instanciate an object.
 
         Built-in assets:
-    
+
         GameObjectAttr:
             Basic Objects:
                 "GameObject_Box",
@@ -379,7 +408,7 @@ class RFUniverseBaseEnv(ABC):
                 "GameObject_Capsule",
                 "Rigidbody_Cylinder",
                 "Rigidbody_Sphere",
-            YCB dataset: 
+            YCB dataset:
                 77 models in YCB dataset. See YCB Object and Model Set for detail: https://rse-lab.cs.washington.edu/projects/posecnn/
 
         ControllerAttr:
@@ -415,18 +444,19 @@ class RFUniverseBaseEnv(ABC):
         Returns:
             type(`attr_type`): The object attribute instance.
         """
-        assert id not in self.attrs, \
-            'this ID exists'
+        assert id not in self.attrs, "this ID exists"
 
         while id is None or id in self.attrs:
             id = random.randint(100000, 999999)
 
-        self._send_env_data('InstanceObject', name, id)
+        self._send_env_data("InstanceObject", name, id)
 
         self.attrs[id] = attr_type(self, id)
         return self.attrs[id]
 
-    def LoadURDF(self, path: str, id: int = None, native_ik: bool = False, axis: str = 'y') -> attr.ControllerAttr:
+    def LoadURDF(
+        self, path: str, id: int = None, native_ik: bool = False, axis: str = "y"
+    ) -> attr.ControllerAttr:
         """
         Load a model from URDF file.
 
@@ -439,12 +469,12 @@ class RFUniverseBaseEnv(ABC):
         Returns:
             pyrfuniverse.attributes.ControllerAttr: The object attribute intance.
         """
-        assert id not in self.attrs, 'this ID exists'
+        assert id not in self.attrs, "this ID exists"
 
         while id is None or id in self.attrs:
             id = random.randint(100000, 999999)
 
-        self._send_env_data('LoadURDF', id, path, native_ik, axis)
+        self._send_env_data("LoadURDF", id, path, native_ik, axis)
 
         self.attrs[id] = attr.ControllerAttr(self, id)
         return self.attrs[id]
@@ -460,13 +490,12 @@ class RFUniverseBaseEnv(ABC):
         Returns:
             pyrfuniverse.attributes.RigidbodyAttr: The object attribute intance.
         """
-        assert id not in self.attrs, \
-            'this ID exists'
+        assert id not in self.attrs, "this ID exists"
 
         while id is None or id in self.attrs:
             id = random.randint(100000, 999999)
 
-        self._send_env_data('LoadMesh', id, path)
+        self._send_env_data("LoadMesh", id, path)
 
         self.attrs[id] = attr.RigidbodyAttr(self, id)
         return self.attrs[id]
@@ -480,19 +509,19 @@ class RFUniverseBaseEnv(ABC):
             layer2: Int, the layer number of the second layer.
             ignore: Bool, True for ignoring collision between two layers; False for enabling collision between two layers.
         """
-        self._send_env_data('IgnoreLayerCollision', layer1, layer2, ignore)
+        self._send_env_data("IgnoreLayerCollision", layer1, layer2, ignore)
 
     def GetCurrentCollisionPairs(self) -> None:
         """
         Get the collision pairs of current collision. After calling this method and stepping once, the result will be saved in env.data['CurrentCollisionPairs']
         """
-        self._send_env_data('GetCurrentCollisionPairs')
+        self._send_env_data("GetCurrentCollisionPairs")
 
     def GetRFMoveColliders(self) -> None:
         """
         Get the RFMove colliders. After calling this method and stepping once, the result will be saved in env.data['RFMoveColliders']
         """
-        self._send_env_data('GetRFMoveColliders')
+        self._send_env_data("GetRFMoveColliders")
 
     def SetGravity(self, x: float, y: float, z: float) -> None:
         """
@@ -503,7 +532,7 @@ class RFUniverseBaseEnv(ABC):
             y: Float, gravity on global y-axis (up).
             z: Float, gravity on global z-axis (forward).
         """
-        self._send_env_data('SetGravity', [float(x), float(y), float(z)])
+        self._send_env_data("SetGravity", [float(x), float(y), float(z)])
 
     def SetGroundActive(self, active: bool) -> None:
         """
@@ -512,9 +541,16 @@ class RFUniverseBaseEnv(ABC):
         Args:
             active: Bool, active or inactive the ground.
         """
-        self._send_env_data('GetRFMoveColliders', active)
+        self._send_env_data("GetRFMoveColliders", active)
 
-    def SetGroundPhysicMaterial(self, bounciness: float, dynamic_friction: float, static_friction: float, friction_combine: int, bounce_combine: int) -> None:
+    def SetGroundPhysicMaterial(
+        self,
+        bounciness: float,
+        dynamic_friction: float,
+        static_friction: float,
+        friction_combine: int,
+        bounce_combine: int,
+    ) -> None:
         """
         Set the physics material of ground in environment.
 
@@ -525,7 +561,14 @@ class RFUniverseBaseEnv(ABC):
             friction_combine: Int, how friction of two colliding objects is combined. 0 for Average, 1 for Minimum, 2 for Maximum and 3 for Multiply. See https://docs.unity3d.com/Manual/class-PhysicMaterial.html for more details.
             bounce_combine: Int, how bounciness of two colliding objects is combined. The value representation is the same with `friction_combine`.
         """
-        self._send_env_data('SetGroundPhysicMaterial', float(bounciness), float(dynamic_friction), float(static_friction), friction_combine, bounce_combine)
+        self._send_env_data(
+            "SetGroundPhysicMaterial",
+            float(bounciness),
+            float(dynamic_friction),
+            float(static_friction),
+            friction_combine,
+            bounce_combine,
+        )
 
     def SetTimeStep(self, delta_time: float) -> None:
         """
@@ -534,7 +577,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             delta_time: Float, the time for a step in Unity.
         """
-        self._send_env_data('SetTimeStep', float(delta_time))
+        self._send_env_data("SetTimeStep", float(delta_time))
 
     def SetTimeScale(self, time_scale: float) -> None:
         """
@@ -543,7 +586,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             time_scale: Float, the time scale in Unity.
         """
-        self._send_env_data('SetTimeScale', float(time_scale))
+        self._send_env_data("SetTimeScale", float(time_scale))
 
     def SetResolution(self, resolution_x: int, resolution_y: int) -> None:
         """
@@ -553,7 +596,7 @@ class RFUniverseBaseEnv(ABC):
             resolution_x: Int, window width.
             resolution_y: Int, window height.
         """
-        self._send_env_data('SetResolution', resolution_x, resolution_y)
+        self._send_env_data("SetResolution", resolution_x, resolution_y)
 
     def ExportOBJ(self, items_id: list, save_path: str) -> None:
         """
@@ -563,7 +606,7 @@ class RFUniverseBaseEnv(ABC):
             items_id: List, the object ids.
             save_path: Str, the path to save the OBJ files.
         """
-        self._send_env_data('ExportOBJ', items_id, save_path)
+        self._send_env_data("ExportOBJ", items_id, save_path)
 
     def SetShadowDistance(self, distance: float) -> None:
         """
@@ -572,7 +615,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             distance: Float, the shadow distance measured in meter.
         """
-        self._send_env_data('SetShadowDistance', float(distance))
+        self._send_env_data("SetShadowDistance", float(distance))
 
     def SaveScene(self, file: str) -> None:
         """
@@ -581,13 +624,13 @@ class RFUniverseBaseEnv(ABC):
         Args:
             file: Str, the file path to save current scene. Default saving to `StreamingAssets` folder.
         """
-        self._send_env_data('SaveScene', file)
+        self._send_env_data("SaveScene", file)
 
     def ClearScene(self) -> None:
         """
         Clear current scene.
         """
-        self._send_env_data('ClearScene')
+        self._send_env_data("ClearScene")
 
     def AlignCamera(self, camera_id: int) -> None:
         """
@@ -596,7 +639,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             camera_id: Int, camera id.
         """
-        self._send_env_data('AlignCamera', camera_id)
+        self._send_env_data("AlignCamera", camera_id)
 
     def SetViewTransform(self, position: list = None, rotation: list = None) -> None:
         """
@@ -607,15 +650,17 @@ class RFUniverseBaseEnv(ABC):
             rotation: A list of length 3, representing the rotation of GUI view.
         """
         if position is not None:
-            assert type(position) == list and len(position) == 3, \
-                'Argument position must be a 3-d list.'
+            assert (
+                type(position) == list and len(position) == 3
+            ), "Argument position must be a 3-d list."
             position = [float(i) for i in position]
         if rotation is not None:
-            assert type(rotation) == list and len(rotation) == 3, \
-                'Argument rotation must be a 3-d list.'
+            assert (
+                type(rotation) == list and len(rotation) == 3
+            ), "Argument rotation must be a 3-d list."
             rotation = [float(i) for i in rotation]
 
-        self._send_env_data('SetViewTransform', position, rotation)
+        self._send_env_data("SetViewTransform", position, rotation)
 
     def SetViewBackGround(self, color: list = None) -> None:
         """
@@ -625,13 +670,12 @@ class RFUniverseBaseEnv(ABC):
             color: A list of length 3, background color of GUI view. None : default skybox.
         """
         if color is not None:
-            assert type(color) == list and len(color) == 3, 'color length must be 3'
+            assert type(color) == list and len(color) == 3, "color length must be 3"
             color = [float(i) for i in color]
 
-        self._send_env_data('SetViewBackGround', color)
+        self._send_env_data("SetViewBackGround", color)
 
-
-    #Dubug API
+    # Dubug API
     def DebugGraspPoint(self, enabled: bool = True) -> None:
         """
         Show or hide end effector of robot arm for debug.
@@ -639,7 +683,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        self._send_debug_data('DebugGraspPoint', enabled)
+        self._send_debug_data("DebugGraspPoint", enabled)
 
     def DebugObjectPose(self, enabled: bool = True) -> None:
         """
@@ -648,7 +692,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        self._send_debug_data('DebugObjectPose', enabled)
+        self._send_debug_data("DebugObjectPose", enabled)
 
     def DebugCollisionPair(self, enabled: bool = True) -> None:
         """
@@ -657,8 +701,8 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        self._send_debug_data('DebugCollisionPair', enabled)
-    
+        self._send_debug_data("DebugCollisionPair", enabled)
+
     def DebugColliderBound(self, enabled: bool = True) -> None:
         """
         Show or hide collider bounding box for debug.
@@ -666,7 +710,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        self._send_debug_data('DebugColliderBound', enabled)
+        self._send_debug_data("DebugColliderBound", enabled)
 
     def DebugObjectID(self, enabled: bool = True) -> None:
         """
@@ -675,7 +719,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        self._send_debug_data('DebugObjectID', enabled)
+        self._send_debug_data("DebugObjectID", enabled)
 
     def Debug3DBBox(self, enabled: bool = True) -> None:
         """
@@ -684,7 +728,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        self._send_debug_data('Debug3DBBox', enabled)
+        self._send_debug_data("Debug3DBBox", enabled)
 
     def Debug2DBBox(self, enabled: bool = True) -> None:
         """
@@ -693,7 +737,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        self._send_debug_data('Debug2DBBox', enabled)
+        self._send_debug_data("Debug2DBBox", enabled)
 
     def DebugJointLink(self, enabled: bool = True) -> None:
         """
@@ -702,7 +746,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             enabled: Bool, True for showing and False for hiding.
         """
-        self._send_debug_data('DebugJointLink', enabled)
+        self._send_debug_data("DebugJointLink", enabled)
 
     def SendLog(self, log: str) -> None:
         """
@@ -711,5 +755,4 @@ class RFUniverseBaseEnv(ABC):
         Args:
             log: Str, log message.
         """
-        self._send_debug_data('SendLog', log)
-
+        self._send_debug_data("SendLog", log)

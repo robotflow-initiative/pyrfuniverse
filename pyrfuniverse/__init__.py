@@ -3,9 +3,11 @@ __version__ = "0.9.13"
 
 import os.path
 import json
+from pyrfuniverse.utils.locker import Locker
 
 def read_config():
     if not os.path.exists(config_path):
+        print('creating config')
         config = {}
         config['assets_path'] = ''
         config['executable_file'] = ''
@@ -19,6 +21,7 @@ user_path = os.path.expanduser('~/.rfuniverse')
 if not os.path.exists(user_path):
     os.makedirs(user_path)
 config_path = os.path.join(user_path, 'config.json')
-config = read_config()
+with Locker('config'):
+    config = read_config()
 assets_path = config['assets_path']
 executable_file = config['executable_file']
