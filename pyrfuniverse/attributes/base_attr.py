@@ -155,7 +155,7 @@ class BaseAttr:
 
         self._send_data('Rotate', rotation, is_world)
 
-    def LookAt(self, target: list, world_up: list):
+    def LookAt(self, target: list, world_up: list = None):
         """
         Rotates the transform so the forward vector points at target's current position.
 
@@ -163,6 +163,8 @@ class BaseAttr:
             target: A list of length 3, target to point towards.
             world_up: A list of length 3, vector specifying the upward direction.
         """
+        if world_up is None:
+            world_up = [0., 1., 0.]
         assert len(target) == 3, 'target length must be 3'
         target = [float(i) for i in target]
         assert len(world_up) == 3, 'world_up length must be 3'

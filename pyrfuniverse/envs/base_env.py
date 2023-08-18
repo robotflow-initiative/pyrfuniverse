@@ -662,6 +662,23 @@ class RFUniverseBaseEnv(ABC):
 
         self._send_env_data("SetViewTransform", position, rotation)
 
+    def ViewLookAt(self, target: list, world_up: list = None) -> None:
+        """
+        Rotates the transform so the forward vector points at target's current position.
+
+        Args:
+            target: A list of length 3, target to point towards.
+            world_up: A list of length 3, vector specifying the upward direction.
+        """
+        if world_up is None:
+            world_up = [0., 1., 0.]
+        assert len(target) == 3, 'target length must be 3'
+        target = [float(i) for i in target]
+        assert len(world_up) == 3, 'world_up length must be 3'
+        world_up = [float(i) for i in world_up]
+
+        self._send_env_data('ViewLookAt', target, world_up)
+
     def SetViewBackGround(self, color: list = None) -> None:
         """
         Set the GUI view.
@@ -756,3 +773,12 @@ class RFUniverseBaseEnv(ABC):
             log: Str, log message.
         """
         self._send_debug_data("SendLog", log)
+
+    def ShowArticulationParameter(self, controller_id: int) -> None:
+        """
+        Show Articulation Parameter on Unity GUI window.
+
+        Args:
+            controller_id: int, controller_attr id.
+        """
+        self._send_debug_data("ShowArticulationParameter", int(controller_id))

@@ -2,14 +2,14 @@ import random
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
 
-env = RFUniverseBaseEnv()
+env = RFUniverseBaseEnv(assets=['franka_panda'])
 
 robot = env.InstanceObject(name='franka_panda', id=123456, attr_type=attr.ControllerAttr)
 robot.SetIKTargetOffset(position=[0, 0.105, 0])
-env.step(200)
+env.step()
 gripper = env.GetAttr(1234560)
 gripper.GripperOpen()
-robot.IKTargetDoMove(position=[0, 0.7, 0.5], duration=0, speed_based=False)
+robot.IKTargetDoMove(position=[0, 0.5, 0.5], duration=0, speed_based=False)
 robot.IKTargetDoRotate(rotation=[0, 45, 180], duration=0, speed_based=False)
 env.step()
 robot.WaitDo()
@@ -46,7 +46,7 @@ while 1:
     robot.IKTargetDoMove(position=[0, 0.5, 0], duration=2, speed_based=False, relative=True)
     env.step()
     robot.WaitDo()
-    robot.IKTargetDoMove(position=[0, 0.7, 0.5], duration=2, speed_based=False)
+    robot.IKTargetDoMove(position=[0, 0.5, 0.5], duration=2, speed_based=False)
     env.step()
     robot.WaitDo()
     box1.Destroy()
