@@ -59,6 +59,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#dynamic-message">Dynamic Message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-classes">Core Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#attributes">Attributes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -215,6 +219,25 @@
 </ul>
 <p><em>Please note that dynamic messages must ensure that the types and order of data read from IncomingMessage in the receiver function are the same as those passed in when sending the message. Otherwise, the program will throw an error.</em></p>
 <p>Please refer to <a class="reference external" href="https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_custom_message.py">pyrfuniverse/Test/test_custom_message.py</a> for a specific usage example of the dynamic message interface.</p>
+</section>
+<hr class="docutils" />
+<section id="core-classes">
+<h2>Core Classes<a class="headerlink" href="#core-classes" title="Permalink to this heading"></a></h2>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Attr</span></code> is the basic unit of objects in RFUniverse. All objects are derived from <code class="docutils literal notranslate"><span class="pre">BaseAttr</span></code>, such as <code class="docutils literal notranslate"><span class="pre">GameObjectAttr</span></code>, <code class="docutils literal notranslate"><span class="pre">RigidbodyAttr</span></code>, <code class="docutils literal notranslate"><span class="pre">ControllerAttr</span></code>, <code class="docutils literal notranslate"><span class="pre">CameraAttr</span></code>, etc.</p>
+<p><img alt="mermaid.png" src="../_images/mermaid.png" /></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">BaseAttr</span></code> provides basic object loading, creation, deletion, movement, and other attributes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GameObjectAttr</span></code> extends simple visual effect modification for objects.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ColliderAttr</span></code> extends modification functions for an object’s collider.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr</span></code> extends the rigid body properties of objects.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ControllerAttr</span></code> extends the operation of robotic arm joints.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CameraAttr</span></code> extends image capture capabilities for cameras.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LightAttr</span></code> extends light control functionality.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PointCloudAttr</span></code> extends point cloud import and rendering functionality.</p></li>
+</ul>
+</section>
 </section>
 </section>
 

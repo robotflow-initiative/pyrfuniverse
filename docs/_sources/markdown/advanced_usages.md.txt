@@ -115,3 +115,22 @@ In addition to fixed parameter interfaces, AssetManager also supports sending dy
 *Please note that dynamic messages must ensure that the types and order of data read from IncomingMessage in the receiver function are the same as those passed in when sending the message. Otherwise, the program will throw an error.*
 
 Please refer to [pyrfuniverse/Test/test_custom_message.py](https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_custom_message.py) for a specific usage example of the dynamic message interface.
+
+---
+
+## Core Classes
+
+### Attributes
+
+`Attr` is the basic unit of objects in RFUniverse. All objects are derived from `BaseAttr`, such as `GameObjectAttr`, `RigidbodyAttr`, `ControllerAttr`, `CameraAttr`, etc.
+
+![mermaid.png](mermaid.png)
+
+- `BaseAttr` provides basic object loading, creation, deletion, movement, and other attributes.
+- `GameObjectAttr` extends simple visual effect modification for objects.
+- `ColliderAttr` extends modification functions for an object's collider.
+- `RigidbodyAttr` extends the rigid body properties of objects.
+- `ControllerAttr` extends the operation of robotic arm joints.
+- `CameraAttr` extends image capture capabilities for cameras.
+- `LightAttr` extends light control functionality.
+- `PointCloudAttr` extends point cloud import and rendering functionality.

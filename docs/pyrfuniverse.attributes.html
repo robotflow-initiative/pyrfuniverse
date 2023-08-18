@@ -86,12 +86,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetScale"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetScale()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Translate"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Translate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Rotate"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Rotate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.LookAt"><code class="docutils literal notranslate"><span class="pre">BaseAttr.LookAt()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetActive"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetActive()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetParent"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetParent()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetLayer"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetLayer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Copy"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Copy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Destroy"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Destroy()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRFMoveColliderActive"><code class="docutils literal notranslate"><span class="pre">BaseAttr.SetRFMoveColliderActive()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.GetLocalPointFromWorld"><code class="docutils literal notranslate"><span class="pre">BaseAttr.GetLocalPointFromWorld()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.GetWorldPointFromLocal"><code class="docutils literal notranslate"><span class="pre">BaseAttr.GetWorldPointFromLocal()</span></code></a></li>
 </ul>
@@ -125,6 +125,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.collider_attr">pyrfuniverse.attributes.collider_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr"><code class="docutils literal notranslate"><span class="pre">ColliderAttr</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.parse_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.EnabledAllCollider"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.EnabledAllCollider()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.SetPhysicMaterial"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.SetPhysicMaterial()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.SetRFMoveColliderActive"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.SetRFMoveColliderActive()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.GenerateVHACDColider"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.GenerateVHACDColider()</span></code></a></li>
 </ul>
 </li>
@@ -465,6 +468,20 @@ object loading, deleting and transforming.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.LookAt">
+<span class="sig-name descname"><span class="pre">LookAt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world_up</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.LookAt" title="Permalink to this definition"></a></dt>
+<dd><p>Rotates the transform so the forward vector points at target’s current position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> – A list of length 3, target to point towards.</p></li>
+<li><p><strong>world_up</strong> – A list of length 3, vector specifying the upward direction.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetActive">
 <span class="sig-name descname"><span class="pre">SetActive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetActive" title="Permalink to this definition"></a></dt>
 <dd><p>Set the activeness of this obeject.</p>
@@ -518,20 +535,9 @@ object loading, deleting and transforming.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.SetRFMoveColliderActive">
-<span class="sig-name descname"><span class="pre">SetRFMoveColliderActive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.SetRFMoveColliderActive" title="Permalink to this definition"></a></dt>
-<dd><p>Set the collider active or inactive in RFMove.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>active</strong> – Bool, True for active and False for inactive.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.GetLocalPointFromWorld">
 <span class="sig-name descname"><span class="pre">GetLocalPointFromWorld</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.GetLocalPointFromWorld" title="Permalink to this definition"></a></dt>
-<dd><p>Transform a point from local coordinate to world coordinate.</p>
+<dd><p>Transform a point from local coordinate to world coordinate. After calling this method and stepping once, the result will be saved in self.data[‘result_local_point’]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>point</strong> – A list of length 3, representing the position of a point.</p>
@@ -542,7 +548,7 @@ object loading, deleting and transforming.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.GetWorldPointFromLocal">
 <span class="sig-name descname"><span class="pre">GetWorldPointFromLocal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.GetWorldPointFromLocal" title="Permalink to this definition"></a></dt>
-<dd><p>Transform a point from world coordinate to local coordinate.</p>
+<dd><p>Transform a point from world coordinate to local coordinate. After calling this method and stepping once, the result will be saved in self.data[‘result_world_point’]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>point</strong> – A list of length 3, representing the position of a point.</p>
@@ -777,6 +783,61 @@ of the scene in RFUniverse.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.collider_attr.ColliderAttr.EnabledAllCollider">
+<span class="sig-name descname"><span class="pre">EnabledAllCollider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.EnabledAllCollider" title="Permalink to this definition"></a></dt>
+<dd><p>Set the collider enabled or unenabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>active</strong> – Bool, True for enable and False for unenable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.collider_attr.ColliderAttr.SetPhysicMaterial">
+<span class="sig-name descname"><span class="pre">SetPhysicMaterial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounciness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamicFriction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">staticFriction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frictionCombine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounceCombine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.SetPhysicMaterial" title="Permalink to this definition"></a></dt>
+<dd><p>Set the collider physical material.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bounciness</strong> (<em>float</em>) – The coefficient of restitution or “bounciness” of the collider. It determines how much
+kinetic energy is retained after a collision. A value of 0 means no bounce, while a value of 1 means a
+perfect bounce.</p></li>
+<li><p><strong>dynamicFriction</strong> (<em>float</em>) – The coefficient of friction when the collider is in motion relative to another
+collider. It determines how much resistance there is when the collider is sliding against another surface.</p></li>
+<li><p><strong>staticFriction</strong> (<em>float</em>) – The coefficient of friction when the collider is at rest relative to another collider.
+It determines the resistance to initiating motion between the collider and another surface.</p></li>
+<li><p><strong>frictionCombine</strong> (<em>int</em>) – An integer representing how friction values should be combined when multiple colliders
+interact. It can take on values such as:
+- 0: Average
+- 1: Minimum
+- 2: Maximum
+- 3: Multiply
+These values define how friction will be calculated when multiple colliders are in contact.</p></li>
+<li><p><strong>bounceCombine</strong> (<em>int</em>) – An integer representing how bounce values should be combined when multiple colliders
+interact. It can take on values such as:
+- 0: Average
+- 1: Minimum
+- 2: Maximum
+- 3: Multiply
+These values define how bounciness will be calculated when multiple colliders are in contact.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.collider_attr.ColliderAttr.SetRFMoveColliderActive">
+<span class="sig-name descname"><span class="pre">SetRFMoveColliderActive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.SetRFMoveColliderActive" title="Permalink to this definition"></a></dt>
+<dd><p>Set the collider active or inactive in RFMove.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>active</strong> – Bool, True for active and False for inactive.</p>
 </dd>
 </dl>
 </dd></dl>

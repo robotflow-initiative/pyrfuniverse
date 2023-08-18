@@ -100,6 +100,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.ClearScene"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.ClearScene()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.AlignCamera"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.AlignCamera()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SetViewTransform"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.SetViewTransform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.ViewLookAt"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.ViewLookAt()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SetViewBackGround"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.SetViewBackGround()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugGraspPoint"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.DebugGraspPoint()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugObjectPose"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.DebugObjectPose()</span></code></a></li>
@@ -110,6 +111,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.Debug2DBBox"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.Debug2DBBox()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.DebugJointLink"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.DebugJointLink()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SendLog"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.SendLog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.ShowArticulationParameter"><code class="docutils literal notranslate"><span class="pre">RFUniverseBaseEnv.ShowArticulationParameter()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -165,7 +167,7 @@
 <span id="pyrfuniverse-envs-base-env-module"></span><h2>pyrfuniverse.envs.base_env module<a class="headerlink" href="#module-pyrfuniverse.envs.base_env" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.envs.base_env.</span></span><span class="sig-name descname"><span class="pre">RFUniverseBaseEnv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">executable_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scene_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graphics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5004</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.envs.base_env.</span></span><span class="sig-name descname"><span class="pre">RFUniverseBaseEnv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">executable_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scene_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graphics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5004</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proc_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>RFUniverse base environment class.</p>
 <dl class="field-list simple">
@@ -436,7 +438,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.LoadURDF">
-<span class="sig-name descname"><span class="pre">LoadURDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">native_ik</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'y'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pyrfuniverse.attributes.html#pyrfuniverse.attributes.controller_attr.ControllerAttr" title="pyrfuniverse.attributes.controller_attr.ControllerAttr"><span class="pre">ControllerAttr</span></a></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.LoadURDF" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">LoadURDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">native_ik</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'y'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pyrfuniverse.attributes.html#pyrfuniverse.attributes.controller_attr.ControllerAttr" title="pyrfuniverse.attributes.controller_attr.ControllerAttr"><span class="pre">ControllerAttr</span></a></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.LoadURDF" title="Permalink to this definition"></a></dt>
 <dd><p>Load a model from URDF file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -494,23 +496,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.GetCurrentCollisionPairs">
 <span class="sig-name descname"><span class="pre">GetCurrentCollisionPairs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.GetCurrentCollisionPairs" title="Permalink to this definition"></a></dt>
-<dd><p>Get the collision pairs of current collision.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Call this function and <cite>step()</cite>, the collision pairs can be got from env.data[‘CurrentCollisionPairs’].</p>
-</dd>
-</dl>
+<dd><p>Get the collision pairs of current collision. After calling this method and stepping once, the result will be saved in env.data[‘CurrentCollisionPairs’]</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.GetRFMoveColliders">
 <span class="sig-name descname"><span class="pre">GetRFMoveColliders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.GetRFMoveColliders" title="Permalink to this definition"></a></dt>
-<dd><p>Get the RFMove colliders.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Call this function and <cite>step()</cite>, the collision pairs can be got from env.data[‘RFMoveColliders’].</p>
-</dd>
-</dl>
+<dd><p>Get the RFMove colliders. After calling this method and stepping once, the result will be saved in env.data[‘RFMoveColliders’]</p>
 </dd></dl>
 
 <dl class="py method">
@@ -660,6 +652,20 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.ViewLookAt">
+<span class="sig-name descname"><span class="pre">ViewLookAt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world_up</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.ViewLookAt" title="Permalink to this definition"></a></dt>
+<dd><p>Rotates the transform so the forward vector points at target’s current position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> – A list of length 3, target to point towards.</p></li>
+<li><p><strong>world_up</strong> – A list of length 3, vector specifying the upward direction.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SetViewBackGround">
 <span class="sig-name descname"><span class="pre">SetViewBackGround</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.SetViewBackGround" title="Permalink to this definition"></a></dt>
 <dd><p>Set the GUI view.</p>
@@ -765,6 +771,17 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>log</strong> – Str, log message.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.envs.base_env.RFUniverseBaseEnv.ShowArticulationParameter">
+<span class="sig-name descname"><span class="pre">ShowArticulationParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">controller_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyrfuniverse.envs.base_env.RFUniverseBaseEnv.ShowArticulationParameter" title="Permalink to this definition"></a></dt>
+<dd><p>Show Articulation Parameter on Unity GUI window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>controller_id</strong> – int, controller_attr id.</p>
 </dd>
 </dl>
 </dd></dl>
