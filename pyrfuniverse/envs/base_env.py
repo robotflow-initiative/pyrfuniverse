@@ -9,6 +9,7 @@ from pyrfuniverse.side_channel import IncomingMessage, OutgoingMessage
 from pyrfuniverse.utils.locker import Locker
 from pyrfuniverse.utils.rfuniverse_communicator import RFUniverseCommunicator
 import os
+import warnings
 
 
 class RFUniverseBaseEnv(ABC):
@@ -176,6 +177,8 @@ class RFUniverseBaseEnv(ABC):
         objs = objs[1:]
         if head in self.listen_object:
             self.listen_object[head](objs)
+        else:
+            warnings.warn(f"unknown object data type: {head}")
 
     def _send_env_data(self, *args) -> None:
         self.communicator.send_object("Env", *args)

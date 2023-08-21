@@ -35,6 +35,6 @@ class Locker:
         lock(self.fp)
 
     def __exit__(self, _type, value, tb):
-        time.sleep(0.5)
+        time.sleep(0.1)
         unlock(self.fp)
         self.fp.close()
