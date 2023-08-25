@@ -25,11 +25,15 @@ class RFUniverseCommunicator(threading.Thread):
         self.on_receive_data = receive_data_callback
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        send_buffer_size = 1024 * 1024 * 10
+        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, send_buffer_size)
+        recv_buffer_size = 1024 * 1024 * 10
+        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, recv_buffer_size)
         self.port = port
         if proc_type == "editor":
             self.server.bind(("localhost", self.port))
         elif proc_type == "release":
-            with Locker('port'):
+            with Locker("port"):
                 while self.port < 65536:
                     try:
                         self.server.bind(("localhost", self.port))
@@ -79,7 +83,7 @@ class RFUniverseCommunicator(threading.Thread):
         # sync_receive_objects_queue = []
         while True:
             if not self.connected:
-                return
+                raise ConnectionError("Connection closed")
             data = self.receive_bytes()
             if data is not None and len(data) > 0:
                 objs = self.receive_object(data)
@@ -95,6 +99,7 @@ class RFUniverseCommunicator(threading.Thread):
         buffer = bytearray()
         while len(buffer) < length:
             buffer.extend(self.client.recv(length - len(buffer)))
+        assert len(buffer) == length
         return buffer
 
     def send_bytes(self, data: bytes):
@@ -104,8 +109,8 @@ class RFUniverseCommunicator(threading.Thread):
         self.client.send(length)
         self.client.send(data)
 
-        if platform == 'linux':
-            self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
+        # if platform == 'linux':
+        # self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
 
     def receive_object(self, data: bytes) -> list:
         self.read_offset = 0
@@ -174,12 +179,15 @@ class RFUniverseCommunicator(threading.Thread):
     def read_string(self, datas: bytes) -> str:
         count = self.read_int(datas)
         self.read_offset += count
-        return datas[self.read_offset - count : self.read_offset].decode("utf-8")
+        ret = datas[self.read_offset - count : self.read_offset].decode("utf-8")
+        return ret
 
     def read_int(self, datas: bytes) -> int:
         self.read_offset += 4
         return int.from_bytes(
-            datas[self.read_offset - 4 : self.read_offset], byteorder="little"
+            datas[self.read_offset - 4 : self.read_offset],
+            byteorder="little",
+            signed=True,
         )
 
     def read_float(self, datas: bytes) -> float:
@@ -273,5 +281,3 @@ class RFUniverseCommunicator(threading.Thread):
     def write_bytes(self, datas: bytearray, b: bytes):
         self.write_int(datas, len(b))
         datas.extend(b)
-
-

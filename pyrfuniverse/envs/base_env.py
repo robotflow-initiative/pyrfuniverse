@@ -2,6 +2,8 @@ import random
 import subprocess
 from abc import ABC
 import socket
+import threading
+import time
 import numpy as np
 import pyrfuniverse
 import pyrfuniverse.attributes as attr
@@ -73,10 +75,15 @@ class RFUniverseBaseEnv(ABC):
             proc_type=PROC_TYPE,
         )
         self.port = self.communicator.port  # update port
+        _th = threading.Thread(target=self.communicator.online)
+        _th.start()
+        time.sleep(1)
         if PROC_TYPE == "release":
             with Locker('config'): # unity process will try to modify the config file
                 self.process = self._start_unity_env(self.executable_file, self.port)
-        self.communicator.online()
+                print(f"Unity process {self.process.pid} started")
+        _th.join()
+
         self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
         if len(self.pre_load_assets) > 0:
             self.PreLoadAssetsAsync(assets, True)
