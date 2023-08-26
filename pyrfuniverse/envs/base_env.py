@@ -77,7 +77,7 @@ class RFUniverseBaseEnv(ABC):
         self.port = self.communicator.port  # update port
         _th = threading.Thread(target=self.communicator.online)
         _th.start()
-        time.sleep(1)
+        time.sleep(.1)
         if PROC_TYPE == "release":
             with Locker('config'): # unity process will try to modify the config file
                 self.process = self._start_unity_env(self.executable_file, self.port)
