@@ -25,10 +25,10 @@ class RFUniverseCommunicator(threading.Thread):
         self.on_receive_data = receive_data_callback
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        send_buffer_size = 1024 * 1024 * 10
-        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, send_buffer_size)
-        recv_buffer_size = 1024 * 1024 * 10
-        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, recv_buffer_size)
+        # send_buffer_size = 1024 * 1024 * 10
+        # self.server.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, send_buffer_size)
+        # recv_buffer_size = 1024 * 1024 * 10
+        # self.server.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, recv_buffer_size)
         self.port = port
         if proc_type == "editor":
             self.server.bind(("localhost", self.port))
@@ -37,7 +37,7 @@ class RFUniverseCommunicator(threading.Thread):
                 while self.port < 65536:
                     try:
                         self.server.bind(("localhost", self.port))
-                        print(f"discover port {self.port}")
+                        # print(f"discover port {self.port}")
                         return
                     except OSError:
                         self.port += 256
@@ -84,7 +84,7 @@ class RFUniverseCommunicator(threading.Thread):
         while True:
             if not self.connected:
                 raise ConnectionError("Connection closed")
-            data = self.receive_bytes()
+            data, length = self.receive_bytes()
             if data is not None and len(data) > 0:
                 objs = self.receive_object(data)
                 if len(objs) > 0 and objs[0] == "StepEnd":
@@ -92,7 +92,12 @@ class RFUniverseCommunicator(threading.Thread):
                 self.on_receive_data(objs)
 
     def receive_bytes(self):
-        data = self.client.recv(4)
+        # data = self.client.recv(4)
+        # assert len(data) == 4
+        data = bytearray()
+        while len(data) < 4:
+            data.extend(self.client.recv(4 - len(data)))
+        assert len(data) == 4
         length = int.from_bytes(data, byteorder="little", signed=False)
         if length == 0:
             return None
@@ -100,7 +105,7 @@ class RFUniverseCommunicator(threading.Thread):
         while len(buffer) < length:
             buffer.extend(self.client.recv(length - len(buffer)))
         assert len(buffer) == length
-        return buffer
+        return buffer, length
 
     def send_bytes(self, data: bytes):
         if not self.connected:
@@ -173,22 +178,42 @@ class RFUniverseCommunicator(threading.Thread):
         elif data_type == "null" or data_type == "none":
             return None
         else:
-            print(f"dont support this type: {data_type}")
+            # print(f"dont support this type: {data_type}")
+            raise ValueError(f"dont support this type: {data_type}")
             return None
 
     def read_string(self, datas: bytes) -> str:
         count = self.read_int(datas)
+        try:
+            assert count <= len(datas) - self.read_offset
+        except:
+            raise AssertionError(
+                f"count: {count}, len(datas): {len(datas)}, self.read_offset: {self.read_offset}"
+            )
         self.read_offset += count
-        ret = datas[self.read_offset - count : self.read_offset].decode("utf-8")
+        try:
+            ret = datas[self.read_offset - count : self.read_offset].decode("utf-8")
+        except:
+            print(datas[self.read_offset - count : self.read_offset])
+            print(
+                f"read_start: {self.read_offset - count}, read_end: {self.read_offset}, count: {count}"
+            )
+            raise UnicodeDecodeError(
+                "utf-8",
+                datas[self.read_offset - count : self.read_offset],
+                self.read_offset - count,
+                self.read_offset,
+            )
         return ret
 
     def read_int(self, datas: bytes) -> int:
         self.read_offset += 4
-        return int.from_bytes(
+        ret = int.from_bytes(
             datas[self.read_offset - 4 : self.read_offset],
             byteorder="little",
             signed=True,
         )
+        return ret
 
     def read_float(self, datas: bytes) -> float:
         self.read_offset += 4
