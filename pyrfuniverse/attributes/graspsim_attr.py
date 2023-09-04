@@ -5,6 +5,7 @@ class GraspSimAttr(attr.BaseAttr):
     """
     Grasp pose simulation class.
     """
+
     def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
@@ -24,8 +25,18 @@ class GraspSimAttr(attr.BaseAttr):
         """
         super().parse_message(data)
 
-    def StartGraspSim(self, mesh: str, gripper: str, points: list, normals: list, depth_range_min: float,
-                      depth_range_max: float, depth_lerp_count: int, angle_lerp_count: int, parallel_count: int = 100):
+    def StartGraspSim(
+        self,
+        mesh: str,
+        gripper: str,
+        points: list,
+        normals: list,
+        depth_range_min: float,
+        depth_range_max: float,
+        depth_lerp_count: int,
+        angle_lerp_count: int,
+        parallel_count: int = 100,
+    ):
         """
         Start simulating grasping.
 
@@ -40,11 +51,30 @@ class GraspSimAttr(attr.BaseAttr):
             angle_lerp_count: Int, the interpolation count of angle.
             parallel_count: Int, the count of parallel grasping.
         """
-        self._send_data('StartGraspSim', mesh, gripper, points, normals, float(depth_range_min), float(depth_range_max),
-                        depth_lerp_count, angle_lerp_count, parallel_count)
+        self._send_data(
+            "StartGraspSim",
+            mesh,
+            gripper,
+            points,
+            normals,
+            float(depth_range_min),
+            float(depth_range_max),
+            depth_lerp_count,
+            angle_lerp_count,
+            parallel_count,
+        )
 
-    def GenerateGraspPose(self, mesh: str, gripper: str, points: list, normals: list, depth_range_min: float,
-                          depth_range_max: float, depth_lerp_count: int, angle_lerp_count: int):
+    def GenerateGraspPose(
+        self,
+        mesh: str,
+        gripper: str,
+        points: list,
+        normals: list,
+        depth_range_min: float,
+        depth_range_max: float,
+        depth_lerp_count: int,
+        angle_lerp_count: int,
+    ):
         """
         Generate grasp poses and visualize grasp results.
 
@@ -58,10 +88,26 @@ class GraspSimAttr(attr.BaseAttr):
             depth_lerp_count: Int, the interpolation count of depth.
             angle_lerp_count: Int, the interpolation count of angle.
         """
-        self._send_data('GenerateGraspPose', mesh, gripper, points, normals, float(depth_range_min), float(depth_range_max),
-                        depth_lerp_count, angle_lerp_count)
+        self._send_data(
+            "GenerateGraspPose",
+            mesh,
+            gripper,
+            points,
+            normals,
+            float(depth_range_min),
+            float(depth_range_max),
+            depth_lerp_count,
+            angle_lerp_count,
+        )
 
-    def StartGraspTest(self, mesh: str, gripper: str, points: list, quaternions: list, parallel_count: int = 100):
+    def StartGraspTest(
+        self,
+        mesh: str,
+        gripper: str,
+        points: list,
+        quaternions: list,
+        parallel_count: int = 100,
+    ):
         """
         Start testing the grasp based on current grasp poses.
 
@@ -72,9 +118,13 @@ class GraspSimAttr(attr.BaseAttr):
             quaternions: A list of float, representing the quaternions.
             parallel_count: Int, the interpolation count of angle.
         """
-        self._send_data('StartGraspTest', mesh, gripper, points, quaternions, parallel_count)
+        self._send_data(
+            "StartGraspTest", mesh, gripper, points, quaternions, parallel_count
+        )
 
-    def ShowGraspPose(self, mesh: str, gripper: str, positions: list, quaternions: list):
+    def ShowGraspPose(
+        self, mesh: str, gripper: str, positions: list, quaternions: list
+    ):
         """
         Display grasp poses.
 
@@ -84,4 +134,4 @@ class GraspSimAttr(attr.BaseAttr):
             points: A list of float, representing the grasping points.
             quaternions: A list of float, representing the quaternions.
         """
-        self._send_data('ShowGraspPose', mesh, gripper, positions, quaternions)
+        self._send_data("ShowGraspPose", mesh, gripper, positions, quaternions)

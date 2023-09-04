@@ -7,6 +7,11 @@ from pyrfuniverse.envs.gripper_nail.robotiq85_nail_coin_env import Robotiq85Nail
 from pyrfuniverse.envs.gripper_nail.robotiq85_insert_env import Robotiq85InsertEnv
 
 __all__ = [
-    'NailCardEnv', 'NailCanEnv', 'Robotiq85NailCanEnv', 'Robotiq85NailCardEnv', 'Robotiq85NailBookEnv',
-    'Robotiq85NailCoinEnv', 'Robotiq85InsertEnv'
+    "NailCardEnv",
+    "NailCanEnv",
+    "Robotiq85NailCanEnv",
+    "Robotiq85NailCardEnv",
+    "Robotiq85NailBookEnv",
+    "Robotiq85NailCoinEnv",
+    "Robotiq85InsertEnv",
 ]

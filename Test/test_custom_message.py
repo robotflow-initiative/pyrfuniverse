@@ -5,15 +5,13 @@ from pyrfuniverse.side_channel import (
     OutgoingMessage,
 )
 
-env = RFUniverseBaseEnv(
-    assets=['CustomAttr']
-)
+env = RFUniverseBaseEnv(assets=["CustomAttr"])
 
 # custom message
-custom = env.InstanceObject(name='CustomAttr', id=123456, attr_type=attr.CustomAttr)
-custom.CustomMessage(message='this is instance channel custom message')
+custom = env.InstanceObject(name="CustomAttr", id=123456, attr_type=attr.CustomAttr)
+custom.CustomMessage(message="this is instance channel custom message")
 env.step()
-print(custom.data['custom_message'])
+print(custom.data["custom_message"])
 
 
 # dynamic message
@@ -30,19 +28,19 @@ def dynamic_message_callback(msg: IncomingMessage):
     print(msg.read_float32_list())
 
 
-env.AddListener('DynamicMessage', dynamic_message_callback)
+env.AddListener("DynamicMessage", dynamic_message_callback)
 env.SendMessage(
-    'DynamicMessage',
-    'string:',
-    'this is dynamic message',
-    'int:',
+    "DynamicMessage",
+    "string:",
+    "this is dynamic message",
+    "int:",
     123456,
-    'bool:',
+    "bool:",
     True,
-    'float:',
+    "float:",
     4849.6564,
-    'list:',
-    [616445.085, 9489984.0, 65419596.0, 9849849.0]
+    "list:",
+    [616445.085, 9489984.0, 65419596.0, 9849849.0],
 )
 env.step()
 
@@ -65,23 +63,23 @@ def dynamic_object_callback(args):
     print(args[13])
 
 
-env.AddListenerObject('DynamicObject', dynamic_object_callback)
+env.AddListenerObject("DynamicObject", dynamic_object_callback)
 env.SendObject(
-    'DynamicObject',
-    'string:',
-    'this is dynamic object',
-    'int:',
+    "DynamicObject",
+    "string:",
+    "this is dynamic object",
+    "int:",
     123456,
-    'bool:',
+    "bool:",
     True,
-    'float:',
+    "float:",
     4849.6564,
-    'list:',
+    "list:",
     [616445.085, 9489984.0, 65419596.0, 9849849.0],
-    'dict:',
-    {'1': 1, '2': 2, '3': 3},
-    'tuple:',
-    ('1', 1, 0.562)
+    "dict:",
+    {"1": 1, "2": 2, "3": 3},
+    "tuple:",
+    ("1", 1, 0.562),
 )
 env.step()
 

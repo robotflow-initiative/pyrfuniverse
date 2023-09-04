@@ -9,58 +9,58 @@ import os
 
 
 class Ur5BoxEnv(RFUniverseGymGoalWrapper):
-    metadata = {'render.modes': ['human', 'rgb_array']}
+    metadata = {"render.modes": ["human", "rgb_array"]}
 
     def __init__(
-            self,
-            max_steps,
-            reward_type='dense',
-            min_open_angle=30,
-            seed=None,
-            executable_file=None,
-            assets: list = []
+        self,
+        max_steps,
+        reward_type="dense",
+        min_open_angle=30,
+        seed=None,
+        executable_file=None,
+        assets: list = [],
     ):
         super().__init__(
             executable_file=executable_file,
             camera_channel=True,
             articulation_channel=True,
-            assets=assets
+            assets=assets,
         )
         self.asset_channel.set_action(
-            'InstanceObject',
-            name='ur5_robotiq85',
+            "InstanceObject",
+            name="ur5_robotiq85",
             id=123,
         )
         self.articulation_channel.set_action(
-            'SetTransform',
+            "SetTransform",
             id=123,
             position=[0, 0, 0],
             rotation=[0, -90, 0],
         )
         self.asset_channel.set_action(
-            'InstanceObject',
-            name='handled_box',
+            "InstanceObject",
+            name="handled_box",
             id=456,
         )
         self.articulation_channel.set_action(
-            'SetTransform',
+            "SetTransform",
             id=456,
             position=[0, 0, -0.538],
             rotation=[-90, 0, 0],
         )
         self.asset_channel.set_action(
-            'InstanceObject',
-            name='Camera',
+            "InstanceObject",
+            name="Camera",
             id=0,
         )
         self.camera_channel.set_action(
-            'SetTransform',
+            "SetTransform",
             id=0,
             position=[-0.231, 0.32, -1.696],
             rotation=[0, 0, 0],
         )
         self.camera_channel.set_action(
-            'SetMode',
+            "SetMode",
             id=0,
         )
         self._step()
@@ -70,20 +70,29 @@ class Ur5BoxEnv(RFUniverseGymGoalWrapper):
 
         self.seed(seed)
         self.ik_controller = RFUniverseUR5Controller(
-            robot_urdf=os.path.join(pyrfuniverse.assets_path, 'RoboTube/DrawerClosing/UR5/ur5_robotiq_85.urdf'),
-            init_joint_positions=[90, -60, 60, 90, 90, 0]
+            robot_urdf=os.path.join(
+                pyrfuniverse.assets_path,
+                "RoboTube/DrawerClosing/UR5/ur5_robotiq_85.urdf",
+            ),
+            init_joint_positions=[90, -60, 60, 90, 90, 0],
         )
         self.t = 0
         self.goal = np.array([self.min_open_angle])
-        self.action_space = spaces.Box(
-            low=-1, high=1, shape=(4,), dtype=np.float32
-        )
+        self.action_space = spaces.Box(low=-1, high=1, shape=(4,), dtype=np.float32)
         obs = self._get_obs()
-        self.observation_space = spaces.Dict({
-            'observation': spaces.Box(-np.inf, np.inf, shape=obs['observation'].shape, dtype=np.float32),
-            'desired_goal': spaces.Box(-np.inf, np.inf, shape=obs['desired_goal'].shape, dtype=np.float32),
-            'achieved_goal': spaces.Box(-np.inf, np.inf, shape=obs['achieved_goal'].shape, dtype=np.float32)
-        })
+        self.observation_space = spaces.Dict(
+            {
+                "observation": spaces.Box(
+                    -np.inf, np.inf, shape=obs["observation"].shape, dtype=np.float32
+                ),
+                "desired_goal": spaces.Box(
+                    -np.inf, np.inf, shape=obs["desired_goal"].shape, dtype=np.float32
+                ),
+                "achieved_goal": spaces.Box(
+                    -np.inf, np.inf, shape=obs["achieved_goal"].shape, dtype=np.float32
+                ),
+            }
+        )
 
     def step(self, action: np.ndarray):
         action_ctrl = action.copy()
@@ -102,10 +111,8 @@ class Ur5BoxEnv(RFUniverseGymGoalWrapper):
 
         obs = self._get_obs()
         done = False
-        info = {
-            'is_success': self._check_success(obs)
-        }
-        reward = self.compute_reward(obs['achieved_goal'], obs['desired_goal'], info)
+        info = {"is_success": self._check_success(obs)}
+        reward = self.compute_reward(obs["achieved_goal"], obs["desired_goal"], info)
 
         if self.t == self.max_steps:
             obs = self.reset()
@@ -120,7 +127,7 @@ class Ur5BoxEnv(RFUniverseGymGoalWrapper):
         self.t = 0
 
         self._step()
-        handle_position = np.array(self.articulation_channel.data[456]['positions'][3])
+        handle_position = np.array(self.articulation_channel.data[456]["positions"][3])
         joint_positions = self.ik_controller.calculate_ik_recursive(handle_position)
         gripper_angle = self._compute_gripper_angle(0.085)
         joint_positions.append(gripper_angle)
@@ -132,40 +139,32 @@ class Ur5BoxEnv(RFUniverseGymGoalWrapper):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
-    def render(self, mode='human'):
-        self.camera_channel.set_action(
-            'GetImages',
-            rendering_params=[[0, 512, 512]]
-        )
+    def render(self, mode="human"):
+        self.camera_channel.set_action("GetImages", rendering_params=[[0, 512, 512]])
         self._step()
         img = self.camera_channel.images.pop(0)
 
         return img
 
     def compute_reward(self, achieved_goal, desired_goal, info):
-        if self.reward_type == 'dense':
+        if self.reward_type == "dense":
             return float(achieved_goal / 10)
         else:
             overhead_angle = achieved_goal - desired_goal
             return float(overhead_angle[0] > 0)
 
     def set_ur5_arm(self, position, orn=None):
-        joint_positions = self.ik_controller.calculate_ik_recursive(
-            position,
-            orn
-        )
+        joint_positions = self.ik_controller.calculate_ik_recursive(position, orn)
         print(joint_positions)
         self.articulation_channel.set_action(
-            'SetJointPositionDirectly',
-            id=123,
-            joint_positions=joint_positions
+            "SetJointPositionDirectly", id=123, joint_positions=joint_positions
         )
         self._step()
 
     def set_robotiq85_width(self, width):
         angle = self._compute_gripper_angle(width)
         self.articulation_channel.set_action(
-            'SetJointPositionDirectly',
+            "SetJointPositionDirectly",
             id=1230,
             joint_positions=[angle, angle],
         )
@@ -177,25 +176,31 @@ class Ur5BoxEnv(RFUniverseGymGoalWrapper):
 
         robot_obs = np.concatenate((gripper_position, [gripper_width]))
 
-        handle_position = np.array(self.articulation_channel.data[456]['positions'][3])
-        box_open_angle = -1 * np.array([self.articulation_channel.data[456]['joint_positions'][0]])
+        handle_position = np.array(self.articulation_channel.data[456]["positions"][3])
+        box_open_angle = -1 * np.array(
+            [self.articulation_channel.data[456]["joint_positions"][0]]
+        )
 
         object_obs = np.concatenate((handle_position, box_open_angle))
 
         obs = np.concatenate((robot_obs, object_obs))
 
         return {
-            'observation': obs.copy(),
-            'achieved_goal': box_open_angle.copy(),
-            'desired_goal': self.goal.copy()
+            "observation": obs.copy(),
+            "achieved_goal": box_open_angle.copy(),
+            "desired_goal": self.goal.copy(),
         }
 
     def _get_gripper_position(self):
-        return np.array(self.articulation_channel.data[1230]['positions'][11])
+        return np.array(self.articulation_channel.data[1230]["positions"][11])
 
     def _get_gripper_width(self):
-        right_inner_finger_pos = np.array(self.articulation_channel.data[1230]['positions'][5])
-        left_inner_finger_pos = np.array(self.articulation_channel.data[1230]['positions'][10])
+        right_inner_finger_pos = np.array(
+            self.articulation_channel.data[1230]["positions"][5]
+        )
+        left_inner_finger_pos = np.array(
+            self.articulation_channel.data[1230]["positions"][10]
+        )
         width = self._compute_distance(right_inner_finger_pos, left_inner_finger_pos)
 
         # The position is at the center of inner_finger, so we must get rid of the width of inner finger,
@@ -212,14 +217,12 @@ class Ur5BoxEnv(RFUniverseGymGoalWrapper):
 
     def _set_ur5_robotiq85_joints(self, joint_positions):
         self.articulation_channel.set_action(
-            'SetJointPosition',
-            id=123,
-            joint_positions=list(joint_positions[:6])
+            "SetJointPosition", id=123, joint_positions=list(joint_positions[:6])
         )
         # self._step()
 
         self.articulation_channel.set_action(
-            'SetJointPosition',
+            "SetJointPosition",
             id=1230,
             joint_positions=[joint_positions[6], joint_positions[6]],
         )
@@ -227,14 +230,14 @@ class Ur5BoxEnv(RFUniverseGymGoalWrapper):
 
     def _set_ur5_robotiq85_joints_directly(self, joint_positions):
         self.articulation_channel.set_action(
-            'SetJointPositionDirectly',
+            "SetJointPositionDirectly",
             id=123,
-            joint_positions=list(joint_positions[:6])
+            joint_positions=list(joint_positions[:6]),
         )
         # self._step()
 
         self.articulation_channel.set_action(
-            'SetJointPositionDirectly',
+            "SetJointPositionDirectly",
             id=1230,
             joint_positions=[joint_positions[6], joint_positions[6]],
         )
@@ -244,7 +247,7 @@ class Ur5BoxEnv(RFUniverseGymGoalWrapper):
         return np.linalg.norm(point_a - point_b, axis=-1)
 
     def _check_success(self, obs):
-        achieved_goal = obs['achieved_goal'][0]
-        desired_goal = obs['desired_goal'][0]
+        achieved_goal = obs["achieved_goal"][0]
+        desired_goal = obs["desired_goal"][0]
 
         return (desired_goal < achieved_goal).astype(np.float32)

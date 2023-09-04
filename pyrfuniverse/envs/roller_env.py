@@ -5,16 +5,16 @@ from gym.utils import seeding
 
 
 class RollerEnv(RFUniverseGymWrapper):
-    metadata = {'render.modes': ['human']}
+    metadata = {"render.modes": ["human"]}
 
     def __init__(self, executable_file=None):
         super().__init__(
-            executable_file,
-            rigidbody_channel=True,
-            game_object_channel=True
+            executable_file, rigidbody_channel=True, game_object_channel=True
         )
         self.action_space = spaces.Discrete(5)
-        self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(6,), dtype=np.float32)
+        self.observation_space = spaces.Box(
+            low=-np.inf, high=np.inf, shape=(6,), dtype=np.float32
+        )
         self.t = 0
         self.max_steps = 100
         self.strength = 250
@@ -34,23 +34,19 @@ class RollerEnv(RFUniverseGymWrapper):
         direction = np.array(direction)
         force = direction * self.strength
 
-        self.rigidbody_channel.set_action(
-            'AddForce',
-            index=0,
-            force=list(force)
-        )
+        self.rigidbody_channel.set_action("AddForce", index=0, force=list(force))
         self._step()
 
         done = False
         success = self._check_success()
-        info = {'is_success': False}
+        info = {"is_success": False}
         reward = -1 / self.max_steps
         self.t += 1
 
         if success:
             reward = 1
             done = True
-            info['is_success'] = True
+            info["is_success"] = True
         elif self._check_fail():
             reward = -1
             done = True
@@ -63,20 +59,24 @@ class RollerEnv(RFUniverseGymWrapper):
         return self._get_obs(), reward, done, info
 
     def _check_fail(self):
-        roller_position = self.rigidbody_channel.data[0]['position']
+        roller_position = self.rigidbody_channel.data[0]["position"]
 
         if roller_position[1] < -1:
             return True
-        elif roller_position[0] < -19 or roller_position[0] > 19 or roller_position[2] < -19 \
-            or roller_position[2] > 19:
+        elif (
+            roller_position[0] < -19
+            or roller_position[0] > 19
+            or roller_position[2] < -19
+            or roller_position[2] > 19
+        ):
             return True
         else:
             return False
 
     def _check_success(self):
-        roller_position = self.rigidbody_channel.data[0]['position']
+        roller_position = self.rigidbody_channel.data[0]["position"]
         roller_position_2d = np.array([roller_position[0], roller_position[2]])
-        target_position = self.game_object_channel.data[0]['position']
+        target_position = self.game_object_channel.data[0]["position"]
         target_position_2d = np.array([target_position[0], target_position[2]])
 
         distance = abs(target_position_2d - roller_position_2d)
@@ -86,14 +86,16 @@ class RollerEnv(RFUniverseGymWrapper):
             return False
 
     def _get_obs(self):
-        roller_position = self.rigidbody_channel.data[0]['position']
+        roller_position = self.rigidbody_channel.data[0]["position"]
         roller_position_2d = np.array([roller_position[0], roller_position[2]])
-        roller_velocity = self.rigidbody_channel.data[0]['velocity']
+        roller_velocity = self.rigidbody_channel.data[0]["velocity"]
         roller_velocity_2d = np.array([roller_velocity[0], roller_velocity[2]])
-        target_position = self.game_object_channel.data[0]['position']
+        target_position = self.game_object_channel.data[0]["position"]
         target_position_2d = np.array([target_position[0], target_position[2]])
 
-        return np.concatenate((roller_position_2d, roller_velocity_2d, target_position_2d))
+        return np.concatenate(
+            (roller_position_2d, roller_velocity_2d, target_position_2d)
+        )
 
     def reset(self):
         self.t = 0
@@ -103,10 +105,10 @@ class RollerEnv(RFUniverseGymWrapper):
         while self._compute_distance(roller_pos, target_pos) < 5:
             target_pos = self.np_random.uniform(-15, 15, size=2)
 
-        self.env_param_channel.set_float_parameter('rollerPosX', roller_pos[0])
-        self.env_param_channel.set_float_parameter('rollerPosZ', roller_pos[1])
-        self.env_param_channel.set_float_parameter('targetPosX', target_pos[0])
-        self.env_param_channel.set_float_parameter('targetPosZ', target_pos[1])
+        self.env_param_channel.set_float_parameter("rollerPosX", roller_pos[0])
+        self.env_param_channel.set_float_parameter("rollerPosZ", roller_pos[1])
+        self.env_param_channel.set_float_parameter("targetPosX", target_pos[0])
+        self.env_param_channel.set_float_parameter("targetPosZ", target_pos[1])
 
         self.env.reset()
         return self._get_obs()
@@ -116,8 +118,7 @@ class RollerEnv(RFUniverseGymWrapper):
         return [seed]
 
     def _generate_random_float(self, min: float, max: float) -> float:
-        assert min < max, \
-            'Min value is {}, while max value is {}.'.format(min, max)
+        assert min < max, "Min value is {}, while max value is {}.".format(min, max)
         random_float = np.random.rand()
         random_float = random_float * (max - min) + min
 
@@ -129,6 +130,7 @@ class RollerEnv(RFUniverseGymWrapper):
 
 
 class RollerEnvV0(RollerEnv):
-
     def __init__(self):
-        super().__init__('/home/haoyuan/workspace/rfuniverse/build/Roller/RFUniverse.x86_64')
+        super().__init__(
+            "/home/haoyuan/workspace/rfuniverse/build/Roller/RFUniverse.x86_64"
+        )

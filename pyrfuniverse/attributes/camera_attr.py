@@ -8,13 +8,14 @@ class CameraAttr(attr.BaseAttr):
     Camera attribute class, which can capture many kinds of screenshot
     of the scene in RFUniverse.
     """
+
     def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
 
         Returns:
             Dict: A dict containing useful information of this class.
-        
+
             self.data['width']: The width of image.
 
             self.data['height']: The height of image.
@@ -40,28 +41,34 @@ class CameraAttr(attr.BaseAttr):
             self.data['3d_bounding_box']: The 3d bounding box of objects in world coordinate.
         """
         super().parse_message(data)
-        if 'rgb' in self.data:
-            self.data['rgb'] = base64.b64decode(self.data['rgb'])
-        if 'normal' in self.data:
-            self.data['normal'] = base64.b64decode(self.data['normal'])
-        if 'id_map' in self.data:
-            self.data['id_map'] = base64.b64decode(self.data['id_map'])
-        if 'depth' in self.data:
-            self.data['depth'] = base64.b64decode(self.data['depth'])
-        if 'depth_exr' in self.data:
-            self.data['depth_exr'] = base64.b64decode(self.data['depth_exr'])
-        if 'amodal_mask' in self.data:
-            self.data['amodal_mask'] = base64.b64decode(self.data['amodal_mask'])
-        if 'heat_map' in self.data:
-            self.data['heat_map'] = base64.b64decode(self.data['heat_map'])
+        if "rgb" in self.data:
+            self.data["rgb"] = base64.b64decode(self.data["rgb"])
+        if "normal" in self.data:
+            self.data["normal"] = base64.b64decode(self.data["normal"])
+        if "id_map" in self.data:
+            self.data["id_map"] = base64.b64decode(self.data["id_map"])
+        if "depth" in self.data:
+            self.data["depth"] = base64.b64decode(self.data["depth"])
+        if "depth_exr" in self.data:
+            self.data["depth_exr"] = base64.b64decode(self.data["depth_exr"])
+        if "amodal_mask" in self.data:
+            self.data["amodal_mask"] = base64.b64decode(self.data["amodal_mask"])
+        if "heat_map" in self.data:
+            self.data["heat_map"] = base64.b64decode(self.data["heat_map"])
 
     def AlignView(self):
         """
         Make the camera in RFUniverse align the current view in GUI.
         """
-        self._send_data('AlignView')
+        self._send_data("AlignView")
 
-    def GetRGB(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix: np.ndarray = None):
+    def GetRGB(
+        self,
+        width: int = 512,
+        height: int = 512,
+        fov: float = 60.0,
+        intrinsic_matrix: np.ndarray = None,
+    ):
         """
         Get the camera RGB image.
 
@@ -71,9 +78,15 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
-        self._send_data('GetRGB', intrinsic_matrix, int(width), int(height), float(fov))
+        self._send_data("GetRGB", intrinsic_matrix, int(width), int(height), float(fov))
 
-    def GetNormal(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix: np.ndarray = None):
+    def GetNormal(
+        self,
+        width: int = 512,
+        height: int = 512,
+        fov: float = 60.0,
+        intrinsic_matrix: np.ndarray = None,
+    ):
         """
         Get the normal image in world coordinate.
 
@@ -83,9 +96,17 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
-        self._send_data('GetNormal', intrinsic_matrix, int(width), int(height), float(fov))
+        self._send_data(
+            "GetNormal", intrinsic_matrix, int(width), int(height), float(fov)
+        )
 
-    def GetID(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix: np.ndarray = None):
+    def GetID(
+        self,
+        width: int = 512,
+        height: int = 512,
+        fov: float = 60.0,
+        intrinsic_matrix: np.ndarray = None,
+    ):
         """
         Get the instance segmentation mask image. The color for each pixel is computed from object ID, see `pyrfuniverse.utils.rfuniverse_utility.GetColorFromID` for more details.
 
@@ -95,9 +116,17 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
-        self._send_data('GetID', intrinsic_matrix, int(width), int(height), float(fov))
+        self._send_data("GetID", intrinsic_matrix, int(width), int(height), float(fov))
 
-    def GetDepth(self, zero_dis: float, one_dis: float, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix: np.ndarray = None):
+    def GetDepth(
+        self,
+        zero_dis: float,
+        one_dis: float,
+        width: int = 512,
+        height: int = 512,
+        fov: float = 60.0,
+        intrinsic_matrix: np.ndarray = None,
+    ):
         """
         Get the depth image from camera. Since eacg pixel of depth image returned from this function is 8-bit, user should limit the depth range (`zero_dis` and `one_dis`) for more accurate results.
 
@@ -109,9 +138,23 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
-        self._send_data('GetDepth', float(zero_dis), float(one_dis), intrinsic_matrix, int(width), int(height), float(fov))
+        self._send_data(
+            "GetDepth",
+            float(zero_dis),
+            float(one_dis),
+            intrinsic_matrix,
+            int(width),
+            int(height),
+            float(fov),
+        )
 
-    def GetDepthEXR(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix: np.ndarray = None):
+    def GetDepthEXR(
+        self,
+        width: int = 512,
+        height: int = 512,
+        fov: float = 60.0,
+        intrinsic_matrix: np.ndarray = None,
+    ):
         """
         Get the depth image from camera. This function returns EXR format image bytes and each pixel is 32-bit.
 
@@ -121,9 +164,18 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
-        self._send_data('GetDepthEXR', intrinsic_matrix, int(width), int(height), float(fov))
+        self._send_data(
+            "GetDepthEXR", intrinsic_matrix, int(width), int(height), float(fov)
+        )
 
-    def GetAmodalMask(self, target_id: int, width: int = 512, height: int = 512, fov: float = 60, intrinsic_matrix: np.ndarray = None):
+    def GetAmodalMask(
+        self,
+        target_id: int,
+        width: int = 512,
+        height: int = 512,
+        fov: float = 60,
+        intrinsic_matrix: np.ndarray = None,
+    ):
         """
         Get the amodal mask image for target object.
 
@@ -134,18 +186,31 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
-        self._send_data('GetAmodalMask', int(target_id), intrinsic_matrix, int(width), int(height), float(fov))
+        self._send_data(
+            "GetAmodalMask",
+            int(target_id),
+            intrinsic_matrix,
+            int(width),
+            int(height),
+            float(fov),
+        )
 
     def StartHeatMapRecord(self, targets_id: list):
-
         targets_id = [int(i) for i in targets_id]
 
-        self._send_data('StartHeatMapRecord', targets_id)
+        self._send_data("StartHeatMapRecord", targets_id)
 
     def EndHeatMapRecord(self):
-        self._send_data('EndHeatMapRecord')
+        self._send_data("EndHeatMapRecord")
 
-    def GetHeatMap(self, width: int = 512, height: int = 512, radius: int = 50, fov: float = 60., intrinsic_matrix: np.ndarray = None):
+    def GetHeatMap(
+        self,
+        width: int = 512,
+        height: int = 512,
+        radius: int = 50,
+        fov: float = 60.0,
+        intrinsic_matrix: np.ndarray = None,
+    ):
         """
         Get the heat map image.
 
@@ -156,9 +221,22 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
-        self._send_data('GetHeatMap', int(radius), intrinsic_matrix, int(width), int(height), float(fov))
+        self._send_data(
+            "GetHeatMap",
+            int(radius),
+            intrinsic_matrix,
+            int(width),
+            int(height),
+            float(fov),
+        )
 
-    def Get2DBBox(self, width: int = 512, height: int = 512, fov: float = 60., intrinsic_matrix: np.ndarray = None):
+    def Get2DBBox(
+        self,
+        width: int = 512,
+        height: int = 512,
+        fov: float = 60.0,
+        intrinsic_matrix: np.ndarray = None,
+    ):
         """
         Get the 2d bounding box of objects in current camera view.
 
@@ -169,11 +247,12 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
-        self._send_data('Get2DBBox', intrinsic_matrix, int(width), int(height), float(fov))
+        self._send_data(
+            "Get2DBBox", intrinsic_matrix, int(width), int(height), float(fov)
+        )
 
     def Get3DBBox(self):
         """
         Get the 3d bounding box of objects in world coordinate.
         """
-        self._send_data('Get3DBBox')
-
+        self._send_data("Get3DBBox")

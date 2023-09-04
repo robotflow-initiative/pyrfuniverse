@@ -5,6 +5,7 @@ class DigitAttr(attr.BaseAttr):
     """
     Class for simulating DIGIT tactile sensor.
     """
+
     def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
@@ -23,4 +24,4 @@ class DigitAttr(attr.BaseAttr):
         Get data from DIGIT in RFUniverse.
 
         """
-        self._send_data('GetData')
+        self._send_data("GetData")

@@ -4,17 +4,16 @@ import numpy as np
 
 
 class FrankaPushEnv(RFUniverseBaseEnv):
-
     def __init__(self, executable_file=None):
         super().__init__(
             executable_file,
             camera_channel=True,
             rigidbody_channel=True,
-            articulation_channel=True
+            articulation_channel=True,
         )
 
         self.prev_joint_positions = np.array([0.0 for i in range(8)], dtype=float)
-        self.ik_controller = RFUniverseController('franka')
+        self.ik_controller = RFUniverseController("franka")
 
     def step(self, a: np.ndarray):
         """
@@ -22,8 +21,9 @@ class FrankaPushEnv(RFUniverseBaseEnv):
             a: 4d numpy array. The first 3 dimensions are for the unity-position of Franka grasp point,
                while the 4th dimension is for gripper's width.
         """
-        assert a.shape == (4,), \
-            'The shape of action must be (4,), but got {}'.format(a.shape)
+        assert a.shape == (4,), "The shape of action must be (4,), but got {}".format(
+            a.shape
+        )
 
         eef_pos = a[0:3]
         joint_positions = self.ik_controller.calculate_ik(eef_pos)
@@ -54,10 +54,10 @@ class FrankaPushEnv(RFUniverseBaseEnv):
 
     def _set_franka_joints(self, a: np.ndarray):
         self.articulation_channel.set_action(
-            'SetJointPosition',
+            "SetJointPosition",
             index=0,
             joint_positions=list(a[0:7]),
-            speed_scales=list(a[8:15])
+            speed_scales=list(a[8:15]),
         )
         self._step()
 
@@ -65,10 +65,10 @@ class FrankaPushEnv(RFUniverseBaseEnv):
         a[7] = -1 * a[7] / 2
 
         self.articulation_channel.set_action(
-            'SetJointPosition',
+            "SetJointPosition",
             index=1,
             joint_positions=[a[7], a[7]],
-            speed_scales=[a[15], a[15]]
+            speed_scales=[a[15], a[15]],
         )
         self._step()
 
@@ -76,16 +76,21 @@ class FrankaPushEnv(RFUniverseBaseEnv):
         self.articulation_channel.data.clear()
         while not 0 in self.articulation_channel.data.keys():
             self._step()
-        while not (self.articulation_channel.data[0]['all_stable'] and self.articulation_channel.data[1]['all_stable']):
+        while not (
+            self.articulation_channel.data[0]["all_stable"]
+            and self.articulation_channel.data[1]["all_stable"]
+        ):
             self._step()
 
     def _update_joint_positions(self):
         data = self.articulation_channel.data
-        arm_joint_positions = data[0]['joint_positions']
-        gripper_joint_positions = data[1]['joint_positions']
+        arm_joint_positions = data[0]["joint_positions"]
+        gripper_joint_positions = data[1]["joint_positions"]
 
         self.prev_joint_positions[0:7] = np.array(arm_joint_positions)
-        self.prev_joint_positions[7] = abs(gripper_joint_positions[0]) + abs(gripper_joint_positions[1])
+        self.prev_joint_positions[7] = abs(gripper_joint_positions[0]) + abs(
+            gripper_joint_positions[1]
+        )
 
     def _calculate_speed(self, a: np.ndarray):
         relative_joint_positions = abs(a[0:7] - self.prev_joint_positions[0:7])

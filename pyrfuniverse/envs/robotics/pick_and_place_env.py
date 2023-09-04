@@ -2,7 +2,6 @@ from pyrfuniverse.envs.robotics import FrankaRoboticsEnv
 
 
 class FrankaPickAndPlaceEnv(FrankaRoboticsEnv):
-
     def __init__(
         self,
         executable_file,
@@ -10,7 +9,7 @@ class FrankaPickAndPlaceEnv(FrankaRoboticsEnv):
         reward_type,
         asset_bundle_file=None,
         seed=None,
-        assets: list = []
+        assets: list = [],
     ):
         super().__init__(
             executable_file=executable_file,
@@ -25,5 +24,5 @@ class FrankaPickAndPlaceEnv(FrankaRoboticsEnv):
             target_y_range=0.6,
             object_xz_range=0.15,
             asset_bundle_file=asset_bundle_file,
-            assets=assets
+            assets=assets,
         )

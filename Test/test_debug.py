@@ -1,6 +1,6 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 
-env = RFUniverseBaseEnv(scene_file='DebugScene.json')
+env = RFUniverseBaseEnv(scene_file="DebugScene.json")
 
 while 1:
     env.DebugGraspPoint()

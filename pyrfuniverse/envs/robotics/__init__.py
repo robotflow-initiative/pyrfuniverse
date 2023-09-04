@@ -7,6 +7,11 @@ from pyrfuniverse.envs.robotics.franka_softbody_env import FrankaSoftbodyEnv
 from pyrfuniverse.envs.robotics.franka_cloth_fold_env import FrankaClothFoldEnv
 
 __all__ = [
-    'FrankaRoboticsEnv', 'FrankaReachEnv', 'FrankaPushEnv', 'FrankaPickAndPlaceEnv',
-    'FrankaClothEnv', 'FrankaSoftbodyEnv', 'FrankaClothFoldEnv'
+    "FrankaRoboticsEnv",
+    "FrankaReachEnv",
+    "FrankaPushEnv",
+    "FrankaPickAndPlaceEnv",
+    "FrankaClothEnv",
+    "FrankaSoftbodyEnv",
+    "FrankaClothFoldEnv",
 ]

@@ -6,6 +6,7 @@ class ControllerAttr(attr.ColliderAttr):
     """
     Robot controller class, which will control robot arms, hands and embodied robots.
     """
+
     def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
@@ -58,10 +59,12 @@ class ControllerAttr(attr.ColliderAttr):
             speed_scales: A list of float, representing the speed scale.
         """
         if speed_scales is not None:
-            assert len(joint_positions) == len(speed_scales), 'The length of joint_positions and speed_scales are not equal.'
+            assert len(joint_positions) == len(
+                speed_scales
+            ), "The length of joint_positions and speed_scales are not equal."
             speed_scales = [float(i) for i in speed_scales]
         joint_positions = [float(i) for i in joint_positions]
-        self._send_data('SetJointPosition', joint_positions, speed_scales)
+        self._send_data("SetJointPosition", joint_positions, speed_scales)
 
     def SetJointPositionDirectly(self, joint_positions: list):
         """
@@ -71,7 +74,7 @@ class ControllerAttr(attr.ColliderAttr):
             joint_positions: A list of float, representing the target joint positions.
         """
         joint_positions = [float(i) for i in joint_positions]
-        self._send_data('SetJointPositionDirectly', joint_positions)
+        self._send_data("SetJointPositionDirectly", joint_positions)
 
     def SetIndexJointPosition(self, index: int, joint_position: float):
         """
@@ -81,7 +84,7 @@ class ControllerAttr(attr.ColliderAttr):
             index: Int, joint index.
             joint_position: Float, the target joint position.
         """
-        self._send_data('SetIndexJointPosition', index, float(joint_position))
+        self._send_data("SetIndexJointPosition", index, float(joint_position))
 
     def SetIndexJointPositionDirectly(self, index: int, joint_position: float):
         """
@@ -91,7 +94,7 @@ class ControllerAttr(attr.ColliderAttr):
             index: Int, joint index.
             joint_position: Float, the target joint position.
         """
-        self._send_data('SetIndexJointPositionDirectly', index, float(joint_position))
+        self._send_data("SetIndexJointPositionDirectly", index, float(joint_position))
 
     def SetJointPositionContinue(self, interval: int, time_joint_positions: list):
         """
@@ -103,7 +106,7 @@ class ControllerAttr(attr.ColliderAttr):
         """
         for i in range(len(time_joint_positions)):
             time_joint_positions[i] = [float(j) for j in time_joint_positions[i]]
-        self._send_data('SetJointPositionContinue', interval, time_joint_positions)
+        self._send_data("SetJointPositionContinue", interval, time_joint_positions)
 
     def SetJointVelocity(self, joint_velocitys: list):
         """
@@ -113,7 +116,7 @@ class ControllerAttr(attr.ColliderAttr):
             joint_velocitys: A list of float, representing the target joint velocities.
         """
         joint_velocitys = [float(i) for i in joint_velocitys]
-        self._send_data('SetJointVelocity', joint_velocitys)
+        self._send_data("SetJointVelocity", joint_velocitys)
 
     def SetIndexJointVelocity(self, index: int, joint_velocity: float):
         """
@@ -123,7 +126,7 @@ class ControllerAttr(attr.ColliderAttr):
             index: Int, joint index.
             joint_velocity: A list of float, representing the target joint velocities.
         """
-        self._send_data('SetIndexJointVelocity', index, float(joint_velocitys))
+        self._send_data("SetIndexJointVelocity", index, float(joint_velocitys))
 
     def AddJointForce(self, joint_forces: list):
         """
@@ -133,7 +136,7 @@ class ControllerAttr(attr.ColliderAttr):
             joint_forces: A list of forces, representing the added forces.
         """
         joint_forces = [float(i) for i in joint_forces]
-        self._send_data('AddJointForce', joint_forces)
+        self._send_data("AddJointForce", joint_forces)
 
     def AddJointForceAtPosition(self, joint_forces: list, force_positions: list):
         """
@@ -143,10 +146,12 @@ class ControllerAttr(attr.ColliderAttr):
             joint_forces: A list of forces, representing the added forces.
             force_positions: A list of positions, representing the positions for forces.
         """
-        assert len(joint_forces) == len(force_positions), 'The length of joint_forces and force_positions are not equal.'
+        assert len(joint_forces) == len(
+            force_positions
+        ), "The length of joint_forces and force_positions are not equal."
         joint_forces = [float(i) for i in joint_forces]
         force_positions = [float(i) for i in force_positions]
-        self._send_data('AddJointForceAtPosition', joint_forces, force_positions)
+        self._send_data("AddJointForceAtPosition", joint_forces, force_positions)
 
     def AddJointTorque(self, joint_torques: list):
         """
@@ -156,14 +161,14 @@ class ControllerAttr(attr.ColliderAttr):
             joint_torques: A list of torques, representing the added torques.
         """
         joint_torques = [float(i) for i in joint_torques]
-        self._send_data('AddJointTorque', joint_torques)
+        self._send_data("AddJointTorque", joint_torques)
 
     # only work on unity 2022.1+
     def GetJointInverseDynamicsForce(self):
         """
         Get the joint inverse dynamic force of each moveable joint. Note that this function only works in Unity version >= 2022.1.
         """
-        self._send_data('GetJointInverseDynamicsForce')
+        self._send_data("GetJointInverseDynamicsForce")
 
     def SetImmovable(self, immovable: bool):
         """
@@ -172,7 +177,7 @@ class ControllerAttr(attr.ColliderAttr):
         Args:
             immovable: Bool, True for immovable, False for movable.
         """
-        self._send_data('SetImmovable', immovable)
+        self._send_data("SetImmovable", immovable)
 
     def MoveForward(self, distance: float, speed: float):
         """
@@ -182,7 +187,7 @@ class ControllerAttr(attr.ColliderAttr):
             distance: Float, distance.
             speed: Float, velocity.
         """
-        self._send_data('MoveForward', float(distance), float(speed))
+        self._send_data("MoveForward", float(distance), float(speed))
 
     def MoveBack(self, distance: float, speed: float):
         """
@@ -192,7 +197,7 @@ class ControllerAttr(attr.ColliderAttr):
             distance: Float, distance.
             speed: Float, velocity.
         """
-        self._send_data('MoveBack', float(distance), float(speed))
+        self._send_data("MoveBack", float(distance), float(speed))
 
     def TurnLeft(self, angle: float, speed: float):
         """
@@ -202,7 +207,7 @@ class ControllerAttr(attr.ColliderAttr):
             angle: Float, rotation angle.
             speed: Float, velocity.
         """
-        self._send_data('TurnLeft', float(angle), float(speed))
+        self._send_data("TurnLeft", float(angle), float(speed))
 
     def TurnRight(self, angle: float, speed: float):
         """
@@ -212,19 +217,19 @@ class ControllerAttr(attr.ColliderAttr):
             angle: Float, rotation angle.
             speed: Float, velocity.
         """
-        self._send_data('TurnRight', float(angle), float(speed))
+        self._send_data("TurnRight", float(angle), float(speed))
 
     def GripperOpen(self):
         """
         Open the gripper. Only works if the robot controller has implemented functions inherited from `ICustomGripper.cs`. See https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ICustomGripper.cs and https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/GeneralGripper.cs for more details.
         """
-        self._send_data('GripperOpen')
+        self._send_data("GripperOpen")
 
     def GripperClose(self):
         """
         Close the gripper. Only works if the robot controller has implemented functions inherited from `ICustomGripper.cs`. See https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/ICustomGripper.cs and https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Scripts/Utils/GeneralGripper.cs for more details.
         """
-        self._send_data('GripperClose')
+        self._send_data("GripperClose")
 
     def EnabledNativeIK(self, enabled: bool):
         """
@@ -233,9 +238,15 @@ class ControllerAttr(attr.ColliderAttr):
         Args:
             enabled: Bool, True for enable and False for disable.When it is True, through the IKTatGetDo*** interface, according to the end pose.When it is False, through the SetJoint*** interface, according to the joint movement.NativeIK can only take effect when it is started during initialization.
         """
-        self._send_data('EnabledNativeIK', enabled)
+        self._send_data("EnabledNativeIK", enabled)
 
-    def IKTargetDoMove(self, position: list, duration: float, speed_based: bool = True, relative: bool = False):
+    def IKTargetDoMove(
+        self,
+        position: list,
+        duration: float,
+        speed_based: bool = True,
+        relative: bool = False,
+    ):
         """
         Native IK target movement.
 
@@ -246,12 +257,20 @@ class ControllerAttr(attr.ColliderAttr):
             relative: Bool, if True, `position` is relative; otherwise, `position` is absolute.
         """
         if position is not None:
-            assert len(position) == 3, 'position length must be 3'
+            assert len(position) == 3, "position length must be 3"
             position = [float(i) for i in position]
 
-        self._send_data('IKTargetDoMove', position, float(duration), speed_based, relative)
+        self._send_data(
+            "IKTargetDoMove", position, float(duration), speed_based, relative
+        )
 
-    def IKTargetDoRotate(self, rotation: list, duration: float, speed_based: bool = True, relative: bool = False):
+    def IKTargetDoRotate(
+        self,
+        rotation: list,
+        duration: float,
+        speed_based: bool = True,
+        relative: bool = False,
+    ):
         """
         Native IK target rotation.
 
@@ -262,12 +281,20 @@ class ControllerAttr(attr.ColliderAttr):
             relative: Bool, if True, `rotation` is relative; otherwise, `rotation` is absolute.
         """
         if rotation is not None:
-            assert len(rotation) == 3, 'rotation length must be 3'
+            assert len(rotation) == 3, "rotation length must be 3"
             rotation = [float(i) for i in rotation]
 
-        self._send_data('IKTargetDoRotate', rotation, float(duration), speed_based, relative)
+        self._send_data(
+            "IKTargetDoRotate", rotation, float(duration), speed_based, relative
+        )
 
-    def IKTargetDoRotateQuaternion(self, quaternion: list, duration: float, speed_based: bool = True, relative: bool = False):
+    def IKTargetDoRotateQuaternion(
+        self,
+        quaternion: list,
+        duration: float,
+        speed_based: bool = True,
+        relative: bool = False,
+    ):
         """
         Native IK target rotation using quaternion.
 
@@ -278,24 +305,35 @@ class ControllerAttr(attr.ColliderAttr):
             relative: Bool, if True, `quaternion` is relative; otherwise, `quaternion` is absolute.
         """
         if quaternion is not None:
-            assert len(quaternion) == 4, 'quaternion length must be 4'
+            assert len(quaternion) == 4, "quaternion length must be 4"
             quaternion = [float(i) for i in quaternion]
 
-        self._send_data('IKTargetDoRotateQuaternion', quaternion, float(duration), speed_based, relative)
+        self._send_data(
+            "IKTargetDoRotateQuaternion",
+            quaternion,
+            float(duration),
+            speed_based,
+            relative,
+        )
 
     def IKTargetDoComplete(self):
         """
         Make native IK target movement / rotation complete directly.
         """
-        self._send_data('IKTargetDoComplete')
+        self._send_data("IKTargetDoComplete")
 
     def IKTargetDoKill(self):
         """
         Make native IK target movement / rotation stop.
         """
-        self._send_data('IKTargetDoKill')
+        self._send_data("IKTargetDoKill")
 
-    def SetIKTargetOffset(self, position: list = [0.,0.,0.], rotation: list = [0.,0.,0.], quaternion: list = None):
+    def SetIKTargetOffset(
+        self,
+        position: list = [0.0, 0.0, 0.0],
+        rotation: list = [0.0, 0.0, 0.0],
+        quaternion: list = None,
+    ):
         """
         Set the new IK target by setting offset to the original target of native IK.
 
@@ -305,20 +343,20 @@ class ControllerAttr(attr.ColliderAttr):
             quaternion: A list of length 4, representing the quaternion offset to original target. If this parameter is specified, `rotation` will be ignored.
         """
         if position is not None:
-            assert len(position) == 3, 'position length must be 3'
+            assert len(position) == 3, "position length must be 3"
             position = [float(i) for i in position]
         if rotation is not None:
-            assert len(rotation) == 3, 'rotation length must be 3'
+            assert len(rotation) == 3, "rotation length must be 3"
             rotation = [float(i) for i in rotation]
         if quaternion is not None:
-            assert len(quaternion) == 4, 'quaternion length must be 4'
+            assert len(quaternion) == 4, "quaternion length must be 4"
             quaternion = [float(i) for i in quaternion]
 
-        self._send_data('SetIKTargetOffset', position, rotation, quaternion)
+        self._send_data("SetIKTargetOffset", position, rotation, quaternion)
 
     def WaitDo(self):
         """
         Wait for the native IK target movement / rotation complete.
         """
-        while not self.data['move_done'] or not self.data['rotate_done']:
+        while not self.data["move_done"] or not self.data["rotate_done"]:
             self.env._step()

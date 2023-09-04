@@ -5,6 +5,7 @@ class CustomAttr(attr.BaseAttr):
     """
     This is an example of custom attribute class, without actual functions.
     """
+
     def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
@@ -18,4 +19,4 @@ class CustomAttr(attr.BaseAttr):
 
     # An example of new API
     def CustomMessage(self, message: str):
-        self._send_data('CustomMessage', message)
+        self._send_data("CustomMessage", message)

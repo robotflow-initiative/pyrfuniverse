@@ -6,6 +6,7 @@ class PointCloudAttr(attr.BaseAttr):
     """
     Point cloud rendering class.
     """
+
     def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
@@ -15,8 +16,13 @@ class PointCloudAttr(attr.BaseAttr):
         """
         super().parse_message(data)
 
-    def ShowPointCloud(self, positions: np.ndarray = None, colors: np.ndarray = None, ply_path: str = None,
-                       radius: float = 0.01):
+    def ShowPointCloud(
+        self,
+        positions: np.ndarray = None,
+        colors: np.ndarray = None,
+        ply_path: str = None,
+        radius: float = 0.01,
+    ):
         """
         Display point cloud in Unity.
 
@@ -27,7 +33,7 @@ class PointCloudAttr(attr.BaseAttr):
                 and `colors` will be ignored.
             radius: Float, the radius of the point cloud.
         """
-        self._send_data('ShowPointCloud', ply_path, positions, colors, radius)
+        self._send_data("ShowPointCloud", ply_path, positions, colors, radius)
 
     def SetRadius(self, radius: float):
         """
@@ -36,4 +42,4 @@ class PointCloudAttr(attr.BaseAttr):
         Args:
             radius: Float, the radius.
         """
-        self._send_data('SetRadius', radius)
+        self._send_data("SetRadius", radius)

@@ -2,7 +2,6 @@ from pyrfuniverse.envs.robotics import FrankaRoboticsEnv
 
 
 class FrankaReachEnv(FrankaRoboticsEnv):
-
     def __init__(
         self,
         max_episode_length,
@@ -11,7 +10,7 @@ class FrankaReachEnv(FrankaRoboticsEnv):
         scene_file=None,
         asset_bundle_file=None,
         seed=None,
-        assets: list = []
+        assets: list = [],
     ):
         super().__init__(
             max_episode_length=max_episode_length,
@@ -27,5 +26,5 @@ class FrankaReachEnv(FrankaRoboticsEnv):
             executable_file=executable_file,
             scene_file=scene_file,
             asset_bundle_file=None,
-            assets=assets
+            assets=assets,
         )

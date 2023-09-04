@@ -1,8 +1,9 @@
 class BaseAttr:
     """
-    Base attribute class, which includes general functions such as 
+    Base attribute class, which includes general functions such as
     object loading, deleting and transforming.
     """
+
     def __init__(self, env, id: int, data=None):
         if data is None:
             data = {}
@@ -56,7 +57,13 @@ class BaseAttr:
         self.env.attrs[self.id] = attr_type(self.env, self.id, self.data)
         return self.env.attrs[self.id]
 
-    def SetTransform(self, position: list = None, rotation: list = None, scale: list = None, is_world: bool = True):
+    def SetTransform(
+        self,
+        position: list = None,
+        rotation: list = None,
+        scale: list = None,
+        is_world: bool = True,
+    ):
         """
         Set the transform of this object, including position, rotation, scale and coordinate.
 
@@ -67,16 +74,16 @@ class BaseAttr:
             is_world: Bool, True for world coordinate, False for local coordinate.
         """
         if position is not None:
-            assert len(position) == 3, 'position length must be 3'
+            assert len(position) == 3, "position length must be 3"
             position = [float(i) for i in position]
         if rotation is not None:
-            assert len(rotation) == 3, 'rotation length must be 3'
+            assert len(rotation) == 3, "rotation length must be 3"
             rotation = [float(i) for i in rotation]
         if scale is not None:
-            assert len(scale) == 3, 'scale length must be 3'
+            assert len(scale) == 3, "scale length must be 3"
             scale = [float(i) for i in scale]
 
-        self._send_data('SetTransform', position, rotation, scale, is_world)
+        self._send_data("SetTransform", position, rotation, scale, is_world)
 
     def SetPosition(self, position: list = None, is_world: bool = True):
         """
@@ -86,10 +93,10 @@ class BaseAttr:
             position: A list of length 3, representing the target position value of object.
             is_world: Bool, True for world coordinate, False for local coordinate.
         """
-        assert len(position) == 3, 'position length must be 3'
+        assert len(position) == 3, "position length must be 3"
         position = [float(i) for i in position]
 
-        self._send_data('SetPosition', position, is_world)
+        self._send_data("SetPosition", position, is_world)
 
     def SetRotation(self, rotation: list = None, is_world: bool = True):
         """
@@ -99,10 +106,10 @@ class BaseAttr:
             rotation: A list of length 3, representing the target euler angle value of object.
             is_world: Bool, True for world coordinate, False for local coordinate.
         """
-        assert len(rotation) == 3, 'rotation length must be 3'
+        assert len(rotation) == 3, "rotation length must be 3"
         rotation = [float(i) for i in rotation]
 
-        self._send_data('SetRotation', rotation, is_world)
+        self._send_data("SetRotation", rotation, is_world)
 
     def SetRotationQuaternion(self, quaternion: list = None, is_world: bool = True):
         """
@@ -112,10 +119,10 @@ class BaseAttr:
             quaternion: A list of length 4, representing the quaternion from current pose.
             is_world: Bool, True for world coordinate, False for local coordinate.
         """
-        assert len(quaternion) == 4, 'quaternion length must be 4'
+        assert len(quaternion) == 4, "quaternion length must be 4"
         quaternion = [float(i) for i in quaternion]
 
-        self._send_data('SetRotationQuaternion', quaternion, is_world)
+        self._send_data("SetRotationQuaternion", quaternion, is_world)
 
     def SetScale(self, scale: list = None):
         """
@@ -124,10 +131,10 @@ class BaseAttr:
         Args:
             scale: A list of length 3, representing the target scale value of object.
         """
-        assert len(scale) == 3, 'scale length must be 3'
+        assert len(scale) == 3, "scale length must be 3"
         scale = [float(i) for i in scale]
 
-        self._send_data('SetScale', scale)
+        self._send_data("SetScale", scale)
 
     def Translate(self, translation: list, is_world: bool = True):
         """
@@ -137,10 +144,10 @@ class BaseAttr:
             translation: A list of length 3, representing the translation from current position.
             is_world: Bool, True for world coordinate, False for local coordinate.
         """
-        assert len(translation) == 3, 'translation length must be 3'
+        assert len(translation) == 3, "translation length must be 3"
         translation = [float(i) for i in translation]
 
-        self._send_data('Translate', translation, is_world)
+        self._send_data("Translate", translation, is_world)
 
     def Rotate(self, rotation: list, is_world: bool = True):
         """
@@ -150,10 +157,10 @@ class BaseAttr:
             rotation: A list of length 3, representing the euler-angle-format rotation from current euler angle.
             is_world: Bool, True for world coordinate, False for local coordinate.
         """
-        assert len(rotation) == 3, 'rotation length must be 3'
+        assert len(rotation) == 3, "rotation length must be 3"
         rotation = [float(i) for i in rotation]
 
-        self._send_data('Rotate', rotation, is_world)
+        self._send_data("Rotate", rotation, is_world)
 
     def LookAt(self, target: list, world_up: list = None):
         """
@@ -164,13 +171,13 @@ class BaseAttr:
             world_up: A list of length 3, vector specifying the upward direction.
         """
         if world_up is None:
-            world_up = [0., 1., 0.]
-        assert len(target) == 3, 'target length must be 3'
+            world_up = [0.0, 1.0, 0.0]
+        assert len(target) == 3, "target length must be 3"
         target = [float(i) for i in target]
-        assert len(world_up) == 3, 'world_up length must be 3'
+        assert len(world_up) == 3, "world_up length must be 3"
         world_up = [float(i) for i in world_up]
 
-        self._send_data('LookAt', target, world_up)
+        self._send_data("LookAt", target, world_up)
 
     def SetActive(self, active: bool):
         """
@@ -179,9 +186,9 @@ class BaseAttr:
         Args:
             active: Bool, True for active, False for inactive.
         """
-        self._send_data('SetActive', active)
+        self._send_data("SetActive", active)
 
-    def SetParent(self, parent_id: int, parent_name: str = ''):
+    def SetParent(self, parent_id: int, parent_name: str = ""):
         """
         Set the parent of this object.
 
@@ -189,7 +196,7 @@ class BaseAttr:
             parent_id: Int, the id of parent object.
             parent_name: Str, the name of parent object.
         """
-        self._send_data('SetParent', parent_id, parent_name)
+        self._send_data("SetParent", parent_id, parent_name)
 
     def SetLayer(self, layer: int):
         """
@@ -198,7 +205,7 @@ class BaseAttr:
         Args:
             layer: Int, the number of layer.
         """
-        self._send_data('SetLayer', layer)
+        self._send_data("SetLayer", layer)
 
     def Copy(self, new_id: int):
         """
@@ -207,7 +214,7 @@ class BaseAttr:
         Args:
             new_id: Int, the id of new object.
         """
-        self._send_data('Copy', new_id)
+        self._send_data("Copy", new_id)
 
         self.env.attrs[new_id] = type(self)(self.env, new_id, self.data)
         return self.env.attrs[new_id]
@@ -216,7 +223,7 @@ class BaseAttr:
         """
         Destroy this object in Unity.
         """
-        self._send_data('Destroy')
+        self._send_data("Destroy")
 
         self.env.attrs.pop(self.id)
 
@@ -227,10 +234,10 @@ class BaseAttr:
         Args:
             point: A list of length 3, representing the position of a point.
         """
-        assert len(point) == 3, 'point length must be 3'
+        assert len(point) == 3, "point length must be 3"
         point = [float(i) for i in point]
 
-        self._send_data('GetLocalPointFromWorld', point)
+        self._send_data("GetLocalPointFromWorld", point)
 
     def GetWorldPointFromLocal(self, point: list):
         """
@@ -239,7 +246,7 @@ class BaseAttr:
         Args:
             point: A list of length 3, representing the position of a point.
         """
-        assert len(point) == 3, 'point length must be 3'
+        assert len(point) == 3, "point length must be 3"
         point = [float(i) for i in point]
 
-        self._send_data('GetWorldPointFromLocal', point)
+        self._send_data("GetWorldPointFromLocal", point)

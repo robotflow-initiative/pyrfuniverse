@@ -77,9 +77,9 @@ class RFUniverseBaseEnv(ABC):
         self.port = self.communicator.port  # update port
         _th = threading.Thread(target=self.communicator.online)
         _th.start()
-        time.sleep(.01)
+        time.sleep(0.01)
         if PROC_TYPE == "release":
-            with Locker('config'): # unity process will try to modify the config file
+            with Locker("config"):  # unity process will try to modify the config file
                 self.process = self._start_unity_env(self.executable_file, self.port)
                 # print(f"Unity process {self.process.pid} started")
         _th.join()
@@ -185,7 +185,7 @@ class RFUniverseBaseEnv(ABC):
         if head in self.listen_object:
             self.listen_object[head](objs)
         # else:
-            # warnings.warn(f"unknown object data type: {head}")
+        # warnings.warn(f"unknown object data type: {head}")
 
     def _send_env_data(self, *args) -> None:
         self.communicator.send_object("Env", *args)
@@ -681,13 +681,13 @@ class RFUniverseBaseEnv(ABC):
             world_up: A list of length 3, vector specifying the upward direction.
         """
         if world_up is None:
-            world_up = [0., 1., 0.]
-        assert len(target) == 3, 'target length must be 3'
+            world_up = [0.0, 1.0, 0.0]
+        assert len(target) == 3, "target length must be 3"
         target = [float(i) for i in target]
-        assert len(world_up) == 3, 'world_up length must be 3'
+        assert len(world_up) == 3, "world_up length must be 3"
         world_up = [float(i) for i in world_up]
 
-        self._send_env_data('ViewLookAt', target, world_up)
+        self._send_env_data("ViewLookAt", target, world_up)
 
     def SetViewBackGround(self, color: list = None) -> None:
         """

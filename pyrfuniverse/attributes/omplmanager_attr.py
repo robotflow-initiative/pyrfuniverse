@@ -1,9 +1,9 @@
-'''
+"""
 A OMPL plugin for RFUniverse
 Modified from pybullet_ompl
 
 Author: Jieyi Zhang
-'''
+"""
 
 INTERPOLATE_NUM = 300
 DEFAULT_PLANNING_TIME = 500.0
@@ -34,15 +34,15 @@ class OmplManagerAttr(attr.BaseAttr):
 
     def parse_message(self, data: dict):
         super().parse_message(data)
-        self.is_collision = data['is_collide']
+        self.is_collision = data["is_collide"]
 
     def modify_robot(self, robot_id: int):
         self.robot_attr = self.env.GetAttr(robot_id)
-        self.joint_num = self.robot_attr.data['number_of_moveable_joints']
-        self.joint_lower_limit = self.robot_attr.data['joint_lower_limit']
-        self.joint_upper_limit = self.robot_attr.data['joint_upper_limit']
+        self.joint_num = self.robot_attr.data["number_of_moveable_joints"]
+        self.joint_lower_limit = self.robot_attr.data["joint_lower_limit"]
+        self.joint_upper_limit = self.robot_attr.data["joint_upper_limit"]
 
-        self._send_data('ModifyRobot', robot_id)
+        self._send_data("ModifyRobot", robot_id)
 
     def get_cur_state(self) -> list:
         """
@@ -72,10 +72,10 @@ class OmplManagerAttr(attr.BaseAttr):
     def _set_joint_positions(self, positions: list):
         self.is_collision = False
 
-        self._send_data('SetJointState', positions)
+        self._send_data("SetJointState", positions)
 
     def RestoreRobot(self, robot_id: int):
-        self._send_data('RestoreRobot', robot_id)
+        self._send_data("RestoreRobot", robot_id)
 
 
 class RFUStateSpace(ob.RealVectorStateSpace):
@@ -102,7 +102,7 @@ class RFUStateSpace(ob.RealVectorStateSpace):
         self.state_sampler = state_sampler
 
 
-class RFUOMPL():
+class RFUOMPL:
     def __init__(self, manager, time_unit=1) -> None:
         """
         Args
@@ -130,7 +130,7 @@ class RFUOMPL():
         # self.collision_fn = pb_utils.get_collision_fn(self.robot_id, self.robot.joint_idx, self.obstacles, [], True, set(),
         #                                                 custom_limits={}, max_distance=0, allow_collision_links=[])
 
-        self.set_planner("InformedRRTstar") # RRT by default
+        self.set_planner("InformedRRTstar")  # RRT by default
 
     def is_state_valid(self, state):
         # check if a given state will lead a collision
@@ -191,9 +191,11 @@ class RFUOMPL():
         # attempt to solve the problem within allowed planning time
         res = False
         self.ss.solve(allowed_time)
-        print('Solution Find')
+        print("Solution Find")
         while True:
-            print("Found solution: interpolating into {} segments".format(INTERPOLATE_NUM))
+            print(
+                "Found solution: interpolating into {} segments".format(INTERPOLATE_NUM)
+            )
             # print the path to screen
             sol_path_geometric = self.ss.getSolutionPath()
             sol_path_geometric.interpolate(INTERPOLATE_NUM)
@@ -215,7 +217,7 @@ class RFUOMPL():
         self.env.step(50)
         return res, sol_path_list
 
-    def plan(self, goal, allowed_time = DEFAULT_PLANNING_TIME):
+    def plan(self, goal, allowed_time=DEFAULT_PLANNING_TIME):
         """
         plan a path to gaol from current robot state
         """

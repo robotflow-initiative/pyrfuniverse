@@ -26,9 +26,8 @@ try:
     import cv2
     from cv2 import ximgproc
 except ImportError:
-    print('opencv-contrib not installed, '
-          'some features will be disabled.')
-    print('Please install with `pip3 install opencv-contrib-python`')
+    print("opencv-contrib not installed, " "some features will be disabled.")
+    print("Please install with `pip3 install opencv-contrib-python`")
     ximgproc = None
 
 
@@ -38,15 +37,19 @@ def pad_lr(img: np.ndarray, ndisp: int) -> np.ndarray:
 
 
 def unpad_lr(img: np.ndarray, ndisp: int) -> np.ndarray:
-    return img[:, ndisp: -ndisp]
+    return img[:, ndisp:-ndisp]
 
 
 def sim_ir_noise(
-        img: np.ndarray,
-        scale: float = 0.0, blur_ksize: int = 0, blur_ksigma: float = 0.03,
-        speckle_shape: float = 398.12, speckle_scale: float = 2.54e-3,
-        gaussian_mu: float = -0.231, gaussian_sigma: float = 0.83,
-        seed: int = 0
+    img: np.ndarray,
+    scale: float = 0.0,
+    blur_ksize: int = 0,
+    blur_ksigma: float = 0.03,
+    speckle_shape: float = 398.12,
+    speckle_scale: float = 2.54e-3,
+    gaussian_mu: float = -0.231,
+    gaussian_sigma: float = 0.83,
+    seed: int = 0,
 ) -> np.ndarray:
     """
     TODO: IR density model
@@ -104,26 +107,34 @@ def get_census(img, wsize=7):
     assert wsize % 2 == 1
 
     whalf = wsize // 2
-    center = img[whalf: h - whalf, whalf: w - whalf]
+    center = img[whalf : h - whalf, whalf : w - whalf]
 
     census = np.zeros((h - 2 * whalf, w - 2 * whalf), dtype=np.uint8)
-    offsets = [(u, v) for v in range(wsize) \
-               for u in range(wsize) if not u == v == whalf]
+    offsets = [
+        (u, v) for v in range(wsize) for u in range(wsize) if not u == v == whalf
+    ]
 
     for u, v in offsets:
-        census = (census << 1) \
-                 | (img[v: v + h - 2 * whalf, u: u + w - 2 * whalf] >= center)
+        census = (census << 1) | (
+            img[v : v + h - 2 * whalf, u : u + w - 2 * whalf] >= center
+        )
 
     ret = np.zeros((h, w), dtype=np.uint8)
-    ret[whalf: -whalf, whalf: -whalf] = census
+    ret[whalf:-whalf, whalf:-whalf] = census
 
     return ret
 
 
 def calc_disparity(
-        imgl: np.ndarray, imgr: np.ndarray, method: str, *,
-        ndisp: int = 96, min_disp: int = 0, lr_consistency: bool = True,
-        use_census: bool = True, census_wsize: int = 7
+    imgl: np.ndarray,
+    imgr: np.ndarray,
+    method: str,
+    *,
+    ndisp: int = 96,
+    min_disp: int = 0,
+    lr_consistency: bool = True,
+    use_census: bool = True,
+    census_wsize: int = 7,
 ) -> np.ndarray:
     """
     Calculate disparity given a rectified image pair.
@@ -143,27 +154,24 @@ def calc_disparity(
     imgl = pad_lr(imgl, ndisp)
     imgr = pad_lr(imgr, ndisp)
 
-    if method == 'SGBM':
+    if method == "SGBM":
         window_size = 7
         matcherl = cv2.StereoSGBM_create(
             minDisparity=min_disp,
             numDisparities=ndisp,
             blockSize=window_size,
-            P1=8 * 1 * window_size ** 2,
-            P2=32 * 1 * window_size ** 2,
+            P1=8 * 1 * window_size**2,
+            P2=32 * 1 * window_size**2,
             disp12MaxDiff=1,
             uniquenessRatio=10,
             speckleWindowSize=100,
             speckleRange=1,
-            mode=cv2.STEREO_SGBM_MODE_HH
+            mode=cv2.STEREO_SGBM_MODE_HH,
         )
-    elif method == 'BM':
-        matcherl = cv2.StereoBM_create(
-            numDisparities=ndisp,
-            blockSize=7
-        )
+    elif method == "BM":
+        matcherl = cv2.StereoBM_create(numDisparities=ndisp, blockSize=7)
     else:
-        raise NotImplementedError(f'Not implemented: {method}')
+        raise NotImplementedError(f"Not implemented: {method}")
 
     displ = matcherl.compute(imgl, imgr)
 
@@ -180,11 +188,11 @@ def calc_disparity(
                 disparity_map_left=displ,
                 disparity_map_right=dispr,
                 left_view=imgl,
-                right_view=imgr
+                right_view=imgr,
             )
             # confidence = wls_filter.getConfidenceMap()
         else:
-            print('opencv-contrib not installed, post-processing disabled.')
+            print("opencv-contrib not installed, post-processing disabled.")
 
     displ = unpad_lr(displ, ndisp).astype(np.float32) / 16.0
 
@@ -192,8 +200,13 @@ def calc_disparity(
 
 
 def calc_rectified_stereo_pair(
-        imgl: np.ndarray, imgr: np.ndarray, kl: np.ndarray, kr: np.ndarray, rt: np.ndarray,
-        distortl: Optional[np.ndarray] = None, distortr: Optional[np.ndarray] = None
+    imgl: np.ndarray,
+    imgr: np.ndarray,
+    kl: np.ndarray,
+    kr: np.ndarray,
+    rt: np.ndarray,
+    distortl: Optional[np.ndarray] = None,
+    distortr: Optional[np.ndarray] = None,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Rectify an image pair with given camera parameters.
@@ -221,10 +234,15 @@ def calc_rectified_stereo_pair(
     # print(distortl)
     # print(distortr)
     r1, r2, p1, p2, q, _, _ = cv2.stereoRectify(
-        R=rt[:3, :3], T=rt[:3, 3:],
-        cameraMatrix1=kl, cameraMatrix2=kr,
-        alpha=1.0, imageSize=(w, h), newImageSize=(w, h),
-        distCoeffs1=distortl, distCoeffs2=distortr
+        R=rt[:3, :3],
+        T=rt[:3, 3:],
+        cameraMatrix1=kl,
+        cameraMatrix2=kr,
+        alpha=1.0,
+        imageSize=(w, h),
+        newImageSize=(w, h),
+        distCoeffs1=distortl,
+        distCoeffs2=distortr,
     )
     # r1, r2, p1, p2, q, _, _ = cv2.stereoRectify(
     #     R=np.array([[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]]), T=np.array([[-0.0545], [0.], [0.]]),
@@ -241,8 +259,7 @@ def calc_rectified_stereo_pair(
 
 
 def calc_depth_and_pointcloud(
-        disparity: np.ndarray, mask: np.ndarray, q: np.ndarray,
-        no_pointcloud: bool = False
+    disparity: np.ndarray, mask: np.ndarray, q: np.ndarray, no_pointcloud: bool = False
 ) -> Tuple[np.ndarray, object]:  # object is o3d.geometry.PointCloud
     """
     Calculate depth and pointcloud.
@@ -257,7 +274,7 @@ def calc_depth_and_pointcloud(
     try:
         import open3d as o3d
     except ImportError:
-        print('Please install open3d with `pip3 install open3d`')
+        print("Please install open3d with `pip3 install open3d`")
         raise
 
     _3d_image = cv2.reprojectImageTo3D(disparity, q)
@@ -285,19 +302,24 @@ def calc_depth_and_pointcloud(
 
 
 def calc_main_depth_from_left_right_ir(
-        ir_l: np.ndarray, ir_r: np.ndarray,
-        rt_l: np.ndarray, rt_r: np.ndarray, rt_main: np.ndarray,
-        k_l: np.ndarray, k_r: np.ndarray, k_main: np.ndarray,
-        method: str = 'SGBM',
-        ndisp: int = 96,
-        use_noise: bool = True,
-        use_census: bool = True,
-        lr_consistency: bool = False,
-        register_depth: bool = True,
-        register_blur_ksize: int = 5,
-        main_cam_size=(1920, 1080),
-        census_wsize=7,
-        **kwargs
+    ir_l: np.ndarray,
+    ir_r: np.ndarray,
+    rt_l: np.ndarray,
+    rt_r: np.ndarray,
+    rt_main: np.ndarray,
+    k_l: np.ndarray,
+    k_r: np.ndarray,
+    k_main: np.ndarray,
+    method: str = "SGBM",
+    ndisp: int = 96,
+    use_noise: bool = True,
+    use_census: bool = True,
+    lr_consistency: bool = False,
+    register_depth: bool = True,
+    register_blur_ksize: int = 5,
+    main_cam_size=(1920, 1080),
+    census_wsize=7,
+    **kwargs,
 ) -> np.ndarray:
     """
     Calculate depth for rgb camera from left right ir images.
@@ -330,14 +352,17 @@ def calc_main_depth_from_left_right_ir(
     if use_noise:
         ir_l, ir_r = sim_ir_noise(ir_l, **kwargs), sim_ir_noise(ir_r, **kwargs)
     _, _, q = calc_rectified_stereo_pair(
-        ir_l, ir_r,
-        k_l.astype(float), k_r.astype(float), rt_lr.astype(float)
+        ir_l, ir_r, k_l.astype(float), k_r.astype(float), rt_lr.astype(float)
     )
 
     disp = calc_disparity(
-        ir_l, ir_r, method,
-        lr_consistency=lr_consistency, ndisp=ndisp,
-        use_census=use_census, census_wsize=census_wsize
+        ir_l,
+        ir_r,
+        method,
+        lr_consistency=lr_consistency,
+        ndisp=ndisp,
+        use_census=use_census,
+        census_wsize=census_wsize,
     )
     valid_mask = disp >= 1
     depth, _ = calc_depth_and_pointcloud(disp, valid_mask, q, no_pointcloud=True)
@@ -347,8 +372,14 @@ def calc_main_depth_from_left_right_ir(
     depth[depth < 0] = 0
     if register_depth:
         depth = cv2.rgbd.registerDepth(
-            k_l.astype(float), k_main.astype(float),
-            None, rt_mainl.astype(float), depth, (w, h), depthDilation=True)
+            k_l.astype(float),
+            k_main.astype(float),
+            None,
+            rt_mainl.astype(float),
+            depth,
+            (w, h),
+            depthDilation=True,
+        )
         depth[np.isnan(depth)] = 0
         depth[np.isinf(depth)] = 0
         depth[depth < 0] = 0

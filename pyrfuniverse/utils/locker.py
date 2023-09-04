@@ -1,5 +1,6 @@
 import os
 import time
+
 if os.name == "nt":
     import msvcrt
 
@@ -23,13 +24,15 @@ else:
 
 class Locker:
     def __init__(self, lck_name: str):
-        self.lck_path = os.path.join(os.path.expanduser("~"), ".rfuniverse", lck_name+'.lck')
+        self.lck_path = os.path.join(
+            os.path.expanduser("~"), ".rfuniverse", lck_name + ".lck"
+        )
         # check if the lock file exists
         if not os.path.exists(self.lck_path):
             os.makedirs(os.path.dirname(self.lck_path), exist_ok=True)
             open(self.lck_path, "w+").close()
         self.fp = None
-    
+
     def __enter__(self):
         self.fp = open(self.lck_path)
         lock(self.fp)

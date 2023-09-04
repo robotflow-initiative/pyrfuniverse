@@ -5,6 +5,7 @@ class ColliderAttr(attr.GameObjectAttr):
     """
     Collider class for objects who have collider in Unity.
     """
+
     def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
@@ -21,9 +22,16 @@ class ColliderAttr(attr.GameObjectAttr):
         Args:
             active: Bool, True for enable and False for unenable.
         """
-        self._send_data('EnabledAllCollider', enabled)
+        self._send_data("EnabledAllCollider", enabled)
 
-    def SetPhysicMaterial(self, bounciness: float, dynamicFriction: float, staticFriction: float, frictionCombine: int, bounceCombine: int):
+    def SetPhysicMaterial(
+        self,
+        bounciness: float,
+        dynamicFriction: float,
+        staticFriction: float,
+        frictionCombine: int,
+        bounceCombine: int,
+    ):
         """
         Set the collider physical material.
 
@@ -50,7 +58,14 @@ class ColliderAttr(attr.GameObjectAttr):
                 - 3: Multiply
                 These values define how bounciness will be calculated when multiple colliders are in contact.
         """
-        self._send_data('SetPhysicMaterial', float(bounciness), float(dynamicFriction), float(staticFriction), float(frictionCombine), float(bounceCombine))
+        self._send_data(
+            "SetPhysicMaterial",
+            float(bounciness),
+            float(dynamicFriction),
+            float(staticFriction),
+            float(frictionCombine),
+            float(bounceCombine),
+        )
 
     def SetRFMoveColliderActive(self, active: bool):
         """
@@ -59,11 +74,10 @@ class ColliderAttr(attr.GameObjectAttr):
         Args:
             active: Bool, True for active and False for inactive.
         """
-        self._send_data('SetRFMoveColliderActive', active)
+        self._send_data("SetRFMoveColliderActive", active)
 
     def GenerateVHACDColider(self):
         """
         Generate convex colliders using VHACD algorithm.
         """
-        self._send_data('GenerateVHACDColider')
-
+        self._send_data("GenerateVHACDColider")

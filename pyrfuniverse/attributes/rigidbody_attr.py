@@ -5,6 +5,7 @@ class RigidbodyAttr(attr.ColliderAttr):
     """
     Rigid body class.
     """
+
     def parse_message(self, data: dict):
         """
         Parse messages. This function is called by internal function.
@@ -25,7 +26,7 @@ class RigidbodyAttr(attr.ColliderAttr):
         Args:
             mass: Float, representing the mass of this rigid body.
         """
-        self._send_data('SetMass', float(mass))
+        self._send_data("SetMass", float(mass))
 
     def AddForce(self, force: list):
         """
@@ -37,7 +38,7 @@ class RigidbodyAttr(attr.ColliderAttr):
         if force is not None:
             force = [float(i) for i in force]
 
-        self._send_data('AddForce', force)
+        self._send_data("AddForce", force)
 
     def SetVelocity(self, velocity: list):
         """
@@ -49,7 +50,7 @@ class RigidbodyAttr(attr.ColliderAttr):
         if velocity is not None:
             velocity = [float(i) for i in velocity]
 
-        self._send_data('SetVelocity', velocity)
+        self._send_data("SetVelocity", velocity)
 
     def SetKinematic(self, is_kinematic: bool):
         """
@@ -58,4 +59,4 @@ class RigidbodyAttr(attr.ColliderAttr):
         Args:
             is_kinematic: is kinematic or not.
         """
-        self._send_data('SetKinematic', is_kinematic)
+        self._send_data("SetKinematic", is_kinematic)

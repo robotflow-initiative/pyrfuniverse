@@ -8,9 +8,8 @@ import uuid
 
 
 class CollisionDetectionChannel(SideChannel):
-
     def __init__(self):
-        super().__init__(uuid.UUID('bee25cbc-07e2-11ec-9e67-18c04d443e7d'))
+        super().__init__(uuid.UUID("bee25cbc-07e2-11ec-9e67-18c04d443e7d"))
         self.num_collision = 0
 
     def on_message_received(self, msg: IncomingMessage) -> None:
@@ -27,15 +26,15 @@ class CollisionDetectionChannel(SideChannel):
 
 
 class MultiAgentNavigationEnv(RFUniverseGymWrapper):
-    metadata = {'render.modes': ['human']}
+    metadata = {"render.modes": ["human"]}
 
     def __init__(
-            self,
-            num_agents,
-            asset_bundle_file,
-            reset_on_collision=False,
-            max_episode_length=100,
-            executable_file=None
+        self,
+        num_agents,
+        asset_bundle_file,
+        reset_on_collision=False,
+        max_episode_length=100,
+        executable_file=None,
     ):
         self.collision_detection_channel = CollisionDetectionChannel()
         super().__init__(
@@ -49,7 +48,7 @@ class MultiAgentNavigationEnv(RFUniverseGymWrapper):
         self.reset_on_collision = reset_on_collision
 
         # Fixed parameters
-        self.agent_name = 'NavRobot'
+        self.agent_name = "NavRobot"
         self.y_offset = 0.15
         self.reset_agent_min_distance = 1.1
         self.world_range_low = np.array([-4, self.y_offset, -4])
@@ -58,10 +57,14 @@ class MultiAgentNavigationEnv(RFUniverseGymWrapper):
         self.collision_multiplier = 50
         self.seed()
 
-        self.action_space = spaces.Box(low=-1, high=1, shape=(2 * self.num_agents,), dtype=np.float32)
+        self.action_space = spaces.Box(
+            low=-1, high=1, shape=(2 * self.num_agents,), dtype=np.float32
+        )
         self._env_setup()
         obs = self._get_obs()
-        self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=obs.shape, dtype=np.float32)
+        self.observation_space = spaces.Box(
+            low=-np.inf, high=np.inf, shape=obs.shape, dtype=np.float32
+        )
         self.t = 0
 
         self.accumulative_collisions = 0
@@ -87,7 +90,7 @@ class MultiAgentNavigationEnv(RFUniverseGymWrapper):
 
         self.t += 1
         done = False
-        info = {'is_success': num_collisions < 1}
+        info = {"is_success": num_collisions < 1}
 
         if self.reset_on_collision and num_collisions > 0:
             self.reset()
@@ -108,7 +111,9 @@ class MultiAgentNavigationEnv(RFUniverseGymWrapper):
         positions = []
         for i in range(self.num_agents):
             while True:
-                agent_position = self.np_random.uniform(self.world_range_low, self.world_range_high)
+                agent_position = self.np_random.uniform(
+                    self.world_range_low, self.world_range_high
+                )
                 if self._check_reset_position_legality(positions, agent_position):
                     break
             positions.append(agent_position.copy())
@@ -123,53 +128,57 @@ class MultiAgentNavigationEnv(RFUniverseGymWrapper):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
-    def render(self, mode='human'):
+    def render(self, mode="human"):
         self._step()
 
     def _env_setup(self):
         for _ in range(self.num_agents):
-            agent_position = self.np_random.uniform(self.world_range_low, self.world_range_high)
+            agent_position = self.np_random.uniform(
+                self.world_range_low, self.world_range_high
+            )
             self.asset_channel.set_action(
-                'LoadRigidbody',
+                "LoadRigidbody",
                 filename=self.asset_bundle_file,
                 name=self.agent_name,
-                position=list(agent_position)
+                position=list(agent_position),
             )
             self._step()
 
     def _get_obs(self):
         agent_obs = np.array([])
         for i in range(self.num_agents):
-            agent_position = self.rigidbody_channel.data[i]['position']
-            agent_velocity = self.rigidbody_channel.data[i]['velocity']
+            agent_position = self.rigidbody_channel.data[i]["position"]
+            agent_velocity = self.rigidbody_channel.data[i]["velocity"]
             # We ignore y-axis
-            this_agent_obs = np.array([agent_position[0], agent_position[2], agent_velocity[0], agent_velocity[2]])
+            this_agent_obs = np.array(
+                [
+                    agent_position[0],
+                    agent_position[2],
+                    agent_velocity[0],
+                    agent_velocity[2],
+                ]
+            )
             agent_obs = np.concatenate((agent_obs, this_agent_obs))
 
         return agent_obs.copy()
 
     def _set_agent_position(self, index, position):
         self.rigidbody_channel.set_action(
-            'SetTransform',
-            index=index,
-            position=list(position),
-            rotation=[0, 0, 0]
+            "SetTransform", index=index, position=list(position), rotation=[0, 0, 0]
         )
         self._step()
 
     def _set_agent_force(self, index, force):
-        self.rigidbody_channel.set_action(
-            'AddForce',
-            index=index,
-            force=force
-        )
+        self.rigidbody_channel.set_action("AddForce", index=index, force=force)
         self._step()
 
     def _get_total_velocity(self):
         total_velocity = 0
         for i in range(self.num_agents):
-            velocity = self.rigidbody_channel.data[i]['velocity']
-            total_velocity += np.linalg.norm(np.array([velocity[0], velocity[2]]), axis=-1)
+            velocity = self.rigidbody_channel.data[i]["velocity"]
+            total_velocity += np.linalg.norm(
+                np.array([velocity[0], velocity[2]]), axis=-1
+            )
 
         return total_velocity
 

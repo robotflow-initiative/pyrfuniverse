@@ -7,33 +7,30 @@ from pyrfuniverse.utils.interpolate_utils import sine_interpolate
 
 
 class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
-    metadata = {'render.modes': ['human', 'rgb_array']}
+    metadata = {"render.modes": ["human", "rgb_array"]}
     object2id = {
-        'flexiv': 621325,
-        'ag95': 6213250,
-        'target': 9413,
-        'knife': 35452,
-        'goal_knife': 35451,
+        "flexiv": 621325,
+        "ag95": 6213250,
+        "target": 9413,
+        "knife": 35452,
+        "goal_knife": 35451,
     }
 
     def __init__(
-            self,
-            max_steps=200,
-            knife_pos_min=(-0.5, 0.05, -0.07),
-            knife_pos_max=(-0.6, 0.07, 0.06),
-            knife_rot_min=(90, 0, -30),
-            knife_rot_max=(90, 0, 30),
-            offset_tolerance=0.04,
-            angle_tolerance=5,
-            reward_type='dense',
-            consider_rotation=True,
-            executable_file=None,
-            assets: list = [],
+        self,
+        max_steps=200,
+        knife_pos_min=(-0.5, 0.05, -0.07),
+        knife_pos_max=(-0.6, 0.07, 0.06),
+        knife_rot_min=(90, 0, -30),
+        knife_rot_max=(90, 0, 30),
+        offset_tolerance=0.04,
+        angle_tolerance=5,
+        reward_type="dense",
+        consider_rotation=True,
+        executable_file=None,
+        assets: list = [],
     ):
-        super().__init__(
-            executable_file=executable_file,
-            assets=assets
-        )
+        super().__init__(executable_file=executable_file, assets=assets)
         self._reload_scene()
         self.scale = 5
         self.fixed_delta_time = 0.02
@@ -58,18 +55,27 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
             low=-1,
             high=1,
             shape=(4,) if self.consider_rotation else (3,),
-            dtype=np.float32
+            dtype=np.float32,
         )
         obs = self._get_obs()
-        self.observation_space = spaces.Dict({
-            'observation': spaces.Box(-np.inf, np.inf, shape=obs['observation'].shape, dtype=np.float32),
-            'desired_goal': spaces.Box(-np.inf, np.inf, shape=obs['desired_goal'].shape, dtype=np.float32),
-            'achieved_goal': spaces.Box(-np.inf, np.inf, shape=obs['achieved_goal'].shape, dtype=np.float32)
-        })
+        self.observation_space = spaces.Dict(
+            {
+                "observation": spaces.Box(
+                    -np.inf, np.inf, shape=obs["observation"].shape, dtype=np.float32
+                ),
+                "desired_goal": spaces.Box(
+                    -np.inf, np.inf, shape=obs["desired_goal"].shape, dtype=np.float32
+                ),
+                "achieved_goal": spaces.Box(
+                    -np.inf, np.inf, shape=obs["achieved_goal"].shape, dtype=np.float32
+                ),
+            }
+        )
 
     def step(self, action: np.ndarray):
-        assert (action.shape == (4,) and self.consider_rotation) or \
-               (action.shape == (3,) and not self.consider_rotation)
+        assert (action.shape == (4,) and self.consider_rotation) or (
+            action.shape == (3,) and not self.consider_rotation
+        )
         current_pos = self._get_eef_pos()
         delta_pos = action[:3] * 0.05
         target_pos = current_pos + delta_pos
@@ -80,7 +86,7 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
             self.eef_euler = np.clip(
                 target_euler,
                 a_min=np.array([140, -40, -40]),
-                a_max=np.array([220, 40, 40])
+                a_max=np.array([220, 40, 40]),
             )
 
         self._set_flexiv(target_pos, self.eef_euler)
@@ -88,9 +94,9 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
         self.t += 1
         obs = self._get_obs()
         info = {
-            'is_success': self._check_success(obs['achieved_goal'], obs['desired_goal'])
+            "is_success": self._check_success(obs["achieved_goal"], obs["desired_goal"])
         }
-        reward = self.compute_reward(obs['achieved_goal'], obs['desired_goal'], info)
+        reward = self.compute_reward(obs["achieved_goal"], obs["desired_goal"], info)
         done = False
 
         if self.t == self.max_steps:
@@ -121,20 +127,26 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
         if len(achieved_goal.shape) < 2:
             offset = self._distance(achieved_goal[:3], desired_goal[:3])
             if self.consider_rotation:
-                angle = self._angle_from_quaternions(achieved_goal[3:7], desired_goal[3:7])
+                angle = self._angle_from_quaternions(
+                    achieved_goal[3:7], desired_goal[3:7]
+                )
             else:
                 angle = np.array(0)
         else:
             offset = self._distance(achieved_goal[:, :3], desired_goal[:, :3])
             if self.consider_rotation:
-                angle = self._angle_from_quaternions(achieved_goal[:, 3:7], desired_goal[:, 3:7])
+                angle = self._angle_from_quaternions(
+                    achieved_goal[:, 3:7], desired_goal[:, 3:7]
+                )
             else:
                 angle = np.array(0)
 
-        if self.reward_type == 'dense':
+        if self.reward_type == "dense":
             return -(offset + angle).astype(np.float32)
         else:
-            return -(offset > self.offset_tolerance).astype(np.float32) - (angle > self.angle_tolerance).astype(np.float32)
+            return -(offset > self.offset_tolerance).astype(np.float32) - (
+                angle > self.angle_tolerance
+            ).astype(np.float32)
 
     def heuristic(self):
         target_pos = self._get_target_pos()
@@ -184,26 +196,37 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
                 time_counter += 1
             else:
                 this_num_steps = num_steps
-            trajectories = sine_interpolate(curr_position, target_position, this_num_steps)
+            trajectories = sine_interpolate(
+                curr_position, target_position, this_num_steps
+            )
             for traj in trajectories:
                 self._set_flexiv(traj, self.eef_euler)
 
-            print('Demo ' + str(i + 1) + ' Completed! ' + str(this_num_steps))
+            print("Demo " + str(i + 1) + " Completed! " + str(this_num_steps))
 
     def move_to_joint_position(self):
-        init_joint_positions = np.array([
-            2.56255080e-05,
-            -6.98036730e-01,
-            -2.39185442e-06,
-            -1.57088447e+00,
-            2.91160322e-05,
-            6.98098183e-01,
-            -6.93326874e-05]) / math.pi * 180
+        init_joint_positions = (
+            np.array(
+                [
+                    2.56255080e-05,
+                    -6.98036730e-01,
+                    -2.39185442e-06,
+                    -1.57088447e00,
+                    2.91160322e-05,
+                    6.98098183e-01,
+                    -6.93326874e-05,
+                ]
+            )
+            / math.pi
+            * 180
+        )
         # joint_positions[3] need to be inverse
 
-        self.attrs[self.object2id['flexiv']].EnabledNativeIK(False)
+        self.attrs[self.object2id["flexiv"]].EnabledNativeIK(False)
         self._step()
-        self.attrs[self.object2id['flexiv']].SetJointPositionDirectly(init_joint_positions)
+        self.attrs[self.object2id["flexiv"]].SetJointPositionDirectly(
+            init_joint_positions
+        )
         self._step()
 
     def _get_obs(self):
@@ -226,9 +249,9 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
             desired_goal = self.goal.copy()
 
         return {
-            'observation': np.concatenate((robot_obs, knife_obs, goal_knife_obs)),
-            'achieved_goal': achieved_goal.copy(),
-            'desired_goal': desired_goal.copy()
+            "observation": np.concatenate((robot_obs, knife_obs, goal_knife_obs)),
+            "achieved_goal": achieved_goal.copy(),
+            "desired_goal": desired_goal.copy(),
         }
 
     def _init_env_(self):
@@ -236,27 +259,28 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
         self._init_ag95()
 
     def _reload_scene(self):
-        self.SwitchSceneAsync('FlexivSOFA', True)
+        self.SwitchSceneAsync("FlexivSOFA", True)
         self._step()
 
     def _init_flexiv_target_offset(self, offset):
-        self.attrs[self.object2id['flexiv']].SetIKTargetOffset(position=offset)
+        self.attrs[self.object2id["flexiv"]].SetIKTargetOffset(position=offset)
         self._step()
 
     def _init_flexiv(self):
-        self.attrs[self.object2id['flexiv']].EnabledNativeIK(False)
+        self.attrs[self.object2id["flexiv"]].EnabledNativeIK(False)
         self._step()
-        self.attrs[self.object2id['flexiv']].SetJointPositionDirectly(joint_positions=self.init_joint_positions)
+        self.attrs[self.object2id["flexiv"]].SetJointPositionDirectly(
+            joint_positions=self.init_joint_positions
+        )
         self._step()
-        self.attrs[self.object2id['flexiv']].EnabledNativeIK(True)
+        self.attrs[self.object2id["flexiv"]].EnabledNativeIK(True)
         self._step()
 
         self._init_flexiv_target_offset([0, 0, 0])
         self._step()
 
         self._set_flexiv_directly(
-            position=np.array([-0.5, 0.5, 0]),
-            rotation=[180, 0, 0]
+            position=np.array([-0.5, 0.5, 0]), rotation=[180, 0, 0]
         )
         self._step()
 
@@ -264,81 +288,106 @@ class FlexivCuttingEnv(RFUniverseGymGoalWrapper):
         self._step()
 
     def _init_ag95(self):
-        self.attrs[self.object2id['ag95']].SetJointPositionDirectly(joint_positions=[55, 55])
+        self.attrs[self.object2id["ag95"]].SetJointPositionDirectly(
+            joint_positions=[55, 55]
+        )
         self._step()
 
     def _set_flexiv(self, position, rotation=None):
-        self.attrs[self.object2id['flexiv']].IKTargetDoMove(
+        self.attrs[self.object2id["flexiv"]].IKTargetDoMove(
             position=position * self.scale,
             duration=self.fixed_delta_time,
-            speed_based=False)
+            speed_based=False,
+        )
         if rotation is not None:
-            self.attrs[self.object2id['flexiv']].IKTargetDoRotate(
-                rotation=rotation,
-                duration=self.fixed_delta_time,
-                speed_based=False)
+            self.attrs[self.object2id["flexiv"]].IKTargetDoRotate(
+                rotation=rotation, duration=self.fixed_delta_time, speed_based=False
+            )
         self._step()
 
     def _set_target_pos(self, position):
-        self.attrs[self.object2id['target']].SetTransform(position=list(np.array(position) * self.scale))
+        self.attrs[self.object2id["target"]].SetTransform(
+            position=list(np.array(position) * self.scale)
+        )
         self._step()
 
     def _get_eef_pos(self):
-        return np.array(self.attrs[self.object2id['ag95']].data['positions'][9]) / self.scale
+        return (
+            np.array(self.attrs[self.object2id["ag95"]].data["positions"][9])
+            / self.scale
+        )
 
     def _get_eef_rot(self):
-        return np.array(self.attrs[self.object2id['ag95']].data['rotations'][9]) / 180 * math.pi
+        return (
+            np.array(self.attrs[self.object2id["ag95"]].data["rotations"][9])
+            / 180
+            * math.pi
+        )
 
     def _get_eef_quat(self):
-        return np.array(self.attrs[self.object2id['ag95']].data['quaternions'][9])
+        return np.array(self.attrs[self.object2id["ag95"]].data["quaternions"][9])
 
     def _get_eef_velocity(self):
-        return np.array(self.attrs[self.object2id['ag95']].data['velocities'][9]) / self.scale
+        return (
+            np.array(self.attrs[self.object2id["ag95"]].data["velocities"][9])
+            / self.scale
+        )
 
     def get_flexiv_eef_pos(self):
-        return np.array(self.attrs[self.object2id['ag95']].data['positions'][0]) / self.scale
+        return (
+            np.array(self.attrs[self.object2id["ag95"]].data["positions"][0])
+            / self.scale
+        )
 
     def _get_target_pos(self):
-        return np.array(self.attrs[self.object2id['target']].data['position']) / self.scale
+        return (
+            np.array(self.attrs[self.object2id["target"]].data["position"]) / self.scale
+        )
 
     def _get_target_rot(self):
-        return np.array(self.attrs[self.object2id['target']].data['rotation'])
+        return np.array(self.attrs[self.object2id["target"]].data["rotation"])
 
     def _get_knife_pos(self):
-        return np.array(np.array(self.attrs[self.object2id['knife']].data['position']) / self.scale)
+        return np.array(
+            np.array(self.attrs[self.object2id["knife"]].data["position"]) / self.scale
+        )
 
     def _get_knife_quat(self):
-        return np.array(self.attrs[self.object2id['knife']].data['quaternion'])
+        return np.array(self.attrs[self.object2id["knife"]].data["quaternion"])
 
     def _get_goal_knife_quat(self):
-        return np.array(self.attrs[self.object2id['goal_knife']].data['quaternion'])
+        return np.array(self.attrs[self.object2id["goal_knife"]].data["quaternion"])
 
     def _set_flexiv_directly(self, position, rotation=None):
-        self.attrs[self.object2id['flexiv']].IKTargetDoMove(
-            position=position * self.scale,
-            duration=0,
-            speed_based=False)
+        self.attrs[self.object2id["flexiv"]].IKTargetDoMove(
+            position=position * self.scale, duration=0, speed_based=False
+        )
         if rotation is not None:
-            self.attrs[self.object2id['flexiv']].IKTargetDoRotate(
-                rotation=rotation,
-                duration=0,
-                speed_based=False)
+            self.attrs[self.object2id["flexiv"]].IKTargetDoRotate(
+                rotation=rotation, duration=0, speed_based=False
+            )
         self._step()
 
     def _set_goal_knife(self):
         if self.consider_rotation:
-            self.attrs[self.object2id['goal_knife']].SetTransform(
+            self.attrs[self.object2id["goal_knife"]].SetTransform(
                 position=list(self.goal[:3] * self.scale),
-                rotation=list(self.goal[3:6] * 180 / math.pi))
+                rotation=list(self.goal[3:6] * 180 / math.pi),
+            )
         else:
-            self.attrs[self.object2id['goal_knife']].SetTransform(
-                position=list(self.goal[:3] * self.scale))
+            self.attrs[self.object2id["goal_knife"]].SetTransform(
+                position=list(self.goal[:3] * self.scale)
+            )
         self._step()
 
     def _sample_goal(self):
         sampled_pos = self.np_random.uniform(self.knife_pos_min, self.knife_pos_max)
         if self.consider_rotation:
-            sampled_rot = self.np_random.uniform(self.knife_rot_min, self.knife_rot_max) / 180 * math.pi
+            sampled_rot = (
+                self.np_random.uniform(self.knife_rot_min, self.knife_rot_max)
+                / 180
+                * math.pi
+            )
         else:
             sampled_rot = np.array([])
 

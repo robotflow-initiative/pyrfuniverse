@@ -25,7 +25,11 @@ class IncomingMessage:
             return default_value
 
         self.offset += 1
-        return bool(int.from_bytes(self.buffer[self.offset - 1:self.offset], byteorder='little'))
+        return bool(
+            int.from_bytes(
+                self.buffer[self.offset - 1 : self.offset], byteorder="little"
+            )
+        )
 
     def read_int32(self, default_value: int = 0) -> int:
         """
@@ -37,7 +41,9 @@ class IncomingMessage:
             return default_value
 
         self.offset += 4
-        return int.from_bytes(self.buffer[self.offset - 4:self.offset], byteorder='little')
+        return int.from_bytes(
+            self.buffer[self.offset - 4 : self.offset], byteorder="little"
+        )
 
     def read_float32(self, default_value: float = 0.0) -> float:
         """
@@ -49,7 +55,7 @@ class IncomingMessage:
             return default_value
 
         self.offset += 4
-        return struct.unpack('f', self.buffer[self.offset - 4:self.offset])[0]
+        return struct.unpack("f", self.buffer[self.offset - 4 : self.offset])[0]
 
     def read_float32_list(self, default_value: List[float] = None) -> List[float]:
         """
@@ -77,7 +83,7 @@ class IncomingMessage:
 
         count = self.read_int32()
         self.offset += count
-        return self.buffer[self.offset - count:self.offset].decode('utf-8')
+        return self.buffer[self.offset - count : self.offset].decode("utf-8")
 
     def _at_end_of_buffer(self) -> bool:
         return self.offset >= len(self.buffer)

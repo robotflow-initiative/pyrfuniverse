@@ -1,13 +1,14 @@
 import math
 import numpy as np
 
+
 def EncodeIDAsColor(instance_id: int):
     """
     Encode the object id to a color.
 
     Args:
         instance_id: Int, the id of the object.
-    
+
     Return:
         List: The encoded color in [r, g, b, 255] format.
     """
@@ -15,6 +16,7 @@ def EncodeIDAsColor(instance_id: int):
     g = (instance_id * 48271 + 79) % 256
     b = (instance_id * 95849 + 233) % 256
     return [r, g, b, 255]
+
 
 def UnityEularToQuaternion(eular: list) -> list:
     """
@@ -30,11 +32,20 @@ def UnityEularToQuaternion(eular: list) -> list:
     xx = math.radians(eular[0])
     yy = math.radians(eular[1])
     zz = math.radians(eular[2])
-    x = math.cos(yy / 2) * math.sin(xx / 2) * math.cos(zz / 2) + math.sin(yy / 2) * math.cos(xx / 2) * math.sin(zz / 2)
-    y = math.sin(yy / 2) * math.cos(xx / 2) * math.cos(zz / 2) - math.cos(yy / 2) * math.sin(xx / 2) * math.sin(zz / 2)
-    z = math.cos(yy / 2) * math.cos(xx / 2) * math.sin(zz / 2) - math.sin(yy / 2) * math.sin(xx / 2) * math.cos(zz / 2)
-    w = math.cos(yy / 2) * math.cos(xx / 2) * math.cos(zz / 2) + math.sin(yy / 2) * math.sin(xx / 2) * math.sin(zz / 2)
+    x = math.cos(yy / 2) * math.sin(xx / 2) * math.cos(zz / 2) + math.sin(
+        yy / 2
+    ) * math.cos(xx / 2) * math.sin(zz / 2)
+    y = math.sin(yy / 2) * math.cos(xx / 2) * math.cos(zz / 2) - math.cos(
+        yy / 2
+    ) * math.sin(xx / 2) * math.sin(zz / 2)
+    z = math.cos(yy / 2) * math.cos(xx / 2) * math.sin(zz / 2) - math.sin(
+        yy / 2
+    ) * math.sin(xx / 2) * math.cos(zz / 2)
+    w = math.cos(yy / 2) * math.cos(xx / 2) * math.cos(zz / 2) + math.sin(
+        yy / 2
+    ) * math.sin(xx / 2) * math.sin(zz / 2)
     return [x, y, z, w]
+
 
 def UnityQuaternionToEular(quaternion: list) -> list:
     """
@@ -59,13 +70,14 @@ def UnityQuaternionToEular(quaternion: list) -> list:
     z = math.degrees(z)
     return [x, y, z]
 
+
 def CheckKwargs(kwargs: dict, compulsory_params: list):
     legal = True
     for param in compulsory_params:
         if param not in kwargs.keys():
             legal = False
-            assert legal, \
-                'Parameters illegal, parameter <%s> missing.' % param
+            assert legal, "Parameters illegal, parameter <%s> missing." % param
+
 
 def GetMatrix(pos, quat) -> np.ndarray:
     """
@@ -90,9 +102,17 @@ def GetMatrix(pos, quat) -> np.ndarray:
     #      [q[1, 3] + q[2, 0], q[2, 3] - q[1, 0], 1.0 - q[1, 1] - q[2, 2], pos[2]],
     #      [0, 0, 0, 1.0]], dtype=q.dtype)
     matrix = np.array(
-        [[1.0 - q[1, 1] - q[2, 2], -(q[2, 3] - q[1, 0]), q[1, 3] + q[2, 0], pos[0]],
-         [q[2, 3] + q[1, 0], -(1.0 - q[1, 1] - q[3, 3]), q[1, 2] - q[3, 0], pos[1]],
-         [-(q[1, 3] - q[2, 0]), q[1, 2] + q[3, 0], -(1.0 - q[2, 2] - q[3, 3]), pos[2]],
-         [0., 0., 0., 1.0]], dtype=float)
+        [
+            [1.0 - q[1, 1] - q[2, 2], -(q[2, 3] - q[1, 0]), q[1, 3] + q[2, 0], pos[0]],
+            [q[2, 3] + q[1, 0], -(1.0 - q[1, 1] - q[3, 3]), q[1, 2] - q[3, 0], pos[1]],
+            [
+                -(q[1, 3] - q[2, 0]),
+                q[1, 2] + q[3, 0],
+                -(1.0 - q[2, 2] - q[3, 3]),
+                pos[2],
+            ],
+            [0.0, 0.0, 0.0, 1.0],
+        ],
+        dtype=float,
+    )
     return matrix
-

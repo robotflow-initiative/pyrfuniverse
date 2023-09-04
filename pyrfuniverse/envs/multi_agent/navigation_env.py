@@ -16,9 +16,8 @@ import time
 
 
 class CollisionDetectionChannel(SideChannel):
-
     def __init__(self, possible_agents):
-        super().__init__(uuid.UUID('bee25cbc-07e2-11ec-9e67-18c04d443e7d'))
+        super().__init__(uuid.UUID("bee25cbc-07e2-11ec-9e67-18c04d443e7d"))
         self.agent_collisions = {}
         for agent in possible_agents:
             self.agent_collisions[agent] = 0
@@ -28,9 +27,9 @@ class CollisionDetectionChannel(SideChannel):
             agent_name = msg.read_string()
             num_collisions = msg.read_int32()
 
-            if agent_name == '':
+            if agent_name == "":
                 continue
-            if agent_name[-7:] == '(Clone)':
+            if agent_name[-7:] == "(Clone)":
                 agent_name = agent_name[:-7]
             self.agent_collisions[agent_name] += num_collisions
 
@@ -61,22 +60,22 @@ parallel_env = parallel_wrapper_fn(env)
 
 
 class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
-    metadata = {'render.modes': ['human'], "name": "navigation_v1"}
-    reward_range = (-float('inf'), float('inf'))
+    metadata = {"render.modes": ["human"], "name": "navigation_v1"}
+    reward_range = (-float("inf"), float("inf"))
 
     def __init__(
-            self,
-            num_agents,
-            asset_bundle_file,
-            log_dir,
-            reset_on_collision=False,
-            max_episode_length=100,
-            executable_file=None,
-            log_monitor=True,
-            strength=1000,
-            collision_multiplier=5,
+        self,
+        num_agents,
+        asset_bundle_file,
+        log_dir,
+        reset_on_collision=False,
+        max_episode_length=100,
+        executable_file=None,
+        log_monitor=True,
+        strength=1000,
+        collision_multiplier=5,
     ):
-        '''
+        """
         The init method takes in environment arguments and
          should define the following attributes:
         - possible_agents
@@ -84,7 +83,7 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
         - observation_spaces
 
         These attributes should not be changed after initialization.
-        '''
+        """
         EzPickle.__init__(
             self,
             num_agents,
@@ -93,11 +92,13 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
             reset_on_collision,
             max_episode_length,
             executable_file,
-            log_monitor
+            log_monitor,
         )
 
         self.possible_agents = ["agent_" + str(r) for r in range(num_agents)]
-        self.collision_detection_channel = CollisionDetectionChannel(self.possible_agents)
+        self.collision_detection_channel = CollisionDetectionChannel(
+            self.possible_agents
+        )
         RFUniverseBaseEnv.__init__(
             self,
             executable_file=executable_file,
@@ -116,22 +117,29 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
         if self.log_monitor:
             os.makedirs(self.log_dir, exist_ok=True)
             self.monitor_id = 0
-            while os.path.exists(os.path.join(self.log_dir, '{}.monitor.csv'.format(self.monitor_id))):
+            while os.path.exists(
+                os.path.join(self.log_dir, "{}.monitor.csv".format(self.monitor_id))
+            ):
                 self.monitor_id += 1
-            with open(os.path.join(self.log_dir, '{}.monitor.csv'.format(self.monitor_id)), 'a+') as f:
-                f.write('r,l,t\n')
+            with open(
+                os.path.join(self.log_dir, "{}.monitor.csv".format(self.monitor_id)),
+                "a+",
+            ) as f:
+                f.write("r,l,t\n")
         self.counter = 0
         self.total_reward = 0
         self.start_time = time.time()
 
         # Fixed parameters
-        self.agent_name = 'NavRobot'
+        self.agent_name = "NavRobot"
         self.y_offset = 0.15
         self.reset_agent_min_distance = 1.1
         self.world_range_low = np.array([-4, self.y_offset, -4])
         self.world_range_high = np.array([4, self.y_offset, 4])
 
-        self.agent_name_mapping = dict(zip(self.possible_agents, list(range(len(self.possible_agents)))))
+        self.agent_name_mapping = dict(
+            zip(self.possible_agents, list(range(len(self.possible_agents))))
+        )
         # print(self.agent_name_mapping)
 
         self.action_spaces = {
@@ -139,7 +147,9 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
             for agent in self.possible_agents
         }
         self.observation_spaces = {
-            agent: spaces.Box(low=-np.inf, high=np.inf, shape=(num_agents * 4,), dtype=np.float32)
+            agent: spaces.Box(
+                low=-np.inf, high=np.inf, shape=(num_agents * 4,), dtype=np.float32
+            )
             for agent in self.possible_agents
         }
 
@@ -148,16 +158,16 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
         self.t = 0
 
     def observe(self, agent):
-        '''
+        """
         Observe should return the observation of the specified agent. This function
         should return a sane observation (though not necessarily the most up to date possible)
         at any time after reset() is called.
-        '''
+        """
         obs = self._get_obs_for_agent(agent)
         return obs
 
     def reset(self):
-        '''
+        """
         Reset needs to initialize the following attributes
         - agents
         - rewards
@@ -169,7 +179,7 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
         can be called without issues.
 
         Here it sets up the state dictionary which is used by step() and the observations dictionary which is used by step() and observe()
-        '''
+        """
         self.agents = self.possible_agents[:]
         self.rewards = {agent: 0 for agent in self.agents}
         self._cumulative_rewards = {agent: 0 for agent in self.agents}
@@ -179,14 +189,14 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
         self.t = 0
         self._env_reset()
         self.collision_detection_channel.clear()
-        '''
+        """
         Our agent_selector utility allows easy cyclic stepping through the agents list.
-        '''
+        """
         self._agent_selector = agent_selector(self.agents)
         self.agent_selection = self._agent_selector.next()
 
     def step(self, action):
-        '''
+        """
         step(action) takes in an action for the current agent (specified by
         agent_selection) and needs to update
         - rewards
@@ -195,7 +205,7 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
         - infos
         - agent_selection (to the next agent)
         And any internal state used by observe() or render()
-        '''
+        """
         if self.dones[self.agent_selection]:
             # handles stepping an agent which is already done
             # accepts a None action for the one agent, and moves the agent_selection to
@@ -211,7 +221,7 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
 
         self._set_agent_force(
             self.agent_name_mapping[agent],
-            np.array([action[0], 0, action[1]]) * self.strength
+            np.array([action[0], 0, action[1]]) * self.strength,
         )
 
         done = False
@@ -222,7 +232,9 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
             # rewards for all agents are placed in the .rewards dictionary
             for agent_name in self.agents:
                 velocity = self._get_velocity_for_agent(agent_name)
-                reward = velocity - agent_collisions[agent_name] * self.collision_multiplier
+                reward = (
+                    velocity - agent_collisions[agent_name] * self.collision_multiplier
+                )
                 self.rewards[agent_name] = reward
 
             self.t += 1
@@ -244,7 +256,7 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
-    def render(self, mode='human'):
+    def render(self, mode="human"):
         self._step()
 
     def close(self):
@@ -252,13 +264,15 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
 
     def _env_setup(self, num_agents):
         for i in range(num_agents):
-            agent_position = self.np_random.uniform(self.world_range_low, self.world_range_high)
+            agent_position = self.np_random.uniform(
+                self.world_range_low, self.world_range_high
+            )
             self.asset_channel.set_action(
-                'LoadRigidbodyWithName',
+                "LoadRigidbodyWithName",
                 filename=self.asset_bundle_file,
                 name=self.agent_name,
                 replace_name=self.possible_agents[i],
-                position=list(agent_position)
+                position=list(agent_position),
             )
             self._step()
 
@@ -266,7 +280,9 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
         positions = []
         for i in range(self.num_agents):
             while True:
-                agent_position = self.np_random.uniform(self.world_range_low, self.world_range_high)
+                agent_position = self.np_random.uniform(
+                    self.world_range_low, self.world_range_high
+                )
                 if self._check_reset_position_legality(positions, agent_position):
                     break
             positions.append(agent_position.copy())
@@ -274,19 +290,12 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
 
     def _set_agent_position(self, index, position):
         self.rigidbody_channel.set_action(
-            'SetTransform',
-            index=index,
-            position=list(position),
-            rotation=[0, 0, 0]
+            "SetTransform", index=index, position=list(position), rotation=[0, 0, 0]
         )
         self._step()
 
     def _set_agent_force(self, index, force):
-        self.rigidbody_channel.set_action(
-            'AddForce',
-            index=index,
-            force=force
-        )
+        self.rigidbody_channel.set_action("AddForce", index=index, force=force)
         self._step()
 
     def _check_reset_position_legality(self, positions, agent_pos):
@@ -298,24 +307,27 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
 
     def _get_obs_for_agent(self, agent):
         agent_id = self.agent_name_mapping[agent]
-        self_pos = self.rigidbody_channel.data[agent_id]['position']
-        self_vel = self.rigidbody_channel.data[agent_id]['velocity']
+        self_pos = self.rigidbody_channel.data[agent_id]["position"]
+        self_vel = self.rigidbody_channel.data[agent_id]["velocity"]
         self_obs = np.array([self_pos[0], self_pos[2], self_vel[0], self_vel[2]])
 
         other_all_obs = np.array([])
         for i in range(self.num_agents):
-            if i == agent_id: # Ignore itself
+            if i == agent_id:  # Ignore itself
                 continue
-            other_pos = self.rigidbody_channel.data[i]['position']
-            other_vel = self.rigidbody_channel.data[i]['velocity']
-            other_obs = np.array([other_pos[0], other_pos[2], other_vel[0], other_vel[2]]) - self_obs
+            other_pos = self.rigidbody_channel.data[i]["position"]
+            other_vel = self.rigidbody_channel.data[i]["velocity"]
+            other_obs = (
+                np.array([other_pos[0], other_pos[2], other_vel[0], other_vel[2]])
+                - self_obs
+            )
             other_all_obs = np.concatenate((other_all_obs, other_obs))
 
         return np.concatenate((self_obs, other_all_obs)).copy()
 
     def _get_velocity_for_agent(self, agent):
         agent_id = self.agent_name_mapping[agent]
-        self_vel = self.rigidbody_channel.data[agent_id]['velocity']
+        self_vel = self.rigidbody_channel.data[agent_id]["velocity"]
 
         return np.linalg.norm(np.array([self_vel[0], self_vel[2]]))
 
@@ -324,5 +336,11 @@ class raw_env(AECEnv, RFUniverseBaseEnv, EzPickle):
         total_reward = 0
         for agent_name in self.agents:
             total_reward += self.rewards[agent_name]
-        with open(os.path.join(self.log_dir, '{}.monitor.csv'.format(self.monitor_id)), 'a+') as f:
-            f.write('{},{},{}\n'.format(total_reward, self.counter, time.time() - self.start_time))
+        with open(
+            os.path.join(self.log_dir, "{}.monitor.csv".format(self.monitor_id)), "a+"
+        ) as f:
+            f.write(
+                "{},{},{}\n".format(
+                    total_reward, self.counter, time.time() - self.start_time
+                )
+            )

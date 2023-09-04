@@ -18,19 +18,19 @@ class OutgoingMessage:
         """
         Append a boolean value.
         """
-        self.buffer.extend(int(b).to_bytes(1, byteorder='little'))
+        self.buffer.extend(int(b).to_bytes(1, byteorder="little"))
 
     def write_int32(self, i: int) -> None:
         """
         Append an integer value.
         """
-        self.buffer.extend(i.to_bytes(4, byteorder='little'))
+        self.buffer.extend(i.to_bytes(4, byteorder="little"))
 
     def write_float32(self, f: float) -> None:
         """
         Append a float value. It will be truncated to 32-bit precision.
         """
-        self.buffer.extend(struct.pack('f', f))
+        self.buffer.extend(struct.pack("f", f))
 
     def write_float32_list(self, float_list: List[float]) -> None:
         """
@@ -45,6 +45,6 @@ class OutgoingMessage:
         Append a string value. Internally, it will be encoded to ascii, and the
         encoded length will also be written to the message.
         """
-        s_byte = s.encode('utf-8')
+        s_byte = s.encode("utf-8")
         self.write_int32(len(s_byte))
         self.buffer.extend(s_byte)
