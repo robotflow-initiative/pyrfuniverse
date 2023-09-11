@@ -36,7 +36,6 @@ image_rgb = camera2.data["rgb"]
 image_depth_exr = camera2.data["depth_exr"]
 fov = camera2.data["fov"]
 local_to_world_matrix = camera2.data["local_to_world_matrix"]
-# local_to_world_matrix = np.reshape(local_to_world_matrix, [4, 4]).T
 point2 = dp.image_bytes_to_point_cloud(
     image_rgb, image_depth_exr, fov, local_to_world_matrix
 )

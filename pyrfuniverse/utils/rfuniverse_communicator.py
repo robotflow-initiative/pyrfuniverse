@@ -114,8 +114,8 @@ class RFUniverseCommunicator(threading.Thread):
         self.client.send(length)
         self.client.send(data)
 
-        # if platform == 'linux':
-        # self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
+        if platform == 'linux':
+            self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
 
     def receive_object(self, data: bytes) -> list:
         self.read_offset = 0

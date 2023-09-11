@@ -57,7 +57,6 @@ class RFUniverseBaseEnv(ABC):
         if self.executable_file is None:
             self.executable_file = pyrfuniverse.executable_file
 
-        PROC_TYPE = ""  # editor or release
         if self.executable_file == "" or self.executable_file == "@editor":  # editor
             assert proc_id == 0, "proc_id must be 0 when using editor"
             print("Waiting for UnityEditor play...")
@@ -75,14 +74,10 @@ class RFUniverseBaseEnv(ABC):
             proc_type=PROC_TYPE,
         )
         self.port = self.communicator.port  # update port
-        _th = threading.Thread(target=self.communicator.online)
-        _th.start()
-        time.sleep(0.01)
         if PROC_TYPE == "release":
             with Locker("config"):  # unity process will try to modify the config file
                 self.process = self._start_unity_env(self.executable_file, self.port)
-                # print(f"Unity process {self.process.pid} started")
-        _th.join()
+        self.communicator.online()
 
         self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
         if len(self.pre_load_assets) > 0:
@@ -91,7 +86,7 @@ class RFUniverseBaseEnv(ABC):
             self.LoadSceneAsync(self.scene_file, True)
 
     def _get_port(self) -> int:
-        executable_port = 5005
+        executable_port = self.port + 1
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         while True:
             try:

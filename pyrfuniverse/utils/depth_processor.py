@@ -28,15 +28,14 @@ def image_bytes_to_point_cloud(
     image_rgb = np.frombuffer(rgb_bytes, dtype=np.uint8)
     image_rgb = cv2.imdecode(image_rgb, cv2.IMREAD_COLOR)
     image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
-    image_rgb = np.transpose(image_rgb, [1, 0, 2])
 
-    temp_file_path = osp.join(tempfile.gettempdir(), "temp_img.exr")
+    temp_file_path = osp.join(
+        tempfile.gettempdir(), f"temp_img_{int(random.uniform(10000000, 99999999))}.exr"
+    )
     with open(temp_file_path, "wb") as f:
         f.write(depth_bytes)
     image_depth = cv2.imread(temp_file_path, cv2.IMREAD_UNCHANGED)
     os.remove(temp_file_path)
-
-    image_depth = np.transpose(image_depth, [1, 0])
 
     pcd = image_array_to_point_cloud(image_rgb, image_depth, fov, local_to_world_matrix)
     return pcd
@@ -86,28 +85,21 @@ def depth_to_point_cloud(depth: np.ndarray, fov: float, organized=False):
     Return:
         open3d.geometry.PointCloud: The point cloud.
     """
-    width = depth.shape[0]
-    height = depth.shape[1]
-    cx = width / 2
+    height = depth.shape[0]
+    width = depth.shape[1]
+
     cy = height / 2
+    cx = width / 2
+
     xmap = np.arange(width)
     ymap = np.arange(height)
     xmap, ymap = np.meshgrid(xmap, ymap)
-    xmap = xmap.T
-    ymap = ymap.T
 
     fx = fy = height / (2 * math.tan(math.radians(fov / 2)))
 
     points_z = depth
     points_x = (xmap - cx) * points_z / fx
     points_y = (ymap - cy) * points_z / fy
-
-    # radian_per_pixel = math.radians(fov / height)
-    # points_x = np.sin(radian_per_pixel * (xmap - cx)) * depth
-    # points_y = np.sin(radian_per_pixel * (ymap - cy)) * depth
-    # points_z = depth ** 2 - points_x ** 2 - points_y ** 2
-    # points_z[points_z < 0] = 0
-    # points_z = np.sqrt(points_z)
 
     cloud = np.stack([points_x, -points_y, points_z], axis=-1)
     if not organized:
@@ -135,37 +127,26 @@ def image_bytes_to_point_cloud_intrinsic_matrix(
     Return:
         open3d.geometry.PointCloud: The point cloud.
     """
-    temp_file_path = osp.join(
-        tempfile.gettempdir(), f"temp_img_{int(random.uniform(10000000,99999999))}.png"
-    )
-    with open(temp_file_path, "wb") as f:
-        f.write(rgb_bytes)
-    color = o3d.io.read_image(temp_file_path)
-    os.remove(temp_file_path)
+    image_rgb = np.frombuffer(rgb_bytes, dtype=np.uint8)
+    image_rgb = cv2.imdecode(image_rgb, cv2.IMREAD_COLOR)
+    image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
+    color = o3d.geometry.Image(image_rgb)
 
     temp_file_path = osp.join(
         tempfile.gettempdir(), f"temp_img_{int(random.uniform(10000000,99999999))}.exr"
     )
     with open(temp_file_path, "wb") as f:
         f.write(depth_bytes)
-    # change .exr format to .png format
     depth_exr = cv2.imread(temp_file_path, cv2.IMREAD_UNCHANGED)
     os.remove(temp_file_path)
-    # mask = np.asarray(o3d.io.read_image(osp.join(mask_path, video_name, view_name, base_name + '.png')))[:, :, 0]
-    # foregound_mask = mask == 11
-    depth_png = (depth_exr * 1000).astype(np.uint16)[:, :]
-    # foreground_depth_png[~foregound_mask] = 0  # filter the background, only need foreground
-    temp_file_path = osp.join(
-        tempfile.gettempdir(), f"temp_img_{int(random.uniform(10000000,99999999))}.png"
-    )
-    cv2.imwrite(temp_file_path, depth_png)
-    depth = o3d.io.read_image(temp_file_path)
-    os.remove(temp_file_path)
+
+    # change .exr format to .png format
+    image_depth = (depth_exr * 1000).astype(np.uint16)
+    depth = o3d.geometry.Image(image_depth)
 
     pcd = image_open3d_to_point_cloud_intrinsic_matrix(
         color, depth, intrinsic_matrix, local_to_world_matrix
     )
-
     return pcd
 
 
@@ -188,22 +169,10 @@ def image_array_to_point_cloud_intrinsic_matrix(
     Return:
         open3d.geometry.PointCloud: The point cloud.
     """
-    temp_file_path = osp.join(
-        tempfile.gettempdir(), f"temp_img_{int(random.uniform(10000000,99999999))}.png"
-    )
+    color = o3d.geometry.Image(image_rgb)
 
-    image_rgb = np.transpose(image_rgb, [1, 0, 2])
-    image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
-    cv2.imwrite(temp_file_path, image_rgb)
-    color = o3d.io.read_image(temp_file_path)
-
-    # change .exr format to .png format
-    depth_png = (image_depth * 1000).astype(np.uint16)[:, :]
-    depth_png = np.transpose(depth_png, [1, 0])
-    cv2.imwrite(temp_file_path, depth_png)
-    depth = o3d.io.read_image(temp_file_path)
-
-    os.remove(temp_file_path)
+    image_depth = (image_depth * 1000).astype(np.uint16)
+    depth = o3d.geometry.Image(image_depth)
 
     pcd = image_open3d_to_point_cloud_intrinsic_matrix(
         color, depth, intrinsic_matrix, local_to_world_matrix
@@ -274,11 +243,12 @@ def mask_point_cloud_with_id_color(
     image_mask = image_mask.reshape(-1, 3)
     index = np.argwhere(image_mask == color)[:, 0]
     index = index[::3]
+    id_pcd = o3d.geometry.PointCloud()
     d = np.array(pcd.points)[index]
-    pcd.points = o3d.utility.Vector3dVector(d)
+    id_pcd.points = o3d.utility.Vector3dVector(d)
     c = np.array(pcd.colors)[index]
-    pcd.colors = o3d.utility.Vector3dVector(c)
-    return pcd
+    id_pcd.colors = o3d.utility.Vector3dVector(c)
+    return id_pcd
 
 
 def mask_point_cloud_with_id_gray_color(
