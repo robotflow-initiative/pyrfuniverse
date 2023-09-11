@@ -1,0 +1,33 @@
+name: Release package to pypi
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Set up Python
+          uses: actions/setup-python@v3
+          with:
+            python-version: '3.x'
+        - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install setuptools twine
+        - name: Build package
+          run: python setup.py sdist
+        - name: Publish package
+          env:
+            TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+            TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          run: |
+            twine check dist/*
+            twine upload dist/*
