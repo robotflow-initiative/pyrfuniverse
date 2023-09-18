@@ -61,10 +61,9 @@ class RFUniverseBaseEnv(ABC):
             assert proc_id == 0, "proc_id must be 0 when using editor"
             print("Waiting for UnityEditor play...")
             PROC_TYPE = "editor"
-            self.port = 5004
         elif os.path.exists(self.executable_file):  # release
             PROC_TYPE = "release"
-            self.port = 5005 + proc_id  # default release port
+            self.port = self.port + 1 + proc_id  # default release port
         else:  # error
             raise ValueError(f"Executable file {self.executable_file} not exists")
 
@@ -75,8 +74,7 @@ class RFUniverseBaseEnv(ABC):
         )
         self.port = self.communicator.port  # update port
         if PROC_TYPE == "release":
-            with Locker("config"):  # unity process will try to modify the config file
-                self.process = self._start_unity_env(self.executable_file, self.port)
+            self.process = self._start_unity_env(self.executable_file, self.port)
         self.communicator.online()
 
         self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
