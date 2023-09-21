@@ -17,7 +17,7 @@ from pyrfuniverse.attributes.custom_attr import CustomAttr
 
 try:
     from pyrfuniverse.attributes.omplmanager_attr import OmplManagerAttr
-except ImportError:
+except:
     pass
 
 __all__ = [
