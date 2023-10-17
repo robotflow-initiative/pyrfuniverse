@@ -64,8 +64,8 @@ class CameraAttr(attr.BaseAttr):
 
     def GetRGB(
         self,
-        width: int = 512,
-        height: int = 512,
+        width: int = None,
+        height: int = None,
         fov: float = 60.0,
         intrinsic_matrix: np.ndarray = None,
     ):
@@ -78,12 +78,23 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
+        if intrinsic_matrix is None:
+            if width is None:
+                width = 512
+            if height is None:
+                height = 512
+        else:
+            if width is None:
+                width = int(intrinsic_matrix[0,2] * 2)
+            if height is None:
+                height = int(intrinsic_matrix[1,2] * 2)
+
         self._send_data("GetRGB", intrinsic_matrix, int(width), int(height), float(fov))
 
     def GetNormal(
         self,
-        width: int = 512,
-        height: int = 512,
+        width: int = None,
+        height: int = None,
         fov: float = 60.0,
         intrinsic_matrix: np.ndarray = None,
     ):
@@ -96,14 +107,24 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
+        if intrinsic_matrix is None:
+            if width is None:
+                width = 512
+            if height is None:
+                height = 512
+        else:
+            if width is None:
+                width = int(intrinsic_matrix[0,2] * 2)
+            if height is None:
+                height = int(intrinsic_matrix[1,2] * 2)
         self._send_data(
             "GetNormal", intrinsic_matrix, int(width), int(height), float(fov)
         )
 
     def GetID(
         self,
-        width: int = 512,
-        height: int = 512,
+        width: int = None,
+        height: int = None,
         fov: float = 60.0,
         intrinsic_matrix: np.ndarray = None,
     ):
@@ -116,14 +137,24 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
+        if intrinsic_matrix is None:
+            if width is None:
+                width = 512
+            if height is None:
+                height = 512
+        else:
+            if width is None:
+                width = int(intrinsic_matrix[0,2] * 2)
+            if height is None:
+                height = int(intrinsic_matrix[1,2] * 2)
         self._send_data("GetID", intrinsic_matrix, int(width), int(height), float(fov))
 
     def GetDepth(
         self,
         zero_dis: float,
         one_dis: float,
-        width: int = 512,
-        height: int = 512,
+        width: int = None,
+        height: int = None,
         fov: float = 60.0,
         intrinsic_matrix: np.ndarray = None,
     ):
@@ -138,6 +169,16 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
+        if intrinsic_matrix is None:
+            if width is None:
+                width = 512
+            if height is None:
+                height = 512
+        else:
+            if width is None:
+                width = int(intrinsic_matrix[0,2] * 2)
+            if height is None:
+                height = int(intrinsic_matrix[1,2] * 2)
         self._send_data(
             "GetDepth",
             float(zero_dis),
@@ -150,8 +191,8 @@ class CameraAttr(attr.BaseAttr):
 
     def GetDepthEXR(
         self,
-        width: int = 512,
-        height: int = 512,
+        width: int = None,
+        height: int = None,
         fov: float = 60.0,
         intrinsic_matrix: np.ndarray = None,
     ):
@@ -164,6 +205,16 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
+        if intrinsic_matrix is None:
+            if width is None:
+                width = 512
+            if height is None:
+                height = 512
+        else:
+            if width is None:
+                width = int(intrinsic_matrix[0,2] * 2)
+            if height is None:
+                height = int(intrinsic_matrix[1,2] * 2)
         self._send_data(
             "GetDepthEXR", intrinsic_matrix, int(width), int(height), float(fov)
         )
@@ -171,8 +222,8 @@ class CameraAttr(attr.BaseAttr):
     def GetAmodalMask(
         self,
         target_id: int,
-        width: int = 512,
-        height: int = 512,
+        width: int = None,
+        height: int = None,
         fov: float = 60,
         intrinsic_matrix: np.ndarray = None,
     ):
@@ -186,6 +237,16 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
+        if intrinsic_matrix is None:
+            if width is None:
+                width = 512
+            if height is None:
+                height = 512
+        else:
+            if width is None:
+                width = int(intrinsic_matrix[0,2] * 2)
+            if height is None:
+                height = int(intrinsic_matrix[1,2] * 2)
         self._send_data(
             "GetAmodalMask",
             int(target_id),
@@ -205,8 +266,8 @@ class CameraAttr(attr.BaseAttr):
 
     def GetHeatMap(
         self,
-        width: int = 512,
-        height: int = 512,
+        width: int = None,
+        height: int = None,
         radius: int = 50,
         fov: float = 60.0,
         intrinsic_matrix: np.ndarray = None,
@@ -221,6 +282,16 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
+        if intrinsic_matrix is None:
+            if width is None:
+                width = 512
+            if height is None:
+                height = 512
+        else:
+            if width is None:
+                width = int(intrinsic_matrix[0,2] * 2)
+            if height is None:
+                height = int(intrinsic_matrix[1,2] * 2)
         self._send_data(
             "GetHeatMap",
             int(radius),
@@ -232,8 +303,8 @@ class CameraAttr(attr.BaseAttr):
 
     def Get2DBBox(
         self,
-        width: int = 512,
-        height: int = 512,
+        width: int = None,
+        height: int = None,
         fov: float = 60.0,
         intrinsic_matrix: np.ndarray = None,
     ):
@@ -247,6 +318,16 @@ class CameraAttr(attr.BaseAttr):
             fov: Float, the field of view for camera.
             intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
         """
+        if intrinsic_matrix is None:
+            if width is None:
+                width = 512
+            if height is None:
+                height = 512
+        else:
+            if width is None:
+                width = int(intrinsic_matrix[0,2] * 2)
+            if height is None:
+                height = int(intrinsic_matrix[1,2] * 2)
         self._send_data(
             "Get2DBBox", intrinsic_matrix, int(width), int(height), float(fov)
         )
