@@ -23,29 +23,37 @@ class RFUniverseCommunicator(threading.Thread):
         # self.sync_send_bytes_queue = []
         self.read_offset = 0
         self.on_receive_data = receive_data_callback
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        # self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         # send_buffer_size = 1024 * 1024 * 10
         # self.server.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, send_buffer_size)
         # recv_buffer_size = 1024 * 1024 * 10
         # self.server.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, recv_buffer_size)
         self.port = port
         if proc_type == "editor":
-            self.server.bind(("localhost", self.port))
+            # self.server.bind(("localhost", self.port))
+            print("editor")
         elif proc_type == "release":
-            with Locker("port"):
-                while self.port < 65536:
-                    try:
-                        self.server.bind(("localhost", self.port))
-                        # print(f"discover port {self.port}")
-                        return
-                    except OSError:
-                        self.port += 256
-                raise OSError("No available port")
+            self._get_port()
         else:
             raise ValueError(f"Unknown proc_type: {proc_type}")
 
+    def _get_port(self):
+        with Locker("port"):
+            self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            while self.port < 65536:
+                try:
+                    self.server.bind(("localhost", self.port))
+                    self.server.close()
+                    return
+                except OSError:
+                    self.port += 256
+            raise OSError("No available port")
+
     def online(self):
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.server.bind(("localhost", self.port))
         print(f"Waiting for connections on port: {self.port}...")
         self.server.listen(1)
         self.client, self.addr = self.server.accept()
