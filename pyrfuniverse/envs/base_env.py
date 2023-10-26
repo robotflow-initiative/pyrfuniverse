@@ -349,15 +349,15 @@ class RFUniverseBaseEnv(ABC):
         """
         self.listen_messages.pop(message)
 
-    def AddListenerObject(self, type: str, fun):
+    def AddListenerObject(self, head: str, fun):
         """
         Add object listener.
 
         Args:
-            type: Str, the message head.
+            head: Str, the message head.
             fun: Callable, the callback function.
         """
-        self.listen_object[type] = fun
+        self.listen_object[head] = fun
 
     def RemoveListenerObject(self, type: str):
         """
