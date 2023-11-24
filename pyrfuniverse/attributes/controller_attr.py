@@ -1,4 +1,3 @@
-import numpy as np
 import pyrfuniverse.attributes as attr
 
 
@@ -52,7 +51,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetJointPosition(self, joint_positions: list, speed_scales: list = None):
         """
-        Set the target joint position for each moveable joint and move with PD control.
+        Set the joint position for each moveable joint and move with PD control.
 
         Args:
             joint_positions: A list of float, representing the target joint positions.
@@ -68,7 +67,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetJointPositionDirectly(self, joint_positions: list):
         """
-        Set the target joint position for each moveable joint and move directly.
+        Set the joint position for each moveable joint and move directly.
 
         Args:
             joint_positions: A list of float, representing the target joint positions.
@@ -98,7 +97,7 @@ class ControllerAttr(attr.ColliderAttr):
 
     def SetJointPositionContinue(self, interval: int, time_joint_positions: list):
         """
-        Set the target joint position for each moveable joint and move with PD control continuously.
+        Set the joint position for each moveable joint and move with PD control continuously.
 
         Args:
             interval: Float, the time interval.
@@ -108,9 +107,41 @@ class ControllerAttr(attr.ColliderAttr):
             time_joint_positions[i] = [float(j) for j in time_joint_positions[i]]
         self._send_data("SetJointPositionContinue", interval, time_joint_positions)
 
+    def SetJointStiffness(self, joint_stiffness: list):
+        """
+        Set the joint stiffness for each moveable joint.
+
+        Args:
+            joint_stiffness: A list of float, each moveable joint stiffness.
+        """
+        joint_stiffness = [float(i) for i in joint_stiffness]
+        self._send_data("SetJointStiffness", joint_stiffness)
+
+    def SetJointDamping(self, joint_damping: list):
+        """
+        Set the joint damping for each moveable joint.
+
+        Args:
+            joint_damping: A list of float, each moveable joint damping.
+        """
+        joint_damping = [float(i) for i in joint_damping]
+        self._send_data("SetJointDamping", joint_damping)
+
+    def SetJointLimit(self, joint_upper_limit: list, joint_lower_limit: list):
+        """
+        Set the joint limit for each moveable joint.
+
+        Args:
+            joint_upper_limit: A list of float, each moveable joint upper limit.
+            joint_lower_limit: A list of float, each moveable joint lower limit.
+        """
+        joint_upper_limit = [float(i) for i in joint_upper_limit]
+        joint_lower_limit = [float(i) for i in joint_lower_limit]
+        self._send_data("SetJointLimit", joint_upper_limit, joint_lower_limit)
+
     def SetJointVelocity(self, joint_velocitys: list):
         """
-        Set the target joint velocity for each moveable joint.
+        Set the joint velocity for each moveable joint.
 
         Args:
             joint_velocitys: A list of float, representing the target joint velocities.
@@ -126,7 +157,26 @@ class ControllerAttr(attr.ColliderAttr):
             index: Int, joint index.
             joint_velocity: A list of float, representing the target joint velocities.
         """
-        self._send_data("SetIndexJointVelocity", index, float(joint_velocitys))
+        self._send_data("SetIndexJointVelocity", index, float(joint_velocity))
+
+    def SetJointUseGravity(self, use_gravity: bool):
+        """
+        Set the all joint use or non-use gravity.
+
+        Args:
+            use_gravity: Bool, use or non-use gravity.
+        """
+        self._send_data("SetJointUseGravity", use_gravity)
+
+    def SetJointDriveForce(self, joint_drive_forces: list):
+        """
+        Set the joint drive forces for each moveable joint.
+
+        Args:
+            joint_drive_forces: A list of float, representing the joint drive forces.
+        """
+        joint_drive_forces = [float(i) for i in joint_drive_forces]
+        self._send_data('SetJointDriveForce', joint_drive_forces)
 
     def AddJointForce(self, joint_forces: list):
         """
@@ -146,11 +196,7 @@ class ControllerAttr(attr.ColliderAttr):
             joint_forces: A list of forces, representing the added forces.
             force_positions: A list of positions, representing the positions for forces.
         """
-        assert len(joint_forces) == len(
-            force_positions
-        ), "The length of joint_forces and force_positions are not equal."
-        joint_forces = [float(i) for i in joint_forces]
-        force_positions = [float(i) for i in force_positions]
+        assert len(joint_forces) == len(force_positions), "The length of joint_forces and force_positions are not equal."
         self._send_data("AddJointForceAtPosition", joint_forces, force_positions)
 
     def AddJointTorque(self, joint_torques: list):
@@ -160,7 +206,6 @@ class ControllerAttr(attr.ColliderAttr):
         Args:
             joint_torques: A list of torques, representing the added torques.
         """
-        joint_torques = [float(i) for i in joint_torques]
         self._send_data("AddJointTorque", joint_torques)
 
     # only work on unity 2022.1+
