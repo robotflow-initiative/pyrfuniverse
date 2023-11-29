@@ -159,7 +159,7 @@ class CameraAttr(attr.BaseAttr):
         intrinsic_matrix: np.ndarray = None,
     ):
         """
-        Get the depth image from camera. Since eacg pixel of depth image returned from this function is 8-bit, user should limit the depth range (`zero_dis` and `one_dis`) for more accurate results.
+        Get the depth 8bit png image from camera. Since eacg pixel of depth image returned from this function is 8-bit, user should limit the depth range (`zero_dis` and `one_dis`) for more accurate results.
 
         Args:
             zero_dis: The minimum distance in calculation.
@@ -189,6 +189,40 @@ class CameraAttr(attr.BaseAttr):
             float(fov),
         )
 
+    def GetDepth16Bit(
+        self,
+        width: int = None,
+        height: int = None,
+        fov: float = 60.0,
+        intrinsic_matrix: np.ndarray = None,
+    ):
+        """
+        Get the depth 16bit png image from camera. Since eacg pixel of depth image returned from this function is 16-bit.
+
+        Args:
+            width: Int, the width of image.
+            height: Int, the height of image.
+            fov: Float, the field of view for camera.
+            intrinsic_matrix: A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, `width`, `height` and `fov` will be ignroed.
+        """
+        if intrinsic_matrix is None:
+            if width is None:
+                width = 512
+            if height is None:
+                height = 512
+        else:
+            if width is None:
+                width = int(intrinsic_matrix[0,2] * 2)
+            if height is None:
+                height = int(intrinsic_matrix[1,2] * 2)
+        self._send_data(
+            "GetDepth16Bit",
+            intrinsic_matrix,
+            int(width),
+            int(height),
+            float(fov),
+        )
+
     def GetDepthEXR(
         self,
         width: int = None,
@@ -197,7 +231,7 @@ class CameraAttr(attr.BaseAttr):
         intrinsic_matrix: np.ndarray = None,
     ):
         """
-        Get the depth image from camera. This function returns EXR format image bytes and each pixel is 32-bit.
+        Get the depth exr image from camera. This function returns EXR format image bytes and each pixel is 32-bit.
 
         Args:
             width: Int, the width of image.
