@@ -106,6 +106,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetNormal"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetNormal()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetID"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetID()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetDepth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth16Bit"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetDepth16Bit()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetDepthEXR()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetAmodalMask"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetAmodalMask()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetHeatMap"><code class="docutils literal notranslate"><span class="pre">CameraAttr.GetHeatMap()</span></code></a></li>
@@ -141,8 +142,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointPosition"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetIndexJointPosition()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointPositionDirectly"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetIndexJointPositionDirectly()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionContinue"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointPositionContinue()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointStiffness"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointStiffness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointDamping"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointDamping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointLimit"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointLimit()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointVelocity"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointVelocity()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIndexJointVelocity"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetIndexJointVelocity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointUseGravity"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointUseGravity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointDriveForce"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetJointDriveForce()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointForce"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.AddJointForce()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointForceAtPosition"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.AddJointForceAtPosition()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.AddJointTorque"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.AddJointTorque()</span></code></a></li>
@@ -651,7 +657,7 @@ of the scene in RFUniverse.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth">
 <span class="sig-name descname"><span class="pre">GetDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zero_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth" title="Permalink to this definition"></a></dt>
-<dd><p>Get the depth image from camera. Since eacg pixel of depth image returned from this function is 8-bit, user should limit the depth range (<cite>zero_dis</cite> and <cite>one_dis</cite>) for more accurate results.</p>
+<dd><p>Get the depth 8bit png image from camera. Since eacg pixel of depth image returned from this function is 8-bit, user should limit the depth range (<cite>zero_dis</cite> and <cite>one_dis</cite>) for more accurate results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -667,9 +673,25 @@ of the scene in RFUniverse.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth16Bit">
+<span class="sig-name descname"><span class="pre">GetDepth16Bit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepth16Bit" title="Permalink to this definition"></a></dt>
+<dd><p>Get the depth 16bit png image from camera. Since eacg pixel of depth image returned from this function is 16-bit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> – Int, the width of image.</p></li>
+<li><p><strong>height</strong> – Int, the height of image.</p></li>
+<li><p><strong>fov</strong> – Float, the field of view for camera.</p></li>
+<li><p><strong>intrinsic_matrix</strong> – A ndarray of shape 3*3, representing the camera intrinsic matrix. When this parameter is passed, <cite>width</cite>, <cite>height</cite> and <cite>fov</cite> will be ignroed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR">
 <span class="sig-name descname"><span class="pre">GetDepthEXR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr.GetDepthEXR" title="Permalink to this definition"></a></dt>
-<dd><p>Get the depth image from camera. This function returns EXR format image bytes and each pixel is 32-bit.</p>
+<dd><p>Get the depth exr image from camera. This function returns EXR format image bytes and each pixel is 32-bit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -893,7 +915,7 @@ These values define how bounciness will be calculated when multiple colliders ar
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition">
 <span class="sig-name descname"><span class="pre">SetJointPosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_scales</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPosition" title="Permalink to this definition"></a></dt>
-<dd><p>Set the target joint position for each moveable joint and move with PD control.</p>
+<dd><p>Set the joint position for each moveable joint and move with PD control.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -907,7 +929,7 @@ These values define how bounciness will be calculated when multiple colliders ar
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionDirectly">
 <span class="sig-name descname"><span class="pre">SetJointPositionDirectly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionDirectly" title="Permalink to this definition"></a></dt>
-<dd><p>Set the target joint position for each moveable joint and move directly.</p>
+<dd><p>Set the joint position for each moveable joint and move directly.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>joint_positions</strong> – A list of float, representing the target joint positions.</p>
@@ -946,7 +968,7 @@ These values define how bounciness will be calculated when multiple colliders ar
 <dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionContinue">
 <span class="sig-name descname"><span class="pre">SetJointPositionContinue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_joint_positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointPositionContinue" title="Permalink to this definition"></a></dt>
-<dd><p>Set the target joint position for each moveable joint and move with PD control continuously.</p>
+<dd><p>Set the joint position for each moveable joint and move with PD control continuously.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -958,9 +980,45 @@ These values define how bounciness will be calculated when multiple colliders ar
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointStiffness">
+<span class="sig-name descname"><span class="pre">SetJointStiffness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_stiffness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointStiffness" title="Permalink to this definition"></a></dt>
+<dd><p>Set the joint stiffness for each moveable joint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>joint_stiffness</strong> – A list of float, each moveable joint stiffness.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointDamping">
+<span class="sig-name descname"><span class="pre">SetJointDamping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_damping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointDamping" title="Permalink to this definition"></a></dt>
+<dd><p>Set the joint damping for each moveable joint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>joint_damping</strong> – A list of float, each moveable joint damping.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointLimit">
+<span class="sig-name descname"><span class="pre">SetJointLimit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_upper_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint_lower_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointLimit" title="Permalink to this definition"></a></dt>
+<dd><p>Set the joint limit for each moveable joint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>joint_upper_limit</strong> – A list of float, each moveable joint upper limit.</p></li>
+<li><p><strong>joint_lower_limit</strong> – A list of float, each moveable joint lower limit.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointVelocity">
 <span class="sig-name descname"><span class="pre">SetJointVelocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_velocitys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointVelocity" title="Permalink to this definition"></a></dt>
-<dd><p>Set the target joint velocity for each moveable joint.</p>
+<dd><p>Set the joint velocity for each moveable joint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>joint_velocitys</strong> – A list of float, representing the target joint velocities.</p>
@@ -978,6 +1036,28 @@ These values define how bounciness will be calculated when multiple colliders ar
 <li><p><strong>index</strong> – Int, joint index.</p></li>
 <li><p><strong>joint_velocity</strong> – A list of float, representing the target joint velocities.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointUseGravity">
+<span class="sig-name descname"><span class="pre">SetJointUseGravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_gravity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointUseGravity" title="Permalink to this definition"></a></dt>
+<dd><p>Set the all joint use or non-use gravity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>use_gravity</strong> – Bool, use or non-use gravity.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointDriveForce">
+<span class="sig-name descname"><span class="pre">SetJointDriveForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_drive_forces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetJointDriveForce" title="Permalink to this definition"></a></dt>
+<dd><p>Set the joint drive forces for each moveable joint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>joint_drive_forces</strong> – A list of float, representing the joint drive forces.</p>
 </dd>
 </dl>
 </dd></dl>
