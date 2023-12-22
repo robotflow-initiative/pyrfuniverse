@@ -79,14 +79,12 @@ def CheckKwargs(kwargs: dict, compulsory_params: list):
             assert legal, "Parameters illegal, parameter <%s> missing." % param
 
 
-def GetMatrix(pos, quat) -> np.ndarray:
+def GetMatrix(quat=[0,0,0,1]) -> np.ndarray:
     """
     Transform the position and quaternion into a transformation matrix.
 
     Args:
-        pos: List of length 3, representing the [x, y, z] position.
         quat: List of length 4, representing the [x, y, z, w] quaternion.
-
     Return:
         numpy.ndarray: the transformation matrix.
     """
@@ -96,23 +94,10 @@ def GetMatrix(pos, quat) -> np.ndarray:
         return np.identity(4)
     q = q * np.sqrt(2.0 / n)
     q = np.outer(q, q)
-    # rot_matrix = np.array(
-    #     [[1.0 - q[2, 2] - q[3, 3], q[1, 2] + q[3, 0], q[1, 3] - q[2, 0], pos[0]],
-    #      [q[1, 2] - q[3, 0], 1.0 - q[1, 1] - q[3, 3], q[2, 3] + q[1, 0], pos[1]],
-    #      [q[1, 3] + q[2, 0], q[2, 3] - q[1, 0], 1.0 - q[1, 1] - q[2, 2], pos[2]],
-    #      [0, 0, 0, 1.0]], dtype=q.dtype)
-    matrix = np.array(
-        [
-            [1.0 - q[1, 1] - q[2, 2], -(q[2, 3] - q[1, 0]), q[1, 3] + q[2, 0], pos[0]],
-            [q[2, 3] + q[1, 0], -(1.0 - q[1, 1] - q[3, 3]), q[1, 2] - q[3, 0], pos[1]],
-            [
-                -(q[1, 3] - q[2, 0]),
-                q[1, 2] + q[3, 0],
-                -(1.0 - q[2, 2] - q[3, 3]),
-                pos[2],
-            ],
-            [0.0, 0.0, 0.0, 1.0],
-        ],
-        dtype=float,
-    )
+    matrix = np.array([
+        [1.0 - q[1, 1] - q[2, 2],   -(q[2, 3] - q[1, 0]),       q[1, 3] + q[2, 0]],
+        [q[2, 3] + q[1, 0],         -(1.0 - q[1, 1] - q[3, 3]), q[1, 2] - q[3, 0]],
+        [-(q[1, 3] - q[2, 0]),      q[1, 2] + q[3, 0],          -(1.0 - q[2, 2] - q[3, 3])],
+        [0,                         0,                          0]],
+        dtype=float)
     return matrix

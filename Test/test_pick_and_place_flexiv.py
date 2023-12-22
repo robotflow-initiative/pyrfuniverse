@@ -3,7 +3,7 @@ from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
 
 env = RFUniverseBaseEnv(assets=["flexivArm_ag95"])
-
+env.SetTimeStep(0.005)
 robot = env.InstanceObject(
     name="flexivArm_ag95", id=123456, attr_type=attr.ControllerAttr
 )

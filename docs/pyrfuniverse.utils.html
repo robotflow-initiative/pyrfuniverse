@@ -380,14 +380,11 @@ intrinsic matrix and extrinsic matrix to generate point cloud in global coordina
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyrfuniverse.utils.rfuniverse_utility.GetMatrix">
-<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">GetMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quat</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.GetMatrix" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.rfuniverse_utility.</span></span><span class="sig-name descname"><span class="pre">GetMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.rfuniverse_utility.GetMatrix" title="Permalink to this definition"></a></dt>
 <dd><p>Transform the position and quaternion into a transformation matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pos</strong> – List of length 3, representing the [x, y, z] position.</p></li>
-<li><p><strong>quat</strong> – List of length 4, representing the [x, y, z, w] quaternion.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>quat</strong> – List of length 4, representing the [x, y, z, w] quaternion.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the transformation matrix.</p>

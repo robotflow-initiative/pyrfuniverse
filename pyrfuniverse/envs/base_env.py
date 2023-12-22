@@ -142,7 +142,12 @@ class RFUniverseBaseEnv(ABC):
         this_object_type = objs[1]
         this_object_data = objs[2]
 
-        attr_type = eval("attr." + this_object_type)
+        try:
+            attr_type = eval("attr." + this_object_type)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return
+
         if this_object_id not in self.attrs:
             self.attrs[this_object_id] = attr_type(self, this_object_id)
         elif type(self.attrs[this_object_id]) != attr_type:
