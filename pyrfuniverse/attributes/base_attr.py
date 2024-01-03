@@ -250,3 +250,99 @@ class BaseAttr:
         point = [float(i) for i in point]
 
         self._send_data("GetWorldPointFromLocal", point)
+
+    def DoMove(
+        self,
+        position: list,
+        duration: float,
+        speed_based: bool = True,
+        relative: bool = False,
+    ):
+        """
+        Tween movement.
+
+        Args:
+            position: A list of length 3, representing the position.
+            duration: Float, if `speed_based` is True, it represents movement duration; otherwise, it represents movement speed.
+            speed_based: Bool.
+            relative: Bool, if True, `position` is relative; otherwise, `position` is absolute.
+        """
+        if position is not None:
+            assert len(position) == 3, "position length must be 3"
+            position = [float(i) for i in position]
+
+        self._send_data(
+            "DoMove", position, float(duration), speed_based, relative
+        )
+
+    def DoRotate(
+        self,
+        rotation: list,
+        duration: float,
+        speed_based: bool = True,
+        relative: bool = False,
+    ):
+        """
+        Tween rotation.
+
+        Args:
+            rotation: A list of length 3, representing the rotation.
+            duration: Float, if `speed_based` is True, it represents movement duration; otherwise, it represents movement speed.
+            speed_based: Bool.
+            relative: Bool, if True, `rotation` is relative; otherwise, `rotation` is absolute.
+        """
+        if rotation is not None:
+            assert len(rotation) == 3, "rotation length must be 3"
+            rotation = [float(i) for i in rotation]
+
+        self._send_data(
+            "DoRotate", rotation, float(duration), speed_based, relative
+        )
+
+    def DoRotateQuaternion(
+        self,
+        quaternion: list,
+        duration: float,
+        speed_based: bool = True,
+        relative: bool = False,
+    ):
+        """
+        Tween rotation using quaternion.
+
+        Args:
+            quaternion: A list of length 4, representing the quaternion.
+            duration: Float, if `speed_based` is True, it represents movement duration; otherwise, it represents movement speed.
+            speed_based: Bool.
+            relative: Bool, if True, `quaternion` is relative; otherwise, `quaternion` is absolute.
+        """
+        if quaternion is not None:
+            assert len(quaternion) == 4, "quaternion length must be 4"
+            quaternion = [float(i) for i in quaternion]
+
+        self._send_data(
+            "DoRotateQuaternion",
+            quaternion,
+            float(duration),
+            speed_based,
+            relative,
+        )
+
+    def DoComplete(self):
+        """
+        Tween movement / rotation complete directly.
+        """
+        self._send_data("DoComplete")
+
+    def DoKill(self):
+        """
+        Tween movement / rotation stop.
+        """
+        self._send_data("DoKill")
+
+    def WaitDo(self):
+        """
+        Wait for the native IK target movement / rotation complete.
+        """
+        self.env._step()
+        while not self.data["move_done"] or not self.data["rotate_done"]:
+            self.env._step()

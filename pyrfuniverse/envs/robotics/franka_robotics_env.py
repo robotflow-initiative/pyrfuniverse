@@ -137,11 +137,11 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
         if self.load_object and self.target_in_air:
             self.attrs[965874].IKTargetDoMove(
                 position=[self.init_pos[0], self.init_pos[1], self.init_pos[2]],
-                duration=0,
+                duration=0.,
                 speed_based=False,
             )
             self._step()
-            self.attrs[9658740].SetJointPositionDirectly(joint_positions=[0.04, 0.04])
+            self.attrs[9658740].SetJointPositionDirectly(joint_positions=[0.04])
             self._step()
 
         self._step()
@@ -226,13 +226,13 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
 
     def _set_gripper_width(self, w: float):
         w = w / 2
-        self.attrs[9658740].SetJointPosition(joint_positions=[w, w])
+        self.attrs[9658740].SetJointPosition(joint_positions=[w])
 
     def _get_gripper_width(self) -> float:
         gripper_joint_positions = copy.deepcopy(
             self.attrs[9658740].data["joint_positions"]
         )
-        return -1 * (gripper_joint_positions[0] + gripper_joint_positions[1])
+        return -1 * (gripper_joint_positions[0] *2)
 
     def _check_success(self, obs):
         achieved_goal = obs["achieved_goal"]

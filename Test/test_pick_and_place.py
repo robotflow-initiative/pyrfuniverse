@@ -13,7 +13,6 @@ gripper = env.GetAttr(1234560)
 gripper.GripperOpen()
 robot.IKTargetDoMove(position=[0, 0.5, 0.5], duration=0, speed_based=False)
 robot.IKTargetDoRotate(rotation=[0, 45, 180], duration=0, speed_based=False)
-env.step()
 robot.WaitDo()
 
 while 1:
@@ -41,45 +40,38 @@ while 1:
         duration=2,
         speed_based=False,
     )
-    env.step()
     robot.WaitDo()
     robot.IKTargetDoMove(
         position=[position1[0], position1[1], position1[2]],
         duration=2,
         speed_based=False,
     )
-    env.step()
     robot.WaitDo()
     gripper.GripperClose()
     env.step(50)
     robot.IKTargetDoMove(
         position=[0, 0.5, 0], duration=2, speed_based=False, relative=True
     )
-    env.step()
     robot.WaitDo()
     robot.IKTargetDoMove(
         position=[position2[0], position2[1] + 0.5, position2[2]],
         duration=4,
         speed_based=False,
     )
-    env.step()
     robot.WaitDo()
     robot.IKTargetDoMove(
         position=[position2[0], position2[1] + 0.06, position2[2]],
         duration=2,
         speed_based=False,
     )
-    env.step()
     robot.WaitDo()
     gripper.GripperOpen()
     env.step(50)
     robot.IKTargetDoMove(
         position=[0, 0.5, 0], duration=2, speed_based=False, relative=True
     )
-    env.step()
     robot.WaitDo()
     robot.IKTargetDoMove(position=[0, 0.5, 0.5], duration=2, speed_based=False)
-    env.step()
     robot.WaitDo()
     box1.Destroy()
     box2.Destroy()

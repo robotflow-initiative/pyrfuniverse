@@ -126,10 +126,3 @@ class HumanbodyAttr(attr.BaseAttr):
             index: Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.
         """
         self._send_data("HumanIKTargetDoKill", index)
-
-    def WaitDo(self):
-        """
-        Wait for the human body IK target movement / rotation complete.
-        """
-        while not self.data["move_done"] or not self.data["rotate_done"]:
-            self.env.step()

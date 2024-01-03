@@ -1,3 +1,5 @@
+import base64
+
 import pyrfuniverse.attributes as attr
 
 
@@ -18,6 +20,10 @@ class DigitAttr(attr.BaseAttr):
             self.data['depth']: Bytes of depth image in DIGIT.
         """
         super().parse_message(data)
+        if "light" in self.data:
+            self.data["light"] = base64.b64decode(self.data["light"])
+        if "depth" in self.data:
+            self.data["depth"] = base64.b64decode(self.data["depth"])
 
     def GetData(self):
         """

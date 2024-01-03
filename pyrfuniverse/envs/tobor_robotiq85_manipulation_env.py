@@ -121,10 +121,10 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
 
     def double_close(self):
         if not self.only_calculate:
-            self.GetAttr(98746100).SetJointPosition(joint_positions=[50, 50])
+            self.GetAttr(98746100).SetJointPosition(joint_positions=[50])
             self.left_gripper_open = False
             self._step()
-            self.GetAttr(98746110).SetJointPosition(joint_positions=[50, 50])
+            self.GetAttr(98746110).SetJointPosition(joint_positions=[50])
             self.right_gripper_open = False
             self._step()
 
@@ -135,10 +135,10 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
 
     def double_open(self):
         if not self.only_calculate:
-            self.GetAttr(98746100).SetJointPosition(joint_positions=[0, 0])
+            self.GetAttr(98746100).SetJointPosition(joint_positions=[0])
             self.left_gripper_open = True
             self._step()
-            self.GetAttr(98746110).SetJointPosition(joint_positions=[0, 0])
+            self.GetAttr(98746110).SetJointPosition(joint_positions=[0])
             self.right_gripper_open = True
             self._step()
 
@@ -160,10 +160,10 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
     def close_gripper(self, mode):
         if not self.only_calculate:
             if mode == "left":
-                self.GetAttr(98746100).SetJointPosition(joint_positions=[50, 50])
+                self.GetAttr(98746100).SetJointPosition(joint_positions=[50])
                 self.left_gripper_open = False
             else:
-                self.GetAttr(98746110).SetJointPosition(joint_positions=[50, 50])
+                self.GetAttr(98746110).SetJointPosition(joint_positions=[50])
                 self.right_gripper_open = False
         for i in range(20):
             if not self.only_calculate:
@@ -173,10 +173,10 @@ class ToborRobotiq85ManipulationEnv(RFUniverseBaseEnv):
     def open_gripper(self, mode):
         if not self.only_calculate:
             if mode == "left":
-                self.GetAttr(98746100).SetJointPosition(joint_positions=[0, 0])
+                self.GetAttr(98746100).SetJointPosition(joint_positions=[0])
                 self.left_gripper_open = True
             else:
-                self.GetAttr(98746110).SetJointPosition(joint_positions=[0, 0])
+                self.GetAttr(98746110).SetJointPosition(joint_positions=[0])
                 self.right_gripper_open = True
         for i in range(20):
             if not self.only_calculate:

@@ -11,6 +11,7 @@ from pyrfuniverse.attributes.softbody_attr import SoftbodyAttr
 from pyrfuniverse.attributes.humanbody_attr import HumanbodyAttr
 from pyrfuniverse.attributes.graspsim_attr import GraspSimAttr
 from pyrfuniverse.attributes.digit_attr import DigitAttr
+from pyrfuniverse.attributes.gelslim_attr import GelSlimAttr
 from pyrfuniverse.attributes.pointcloud_attr import PointCloudAttr
 from pyrfuniverse.attributes.fallingcloth_attr import FallingClothAttr
 from pyrfuniverse.attributes.custom_attr import CustomAttr
@@ -33,6 +34,7 @@ __all__ = [
     "humanbody_attr",
     "graspsim_attr",
     "digit_attr",
+    "gelslim_attr",
     "pointcloud_attr",
     "fallingcloth_attr",
     "custom_attr",

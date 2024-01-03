@@ -2,16 +2,12 @@ import random
 import subprocess
 from abc import ABC
 import socket
-import threading
-import time
 import numpy as np
 import pyrfuniverse
 import pyrfuniverse.attributes as attr
 from pyrfuniverse.side_channel import IncomingMessage, OutgoingMessage
-from pyrfuniverse.utils.locker import Locker
 from pyrfuniverse.utils.rfuniverse_communicator import RFUniverseCommunicator
 import os
-import warnings
 
 
 class RFUniverseBaseEnv(ABC):
@@ -689,7 +685,7 @@ class RFUniverseBaseEnv(ABC):
 
     def SetViewBackGround(self, color: list = None) -> None:
         """
-        Set the GUI view.
+        Set the GUI view BackGround.
 
         Args:
             color: A list of length 3, background color of GUI view. None : default skybox.
@@ -699,6 +695,33 @@ class RFUniverseBaseEnv(ABC):
             color = [float(i) for i in color]
 
         self._send_env_data("SetViewBackGround", color)
+
+    def LoadCloth(self, path: str, id: int = None) -> attr.ClothAttr:
+        """
+        Load a mesh to Cloth.
+
+        Args:
+            path: Str, the Mesh file path.
+            id: Int, object id.
+        """
+        assert id not in self.attrs, "this ID exists"
+
+        while id is None or id in self.attrs:
+            id = random.randint(100000, 999999)
+
+        self._send_env_data("LoadCloth", path, int(id))
+
+        self.attrs[id] = attr.ClothAttr(self, id)
+        return self.attrs[id]
+
+    def EnabledGroundObiCollider(self, enabled: bool) -> None:
+        """
+        Enabled Ground ObiCollider.
+
+        Args:
+            enabled: Bool, the Ground ObiCollider enabled.
+        """
+        self._send_env_data("EnabledGroundObiCollider", enabled)
 
     # Dubug API
     def DebugGraspPoint(self, enabled: bool = True) -> None:

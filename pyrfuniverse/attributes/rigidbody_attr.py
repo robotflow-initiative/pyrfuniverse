@@ -28,6 +28,41 @@ class RigidbodyAttr(attr.ColliderAttr):
         """
         self._send_data("SetMass", float(mass))
 
+    def SetDrag(self, drag: float):
+        """
+        Set the drag of this rigid body object
+
+        Args:
+            drag: Float, representing the drag of this rigid body.
+        """
+        self._send_data("SetDrag", float(drag))
+
+    def SetAngularDrag(self, angular_drag: float):
+        """
+        Set the angular drag of this rigid body object
+
+        Args:
+            angular_drag: Float, representing the angular drag of this rigid body.
+        """
+        self._send_data("SetAngularDrag", float(angular_drag))
+    def SetUseGravity(self, use_gravity: bool):
+        """
+        Set the rigid body use gravity or not.
+
+        Args:
+            use_gravity: Bool, use gravity or not.
+        """
+        self._send_data("SetUseGravity", use_gravity)
+
+    def EnabledMouseDrag(self, enabled: bool):
+        """
+        Enable or Disable the rigid body Mouse Drag.
+
+        Args:
+            enabled: Bool, Enabled Mouse Drag or not.
+        """
+        self._send_data("EnabledMouseDrag", enabled)
+
     def AddForce(self, force: list):
         """
         Add force to this rigid body object.
@@ -51,6 +86,18 @@ class RigidbodyAttr(attr.ColliderAttr):
             velocity = [float(i) for i in velocity]
 
         self._send_data("SetVelocity", velocity)
+
+    def SetAngularVelocity(self, angular_velocity: list):
+        """
+        Set the angular velocity of this rigid body object.
+
+        Args:
+            angular_velocity: A list of length 3, representing the angular velocity of this rigid body.
+        """
+        if angular_velocity is not None:
+            angular_velocity = [float(i) for i in angular_velocity]
+
+        self._send_data("SetAngularVelocity", angular_velocity)
 
     def SetKinematic(self, is_kinematic: bool):
         """

@@ -398,10 +398,3 @@ class ControllerAttr(attr.ColliderAttr):
             quaternion = [float(i) for i in quaternion]
 
         self._send_data("SetIKTargetOffset", position, rotation, quaternion)
-
-    def WaitDo(self):
-        """
-        Wait for the native IK target movement / rotation complete.
-        """
-        while not self.data["move_done"] or not self.data["rotate_done"]:
-            self.env._step()

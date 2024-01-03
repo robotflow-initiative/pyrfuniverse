@@ -38,7 +38,6 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
             scene_file="WaterShooting.json",
             assets=assets,
         )
-
         self.scale = 15
         self.max_steps = max_steps
         self.object_range_low = np.array(object_range_low)
@@ -113,7 +112,6 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
         )
         init_joint_positions.append(self.init_gripper_width)
         self._set_ur5_robotiq85_directly(init_joint_positions)
-
         self.t = 0
         self._reset_liquid()
         object_pos = self._reset_object()
@@ -198,10 +196,10 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
         return object_pos.copy()
 
     def _get_eef_position(self):
-        return np.array(self.attrs[self.object2id["robotiq85"]].data["positions"][7])
+        return np.array(self.attrs[self.object2id["robotiq85"]].data["positions"][11])
 
     def _get_eef_velocity(self):
-        return np.array(self.attrs[self.object2id["robotiq85"]].data["velocities"][7])
+        return np.array(self.attrs[self.object2id["robotiq85"]].data["velocities"][11])
 
     def _get_gripper_width(self):
         left_finger_pos = np.array(
@@ -237,7 +235,7 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
         width = joint_positions[6]
         gripper_angle = self._compute_gripper_angle(width)
         self.attrs[self.object2id["robotiq85"]].SetJointPosition(
-            joint_positions=[gripper_angle, gripper_angle]
+            joint_positions=[gripper_angle]
         )
         self._step()
 
@@ -250,7 +248,7 @@ class UR5WaterShootingEnv(RFUniverseGymGoalWrapper):
         width = joint_positions[6]
         gripper_angle = self._compute_gripper_angle(width)
         self.attrs[self.object2id["robotiq85"]].SetJointPositionDirectly(
-            joint_positions=[gripper_angle, gripper_angle]
+            joint_positions=[gripper_angle]
         )
         self._step()
 
