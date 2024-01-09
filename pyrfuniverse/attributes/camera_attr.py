@@ -85,9 +85,9 @@ class CameraAttr(attr.BaseAttr):
                 height = 512
         else:
             if width is None:
-                width = int(intrinsic_matrix[0,2] * 2)
+                width = int(intrinsic_matrix[0, 2] * 2)
             if height is None:
-                height = int(intrinsic_matrix[1,2] * 2)
+                height = int(intrinsic_matrix[1, 2] * 2)
 
         self._send_data("GetRGB", intrinsic_matrix, int(width), int(height), float(fov))
 
@@ -114,9 +114,9 @@ class CameraAttr(attr.BaseAttr):
                 height = 512
         else:
             if width is None:
-                width = int(intrinsic_matrix[0,2] * 2)
+                width = int(intrinsic_matrix[0, 2] * 2)
             if height is None:
-                height = int(intrinsic_matrix[1,2] * 2)
+                height = int(intrinsic_matrix[1, 2] * 2)
         self._send_data(
             "GetNormal", intrinsic_matrix, int(width), int(height), float(fov)
         )
@@ -144,9 +144,9 @@ class CameraAttr(attr.BaseAttr):
                 height = 512
         else:
             if width is None:
-                width = int(intrinsic_matrix[0,2] * 2)
+                width = int(intrinsic_matrix[0, 2] * 2)
             if height is None:
-                height = int(intrinsic_matrix[1,2] * 2)
+                height = int(intrinsic_matrix[1, 2] * 2)
         self._send_data("GetID", intrinsic_matrix, int(width), int(height), float(fov))
 
     def GetDepth(
@@ -176,9 +176,9 @@ class CameraAttr(attr.BaseAttr):
                 height = 512
         else:
             if width is None:
-                width = int(intrinsic_matrix[0,2] * 2)
+                width = int(intrinsic_matrix[0, 2] * 2)
             if height is None:
-                height = int(intrinsic_matrix[1,2] * 2)
+                height = int(intrinsic_matrix[1, 2] * 2)
         self._send_data(
             "GetDepth",
             float(zero_dis),
@@ -212,9 +212,9 @@ class CameraAttr(attr.BaseAttr):
                 height = 512
         else:
             if width is None:
-                width = int(intrinsic_matrix[0,2] * 2)
+                width = int(intrinsic_matrix[0, 2] * 2)
             if height is None:
-                height = int(intrinsic_matrix[1,2] * 2)
+                height = int(intrinsic_matrix[1, 2] * 2)
         self._send_data(
             "GetDepth16Bit",
             intrinsic_matrix,
@@ -246,9 +246,9 @@ class CameraAttr(attr.BaseAttr):
                 height = 512
         else:
             if width is None:
-                width = int(intrinsic_matrix[0,2] * 2)
+                width = int(intrinsic_matrix[0, 2] * 2)
             if height is None:
-                height = int(intrinsic_matrix[1,2] * 2)
+                height = int(intrinsic_matrix[1, 2] * 2)
         self._send_data(
             "GetDepthEXR", intrinsic_matrix, int(width), int(height), float(fov)
         )
@@ -278,9 +278,9 @@ class CameraAttr(attr.BaseAttr):
                 height = 512
         else:
             if width is None:
-                width = int(intrinsic_matrix[0,2] * 2)
+                width = int(intrinsic_matrix[0, 2] * 2)
             if height is None:
-                height = int(intrinsic_matrix[1,2] * 2)
+                height = int(intrinsic_matrix[1, 2] * 2)
         self._send_data(
             "GetAmodalMask",
             int(target_id),

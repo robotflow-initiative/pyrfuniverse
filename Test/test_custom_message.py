@@ -1,9 +1,5 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
-from pyrfuniverse.side_channel import (
-    IncomingMessage,
-    OutgoingMessage,
-)
 
 env = RFUniverseBaseEnv(assets=["CustomAttr"])
 
@@ -12,37 +8,6 @@ custom = env.InstanceObject(name="CustomAttr", id=123456, attr_type=attr.CustomA
 custom.CustomMessage(message="this is instance channel custom message")
 env.step()
 print(custom.data["custom_message"])
-
-
-# dynamic message
-def dynamic_message_callback(msg: IncomingMessage):
-    print(msg.read_string())
-    print(msg.read_string())
-    print(msg.read_string())
-    print(msg.read_int32())
-    print(msg.read_string())
-    print(msg.read_float32())
-    print(msg.read_string())
-    print(msg.read_bool())
-    print(msg.read_string())
-    print(msg.read_float32_list())
-
-
-env.AddListener("DynamicMessage", dynamic_message_callback)
-env.SendMessage(
-    "DynamicMessage",
-    "string:",
-    "this is dynamic message",
-    "int:",
-    123456,
-    "bool:",
-    True,
-    "float:",
-    4849.6564,
-    "list:",
-    [616445.085, 9489984.0, 65419596.0, 9849849.0],
-)
-env.step()
 
 
 # dynamic object

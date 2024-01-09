@@ -4,9 +4,7 @@ class BaseAttr:
     object loading, deleting and transforming.
     """
 
-    def __init__(self, env, id: int, data=None):
-        if data is None:
-            data = {}
+    def __init__(self, env, id: int, data: dict = {}):
         self.env = env
         self.id = id
         self.data = data
@@ -39,7 +37,6 @@ class BaseAttr:
             self.data['result_world_point']: The result of transforming object from world to local coordinate.
         """
         self.data = data
-        return self.data
 
     def _send_data(self, message: str, *args):
         self.env._send_instance_data(self.id, message, *args)

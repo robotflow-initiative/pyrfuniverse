@@ -20,23 +20,3 @@ try:
     from pyrfuniverse.attributes.omplmanager_attr import OmplManagerAttr
 except:
     pass
-
-__all__ = [
-    "base_attr",
-    "camera_attr",
-    "activelightsensor_attr",
-    "collider_attr",
-    "controller_attr",
-    "gameobject_attr",
-    "rigidbody_attr",
-    "cloth_attr",
-    "softbody_attr",
-    "humanbody_attr",
-    "graspsim_attr",
-    "digit_attr",
-    "gelslim_attr",
-    "pointcloud_attr",
-    "fallingcloth_attr",
-    "custom_attr",
-    "omplmanager_attr",
-]

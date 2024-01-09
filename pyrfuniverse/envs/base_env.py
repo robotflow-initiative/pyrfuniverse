@@ -24,14 +24,14 @@ class RFUniverseBaseEnv(ABC):
     metadata = {"render.modes": ["human", "rgb_array"]}
 
     def __init__(
-        self,
-        executable_file: str = None,
-        scene_file: str = None,
-        assets: list = [],
-        graphics: bool = True,
-        port: int = 5004,
-        proc_id=0,
-        log_level=1,
+            self,
+            executable_file: str = None,
+            scene_file: str = None,
+            assets: list = [],
+            graphics: bool = True,
+            port: int = 5004,
+            proc_id=0,
+            log_level=1,
     ):
         # time step
         self.t = 0
@@ -117,21 +117,10 @@ class RFUniverseBaseEnv(ABC):
             self._parse_object_data(objs)
         return
 
-    def _parse_env_data(self, objs: list) -> None:
-        msg = objs[0]
-        objs = objs[1:]
-        if msg == "Close":
+    def _parse_env_data(self, objs: dict) -> None:
+        self.data = objs[0]
+        if "close" in self.data:
             self.close()
-        elif msg == "LoadDone":
-            self.data["load_done"] = True
-        elif msg == "PendDone":
-            self.data["pend_done"] = True
-        elif msg == "RFMoveColliders":
-            self.data["colliders"] = objs[0]
-        elif msg == "CurrentCollisionPairs":
-            self.data["collision_pairs"] = objs[0]
-        else:
-            print(f"unknown env data type: {msg}")
 
     def _parse_instence_data(self, objs: list) -> None:
         this_object_id = objs[0]
@@ -151,9 +140,7 @@ class RFUniverseBaseEnv(ABC):
                 self, this_object_id, self.attrs[this_object_id].data
             )
 
-        self.data[this_object_id] = self.attrs[this_object_id].parse_message(
-            this_object_data
-        )
+        self.attrs[this_object_id].parse_message(this_object_data)
 
     def _parse_debug_data(self, objs: list) -> None:
         msg = objs[0]
@@ -282,8 +269,7 @@ class RFUniverseBaseEnv(ABC):
         """
         Wait for the loading is done.
         """
-        self.data["load_done"] = False
-        while not self.data["load_done"]:
+        while "load_done" not in self.data:
             self._step()
 
     def Pend(self) -> None:
@@ -291,9 +277,7 @@ class RFUniverseBaseEnv(ABC):
         Pend the program until the `EndPend` button in `UnityPlayer` is clicked.
         """
         self._send_env_data("Pend")
-
-        self.data["pend_done"] = False
-        while not self.data["pend_done"]:
+        while "pend_done" not in self.data:
             self._step()
 
     def SendMessage(self, message: str, *args) -> None:
@@ -370,12 +354,15 @@ class RFUniverseBaseEnv(ABC):
         self.listen_object.pop(type)
 
     def InstanceObject(
-        self, name: str, id: int = None, attr_type: type = attr.BaseAttr
+            self, name: str, id: int = None, attr_type: type = attr.BaseAttr
     ):
         """
         Instanciate an object.
 
         Built-in assets:
+
+        BaseAttr:
+            "Empty",
 
         GameObjectAttr:
             Basic Objects:
@@ -422,15 +409,18 @@ class RFUniverseBaseEnv(ABC):
                 "svh",
                 "robotiq_arg2f_85_model",
                 "dh_robotics_ag95_gripper",
-            robot:
+                "shadowhand",
+            robot arm:
                 "kinova_gen3",
-                "kinova_gen3_robotiq85",
                 "ur5",
-                "ur5_robotiq85",
-                "franka_panda",
-                "franka_hand",
-                "tobor_robotiq85_robotiq85",
                 "flexivArm",
+                "tobor_r300",
+            robot arm and gripper:
+                "franka_panda",
+                "kinova_gen3_robotiq85",
+                "ur5_robotiq85",
+                "tobor_r300_ag95_ag95",
+                "tobor_r300_robotiq85_robotiq85",
                 "flexivArm_ag95",
                 "yumi",
 
@@ -439,6 +429,9 @@ class RFUniverseBaseEnv(ABC):
 
         LightAttr:
             "Light",
+
+        PointCloudAttr:
+            "PointCloud",
 
         Args:
             name: Str, object name. Please check the above `built-in assets` list for names.
@@ -459,7 +452,7 @@ class RFUniverseBaseEnv(ABC):
         return self.attrs[id]
 
     def LoadURDF(
-        self, path: str, id: int = None, native_ik: bool = False, axis: str = "y"
+            self, path: str, id: int = None, native_ik: bool = False, axis: str = "y"
     ) -> attr.ControllerAttr:
         """
         Load a model from URDF file.
@@ -548,12 +541,12 @@ class RFUniverseBaseEnv(ABC):
         self._send_env_data("GetRFMoveColliders", active)
 
     def SetGroundPhysicMaterial(
-        self,
-        bounciness: float,
-        dynamic_friction: float,
-        static_friction: float,
-        friction_combine: int,
-        bounce_combine: int,
+            self,
+            bounciness: float,
+            dynamic_friction: float,
+            static_friction: float,
+            friction_combine: int,
+            bounce_combine: int,
     ) -> None:
         """
         Set the physics material of ground in environment.
@@ -655,12 +648,12 @@ class RFUniverseBaseEnv(ABC):
         """
         if position is not None:
             assert (
-                type(position) == list and len(position) == 3
+                    type(position) == list and len(position) == 3
             ), "Argument position must be a 3-d list."
             position = [float(i) for i in position]
         if rotation is not None:
             assert (
-                type(rotation) == list and len(rotation) == 3
+                    type(rotation) == list and len(rotation) == 3
             ), "Argument rotation must be a 3-d list."
             rotation = [float(i) for i in rotation]
 

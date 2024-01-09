@@ -12,16 +12,27 @@ mesh.SetTransform(position=[0, 1, 0])
 env.step(200)
 mesh.GetParticles()
 env.step()
-position = mesh.data['particles'][random.randint(0, len(mesh.data['particles'])-1)]
-point = env.InstanceObject("Empty")
-point.SetTransform(position=position)
-mesh.AddAttach(point.id)
+position1 = mesh.data['particles'][500]
+position2 = mesh.data['particles'][200]
+point1 = env.InstanceObject("Empty")
+point1.SetTransform(position=position1)
+mesh.AddAttach(point1.id)
+point2 = env.InstanceObject("Empty")
+point2.SetTransform(position=position2)
+mesh.AddAttach(point2.id)
 env.step()
-point.DoMove([0, 1, 0], 0.2)
-point.WaitDo()
-point.DoMove([0.5, 1, 0], 0.5)
-point.WaitDo()
-point.DoMove([-0.5, 1, 0], 0.5)
-point.WaitDo()
-mesh.RemoveAttach(point.id)
+
+point1.DoMove([-0.25, 1, 0], 2, speed_based=False)
+point2.DoMove([0.25, 1, 0], 2, speed_based=False)
+point2.WaitDo()
+
+while True:
+    point1.DoMove([-0.25, 1, -0.5], 1)
+    point2.DoMove([0.25, 1, -0.5], 1)
+    point2.WaitDo()
+
+    point1.DoMove([-0.25, 1, 0.5], 1)
+    point2.DoMove([0.25, 1, 0.5], 1)
+    point2.WaitDo()
+
 env.Pend()

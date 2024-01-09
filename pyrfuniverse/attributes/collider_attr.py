@@ -81,3 +81,9 @@ class ColliderAttr(attr.GameObjectAttr):
         Generate convex colliders using VHACD algorithm.
         """
         self._send_data("GenerateVHACDColider")
+
+    def AddObiCollider(self):
+        """
+        Add ObiCollider for this Collider.
+        """
+        self._send_data("AddObiCollider")
