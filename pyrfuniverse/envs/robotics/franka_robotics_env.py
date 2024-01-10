@@ -28,6 +28,7 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
         assets: list = [],
     ):
         super().__init__(executable_file, scene_file, assets=assets)
+        self._step()
         self.max_steps = max_episode_length
         self.reward_type = reward_type
         self.tolerance = tolerance
@@ -210,7 +211,6 @@ class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
             self.attrs[0].SetTransform(
                 position=[0, self.height_offset, 0], scale=[0.05, 0.05, 0.05]
             )
-
         self.attrs[965874].SetIKTargetOffset(position=[0, 0.105, 0])
         self.attrs[965874].IKTargetDoRotate(
             rotation=[0, 45, 180], duration=0, speed_based=False

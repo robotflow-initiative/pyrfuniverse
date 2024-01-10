@@ -135,10 +135,10 @@ mask_active_point_cloud2.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [
 filtered_point_cloud1.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 filtered_point_cloud2.transform([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 
-coorninate = o3d.geometry.TriangleMesh.create_coordinate_frame()
+coordinate = o3d.geometry.TriangleMesh.create_coordinate_frame()
 
-o3d.visualization.draw_geometries([real_point_cloud1, real_point_cloud2, coorninate])
-o3d.visualization.draw_geometries([active_point_cloud1, active_point_cloud2, coorninate])
-o3d.visualization.draw_geometries([mask_real_point_cloud1, mask_real_point_cloud2, coorninate])
-o3d.visualization.draw_geometries([mask_active_point_cloud1, mask_active_point_cloud2, coorninate])
-o3d.visualization.draw_geometries([filtered_point_cloud1, filtered_point_cloud2, coorninate])
+o3d.visualization.draw_geometries([real_point_cloud1, real_point_cloud2, coordinate])
+o3d.visualization.draw_geometries([active_point_cloud1, active_point_cloud2, coordinate])
+o3d.visualization.draw_geometries([mask_real_point_cloud1, mask_real_point_cloud2, coordinate])
+o3d.visualization.draw_geometries([mask_active_point_cloud1, mask_active_point_cloud2, coordinate])
+o3d.visualization.draw_geometries([filtered_point_cloud1, filtered_point_cloud2, coordinate])
