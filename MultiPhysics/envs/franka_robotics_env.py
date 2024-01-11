@@ -3,9 +3,9 @@ import numpy as np
 from gym import spaces
 from gym.utils import seeding
 import copy
+from pyrfuniverse.envs.gym_wrapper_env import RFUniverseGymWrapper
 
-
-class FrankaRoboticsEnv(RFUniverseGymGoalWrapper):
+class FrankaRoboticsEnv(RFUniverseGymWrapper):
     metadata = {"render.modes": ["human"]}
     # height_offset is just the object width / 2, which is the object's stable height value.
     height_offset = 0.025

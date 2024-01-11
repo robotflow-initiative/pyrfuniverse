@@ -32,6 +32,7 @@ class RFUniverseBaseEnv(ABC):
             port: int = 5004,
             proc_id=0,
             log_level=1,
+            ext_attr: list[type(attr.BaseAttr)]=[]
     ):
         # time step
         self.t = 0
@@ -45,6 +46,10 @@ class RFUniverseBaseEnv(ABC):
         self.listen_messages = {}
         self.listen_object = {}
         self.port = port
+        for i in ext_attr:
+            if i.__name__ in attr.attrs:
+                raise ValueError(f"ext_attr {i.__name__} already exists")
+            attr.attrs[i.__name__] = i
 
         self.log_level = log_level
 
@@ -72,8 +77,7 @@ class RFUniverseBaseEnv(ABC):
         if PROC_TYPE == "release":
             self.process = self._start_unity_env(self.executable_file, self.port)
         self.communicator.online()
-
-        self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
+        self.WaitSceneInit()
         if len(self.pre_load_assets) > 0:
             self.PreLoadAssetsAsync(assets, True)
         if self.scene_file is not None:
@@ -128,7 +132,7 @@ class RFUniverseBaseEnv(ABC):
         this_object_data = objs[2]
 
         try:
-            attr_type = eval("attr." + this_object_type)
+            attr_type = attr.attrs[this_object_type]
         except Exception as e:
             print(f"An error occurred: {e}")
             return
@@ -263,7 +267,16 @@ class RFUniverseBaseEnv(ABC):
         self._send_env_data("SwitchSceneAsync", name)
 
         if auto_wait:
-            self.WaitLoadDone()
+            self.WaitSceneInit()
+
+    def WaitSceneInit(self) -> None:
+        """
+        Wait for the Scene Init done.
+        """
+        while "scene_init" not in self.data:
+            self._step()
+        self.data.pop("scene_init")
+        self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
 
     def WaitLoadDone(self) -> None:
         """
@@ -271,6 +284,7 @@ class RFUniverseBaseEnv(ABC):
         """
         while "load_done" not in self.data:
             self._step()
+        self.data.pop("load_done")
 
     def Pend(self) -> None:
         """
@@ -279,6 +293,7 @@ class RFUniverseBaseEnv(ABC):
         self._send_env_data("Pend")
         while "pend_done" not in self.data:
             self._step()
+        self.data.pop("pend_done")
 
     def SendMessage(self, message: str, *args) -> None:
         """
@@ -436,7 +451,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             name: Str, object name. Please check the above `built-in assets` list for names.
             id: Int, object id.
-            attr_type: type(pyrfuniverse.attributes.BaseAttr), the attribute type.
+            attr_type: type(pyrfuniverse.attributes.BaseAttr), the attribute type. This parameter helps the editor identify types/completion codes
 
         Returns:
             type(`attr_type`): The object attribute instance.

@@ -1,4 +1,4 @@
-from pyrfuniverse.envs.multi_physics import UR5WaterShootingEnv
+from envs.ur5_water_shooting import UR5WaterShootingEnv
 
 env = UR5WaterShootingEnv(urdf_file="../URDF/UR5_robotiq_85/ur5_robotiq_85.urdf")
 env.reset()

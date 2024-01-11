@@ -1,4 +1,4 @@
-from pyrfuniverse.envs.robotics import FrankaRoboticsEnv
+from envs.franka_robotics_env import FrankaRoboticsEnv
 
 env = FrankaRoboticsEnv(
     # executable_file='@editor',

@@ -13,6 +13,7 @@ except ImportError:
 import pyrfuniverse.utils.rfuniverse_utility as utility
 import pyrfuniverse.utils.depth_processor as dp
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
+from extend.activelightsensor_attr import ActiveLightSensorAttr
 
 nd_main_intrinsic_matrix = np.array([[600, 0, 240],
                                      [0, 600, 240],
@@ -21,7 +22,7 @@ nd_ir_intrinsic_matrix = np.array([[480, 0, 240],
                                    [0, 480, 240],
                                    [0, 0, 1]])
 
-env = RFUniverseBaseEnv(scene_file="ActiveDepth.json")
+env = RFUniverseBaseEnv(scene_file="ActiveDepth.json", ext_attr=[ActiveLightSensorAttr])
 active_light_sensor_1 = env.GetAttr(789789)
 
 active_light_sensor_1.GetRGB(intrinsic_matrix=nd_main_intrinsic_matrix)

@@ -1,10 +1,10 @@
 import math
 from pyrfuniverse.envs.gym_wrapper_env import RFUniverseGymWrapper
-import pyrfuniverse.attributes as attr
-from pyrfuniverse.utils.jaco_controller import RFUniverseJacoController
+from MultiPhysics.attrs.fallingcloth_attr import FallingClothAttr
+from pyrfuniverse.controller.jaco_controller import RFUniverseJacoController
 import numpy as np
-from gym import spaces
-from gym.utils import seeding
+from gymnasium import spaces
+from gymnasium.utils import seeding
 import pybullet as p
 
 
@@ -32,6 +32,7 @@ class KinovaGen2CatchingClothEnv(RFUniverseGymWrapper):
             executable_file=executable_file,
             scene_file="CatchingCloth.json",
             assets=assets,
+            ext_attr=[FallingClothAttr]
         )
         self.lock_eef_height = lock_eef_height
         self.with_force_zone = with_force_zone
@@ -143,7 +144,7 @@ class KinovaGen2CatchingClothEnv(RFUniverseGymWrapper):
         cloth = self.InstanceObject(
             name="FallingClothSolver",
             id=self.object2id["cloth"],
-            attr_type=attr.FallingClothAttr,
+            attr_type=FallingClothAttr,
         )
         cloth.SetTransform(
             position=list(

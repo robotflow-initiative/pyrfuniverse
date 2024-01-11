@@ -1,4 +1,4 @@
-from pyrfuniverse.envs.multi_physics import KinovaGen2CatchingClothEnv
+from envs.kinova_gen2_catching_cloth_env import KinovaGen2CatchingClothEnv
 
 env = KinovaGen2CatchingClothEnv(urdf_file="../URDF/jaco/j2s7s300_gym.urdf")
 env.reset()

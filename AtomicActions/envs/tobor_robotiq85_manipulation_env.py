@@ -1,6 +1,5 @@
-import pyrfuniverse
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-from pyrfuniverse.utils.tobor_controller import RFUniverseToborController
+from pyrfuniverse.controller.tobor_controller import RFUniverseToborController
 import numpy as np
 
 

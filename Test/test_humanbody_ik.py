@@ -1,6 +1,7 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
+from extend.humanbody_attr import HumanbodyAttr
 
-env = RFUniverseBaseEnv(scene_file="HumanBodyIK.json")
+env = RFUniverseBaseEnv(scene_file="HumanBodyIK.json", ext_attr=[HumanbodyAttr])
 env.step()
 human = env.GetAttr(168242)
 for index in range(5):

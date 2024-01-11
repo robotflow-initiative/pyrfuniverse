@@ -3,10 +3,11 @@ import numpy as np
 
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
+from extend.gelslim_attr import GelSlimAttr
 
-env = RFUniverseBaseEnv()
+env = RFUniverseBaseEnv(ext_attr=[GelSlimAttr])
 
-gelslim = env.InstanceObject(name="GelSlim", attr_type=attr.GelSlimAttr)
+gelslim = env.InstanceObject(name="GelSlim", attr_type=GelSlimAttr)
 gelslim.SetTransform(position=[0, 0, 0])
 target = env.InstanceObject(name="GelSlimTarget", attr_type=attr.RigidbodyAttr)
 target.SetTransform(position=[0, 0.03, 0],rotation=[90, 0, 0])

@@ -14,7 +14,7 @@ except ImportError:
         "This feature requires open3d, please install with `pip install open3d`"
     )
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-import pyrfuniverse.attributes as attr
+from extend.graspsim_attr import GraspSimAttr
 
 
 def get_grasp_pose(file: str, points_count, scale: float = 1):
@@ -35,8 +35,8 @@ points, normals = get_grasp_pose(mesh_path, 100)
 points = points.reshape(-1).tolist()
 normals = normals.reshape(-1).tolist()
 
-env = RFUniverseBaseEnv(assets=["GraspSim"])
-grasp_sim = env.InstanceObject(id=123123, name="GraspSim", attr_type=attr.GraspSimAttr)
+env = RFUniverseBaseEnv(assets=["GraspSim"], ext_attr=[GraspSimAttr])
+grasp_sim = env.InstanceObject(id=123123, name="GraspSim", attr_type=GraspSimAttr)
 grasp_sim.StartGraspSim(
     mesh=os.path.abspath(mesh_path),
     gripper="franka_hand",
@@ -60,7 +60,7 @@ grasp_sim.StartGraspSim(
 #                             angle_lerp_count=5,
 #                             )
 env.step()
-while not grasp_sim.data["done"]:
+while not grasp_sim.data['done']:
     env.step()
 
 points = grasp_sim.data["points"]

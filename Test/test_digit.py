@@ -1,9 +1,9 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-import pyrfuniverse.attributes as attr
+from extend.digit_attr import DigitAttr
 
-env = RFUniverseBaseEnv()
+env = RFUniverseBaseEnv(ext_attr=[DigitAttr])
 
-digit = env.InstanceObject(name="Digit", attr_type=attr.DigitAttr)
+digit = env.InstanceObject(name="Digit", attr_type=DigitAttr)
 digit.SetTransform(position=[0, 0.015, 0])
 target = env.InstanceObject(name="DigitTarget")
 target.SetTransform(position=[0, 0.05, 0.015])

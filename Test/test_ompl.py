@@ -1,13 +1,13 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
+from extend.omplmanager_attr import OmplManagerAttr
 
 try:
     import pyrfuniverse.attributes.omplmanager_attr as rfu_ompl
 except ImportError:
     raise Exception("This feature requires ompl, see: https://github.com/ompl/ompl")
 
-env = RFUniverseBaseEnv(assets=["franka_panda", "Collider_Box", "OmplManager"])
-
+env = RFUniverseBaseEnv(assets=["franka_panda", "Collider_Box", "OmplManager"], ext_attr=[OmplManagerAttr])
 robot = env.InstanceObject(
     name="franka_panda", id=123456, attr_type=attr.ControllerAttr
 )

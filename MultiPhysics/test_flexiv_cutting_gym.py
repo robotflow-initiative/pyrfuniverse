@@ -1,4 +1,4 @@
-from pyrfuniverse.envs.multi_physics import FlexivCuttingEnv
+from envs.flexiv_cutting import FlexivCuttingEnv
 
 env = FlexivCuttingEnv()
 env.reset()

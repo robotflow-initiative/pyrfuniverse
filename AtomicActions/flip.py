@@ -1,7 +1,4 @@
-from pyrfuniverse.envs.tobor_robotiq85_manipulation_env import (
-    ToborRobotiq85ManipulationEnv,
-)
-import numpy as np
+from envs.tobor_robotiq85_manipulation_env import ToborRobotiq85ManipulationEnv
 import pybullet as p
 import math
 
