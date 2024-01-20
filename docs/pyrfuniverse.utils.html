@@ -86,6 +86,20 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.rfuniverse_utility.GetMatrix"><code class="docutils literal notranslate"><span class="pre">GetMatrix()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.utils.coordinate_system_converter">pyrfuniverse.utils.coordinate_system_converter module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter"><code class="docutils literal notranslate"><span class="pre">CoordinateSystemConverter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_pos_to_cs2_pos"><code class="docutils literal notranslate"><span class="pre">CoordinateSystemConverter.cs1_pos_to_cs2_pos()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_pos_to_cs1_pos"><code class="docutils literal notranslate"><span class="pre">CoordinateSystemConverter.cs2_pos_to_cs1_pos()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_quat_to_cs2_quat"><code class="docutils literal notranslate"><span class="pre">CoordinateSystemConverter.cs1_quat_to_cs2_quat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_quat_to_cs1_quat"><code class="docutils literal notranslate"><span class="pre">CoordinateSystemConverter.cs2_quat_to_cs1_quat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_scale_to_cs2_scale"><code class="docutils literal notranslate"><span class="pre">CoordinateSystemConverter.cs1_scale_to_cs2_scale()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_scale_to_cs1_scale"><code class="docutils literal notranslate"><span class="pre">CoordinateSystemConverter.cs2_scale_to_cs1_scale()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_matrix_to_cs2_matrix"><code class="docutils literal notranslate"><span class="pre">CoordinateSystemConverter.cs1_matrix_to_cs2_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_matrix_to_cs1_matrix"><code class="docutils literal notranslate"><span class="pre">CoordinateSystemConverter.cs2_matrix_to_cs1_matrix()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -393,6 +407,170 @@ intrinsic matrix and extrinsic matrix to generate point cloud in global coordina
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
+</dd></dl>
+
+</section>
+<section id="module-pyrfuniverse.utils.coordinate_system_converter">
+<span id="pyrfuniverse-utils-coordinate-system-converter-module"></span><h2>pyrfuniverse.utils.coordinate_system_converter module<a class="headerlink" href="#module-pyrfuniverse.utils.coordinate_system_converter" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.utils.coordinate_system_converter.</span></span><span class="sig-name descname"><span class="pre">CoordinateSystemConverter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cs1_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['right',</span> <span class="pre">'up',</span> <span class="pre">'forward']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cs2_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['right',</span> <span class="pre">'up',</span> <span class="pre">'forward']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Coordinate System Converter class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cs1_direction</strong> – list, The visual direction corresponding to the xyz axis,
+can be:
+[“left”/”right”/”up”/”down”/”forward”/”back”/
+“l”/”r”/”u”/”d”/”f”/”b”/
+“-left”/”-right”/”-up”/”-down”/”-forward”/”-back”/
+“-l”/”-r”/”-u”/”-d”/”-f”/”-b”]</p></li>
+<li><p><strong>cs2_direction</strong> – list, The visual direction corresponding to the xyz axis,
+can be:
+[“left”/”right”/”up”/”down”/”forward”/”back”/
+“l”/”r”/”u”/”d”/”f”/”b”/
+“-left”/”-right”/”-up”/”-down”/”-forward”/”-back”/
+“-l”/”-r”/”-u”/”-d”/”-f”/”-b”]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_pos_to_cs2_pos">
+<span class="sig-name descname"><span class="pre">cs1_pos_to_cs2_pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_pos_to_cs2_pos" title="Permalink to this definition"></a></dt>
+<dd><p>Convert position form Coordinate System 1 to Coordinate System 2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pos</strong> – List of length 3, position of Coordinate System 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of length 3, position of Coordinate System 2.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_pos_to_cs1_pos">
+<span class="sig-name descname"><span class="pre">cs2_pos_to_cs1_pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_pos_to_cs1_pos" title="Permalink to this definition"></a></dt>
+<dd><p>Convert position form Coordinate System 2 to Coordinate System 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pos</strong> – List of length 3, position of Coordinate System 2.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of length 3, position of Coordinate System 1.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_quat_to_cs2_quat">
+<span class="sig-name descname"><span class="pre">cs1_quat_to_cs2_quat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_quat_to_cs2_quat" title="Permalink to this definition"></a></dt>
+<dd><p>Convert quaternion form Coordinate System 1 to Coordinate System 2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>quat</strong> – List of length 3, quaternion of Coordinate System 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of length 3, quaternion of Coordinate System 2.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_quat_to_cs1_quat">
+<span class="sig-name descname"><span class="pre">cs2_quat_to_cs1_quat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_quat_to_cs1_quat" title="Permalink to this definition"></a></dt>
+<dd><p>Convert quaternion form Coordinate System 2 to Coordinate System 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>quat</strong> – List of length 4, quaternion[x,y,z,w] of Coordinate System 2.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of length 4, quaternion[x,y,z,w] of Coordinate System 1.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_scale_to_cs2_scale">
+<span class="sig-name descname"><span class="pre">cs1_scale_to_cs2_scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_scale_to_cs2_scale" title="Permalink to this definition"></a></dt>
+<dd><p>Convert scale form Coordinate System 1 to Coordinate System 2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scale</strong> – List of length 3, scale of Coordinate System 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of length 3, scale of Coordinate System 2.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_scale_to_cs1_scale">
+<span class="sig-name descname"><span class="pre">cs2_scale_to_cs1_scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_scale_to_cs1_scale" title="Permalink to this definition"></a></dt>
+<dd><p>Convert scale form Coordinate System 2 to Coordinate System 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scale</strong> – List of length 3, scale of Coordinate System 2.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of length 3, scale of Coordinate System 1.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_matrix_to_cs2_matrix">
+<span class="sig-name descname"><span class="pre">cs1_matrix_to_cs2_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs1_matrix_to_cs2_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Convert rotation matrix form Coordinate System 1 to Coordinate System 2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>matrix</strong> – list or np.ndarray shape[3,3], rotation matrix of Coordinate System 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>shape[3,3], rotation matrix of Coordinate System 2.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_matrix_to_cs1_matrix">
+<span class="sig-name descname"><span class="pre">cs2_matrix_to_cs1_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyrfuniverse.utils.coordinate_system_converter.CoordinateSystemConverter.cs2_matrix_to_cs1_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Convert rotation matrix form Coordinate System 2 to Coordinate System 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>matrix</strong> – list or np.ndarray shape[3,3], rotation matrix of Coordinate System 2.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>shape[3,3], rotation matrix of Coordinate System 1.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>

@@ -67,14 +67,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="pyrfuniverse.envs.html">pyrfuniverse.envs package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pyrfuniverse.attributes package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.activelightsensor_attr">pyrfuniverse.attributes.activelightsensor_attr module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr"><code class="docutils literal notranslate"><span class="pre">ActiveLightSensorAttr</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">ActiveLightSensorAttr.parse_message()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth"><code class="docutils literal notranslate"><span class="pre">ActiveLightSensorAttr.GetActiveDepth()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.base_attr">pyrfuniverse.attributes.base_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr"><code class="docutils literal notranslate"><span class="pre">BaseAttr</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">BaseAttr.parse_message()</span></code></a></li>
@@ -94,6 +86,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.Destroy"><code class="docutils literal notranslate"><span class="pre">BaseAttr.Destroy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.GetLocalPointFromWorld"><code class="docutils literal notranslate"><span class="pre">BaseAttr.GetLocalPointFromWorld()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.GetWorldPointFromLocal"><code class="docutils literal notranslate"><span class="pre">BaseAttr.GetWorldPointFromLocal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.DoMove"><code class="docutils literal notranslate"><span class="pre">BaseAttr.DoMove()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.DoRotate"><code class="docutils literal notranslate"><span class="pre">BaseAttr.DoRotate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.DoRotateQuaternion"><code class="docutils literal notranslate"><span class="pre">BaseAttr.DoRotateQuaternion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.DoComplete"><code class="docutils literal notranslate"><span class="pre">BaseAttr.DoComplete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.DoKill"><code class="docutils literal notranslate"><span class="pre">BaseAttr.DoKill()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr.WaitDo"><code class="docutils literal notranslate"><span class="pre">BaseAttr.WaitDo()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -119,6 +117,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.cloth_attr">pyrfuniverse.attributes.cloth_attr module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr"><code class="docutils literal notranslate"><span class="pre">ClothAttr</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">ClothAttr.parse_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.GetParticles"><code class="docutils literal notranslate"><span class="pre">ClothAttr.GetParticles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.AddAttach"><code class="docutils literal notranslate"><span class="pre">ClothAttr.AddAttach()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.RemoveAttach"><code class="docutils literal notranslate"><span class="pre">ClothAttr.RemoveAttach()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -130,6 +131,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.SetPhysicMaterial"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.SetPhysicMaterial()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.SetRFMoveColliderActive"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.SetRFMoveColliderActive()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.GenerateVHACDColider"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.GenerateVHACDColider()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.AddObiCollider"><code class="docutils literal notranslate"><span class="pre">ColliderAttr.AddObiCollider()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -167,15 +169,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoComplete"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.IKTargetDoComplete()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.IKTargetDoKill"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.IKTargetDoKill()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.SetIKTargetOffset"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.SetIKTargetOffset()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.WaitDo"><code class="docutils literal notranslate"><span class="pre">ControllerAttr.WaitDo()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.digit_attr">pyrfuniverse.attributes.digit_attr module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.digit_attr.DigitAttr"><code class="docutils literal notranslate"><span class="pre">DigitAttr</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">DigitAttr.parse_message()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.GetData"><code class="docutils literal notranslate"><span class="pre">DigitAttr.GetData()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -187,30 +180,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.EnabledRender"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.EnabledRender()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.SetTexture"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.SetTexture()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr.Get3DBBox"><code class="docutils literal notranslate"><span class="pre">GameObjectAttr.Get3DBBox()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.graspsim_attr">pyrfuniverse.attributes.graspsim_attr module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.parse_message()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspSim"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.StartGraspSim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.GenerateGraspPose"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.GenerateGraspPose()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspTest"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.StartGraspTest()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.ShowGraspPose"><code class="docutils literal notranslate"><span class="pre">GraspSimAttr.ShowGraspPose()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.humanbody_attr">pyrfuniverse.attributes.humanbody_attr module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.parse_message()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoMove"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoMove()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotate"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoRotate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotateQuaternion"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoRotateQuaternion()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoComplete"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoComplete()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoKill"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.HumanIKTargetDoKill()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.WaitDo"><code class="docutils literal notranslate"><span class="pre">HumanbodyAttr.WaitDo()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -243,16 +212,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.parse_message()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetMass"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetMass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetDrag"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetDrag()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetAngularDrag"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetAngularDrag()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetUseGravity"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetUseGravity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.EnabledMouseDrag"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.EnabledMouseDrag()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.AddForce"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.AddForce()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetVelocity"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetVelocity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetAngularVelocity"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetAngularVelocity()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetKinematic"><code class="docutils literal notranslate"><span class="pre">RigidbodyAttr.SetKinematic()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyrfuniverse.attributes.softbody_attr">pyrfuniverse.attributes.softbody_attr module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr"><code class="docutils literal notranslate"><span class="pre">SoftbodyAttr</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr.parse_message"><code class="docutils literal notranslate"><span class="pre">SoftbodyAttr.parse_message()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -288,52 +255,11 @@
              
   <section id="pyrfuniverse-attributes-package">
 <span id="pyrfuniverse-attributes"></span><h1>pyrfuniverse.attributes package<a class="headerlink" href="#pyrfuniverse-attributes-package" title="Permalink to this heading"></a></h1>
-<section id="module-pyrfuniverse.attributes.activelightsensor_attr">
-<span id="pyrfuniverse-attributes-activelightsensor-attr-module"></span><h2>pyrfuniverse.attributes.activelightsensor_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.activelightsensor_attr" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.activelightsensor_attr.</span></span><span class="sig-name descname"><span class="pre">ActiveLightSensorAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.camera_attr.CameraAttr" title="pyrfuniverse.attributes.camera_attr.CameraAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraAttr</span></code></a></p>
-<p>Class of IR-based depth sensor, which can simulate the noise of
-real-world depth camera and produce depth image in similar pattern.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.parse_message" title="Permalink to this definition"></a></dt>
-<dd><p>Parse messages. This function is called by internal function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>A dict containing useful information of this class.</p>
-<p>self.data[‘active_depth’]: IR-based depth, shape = (w,h)</p>
-</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth">
-<span class="sig-name descname"><span class="pre">GetActiveDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_intrinsic_matrix_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ir_intrinsic_matrix_local</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.activelightsensor_attr.ActiveLightSensorAttr.GetActiveDepth" title="Permalink to this definition"></a></dt>
-<dd><p>Get IR-based depth image.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>main_intrinsic_matrix_local</strong> – np.ndarray The intrinsic matrix of main camera.</p></li>
-<li><p><strong>ir_intrinsic_matrix_local</strong> – np.ndarray The intrinsic matrix of IR-based camera.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 <section id="module-pyrfuniverse.attributes.base_attr">
 <span id="pyrfuniverse-attributes-base-attr-module"></span><h2>pyrfuniverse.attributes.base_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.base_attr" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.base_attr.</span></span><span class="sig-name descname"><span class="pre">BaseAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.base_attr.</span></span><span class="sig-name descname"><span class="pre">BaseAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base attribute class, which includes general functions such as
 object loading, deleting and transforming.</p>
@@ -562,6 +488,72 @@ object loading, deleting and transforming.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.DoMove">
+<span class="sig-name descname"><span class="pre">DoMove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.DoMove" title="Permalink to this definition"></a></dt>
+<dd><p>Tween movement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – A list of length 3, representing the position.</p></li>
+<li><p><strong>duration</strong> – Float, if <cite>speed_based</cite> is True, it represents movement duration; otherwise, it represents movement speed.</p></li>
+<li><p><strong>speed_based</strong> – Bool.</p></li>
+<li><p><strong>relative</strong> – Bool, if True, <cite>position</cite> is relative; otherwise, <cite>position</cite> is absolute.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.DoRotate">
+<span class="sig-name descname"><span class="pre">DoRotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.DoRotate" title="Permalink to this definition"></a></dt>
+<dd><p>Tween rotation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotation</strong> – A list of length 3, representing the rotation.</p></li>
+<li><p><strong>duration</strong> – Float, if <cite>speed_based</cite> is True, it represents movement duration; otherwise, it represents movement speed.</p></li>
+<li><p><strong>speed_based</strong> – Bool.</p></li>
+<li><p><strong>relative</strong> – Bool, if True, <cite>rotation</cite> is relative; otherwise, <cite>rotation</cite> is absolute.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.DoRotateQuaternion">
+<span class="sig-name descname"><span class="pre">DoRotateQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.DoRotateQuaternion" title="Permalink to this definition"></a></dt>
+<dd><p>Tween rotation using quaternion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quaternion</strong> – A list of length 4, representing the quaternion.</p></li>
+<li><p><strong>duration</strong> – Float, if <cite>speed_based</cite> is True, it represents movement duration; otherwise, it represents movement speed.</p></li>
+<li><p><strong>speed_based</strong> – Bool.</p></li>
+<li><p><strong>relative</strong> – Bool, if True, <cite>quaternion</cite> is relative; otherwise, <cite>quaternion</cite> is absolute.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.DoComplete">
+<span class="sig-name descname"><span class="pre">DoComplete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.DoComplete" title="Permalink to this definition"></a></dt>
+<dd><p>Tween movement / rotation complete directly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.DoKill">
+<span class="sig-name descname"><span class="pre">DoKill</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.DoKill" title="Permalink to this definition"></a></dt>
+<dd><p>Tween movement / rotation stop.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.base_attr.BaseAttr.WaitDo">
+<span class="sig-name descname"><span class="pre">WaitDo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.base_attr.BaseAttr.WaitDo" title="Permalink to this definition"></a></dt>
+<dd><p>Wait for the native IK target movement / rotation complete.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -569,7 +561,7 @@ object loading, deleting and transforming.</p>
 <span id="pyrfuniverse-attributes-camera-attr-module"></span><h2>pyrfuniverse.attributes.camera_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.camera_attr" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.camera_attr.CameraAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.camera_attr.</span></span><span class="sig-name descname"><span class="pre">CameraAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.camera_attr.</span></span><span class="sig-name descname"><span class="pre">CameraAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.camera_attr.CameraAttr" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>Camera attribute class, which can capture many kinds of screenshot
 of the scene in RFUniverse.</p>
@@ -768,7 +760,7 @@ of the scene in RFUniverse.</p>
 <span id="pyrfuniverse-attributes-cloth-attr-module"></span><h2>pyrfuniverse.attributes.cloth_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.cloth_attr" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.cloth_attr.ClothAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.cloth_attr.</span></span><span class="sig-name descname"><span class="pre">ClothAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.cloth_attr.</span></span><span class="sig-name descname"><span class="pre">ClothAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>Obi cloth class.</p>
 <dl class="py method">
@@ -785,6 +777,37 @@ of the scene in RFUniverse.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.cloth_attr.ClothAttr.GetParticles">
+<span class="sig-name descname"><span class="pre">GetParticles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.GetParticles" title="Permalink to this definition"></a></dt>
+<dd><p>get the cloth particles.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.cloth_attr.ClothAttr.AddAttach">
+<span class="sig-name descname"><span class="pre">AddAttach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.03</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.AddAttach" title="Permalink to this definition"></a></dt>
+<dd><p>Add Attach clothing to attr object with given ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – Int, Tatget attr object id.</p></li>
+<li><p><strong>max_dis</strong> – Float, max distance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.cloth_attr.ClothAttr.RemoveAttach">
+<span class="sig-name descname"><span class="pre">RemoveAttach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.cloth_attr.ClothAttr.RemoveAttach" title="Permalink to this definition"></a></dt>
+<dd><p>Remove Attach clothing to attr object with given ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> – Int, Tatget attr object id.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -792,7 +815,7 @@ of the scene in RFUniverse.</p>
 <span id="pyrfuniverse-attributes-collider-attr-module"></span><h2>pyrfuniverse.attributes.collider_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.collider_attr" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.collider_attr.ColliderAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.collider_attr.</span></span><span class="sig-name descname"><span class="pre">ColliderAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.collider_attr.</span></span><span class="sig-name descname"><span class="pre">ColliderAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr" title="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">GameObjectAttr</span></code></a></p>
 <p>Collider class for objects who have collider in Unity.</p>
 <dl class="py method">
@@ -870,6 +893,12 @@ These values define how bounciness will be calculated when multiple colliders ar
 <dd><p>Generate convex colliders using VHACD algorithm.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.collider_attr.ColliderAttr.AddObiCollider">
+<span class="sig-name descname"><span class="pre">AddObiCollider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr.AddObiCollider" title="Permalink to this definition"></a></dt>
+<dd><p>Add ObiCollider for this Collider.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -877,7 +906,7 @@ These values define how bounciness will be calculated when multiple colliders ar
 <span id="pyrfuniverse-attributes-controller-attr-module"></span><h2>pyrfuniverse.attributes.controller_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.controller_attr" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.controller_attr.</span></span><span class="sig-name descname"><span class="pre">ControllerAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.controller_attr.</span></span><span class="sig-name descname"><span class="pre">ControllerAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr" title="pyrfuniverse.attributes.collider_attr.ColliderAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColliderAttr</span></code></a></p>
 <p>Robot controller class, which will control robot arms, hands and embodied robots.</p>
 <dl class="py method">
@@ -1269,45 +1298,6 @@ These values define how bounciness will be calculated when multiple colliders ar
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.controller_attr.ControllerAttr.WaitDo">
-<span class="sig-name descname"><span class="pre">WaitDo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.controller_attr.ControllerAttr.WaitDo" title="Permalink to this definition"></a></dt>
-<dd><p>Wait for the native IK target movement / rotation complete.</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-pyrfuniverse.attributes.digit_attr">
-<span id="pyrfuniverse-attributes-digit-attr-module"></span><h2>pyrfuniverse.attributes.digit_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.digit_attr" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.digit_attr.DigitAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.digit_attr.</span></span><span class="sig-name descname"><span class="pre">DigitAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.digit_attr.DigitAttr" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
-<p>Class for simulating DIGIT tactile sensor.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.digit_attr.DigitAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.parse_message" title="Permalink to this definition"></a></dt>
-<dd><p>Parse messages. This function is called by internal function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>A dict containing useful information of this class.</p>
-<p>self.data[‘light’]: Bytes of RGB light image in DIGIT.</p>
-<p>self.data[‘depth’]: Bytes of depth image in DIGIT.</p>
-</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.digit_attr.DigitAttr.GetData">
-<span class="sig-name descname"><span class="pre">GetData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.digit_attr.DigitAttr.GetData" title="Permalink to this definition"></a></dt>
-<dd><p>Get data from DIGIT in RFUniverse.</p>
-</dd></dl>
-
 </dd></dl>
 
 </section>
@@ -1315,7 +1305,7 @@ These values define how bounciness will be calculated when multiple colliders ar
 <span id="pyrfuniverse-attributes-gameobject-attr-module"></span><h2>pyrfuniverse.attributes.gameobject_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.gameobject_attr" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.gameobject_attr.GameObjectAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.gameobject_attr.</span></span><span class="sig-name descname"><span class="pre">GameObjectAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.gameobject_attr.</span></span><span class="sig-name descname"><span class="pre">GameObjectAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.gameobject_attr.GameObjectAttr" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>Basic game object attribute class.</p>
 <dl class="py method">
@@ -1376,216 +1366,6 @@ These values define how bounciness will be calculated when multiple colliders ar
 </dd></dl>
 
 </section>
-<section id="module-pyrfuniverse.attributes.graspsim_attr">
-<span id="pyrfuniverse-attributes-graspsim-attr-module"></span><h2>pyrfuniverse.attributes.graspsim_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.graspsim_attr" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.graspsim_attr.</span></span><span class="sig-name descname"><span class="pre">GraspSimAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
-<p>Grasp pose simulation class.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.parse_message" title="Permalink to this definition"></a></dt>
-<dd><p>Parse messages. This function is called by internal function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>A dict containing useful information of this class.</p>
-<p>self.data[‘done’]: Whether the simulation is done</p>
-<p>self.data[‘points’]: The list of grasp points.</p>
-<p>self.data[‘quaternions’]: The list of grasping pose quaternions.</p>
-<p>self.data[‘width’]: The list of gripper width of grasping pose.</p>
-<p>self.data[‘success’]: The list of success or failure of the grasing pose.</p>
-</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspSim">
-<span class="sig-name descname"><span class="pre">StartGraspSim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gripper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_range_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_range_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_lerp_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_lerp_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspSim" title="Permalink to this definition"></a></dt>
-<dd><p>Start simulating grasping.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mesh</strong> – Str, the absolute path to .obj file.</p></li>
-<li><p><strong>gripper</strong> – Str, the name of the gripper.</p></li>
-<li><p><strong>points</strong> – A list of float, representing the grasping points.</p></li>
-<li><p><strong>normals</strong> – A list of float, representing the normals.</p></li>
-<li><p><strong>depth_range_min</strong> – Float, the minimum depth of grasp pose.</p></li>
-<li><p><strong>depth_range_max</strong> – Float, the maximum depth of grasp pose.</p></li>
-<li><p><strong>depth_lerp_count</strong> – Int, the interpolation count of depth.</p></li>
-<li><p><strong>angle_lerp_count</strong> – Int, the interpolation count of angle.</p></li>
-<li><p><strong>parallel_count</strong> – Int, the count of parallel grasping.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.GenerateGraspPose">
-<span class="sig-name descname"><span class="pre">GenerateGraspPose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gripper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_range_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_range_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_lerp_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_lerp_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.GenerateGraspPose" title="Permalink to this definition"></a></dt>
-<dd><p>Generate grasp poses and visualize grasp results.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mesh</strong> – Str, the absolute path to .obj file.</p></li>
-<li><p><strong>gripper</strong> – Str, the name of the gripper.</p></li>
-<li><p><strong>points</strong> – A list of float, representing the grasping points.</p></li>
-<li><p><strong>normals</strong> – A list of float, representing the normals.</p></li>
-<li><p><strong>depth_range_min</strong> – Float, the minimum depth of grasp pose.</p></li>
-<li><p><strong>depth_range_max</strong> – Float, the maximum depth of grasp pose.</p></li>
-<li><p><strong>depth_lerp_count</strong> – Int, the interpolation count of depth.</p></li>
-<li><p><strong>angle_lerp_count</strong> – Int, the interpolation count of angle.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspTest">
-<span class="sig-name descname"><span class="pre">StartGraspTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gripper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.StartGraspTest" title="Permalink to this definition"></a></dt>
-<dd><p>Start testing the grasp based on current grasp poses.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mesh</strong> – Str, the absolute path to .obj file.</p></li>
-<li><p><strong>gripper</strong> – Str, the name of the gripper.</p></li>
-<li><p><strong>points</strong> – A list of float, representing the grasping points.</p></li>
-<li><p><strong>quaternions</strong> – A list of float, representing the quaternions.</p></li>
-<li><p><strong>parallel_count</strong> – Int, the interpolation count of angle.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.ShowGraspPose">
-<span class="sig-name descname"><span class="pre">ShowGraspPose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gripper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.graspsim_attr.GraspSimAttr.ShowGraspPose" title="Permalink to this definition"></a></dt>
-<dd><p>Display grasp poses.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>mesh</strong> – Str, the absolute path to .obj file.</p></li>
-<li><p><strong>gripper</strong> – Str, the name of the gripper.</p></li>
-<li><p><strong>points</strong> – A list of float, representing the grasping points.</p></li>
-<li><p><strong>quaternions</strong> – A list of float, representing the quaternions.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-pyrfuniverse.attributes.humanbody_attr">
-<span id="pyrfuniverse-attributes-humanbody-attr-module"></span><h2>pyrfuniverse.attributes.humanbody_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.humanbody_attr" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.humanbody_attr.</span></span><span class="sig-name descname"><span class="pre">HumanbodyAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
-<p>Human body Inverse Kinematic class.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.parse_message" title="Permalink to this definition"></a></dt>
-<dd><p>Parse messages. This function is called by internal function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>A dict containing useful information of this class.</p>
-<p>self.data[‘move_done’]: Whether the movement has finished.</p>
-<p>self.data[‘rotate_done’]: Whether the rotation has finished.</p>
-</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoMove">
-<span class="sig-name descname"><span class="pre">HumanIKTargetDoMove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoMove" title="Permalink to this definition"></a></dt>
-<dd><p>Human body Inverse Kinematics target movement.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>index</strong> – Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.</p></li>
-<li><p><strong>position</strong> – A list of length 3, representing the position.</p></li>
-<li><p><strong>duration</strong> – Float, if <cite>speed_based</cite> is True, it represents movement duration; otherwise, it represents movement speed.</p></li>
-<li><p><strong>speed_based</strong> – Bool.</p></li>
-<li><p><strong>relative</strong> – Bool, if True, <cite>position</cite> is relative; otherwise, <cite>position</cite> is absolute.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotate">
-<span class="sig-name descname"><span class="pre">HumanIKTargetDoRotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotate" title="Permalink to this definition"></a></dt>
-<dd><p>Human body Inverse Kinematics target rotation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>index</strong> – Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.</p></li>
-<li><p><strong>rotation</strong> – A list of length 3, representing the rotation.</p></li>
-<li><p><strong>duration</strong> – Float, if <cite>speed_based</cite> is True, it represents movement duration; otherwise, it represents movement speed.</p></li>
-<li><p><strong>speed_based</strong> – Bool.</p></li>
-<li><p><strong>relative</strong> – Bool, if True, <cite>rotation</cite> is relative; otherwise, <cite>rotation</cite> is absolute.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotateQuaternion">
-<span class="sig-name descname"><span class="pre">HumanIKTargetDoRotateQuaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_based</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoRotateQuaternion" title="Permalink to this definition"></a></dt>
-<dd><p>Human body Inverse Kinematics target rotation using quaternion.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>index</strong> – Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.</p></li>
-<li><p><strong>quaternion</strong> – A list of length 4, representing the quaternion.</p></li>
-<li><p><strong>duration</strong> – Float, if <cite>speed_based</cite> is True, it represents movement duration; otherwise, it represents movement speed.</p></li>
-<li><p><strong>speed_based</strong> – Bool.</p></li>
-<li><p><strong>relative</strong> – Bool, if True, <cite>quaternion</cite> is relative; otherwise, <cite>quaternion</cite> is absolute.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoComplete">
-<span class="sig-name descname"><span class="pre">HumanIKTargetDoComplete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoComplete" title="Permalink to this definition"></a></dt>
-<dd><p>Make the human body IK target movement / rotation complete directly.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>index</strong> – Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoKill">
-<span class="sig-name descname"><span class="pre">HumanIKTargetDoKill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.HumanIKTargetDoKill" title="Permalink to this definition"></a></dt>
-<dd><p>Make the human body IK target movement / rotation stop.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>index</strong> – Int, the target for movement. 0 for left hand, 1 for right hand,2 for left foot, 3 for right foot, 4 for head.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.WaitDo">
-<span class="sig-name descname"><span class="pre">WaitDo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.humanbody_attr.HumanbodyAttr.WaitDo" title="Permalink to this definition"></a></dt>
-<dd><p>Wait for the human body IK target movement / rotation complete.</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 <section id="module-pyrfuniverse.attributes.light_attr">
 <span id="pyrfuniverse-attributes-light-attr-module"></span><h2>pyrfuniverse.attributes.light_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.light_attr" title="Permalink to this heading"></a></h2>
 <dl class="py class">
@@ -1604,7 +1384,7 @@ These values define how bounciness will be calculated when multiple colliders ar
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.light_attr.LightAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.light_attr.</span></span><span class="sig-name descname"><span class="pre">LightAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.light_attr.</span></span><span class="sig-name descname"><span class="pre">LightAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.light_attr.LightAttr" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>Light attribute class.</p>
 <dl class="py method">
@@ -1694,7 +1474,7 @@ These values define how bounciness will be calculated when multiple colliders ar
 <span id="pyrfuniverse-attributes-pointcloud-attr-module"></span><h2>pyrfuniverse.attributes.pointcloud_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.pointcloud_attr" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.pointcloud_attr.</span></span><span class="sig-name descname"><span class="pre">PointCloudAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.pointcloud_attr.</span></span><span class="sig-name descname"><span class="pre">PointCloudAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.pointcloud_attr.PointCloudAttr" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
 <p>Point cloud rendering class.</p>
 <dl class="py method">
@@ -1746,7 +1526,7 @@ and <cite>colors</cite> will be ignored.</p></li>
 <span id="pyrfuniverse-attributes-rigidbody-attr-module"></span><h2>pyrfuniverse.attributes.rigidbody_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.rigidbody_attr" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.rigidbody_attr.</span></span><span class="sig-name descname"><span class="pre">RigidbodyAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.rigidbody_attr.</span></span><span class="sig-name descname"><span class="pre">RigidbodyAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.collider_attr.ColliderAttr" title="pyrfuniverse.attributes.collider_attr.ColliderAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColliderAttr</span></code></a></p>
 <p>Rigid body class.</p>
 <dl class="py method">
@@ -1778,6 +1558,50 @@ and <cite>colors</cite> will be ignored.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetDrag">
+<span class="sig-name descname"><span class="pre">SetDrag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">drag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetDrag" title="Permalink to this definition"></a></dt>
+<dd><p>Set the drag of this rigid body object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>drag</strong> – Float, representing the drag of this rigid body.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetAngularDrag">
+<span class="sig-name descname"><span class="pre">SetAngularDrag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angular_drag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetAngularDrag" title="Permalink to this definition"></a></dt>
+<dd><p>Set the angular drag of this rigid body object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>angular_drag</strong> – Float, representing the angular drag of this rigid body.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetUseGravity">
+<span class="sig-name descname"><span class="pre">SetUseGravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_gravity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetUseGravity" title="Permalink to this definition"></a></dt>
+<dd><p>Set the rigid body use gravity or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>use_gravity</strong> – Bool, use gravity or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.EnabledMouseDrag">
+<span class="sig-name descname"><span class="pre">EnabledMouseDrag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.EnabledMouseDrag" title="Permalink to this definition"></a></dt>
+<dd><p>Enable or Disable the rigid body Mouse Drag.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>enabled</strong> – Bool, Enabled Mouse Drag or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.AddForce">
 <span class="sig-name descname"><span class="pre">AddForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.AddForce" title="Permalink to this definition"></a></dt>
 <dd><p>Add force to this rigid body object.</p>
@@ -1800,36 +1624,23 @@ and <cite>colors</cite> will be ignored.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetAngularVelocity">
+<span class="sig-name descname"><span class="pre">SetAngularVelocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angular_velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetAngularVelocity" title="Permalink to this definition"></a></dt>
+<dd><p>Set the angular velocity of this rigid body object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>angular_velocity</strong> – A list of length 3, representing the angular velocity of this rigid body.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetKinematic">
 <span class="sig-name descname"><span class="pre">SetKinematic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_kinematic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.rigidbody_attr.RigidbodyAttr.SetKinematic" title="Permalink to this definition"></a></dt>
 <dd><p>Set the Rigidbody is kinematic or not.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>is_kinematic</strong> – is kinematic or not.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-pyrfuniverse.attributes.softbody_attr">
-<span id="pyrfuniverse-attributes-softbody-attr-module"></span><h2>pyrfuniverse.attributes.softbody_attr module<a class="headerlink" href="#module-pyrfuniverse.attributes.softbody_attr" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.softbody_attr.SoftbodyAttr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyrfuniverse.attributes.softbody_attr.</span></span><span class="sig-name descname"><span class="pre">SoftbodyAttr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pyrfuniverse.attributes.base_attr.BaseAttr" title="pyrfuniverse.attributes.base_attr.BaseAttr"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAttr</span></code></a></p>
-<p>Obi Softbody class</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pyrfuniverse.attributes.softbody_attr.SoftbodyAttr.parse_message">
-<span class="sig-name descname"><span class="pre">parse_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyrfuniverse.attributes.softbody_attr.SoftbodyAttr.parse_message" title="Permalink to this definition"></a></dt>
-<dd><p>Parse messages. This function is called by internal function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dict containing useful information of this class.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dict</p>
 </dd>
 </dl>
 </dd></dl>
