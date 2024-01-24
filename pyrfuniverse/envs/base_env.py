@@ -32,7 +32,8 @@ class RFUniverseBaseEnv(ABC):
             port: int = 5004,
             proc_id=0,
             log_level=1,
-            ext_attr: list[type(attr.BaseAttr)]=[]
+            ext_attr: list[type(attr.BaseAttr)] = [],
+            check_version: bool = True
     ):
         # time step
         self.t = 0
@@ -46,6 +47,7 @@ class RFUniverseBaseEnv(ABC):
         self.listen_messages = {}
         self.listen_object = {}
         self.port = port
+        self.check_version = check_version
         for i in ext_attr:
             if i.__name__ in attr.attrs:
                 raise ValueError(f"ext_attr {i.__name__} already exists")
@@ -276,6 +278,12 @@ class RFUniverseBaseEnv(ABC):
         while "scene_init" not in self.data:
             self._step()
         self.data.pop("scene_init")
+        if self.check_version and "rfu_version" in self.data:
+            rfu_version = self.data["rfu_version"].split(".")
+            pyrfu_version = pyrfuniverse.__version__.split(".")
+            if rfu_version[0] != pyrfu_version[0] or rfu_version[1] != pyrfu_version[1] or rfu_version[2] != pyrfu_version[2]:
+                rfu_version = self.data["rfu_version"]
+                raise Exception(f"pyrfuniverse version: {pyrfuniverse.__version__}\nRFUniverse version: {rfu_version}\nPlease use the version with the same first three digits. or Turn off version check when init env (pass in parameter check_version=False)")
         self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
 
     def WaitLoadDone(self) -> None:
@@ -673,6 +681,12 @@ class RFUniverseBaseEnv(ABC):
             rotation = [float(i) for i in rotation]
 
         self._send_env_data("SetViewTransform", position, rotation)
+
+    def GetViewTransform(self) -> None:
+        """
+        Get the GUI view transform.After calling this method and stepping once, the result will be saved in env.data['view_position'] / env.data['view_rotation'] / env.data['view_quaternion']
+        """
+        self._send_env_data("GetViewTransform")
 
     def ViewLookAt(self, target: list, world_up: list = None) -> None:
         """

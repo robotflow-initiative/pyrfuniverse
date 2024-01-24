@@ -55,15 +55,12 @@ class ControllerAttr(attr.ColliderAttr):
 
         Args:
             joint_positions: A list of float, representing the target joint positions.
-            speed_scales: A list of float, representing the speed scale.
+            speed_scales: (Deprecated) A list of float, representing the speed scale.
         """
         if speed_scales is not None:
-            assert len(joint_positions) == len(
-                speed_scales
-            ), "The length of joint_positions and speed_scales are not equal."
-            speed_scales = [float(i) for i in speed_scales]
+            raise Exception("The speed_scales parameter in SetJointPosition is deprecated, please remove it from the parameters")
         joint_positions = [float(i) for i in joint_positions]
-        self._send_data("SetJointPosition", joint_positions, speed_scales)
+        self._send_data("SetJointPosition", joint_positions)
 
     def SetJointPositionDirectly(self, joint_positions: list):
         """

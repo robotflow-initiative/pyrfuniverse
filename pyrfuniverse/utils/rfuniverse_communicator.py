@@ -32,7 +32,7 @@ class RFUniverseCommunicator(threading.Thread):
         self.port = port
         if proc_type == "editor":
             # self.server.bind(("localhost", self.port))
-            print("editor")
+            pass
         elif proc_type == "release":
             self._get_port()
         else:

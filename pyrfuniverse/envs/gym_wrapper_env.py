@@ -17,7 +17,8 @@ class RFUniverseGymWrapper(RFUniverseBaseEnv, gym.Env):
         port: int = 5004,
         proc_id=0,
         log_level=1,
-        ext_attr: list[type(attr.BaseAttr)] = []
+        ext_attr: list[type(attr.BaseAttr)] = [],
+        check_version: bool = True
     ):
         RFUniverseBaseEnv.__init__(
             self,
@@ -28,7 +29,8 @@ class RFUniverseGymWrapper(RFUniverseBaseEnv, gym.Env):
             port=port,
             proc_id=proc_id,
             log_level=log_level,
-            ext_attr=ext_attr
+            ext_attr=ext_attr,
+            check_version=check_version
         )
 
     def close(self):
