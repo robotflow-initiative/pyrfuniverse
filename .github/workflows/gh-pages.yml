@@ -1,17 +1,11 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+name: Deploy GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
-    paths:
-      - 'docs/**'
-  
-  pull_request:
-    branches: ["main"]
-    paths:
-      - 'docs/**'
+    tags:
+      - 'v*'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,17 +28,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Sphinx Build
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy opencv-contrib-python sphinx sphinx-rtd-theme myst-parser
+          sphinx-build Doc Doc/_build/html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
           name: github-pages
-          path: docs/
+          path: Doc/_build/html/
           retention-days: 1
       - name: Create tar.gz archive
         run: |
-          cp -a docs _site_standalone
-          tar -czvf site.tar.gz -C _site_standalone .
+          tar -czvf site.tar.gz -C Doc/_build/html .
       - name: Upload file to bucket
         uses: koraykoska/s3-upload-github-action@master
         env:

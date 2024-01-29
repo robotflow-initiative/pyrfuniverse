@@ -16,12 +16,6 @@ class CameraAttr(attr.BaseAttr):
         Returns:
             Dict: A dict containing useful information of this class.
 
-            self.data['width']: The width of image.
-
-            self.data['height']: The height of image.
-
-            self.data['fov']: The field of view of camera.
-
             self.data['rgb']: The bytes of rgb image.
 
             self.data['normal']: The bytes of normal image.

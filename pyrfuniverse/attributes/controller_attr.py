@@ -15,6 +15,10 @@ class ControllerAttr(attr.ColliderAttr):
 
             self.data['number_of_joints']: The number of joints in an articulation.
 
+            self.data['names']: The name of each part in an articulation.
+
+            self.data['types']: The joint type of each part in an articulation.
+
             self.data['positions']: The position of each part in an articulation.
 
             self.data['rotations']: The rotation of each part in an articulation.
@@ -29,13 +33,25 @@ class ControllerAttr(attr.ColliderAttr):
 
             self.data['velocities']: The velocity of each part in an articulation.
 
+            self.data['velocities']: The angular velocity of each part in an articulation.
+
             self.data['number_of_moveable_joints']: The number of moveable joints in an articulation.
 
             self.data['joint_positions']: The joint position of each moveable joint in an articulation.
 
             self.data['joint_velocities']: The joint velocity of each moveable joint in an articulation.
 
-            self.data['all_stable']: Whether all joints have finished moving.
+            self.data['joint_accelerations']: The joint accelerations of each moveable joint in an articulation.
+
+            self.data['joint_force']: The joint force of each moveable joint in an articulation.
+
+            self.data['joint_lower_limit']: The joint lower_limit of each moveable joint in an articulation.
+
+            self.data['joint_upper_limit']: The joint upper_limit of each moveable joint in an articulation.
+
+            self.data['joint_stiffness']: The joint stiffness of each moveable joint in an articulation.
+
+            self.data['joint_damping']: The joint damping of each moveable joint in an articulation.
 
             self.data['move_done']: Whether robot arm IK has finished moving.
 
