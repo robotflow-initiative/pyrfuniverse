@@ -63,8 +63,8 @@ class ColliderAttr(attr.GameObjectAttr):
             float(bounciness),
             float(dynamicFriction),
             float(staticFriction),
-            float(frictionCombine),
-            float(bounceCombine),
+            int(frictionCombine),
+            int(bounceCombine),
         )
 
     def SetRFMoveColliderActive(self, active: bool):

@@ -37,9 +37,6 @@ class RFUniverseBaseEnv(ABC):
     ):
         # time step
         self.t = 0
-        self.executable_file = executable_file
-        self.scene_file = scene_file
-        self.pre_load_assets = assets
         self.graphics = graphics
         self.process = None
         self.attrs = {}
@@ -57,18 +54,18 @@ class RFUniverseBaseEnv(ABC):
 
         self.log_map = {"Log": 3, "Warning": 2, "Error": 1, "Exception": 1, "Assert": 1}
 
-        if self.executable_file is None:
-            self.executable_file = pyrfuniverse.executable_file
+        if executable_file is None:
+            executable_file = pyrfuniverse.executable_file
 
-        if self.executable_file == "" or self.executable_file == "@editor":  # editor
+        if executable_file == "" or executable_file == "@editor":  # editor
             assert proc_id == 0, "proc_id must be 0 when using editor"
             print("Waiting for UnityEditor play...")
             PROC_TYPE = "editor"
-        elif os.path.exists(self.executable_file):  # release
+        elif os.path.exists(executable_file):  # release
             PROC_TYPE = "release"
             self.port = self.port + 1 + proc_id  # default release port
         else:  # error
-            raise ValueError(f"Executable file {self.executable_file} not exists")
+            raise ValueError(f"Executable file {executable_file} not exists")
 
         self.communicator = RFUniverseCommunicator(
             port=self.port,
@@ -77,13 +74,13 @@ class RFUniverseBaseEnv(ABC):
         )
         self.port = self.communicator.port  # update port
         if PROC_TYPE == "release":
-            self.process = self._start_unity_env(self.executable_file, self.port)
+            self.process = self._start_unity_env(executable_file, self.port)
         self.communicator.online()
         self.WaitSceneInit()
-        if len(self.pre_load_assets) > 0:
+        if len(assets) > 0:
             self.PreLoadAssetsAsync(assets, True)
-        if self.scene_file is not None:
-            self.LoadSceneAsync(self.scene_file, True)
+        if scene_file is not None:
+            self.LoadSceneAsync(scene_file, True)
 
     def _get_port(self) -> int:
         executable_port = self.port + 1
