@@ -1,12 +1,16 @@
 # Version of the library that will be used to upload to pypi
-__version__ = "0.12.3"
+__version__ = "0.12.3.2"
 
 import os.path
 import json
 import threading
-import requests
 from pyrfuniverse.utils.locker import Locker
 from pyrfuniverse.utils.version import Version
+
+try:
+    import requests
+except:
+    pass
 
 
 def check_for_updates():
@@ -47,7 +51,9 @@ with Locker("config"):
 assets_path = config["assets_path"]
 executable_file = config["executable_file"]
 
-
-update_thread = threading.Thread(target=check_for_updates)
-update_thread.daemon = True
-update_thread.start()
+try:
+    update_thread = threading.Thread(target=check_for_updates)
+    update_thread.daemon = True
+    update_thread.start()
+except:
+    pass

@@ -17,6 +17,7 @@ setup(
     install_requires=[
         "numpy>=1.14.1",
         "opencv-contrib-python",
+        "requests"
     ],
     python_requires=">=3.6.1",
 )

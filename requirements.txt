@@ -1,5 +1,6 @@
 numpy>=1.14.1
 opencv-contrib-python
+requests
 
 # gym==0.21.0
 # cloudpickle
