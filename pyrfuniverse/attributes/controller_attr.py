@@ -386,10 +386,31 @@ class ControllerAttr(attr.ColliderAttr):
         """
         self._send_data("IKTargetDoKill")
 
+    def GetIKTargetJointPosition(self, position: list = None, rotation: list = None, quaternion: list = None, iterate: int = 100):
+        """
+        Input ik target pose and get the IK calculation results, After calling this method and stepping once, the result will be saved in self.data['result_joint_position']
+
+        Args:
+            position: A list of length 3, representing the position of ik target.
+            rotation: A list of length 3, representing the euler angle of ik target.
+            quaternion: A list of length 4, representing the quaternion of ik target, If this parameter is specified, `rotation` will be ignored.
+            iterate: int, IK calculates the number of iterations.
+        """
+        if position is not None:
+            assert len(position) == 3, "position length must be 3"
+            position = [float(i) for i in position]
+        if rotation is not None:
+            assert len(rotation) == 3, "rotation length must be 3"
+            rotation = [float(i) for i in rotation]
+        if quaternion is not None:
+            assert len(quaternion) == 4, "quaternion length must be 4"
+            quaternion = [float(i) for i in quaternion]
+        self._send_data("GetIKTargetJointPosition", position, rotation, quaternion, int(iterate))
+
     def SetIKTargetOffset(
         self,
-        position: list = [0.0, 0.0, 0.0],
-        rotation: list = [0.0, 0.0, 0.0],
+        position: list = None,
+        rotation: list = None,
         quaternion: list = None,
     ):
         """

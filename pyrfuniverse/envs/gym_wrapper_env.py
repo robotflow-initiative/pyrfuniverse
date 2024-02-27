@@ -1,5 +1,6 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
+from typing import Any, SupportsFloat
 try:
     import gymnasium as gym
 except ImportError:
@@ -33,5 +34,32 @@ class RFUniverseGymWrapper(RFUniverseBaseEnv, gym.Env):
             check_version=check_version
         )
 
-    def close(self):
+    def env_step(self, count: int = 1):
+        """
+        Send the messages of called functions to Unity and simulate for a step, then accept the data from Unity.
+
+        Args:
+            count: the number of steps for executing Unity simulation.
+        """
+        RFUniverseBaseEnv.step(self, count)
+
+    def step(self, action: gym.core.ActType) -> tuple[gym.core.ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        """
+        Gym step.
+
+        Args:
+            action: gym action.
+        """
+        return gym.Env.step(self, action)
+
+    def env_close(self):
+        """
+        Close the environment
+        """
         RFUniverseBaseEnv.close(self)
+
+    def close(self):
+        """
+        Close gym
+        """
+        gym.Env.close(self)
