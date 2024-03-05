@@ -1,4 +1,3 @@
-from pyrfuniverse.envs.gym_goal_wrapper_env import RFUniverseGymGoalWrapper
 import numpy as np
 from gym import spaces
 from gym.utils import seeding

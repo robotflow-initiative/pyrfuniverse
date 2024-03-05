@@ -100,18 +100,20 @@ class RFUniverseCommunicator(threading.Thread):
                 self.on_receive_data(objs)
 
     def receive_bytes(self):
-        # data = self.client.recv(4)
-        # assert len(data) == 4
         data = bytearray()
         while len(data) < 4:
-            data.extend(self.client.recv(4 - len(data)))
+            temp_data = self.client.recv(4 - len(data))
+            assert len(temp_data) != 0
+            data.extend(temp_data)
         assert len(data) == 4
         length = int.from_bytes(data, byteorder="little", signed=False)
         if length == 0:
             return None
         buffer = bytearray()
         while len(buffer) < length:
-            buffer.extend(self.client.recv(length - len(buffer)))
+            temp_data = self.client.recv(length - len(buffer))
+            assert len(temp_data) != 0
+            buffer.extend(temp_data)
         assert len(buffer) == length
         return buffer, length
 

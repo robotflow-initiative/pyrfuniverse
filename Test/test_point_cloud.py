@@ -20,7 +20,7 @@ env.step()
 
 image_rgb = camera1.data["rgb"]
 image_depth_exr = camera1.data["depth_exr"]
-fov = camera1.data["fov"]
+fov = 60
 local_to_world_matrix = camera1.data["local_to_world_matrix"]
 point1 = dp.image_bytes_to_point_cloud(
     image_rgb, image_depth_exr, fov, local_to_world_matrix
@@ -34,7 +34,7 @@ env.step()
 
 image_rgb = camera2.data["rgb"]
 image_depth_exr = camera2.data["depth_exr"]
-fov = camera2.data["fov"]
+fov = 60
 local_to_world_matrix = camera2.data["local_to_world_matrix"]
 point2 = dp.image_bytes_to_point_cloud(
     image_rgb, image_depth_exr, fov, local_to_world_matrix

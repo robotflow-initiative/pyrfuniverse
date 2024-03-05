@@ -19,6 +19,4 @@ for i in range(100):
         position=[0, 1, 0],
         rotation=[random.random() * 360, random.random() * 360, random.random() * 360],
     )
-
-while 1:
-    env.step()
+env.Pend()
