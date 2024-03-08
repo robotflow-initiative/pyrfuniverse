@@ -1,4 +1,3 @@
-(understanding_pyrfuniverse_1)=
 # Understanding pyrfuniverse
 
 In `pyrfuniverse`, we provide a lot of useful API to help users build their own simulation environment and verify or train with any algorithms. To achieve this, we have to find a way to communicate between Unity and Python, since most algorithms are implemented in Python, not C# (which is Unity official support language). We build our own communication system based on [ML-Agents](https://github.com/Unity-Technologies/ml-agents) and we are working on implementing a more light-weight communication base from scratch.

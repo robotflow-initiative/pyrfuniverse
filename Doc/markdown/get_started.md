@@ -1,5 +1,3 @@
-(get_started_1)=
-
 # Get Started
 
 ## Installation

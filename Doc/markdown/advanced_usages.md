@@ -1,4 +1,3 @@
-(advanced_usage_guides)=
 # Advanced Usage Guides
 
 Developers can quickly add custom features under the RFUniverse framework according to this document.
@@ -51,21 +50,7 @@ git checkout v0.10.7
 
 ## RFUniverse Code Execution Structure
 
-```mermaid
-graph TD;
-    subgraph pyrfuniverse
-        Env-->Communicator-python
-    end
-    Communicator-python-->Communicator-C#
-    subgraph RFUniverse
-        Communicator-C#-->PlayerMain
-        PlayerMain-->InstanceManager
-        PlayerMain-->DebugManager
-        PlayerMain-->LayerManager
-        PlayerMain-->MessageManager
-        InstanceManager-->*Attr...
-    end
-```
+![logo.png](../image/graph1.png)
 
 #### PlayerMain
 
@@ -85,20 +70,7 @@ MessageManager: Features and interfaces related to dynamic messages.
 
 Attr is the basic unit of objects in RFUniverse, all objects are derived from BaseAttr, such as GameObjectAttr, RigidbodyAttr, ControllerAttr, CameraAttr, etc.
 
-```mermaid
-graph TD
-Base-->BaseCamera
-
-Base-->GameObject
-Base-->Light
-Base-->PointCloud
-GameObject-->Collider
-BaseCamera-->Camera
-BaseCamera-->HDRPCamera
-Collider-->Rigidbody
-Collider-->Controller
-Base-->...
-```
+![logo.png](../image/graph2.png)
 
 Where:
 
