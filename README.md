@@ -1,16 +1,12 @@
 # pyrfuniverse
 
-[![Pypi](https://img.shields.io/pypi/v/pyrfuniverse.svg)](https://pypi.org/project/pyrfuniverse/)
+[![Pypi](https://img.shields.io/pypi/v/pyrfuniverse.svg?style=for-the-badge)](https://pypi.org/project/pyrfuniverse/)
 
 `pyrfuniverse` is a python package used to interact with `RFUniverse` simulation environment. It is developed with reference to [ML-Agents](https://github.com/Unity-Technologies/ml-agents) and produce new features.
 
-[Documentation](https://docs.robotflow.ai/pyrfuniverse)
+Please go to the [RFUniverse](https://github.com/robotflow-initiative/rfuniverse) repository to view the documentation
 
-[Homepage](https://sites.google.com/view/rfuniverse)
-
-<!-- [Documentation-Chinese](https://knotty-watch-cad.notion.site/RFUniverse-3afda956497b4c33b5a45f68b49d9816) -->
-
-## Installation
+## Local Installation
 
 ### 1. Create a new conda virtual environment and activate it.
 
