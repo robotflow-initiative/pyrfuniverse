@@ -1,26 +1,22 @@
-import math
-import os
 import struct
 import socket
 import threading
 from sys import platform
-
 import numpy as np
-import time
 from pyrfuniverse.utils.locker import Locker
 
 
 class RFUniverseCommunicator(threading.Thread):
     def __init__(
-        self,
-        port: int = 5004,
-        is_async: bool = False,
-        receive_data_callback=None,
-        proc_type="editor",
+            self,
+            port: int = 5004,
+            receive_data_callback=None,
+            proc_type="editor",
     ):
+        self.server = None
+        self.client = None
+        self.connected = False
         threading.Thread.__init__(self)
-        self.is_async = is_async
-        # self.sync_send_bytes_queue = []
         self.read_offset = 0
         self.on_receive_data = receive_data_callback
         # self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -56,15 +52,12 @@ class RFUniverseCommunicator(threading.Thread):
         self.server.bind(("localhost", self.port))
         print(f"Waiting for connections on port: {self.port}...")
         self.server.listen(1)
-        self.client, self.addr = self.server.accept()
+        self.client, _ = self.server.accept()
         print(f"Connected successfully")
         self.connected = True
         self.client.settimeout(None)
         self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        if self.is_async:
-            self.start()
-        else:
-            self.receive_step()
+        self.receive_step()
 
     def close(self):
         self.client.close()
@@ -79,12 +72,7 @@ class RFUniverseCommunicator(threading.Thread):
                 self.on_receive_data(objs)
 
     def sync_step(self):
-        if self.is_async:
-            return
         self.send_object("StepStart")
-        # for item in self.sync_send_bytes_queue:
-        # self.send_bytes(item)
-        # self.sync_send_bytes_queue.clear()
         self.receive_step()
 
     def receive_step(self):
@@ -92,7 +80,7 @@ class RFUniverseCommunicator(threading.Thread):
         while True:
             if not self.connected:
                 raise ConnectionError("Connection closed")
-            data, length = self.receive_bytes()
+            data = self.receive_bytes()
             if data is not None and len(data) > 0:
                 objs = self.receive_object(data)
                 if len(objs) > 0 and objs[0] == "StepEnd":
@@ -115,7 +103,7 @@ class RFUniverseCommunicator(threading.Thread):
             assert len(temp_data) != 0
             buffer.extend(temp_data)
         assert len(buffer) == length
-        return buffer, length
+        return buffer
 
     def send_bytes(self, data: bytes):
         if not self.connected:
@@ -190,7 +178,6 @@ class RFUniverseCommunicator(threading.Thread):
         else:
             # print(f"dont support this type: {data_type}")
             raise ValueError(f"dont support this type: {data_type}")
-            return None
 
     def read_string(self, datas: bytes) -> str:
         count = self.read_int(datas)
@@ -202,15 +189,15 @@ class RFUniverseCommunicator(threading.Thread):
             )
         self.read_offset += count
         try:
-            ret = datas[self.read_offset - count : self.read_offset].decode("utf-8")
+            ret = datas[self.read_offset - count: self.read_offset].decode("utf-8")
         except:
-            print(datas[self.read_offset - count : self.read_offset])
+            print(datas[self.read_offset - count: self.read_offset])
             print(
                 f"read_start: {self.read_offset - count}, read_end: {self.read_offset}, count: {count}"
             )
             raise UnicodeDecodeError(
                 "utf-8",
-                datas[self.read_offset - count : self.read_offset],
+                datas[self.read_offset - count: self.read_offset],
                 self.read_offset - count,
                 self.read_offset,
             )
@@ -219,7 +206,7 @@ class RFUniverseCommunicator(threading.Thread):
     def read_int(self, datas: bytes) -> int:
         self.read_offset += 4
         ret = int.from_bytes(
-            datas[self.read_offset - 4 : self.read_offset],
+            datas[self.read_offset - 4: self.read_offset],
             byteorder="little",
             signed=True,
         )
@@ -227,31 +214,27 @@ class RFUniverseCommunicator(threading.Thread):
 
     def read_float(self, datas: bytes) -> float:
         self.read_offset += 4
-        return struct.unpack("f", datas[self.read_offset - 4 : self.read_offset])[0]
+        return struct.unpack("f", datas[self.read_offset - 4: self.read_offset])[0]
 
     def read_bool(self, datas: bytes) -> bool:
         self.read_offset += 1
         return bool(
             int.from_bytes(
-                datas[self.read_offset - 1 : self.read_offset], byteorder="little"
+                datas[self.read_offset - 1: self.read_offset], byteorder="little"
             )
         )
 
     def read_bytes(self, datas: bytes) -> bytes:
         count = self.read_int(datas)
         self.read_offset += count
-        return datas[self.read_offset - count : self.read_offset]
+        return datas[self.read_offset - count: self.read_offset]
 
     def send_object(self, *args):
         datas = bytearray()
         self.write_int(datas, len(args))
         for obj in args:
             self.write_object(datas, obj)
-
-        # if self.is_async:
         self.send_bytes(bytes(datas))
-        # else:
-        # self.sync_send_bytes_queue.append(bytes(datas))
 
     def write_object(self, datas: bytearray, obj):
         if obj is None:

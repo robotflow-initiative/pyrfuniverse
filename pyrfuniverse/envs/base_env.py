@@ -37,7 +37,7 @@ class RFUniverseBaseEnv(ABC):
             port: int = 5004,
             proc_id=0,
             log_level=1,
-            ext_attr: list[type(attr.BaseAttr)] = [],
+            ext_attr: list = [],
             check_version: bool = True
     ):
         # time step
@@ -194,25 +194,36 @@ class RFUniverseBaseEnv(ABC):
     def _send_object_data(self, *args) -> None:
         self.communicator.send_object("Object", *args)
 
-    def _step(self):
-        """
-        Send the messages of called functions to Unity and simulate for a step, then accept the data from Unity.
-        """
-        if not self.communicator.connected:
-            raise Exception("Unity Env not connected")
-        self.communicator.sync_step()
-
-    def step(self, count: int = 1):
+    def _step(self, count: int = 1, simulate: bool = True, collect: bool = True):
         """
         Send the messages of called functions to Unity and simulate for a step, then accept the data from Unity.
 
         Args:
-            count: the number of steps for executing Unity simulation.
+            count: The number of steps for executing Unity simulation.
+            simulate: Simulate Physics
+            collect: Collect Data
         """
+        if not self.communicator.connected:
+            raise Exception("Unity Env not connected")
         if count < 1:
             count = 1
-        for _ in range(count):
-            self._step()
+        for i in range(count):
+            if simulate:
+                self.Simulate()
+            if collect and i == count-1:
+                self.Collect()
+            self.communicator.sync_step()
+
+    def step(self, count: int = 1, simulate: bool = True, collect: bool = True):
+        """
+        Send the messages of called functions to Unity and simulate for a step, then accept the data from Unity.
+
+        Args:
+            count: The number of steps for executing Unity simulation.
+            simulate: Simulate Physics
+            collect: Collect Data
+        """
+        self._step(count, simulate, collect)
 
     def close(self):
         """
@@ -222,6 +233,12 @@ class RFUniverseBaseEnv(ABC):
             self.process.kill()
         if self.communicator is not None:
             self.communicator.close()
+
+    def Simulate(self, time_step: float = -1, count: int = 1):
+        self._send_env_data("Simulate", float(time_step), int(count))
+
+    def Collect(self):
+        self._send_env_data("Collect")
 
     def GetAttr(self, id: int):
         """
@@ -281,7 +298,7 @@ class RFUniverseBaseEnv(ABC):
         Wait for the Scene Init done.
         """
         while "scene_init" not in self.data:
-            self._step()
+            self._step(simulate=False)
         self.data.pop("scene_init")
         if self.check_version and "rfu_version" in self.data:
             rfu_version = self.data["rfu_version"].split(".")
@@ -296,7 +313,7 @@ class RFUniverseBaseEnv(ABC):
         Wait for the loading is done.
         """
         while "load_done" not in self.data:
-            self._step()
+            self._step(simulate=False)
         self.data.pop("load_done")
 
     def Pend(self) -> None:
@@ -469,7 +486,7 @@ class RFUniverseBaseEnv(ABC):
         Returns:
             type(`attr_type`): The object attribute instance.
         """
-        assert id not in self.attrs, "this ID exists"
+        assert id not in self.attrs, f"ID:{id} is exists"
 
         while id is None or id in self.attrs:
             id = random.randint(100000, 999999)
