@@ -35,20 +35,20 @@ class CameraAttr(attr.BaseAttr):
             self.data['3d_bounding_box']: The 3d bounding box of objects in world coordinate.
         """
         super().parse_message(data)
-        if "rgb" in self.data:
-            self.data["rgb"] = base64.b64decode(self.data["rgb"])
-        if "normal" in self.data:
-            self.data["normal"] = base64.b64decode(self.data["normal"])
-        if "id_map" in self.data:
-            self.data["id_map"] = base64.b64decode(self.data["id_map"])
-        if "depth" in self.data:
-            self.data["depth"] = base64.b64decode(self.data["depth"])
-        if "depth_exr" in self.data:
-            self.data["depth_exr"] = base64.b64decode(self.data["depth_exr"])
-        if "amodal_mask" in self.data:
-            self.data["amodal_mask"] = base64.b64decode(self.data["amodal_mask"])
-        if "heat_map" in self.data:
-            self.data["heat_map"] = base64.b64decode(self.data["heat_map"])
+        # if "rgb" in self.data:
+        #     self.data["rgb"] = base64.b64decode(self.data["rgb"])
+        # if "normal" in self.data:
+        #     self.data["normal"] = base64.b64decode(self.data["normal"])
+        # if "id_map" in self.data:
+        #     self.data["id_map"] = base64.b64decode(self.data["id_map"])
+        # if "depth" in self.data:
+        #     self.data["depth"] = base64.b64decode(self.data["depth"])
+        # if "depth_exr" in self.data:
+        #     self.data["depth_exr"] = base64.b64decode(self.data["depth_exr"])
+        # if "amodal_mask" in self.data:
+        #     self.data["amodal_mask"] = base64.b64decode(self.data["amodal_mask"])
+        # if "heat_map" in self.data:
+        #     self.data["heat_map"] = base64.b64decode(self.data["heat_map"])
 
     def AlignView(self):
         """
@@ -145,8 +145,8 @@ class CameraAttr(attr.BaseAttr):
 
     def GetDepth(
         self,
-        zero_dis: float,
-        one_dis: float,
+        zero_dis: float = 0.,
+        one_dis: float = 1.,
         width: int = None,
         height: int = None,
         fov: float = 60.0,
@@ -185,6 +185,8 @@ class CameraAttr(attr.BaseAttr):
 
     def GetDepth16Bit(
         self,
+        zero_dis: float = 0.,
+        one_dis: float = 1.,
         width: int = None,
         height: int = None,
         fov: float = 60.0,
@@ -211,6 +213,8 @@ class CameraAttr(attr.BaseAttr):
                 height = int(intrinsic_matrix[1, 2] * 2)
         self._send_data(
             "GetDepth16Bit",
+            float(zero_dis),
+            float(one_dis),
             intrinsic_matrix,
             int(width),
             int(height),
