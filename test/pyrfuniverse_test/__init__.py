@@ -1,0 +1,7 @@
+__version__ = "0.20.1"
+
+import os
+
+path = os.path.dirname(os.path.realpath(__file__))
+mesh_path = os.path.join(path, "mesh")
+urdf_path = os.path.join(path, "urdf")

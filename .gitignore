@@ -1,6 +1,6 @@
 .vscode/
 
-pyrfuniverse.egg-info/
+*.egg-info/
 
 .idea/
 

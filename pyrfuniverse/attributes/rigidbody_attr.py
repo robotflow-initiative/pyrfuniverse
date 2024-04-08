@@ -107,3 +107,13 @@ class RigidbodyAttr(attr.ColliderAttr):
             is_kinematic: is kinematic or not.
         """
         self._send_data("SetKinematic", is_kinematic)
+
+    def Link(self, target_id: int, joint_index: int = 0):
+        """
+        Link this rigidbody to another rigidbody or ArticulationBody
+
+        Args:
+            target_id: id of another rigidbody or ControllerAttr.
+            joint_index: id of ControllerAttr joint.
+        """
+        self._send_data("Link", int(target_id), int(joint_index))

@@ -1,5 +1,6 @@
-(ur5_water)=
 # UR5 Water Pushing RL Environment Tutorial
+
+_**This environment has been removed in RFUniverse Release 0.20 and the last available version is 0.13.0**_
 
 ![water/water_pushing.jpg](water/water_pushing.jpg)
 

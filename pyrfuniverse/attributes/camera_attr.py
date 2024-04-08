@@ -1,6 +1,5 @@
 import numpy as np
 import pyrfuniverse.attributes as attr
-import base64
 
 
 class CameraAttr(attr.BaseAttr):

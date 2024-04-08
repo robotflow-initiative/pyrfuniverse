@@ -1,6 +1,5 @@
 import math
 import os
-import os.path as osp
 import random
 
 import numpy as np
@@ -29,7 +28,7 @@ def image_bytes_to_point_cloud(
     image_rgb = cv2.imdecode(image_rgb, cv2.IMREAD_COLOR)
     image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
 
-    temp_file_path = osp.join(
+    temp_file_path = os.path.join(
         tempfile.gettempdir(), f"temp_img_{int(random.uniform(10000000, 99999999))}.exr"
     )
     with open(temp_file_path, "wb") as f:
@@ -132,7 +131,7 @@ def image_bytes_to_point_cloud_intrinsic_matrix(
     image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
     color = o3d.geometry.Image(image_rgb)
 
-    temp_file_path = osp.join(
+    temp_file_path = os.path.join(
         tempfile.gettempdir(), f"temp_img_{int(random.uniform(10000000,99999999))}.exr"
     )
     with open(temp_file_path, "wb") as f:

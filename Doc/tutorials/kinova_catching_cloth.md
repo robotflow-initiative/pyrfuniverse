@@ -1,5 +1,6 @@
-(kinova_cloth)=
 # Kinova Gen2 Catching Cloth RL Environment Tutorial
+
+_**This environment has been removed in RFUniverse Release 0.20 and the last available version is 0.13.0**_
 
 ![cloth/tissue_catching_sim.png](cloth/tissue_catching_sim.png)
 

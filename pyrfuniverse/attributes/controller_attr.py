@@ -33,7 +33,7 @@ class ControllerAttr(attr.ColliderAttr):
 
             self.data['velocities']: The velocity of each part in an articulation.
 
-            self.data['velocities']: The angular velocity of each part in an articulation.
+            self.data['angular_velocities']: The angular velocity of each part in an articulation.
 
             self.data['number_of_moveable_joints']: The number of moveable joints in an articulation.
 
@@ -432,3 +432,29 @@ class ControllerAttr(attr.ColliderAttr):
             quaternion = [float(i) for i in quaternion]
 
         self._send_data("SetIKTargetOffset", position, rotation, quaternion)
+
+    def GetJointLocalPointFromWorld(self, joint_index: int, point: list):
+        """
+        Transform a point from joint local coordinate to world coordinate. After calling this method and stepping once, the result will be saved in self.data['result_joint_local_point']
+
+        Args:
+            joint_index: index of joint
+            point: A list of length 3, representing the position of a point.
+        """
+        assert len(point) == 3, "point length must be 3"
+        point = [float(i) for i in point]
+
+        self._send_data("GetJointLocalPointFromWorld", int(joint_index), point)
+
+    def GetJointWorldPointFromLocal(self, joint_index: int, point: list):
+        """
+        Transform a point from world coordinate to joint local coordinate. After calling this method and stepping once, the result will be saved in self.data['result_joint_world_point']
+
+        Args:
+            joint_index: index of joint
+            point: A list of length 3, representing the position of a point.
+        """
+        assert len(point) == 3, "point length must be 3"
+        point = [float(i) for i in point]
+
+        self._send_data("GetJointWorldPointFromLocal", int(joint_index), point)

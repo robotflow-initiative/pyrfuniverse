@@ -1,5 +1,6 @@
-(flexiv_cutting)=
 # Flexiv Cutting RL Environment Tutorial
+
+_**This environment has been removed in RFUniverse Release 0.20 and the last available version is 0.13.0**_
 
 ![cutting/cutting.jpg](cutting/cutting.jpg)
 

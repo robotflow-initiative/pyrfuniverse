@@ -1,5 +1,6 @@
-(franka_robotics)=
 # Franka Robotics RL Environment Tutorial
+
+_**This environment has been removed in RFUniverse Release 0.20 and the last available version is 0.13.0**_
 
 ![franka/franka-pick-and-place.gif](franka/franka-pick-and-place.gif)
 
