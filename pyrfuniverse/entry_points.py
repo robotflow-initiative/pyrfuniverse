@@ -12,7 +12,7 @@ from pyrfuniverse.utils.version import Version
 def pyrfuniverse_entry_points():
     parser = argparse.ArgumentParser(description='RFUniverse entry points')
     subparsers = parser.add_subparsers(dest='command', help='download/etc')
-    parser_download = subparsers.add_parser('download', help='Download the corresponding version of the rfuniverse release')
+    parser_download = subparsers.add_parser('download', help='Download rfuniverse release')
     parser_download.add_argument('-s', '--savepath', type=str, help='RFUniverse release save path')
     parser_download.add_argument('-v', '--version', type=str, help='RFUniverse release Version')
     args = parser.parse_args()
@@ -22,7 +22,7 @@ def pyrfuniverse_entry_points():
 
 def download(args):
     if args.savepath is None:
-        save_path = os.path.expanduser(r"~\rfuniverse")
+        save_path = os.path.expanduser(r"~/rfuniverse")
     else:
         save_path = args.savepath
 
@@ -97,7 +97,9 @@ def download(args):
     folder_name = os.path.splitext(os.path.basename(download_url))[0]
     folder_path = os.path.join(save_path, folder_name)
     print(fr"Unzip Done: {folder_path}")
-    executable_file = os.path.join(folder_path, f"RFUniverse{suffix}")
+    executable_file = os.path.abspath(os.path.join(folder_path, f"RFUniverse{suffix}"))
     pyrfuniverse.config["executable_file"] = executable_file
     pyrfuniverse.save_config(pyrfuniverse.config)
+    if platform == "linux":
+        os.system(f"chmod +x {executable_file}")
     print(fr"Write config executable_file: {executable_file}")

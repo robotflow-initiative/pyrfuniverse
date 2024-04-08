@@ -1,5 +1,5 @@
 # Version of the library that will be used to upload to pypi
-__version__ = "0.20.1"
+__version__ = "0.20.1.1"
 
 import os.path
 import json
@@ -45,7 +45,8 @@ def save_config(config: dict):
             json.dump(config, file, indent=True)
 
 
-user_path = os.path.expanduser(r"~\.rfuniverse")
+user_path = os.path.expanduser("~/.rfuniverse")
+print(user_path)
 os.makedirs(user_path, exist_ok=True)
 config_path = os.path.join(user_path, "config.json")
 config = read_config()
