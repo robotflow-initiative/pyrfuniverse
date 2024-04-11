@@ -185,9 +185,9 @@ Advanced developers can freely modify RFU and submit Pull Requests for RFU.
 
 For code writing examples of the dynamic message interface, see:
 
-C#: [RFUniverse/Runtime/Scripts/Attributes/CustomAttr.cs](https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Runtime/Scripts/Attributes/CustomAttr.cs)
+C#: [CustomAttr.cs](https://github.com/mvig-robotflow/rfuniverse/blob/main/Assets/RFUniverse/Runtime/Scripts/Attributes/CustomAttr.cs)
 
-Python: [pyrfuniverse/Test/test_custom_message.py](https://github.com/mvig-robotflow/pyrfuniverse/blob/main/Test/test_custom_message.py)
+Python: [test_custom_message.py](https://github.com/robotflow-initiative/pyrfuniverse/tree/main/test/pyrfuniverse_test/test/test_custom_message.py)
 
 **Supported Data Types**
 
@@ -237,7 +237,7 @@ Refer to [CustomAttr.cs](https://github.com/mvig-robotflow/rfuniverse/blob/main/
   {
         //(Optional) If you need, Add base class data.
         base.AddPermanentData(data);
-        //Write data
+        //Write data
         data["your data"] = 123456;
   }
   ```
@@ -255,7 +255,7 @@ Refer to [CustomAttr.cs](https://github.com/mvig-robotflow/rfuniverse/blob/main/
   // New implementation function
   void Function(string s)
   {
-        #Do Something
+        #Do Something
         Debug.Log(s);
   }
   ```
