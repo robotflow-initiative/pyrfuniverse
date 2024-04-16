@@ -1,12 +1,15 @@
 import os
-from .. import mesh_path
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+from pyrfuniverse_test import mesh_path
+from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
+from pyrfuniverse_test.extend.graspsim_attr import GraspSimAttr
 try:
     import pandas as pd
 except ImportError:
     print("This feature requires pandas, please install with `pip install pandas`")
     raise
-from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-from ..extend.graspsim_attr import GraspSimAttr
+
 
 mesh_path = os.path.join(mesh_path, "drink1/drink1.obj")
 pose_path = os.path.join(mesh_path, "drink1/grasps_rfu.csv")

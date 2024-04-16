@@ -1,4 +1,9 @@
 import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+from pyrfuniverse_test.extend.graspsim_attr import GraspSimAttr
+from pyrfuniverse_test import mesh_path
+from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import numpy as np
 try:
     import pandas as pd
@@ -12,9 +17,8 @@ except ImportError:
     raise Exception(
         "This feature requires open3d, please install with `pip install open3d`"
     )
-from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-from ..extend.graspsim_attr import GraspSimAttr
-from .. import mesh_path
+
+
 
 
 def get_grasp_pose(file: str, points_count, scale: float = 1):

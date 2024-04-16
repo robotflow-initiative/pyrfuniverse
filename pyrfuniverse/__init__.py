@@ -46,7 +46,6 @@ def save_config(config: dict):
 
 
 user_path = os.path.expanduser("~/.rfuniverse")
-print(user_path)
 os.makedirs(user_path, exist_ok=True)
 config_path = os.path.join(user_path, "config.json")
 config = read_config()

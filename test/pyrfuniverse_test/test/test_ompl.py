@@ -1,6 +1,9 @@
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
-from ..extend.omplmanager_attr import OmplManagerAttr
+from pyrfuniverse_test.extend.omplmanager_attr import OmplManagerAttr
 
 try:
     import pyrfuniverse.attributes.omplmanager_attr as rfu_ompl

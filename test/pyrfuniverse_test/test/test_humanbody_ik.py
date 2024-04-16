@@ -1,5 +1,8 @@
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-from ..extend.humanbody_attr import HumanbodyAttr
+from pyrfuniverse_test.extend.humanbody_attr import HumanbodyAttr
 
 env = RFUniverseBaseEnv(scene_file="HumanBodyIK.json", ext_attr=[HumanbodyAttr])
 env.step()

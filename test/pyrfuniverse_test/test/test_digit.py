@@ -1,5 +1,8 @@
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-from ..extend.digit_attr import DigitAttr
+from pyrfuniverse_test.extend.digit_attr import DigitAttr
 
 env = RFUniverseBaseEnv(ext_attr=[DigitAttr])
 

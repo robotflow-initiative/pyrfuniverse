@@ -234,17 +234,17 @@ class RFUniverseBaseEnv(ABC):
         if self.communicator is not None:
             self.communicator.close()
 
-    def SetAutoSimulate(self, auto: bool):
-        """
-        Enable or Disable Auto Simulate
-        """
-        self._send_env_data("SetAutoSimulate", auto)
-
-    def SetAutoCollect(self, auto: bool):
-        """
-        Enable or Disable Auto Collect
-        """
-        self._send_env_data("SetAutoCollect", auto)
+    # def SetAutoSimulate(self, auto: bool):
+    #     """
+    #     Enable or Disable Auto Simulate
+    #     """
+    #     self._send_env_data("SetAutoSimulate", auto)
+    #
+    # def SetAutoCollect(self, auto: bool):
+    #     """
+    #     Enable or Disable Auto Collect
+    #     """
+    #     self._send_env_data("SetAutoCollect", auto)
 
     def Simulate(self, time_step: float = -1, count: int = 1):
         """

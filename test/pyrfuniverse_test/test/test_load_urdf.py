@@ -1,7 +1,9 @@
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.utils.rfuniverse_utility as utility
 import os
-from .. import urdf_path
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+from pyrfuniverse_test import urdf_path
 
 env = RFUniverseBaseEnv()
 

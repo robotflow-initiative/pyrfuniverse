@@ -1,9 +1,12 @@
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 import cv2
 import numpy as np
 
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
 import pyrfuniverse.attributes as attr
-from ..extend.gelslim_attr import GelSlimAttr
+from pyrfuniverse_test.extend.gelslim_attr import GelSlimAttr
 
 env = RFUniverseBaseEnv(ext_attr=[GelSlimAttr])
 

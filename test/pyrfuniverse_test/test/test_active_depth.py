@@ -1,5 +1,7 @@
 import os
 os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 import cv2
 import numpy as np
 
@@ -12,7 +14,8 @@ except ImportError:
 import pyrfuniverse.utils.rfuniverse_utility as utility
 import pyrfuniverse.utils.depth_processor as dp
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-from ..extend.activelightsensor_attr import ActiveLightSensorAttr
+
+from pyrfuniverse_test.extend.activelightsensor_attr import ActiveLightSensorAttr
 
 nd_main_intrinsic_matrix = np.array([[600, 0, 240],
                                      [0, 600, 240],
