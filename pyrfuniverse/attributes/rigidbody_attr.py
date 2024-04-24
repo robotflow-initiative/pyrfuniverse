@@ -15,7 +15,7 @@ class RigidbodyAttr(attr.ColliderAttr):
 
             self.data['velocity']: The velocity of the object.
 
-            self.data['angular_vel']: The angular velcity of the object.
+            self.data['angular_velocity']: The angular velcity of the object.
         """
         super().parse_message(data)
 

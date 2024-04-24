@@ -46,15 +46,15 @@ class ColliderAttr(attr.GameObjectAttr):
             frictionCombine (int): An integer representing how friction values should be combined when multiple colliders
                 interact. It can take on values such as:
                 - 0: Average
-                - 1: Minimum
-                - 2: Maximum
+                - 1: Maximum
+                - 2: Minimum
                 - 3: Multiply
                 These values define how friction will be calculated when multiple colliders are in contact.
             bounceCombine (int): An integer representing how bounce values should be combined when multiple colliders
                 interact. It can take on values such as:
                 - 0: Average
-                - 1: Minimum
-                - 2: Maximum
+                - 1: Maximum
+                - 2: Minimum
                 - 3: Multiply
                 These values define how bounciness will be calculated when multiple colliders are in contact.
         """

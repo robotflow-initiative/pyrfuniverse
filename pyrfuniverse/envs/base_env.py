@@ -182,6 +182,9 @@ class RFUniverseBaseEnv(ABC):
     def _send_env_data(self, *args) -> None:
         self.communicator.send_object("Env", *args)
 
+    def _send_physics_scene_data(self, *args) -> None:
+        self.communicator.send_object("PhysicsScene", *args)
+
     def _send_instance_data(self, *args) -> None:
         self.communicator.send_object("Instance", *args)
 
@@ -272,7 +275,7 @@ class RFUniverseBaseEnv(ABC):
         Returns:
             pyrfuniverse.attributes.BaseAttr: An instance of attribute.
         """
-        assert id in self.attrs, "this ID not exists"
+        assert id in self.attrs, f"this ID: {id} not exists"
         return self.attrs[id]
 
     # Env API
@@ -879,3 +882,33 @@ class RFUniverseBaseEnv(ABC):
             controller_id: int, controller_attr id.
         """
         self._send_debug_data("ShowArticulationParameter", int(controller_id))
+
+    def NewPhysicsScene(self, physics_scene_id: int) -> None:
+        """
+        Places all current scene objects into the new physics scene, and all objects are prefixed with the ID of the physical scene
+
+        Args:
+            physics_scene_id: int, physics scene id.
+        """
+        self._send_physics_scene_data("NewPhysicsScene", int(physics_scene_id))
+
+    def CopyPhysicsScene(self, new_id: int, copy_id: int) -> None:
+        """
+        Copy a physics scene
+
+        Args:
+            new_id: int, new physics scene id.
+            copy_id: int, copy physics scene id.
+        """
+        self._send_physics_scene_data("CopyPhysicsScene", int(new_id), int(copy_id))
+
+    def SimulatePhysicsScene(self, physics_scene_id: int, time_step: float = -1, count: int = 1) -> None:
+        """
+        Physics scene simulation
+
+        Args:
+            physics_scene_id: int, physics scene id.
+            time_step: delta time of simulation pre step
+            count：count of simulation
+        """
+        self._send_physics_scene_data("SimulatePhysicsScene", int(physics_scene_id), float(time_step), int(count))

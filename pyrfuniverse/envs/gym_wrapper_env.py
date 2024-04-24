@@ -48,12 +48,14 @@ class RFUniverseGymWrapper(RFUniverseBaseEnv, gym.Env):
             check_version=check_version
         )
 
-    def env_step(self, count: int = 1):
+    def env_step(self, count: int = 1, simulate: bool = True, collect: bool = True):
         """
         Send the messages of called functions to Unity and simulate for a step, then accept the data from Unity.
 
         Args:
-            count: the number of steps for executing Unity simulation.
+            count: The number of steps for executing Unity simulation.
+            simulate: Simulate Physics
+            collect: Collect Data
         """
         RFUniverseBaseEnv.step(self, count)
 
