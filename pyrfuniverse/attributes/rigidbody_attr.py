@@ -108,12 +108,14 @@ class RigidbodyAttr(attr.ColliderAttr):
         """
         self._send_data("SetKinematic", is_kinematic)
 
-    def Link(self, target_id: int, joint_index: int = 0):
+    def Link(self, target_id: int, joint_index: int = 0, mass_scale: float = 1, connected_mass_scale: float = 1):
         """
         Link this rigidbody to another rigidbody or ArticulationBody
 
         Args:
             target_id: id of another rigidbody or ControllerAttr.
             joint_index: id of ControllerAttr joint.
+            mass_scale: The scale to apply to the inverse mass and inertia tensor of the body prior to solving the constraints.
+            connected_mass_scale: The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.
         """
-        self._send_data("Link", int(target_id), int(joint_index))
+        self._send_data("Link", int(target_id), int(joint_index), float(mass_scale), float(connected_mass_scale))
