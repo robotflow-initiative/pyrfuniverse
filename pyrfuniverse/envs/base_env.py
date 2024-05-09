@@ -608,7 +608,7 @@ class RFUniverseBaseEnv(ABC):
         Args:
             active: Bool, active or inactive the ground.
         """
-        self._send_env_data("GetRFMoveColliders", active)
+        self._send_env_data("SetGroundActive", active)
 
     def SetGroundPhysicMaterial(
             self,
