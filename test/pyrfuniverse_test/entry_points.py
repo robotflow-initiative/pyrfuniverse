@@ -5,6 +5,7 @@ def pyrfuniverse_test_entry_points():
     subparsers = parser.add_subparsers(dest='script', help='test_active_depth/etc, See the github repo for details')
     subparsers.add_parser('test_active_depth')
     subparsers.add_parser('test_articulation_ik')
+    subparsers.add_parser('test_articulation_root')
     subparsers.add_parser('test_camera_image')
     subparsers.add_parser('test_cloth_attach')
     subparsers.add_parser('test_custom_message')
@@ -39,6 +40,8 @@ def pyrfuniverse_test_entry_points():
         import pyrfuniverse_test.test.test_active_depth
     elif args.script == 'test_articulation_ik':
         import pyrfuniverse_test.test.test_articulation_ik
+    elif args.script == 'test_articulation_root':
+        import pyrfuniverse_test.test.test_articulation_root
     elif args.script == 'test_camera_image':
         import pyrfuniverse_test.test.test_camera_image
     elif args.script == 'test_cloth_attach':

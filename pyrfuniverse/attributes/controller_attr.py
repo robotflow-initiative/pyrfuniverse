@@ -458,3 +458,14 @@ class ControllerAttr(attr.ColliderAttr):
         point = [float(i) for i in point]
 
         self._send_data("GetJointWorldPointFromLocal", int(joint_index), point)
+
+    def AddRoot6DOF(self, new_id: int = None):
+        """
+        Add 6-DOF root joint to articulation body, The articulation body is incapable of non-dynamic motion and requires the addition of a 6-DOF root joint for free motion.
+        It must be called when the object is first created.
+        """
+        if new_id is None:
+            new_id = int("1" + str(self.id))
+        self._send_data("AddRoot6DOF", new_id)
+        self.env.attrs[new_id] = ControllerAttr(self.env, new_id)
+        return self.env.attrs[new_id]

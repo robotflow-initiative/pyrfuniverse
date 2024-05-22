@@ -341,13 +341,13 @@ class RFUniverseBaseEnv(ABC):
             self._step(simulate=False)
         self.data.pop("load_done")
 
-    def Pend(self) -> None:
+    def Pend(self, simulate: bool = True, collect: bool = True) -> None:
         """
         Pend the program until the `EndPend` button in `UnityPlayer` is clicked.
         """
         self._send_env_data("Pend")
         while "pend_done" not in self.data:
-            self._step()
+            self._step(simulate=simulate, collect=collect)
         self.data.pop("pend_done")
 
     def SendMessage(self, message: str, *args) -> None:
@@ -546,13 +546,14 @@ class RFUniverseBaseEnv(ABC):
         self.attrs[id] = attr.ControllerAttr(self, id)
         return self.attrs[id]
 
-    def LoadMesh(self, path: str, id: int = None) -> attr.RigidbodyAttr:
+    def LoadMesh(self, path: str, id: int = None, collider_mode: str = "VHACD") -> attr.RigidbodyAttr:
         """
         Load a model from Mesh file.
 
         Args:
             path: Str, the Mesh file path.
             id: Int, object id.
+            collider_mode: Str, How to generate collisions for model, can be "VHACD"/"CoACD"/"Convex"/Any other is None Collider
 
         Returns:
             pyrfuniverse.attributes.RigidbodyAttr: The object attribute intance.
@@ -562,7 +563,7 @@ class RFUniverseBaseEnv(ABC):
         while id is None or id in self.attrs:
             id = random.randint(100000, 999999)
 
-        self._send_env_data("LoadMesh", id, path)
+        self._send_env_data("LoadMesh", id, path, True, collider_mode)
 
         self.attrs[id] = attr.RigidbodyAttr(self, id)
         return self.attrs[id]
