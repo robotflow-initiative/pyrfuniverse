@@ -17,7 +17,7 @@ def image_bytes_to_point_cloud(
 
     Args:
         rgb_bytes: Bytes, raw bytes of RGB image.
-        depth_bytes: Bytes, raw bytes of depth image.
+        depth_bytes: Bytes, raw bytes of depth image, EXR format.
         fov: Float, camera Field Of View (FOV).
         local_to_world_matrix: Numpy.ndarray, the local_to_world_matrix of camera.
 
@@ -59,7 +59,7 @@ def image_array_to_point_cloud(
     Return:
         open3d.geometry.PointCloud: The point cloud.
     """
-    points = depth_to_point_cloud(image_depth, fov=fov, organized=False)
+    points = depth_to_point_cloud(image_depth, fov=fov)
     pcd = o3d.geometry.PointCloud()
     pcd.points = o3d.utility.Vector3dVector(points)
 
@@ -71,7 +71,7 @@ def image_array_to_point_cloud(
     return pcd
 
 
-def depth_to_point_cloud(depth: np.ndarray, fov: float, organized=False):
+def depth_to_point_cloud(depth: np.ndarray, fov: float):
     """
     Use the depth image and the camera FOV to generate point cloud in
     camera coordinate.
@@ -101,10 +101,56 @@ def depth_to_point_cloud(depth: np.ndarray, fov: float, organized=False):
     points_y = (ymap - cy) * points_z / fy
 
     cloud = np.stack([points_x, -points_y, points_z], axis=-1)
-    if not organized:
-        cloud = cloud.reshape([-1, 3])
+    cloud = cloud.reshape([-1, 3])
 
     return cloud
+
+
+def image_array_to_point_cloud_intrinsic_matrix(
+        image_rgb: np.ndarray,
+        image_depth: np.ndarray,
+        intrinsic_matrix: np.ndarray,
+        local_to_world_matrix: np.ndarray,
+):
+    """
+    Use the RGB image and depth image, as well as the camera
+    intrinsic matrix and extrinsic matrix to generate point cloud in global coordinate.
+
+    Args:
+        image_rgb: Numpy.ndarray, in shape (H,W,3)[int][0-255], the RGB image.
+        image_depth: Numpy.ndarray, in shape (H,W,3)[float][real distance/unit meter], the depth image.
+        intrinsic_matrix: Numpy.ndarray, in shape (3,3), the intrinsic matrix of camera.
+        local_to_world_matrix: Numpy.ndarray, in shape (4,4),  the local_to_world_matrix of camera.
+
+    Return:
+         open3d.geometry.PointCloud: The point cloud in Unity Space.
+    """
+    H, W = image_depth.shape
+    fx, fy = intrinsic_matrix[0, 0], intrinsic_matrix[1, 1]
+    cx, cy = intrinsic_matrix[0, 2], intrinsic_matrix[1, 2]
+
+    u, v = np.meshgrid(np.arange(W), np.arange(H))
+
+    x = (u - cx) / fx
+    y = (v - cy) / fy
+
+    z = image_depth
+
+    X = x * z
+    Y = y * z
+    Z = z
+
+    points = np.stack((X, Y, Z), axis=-1)
+    points = points.reshape([-1, 3])
+    point_cloud = o3d.geometry.PointCloud()
+    point_cloud.points = o3d.utility.Vector3dVector(points)
+    point_cloud.colors = o3d.utility.Vector3dVector(image_rgb.reshape(-1, 3) / 255.0)
+    # convter to unity space
+    point_cloud.transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+
+    # camera to world in unity space
+    point_cloud.transform(local_to_world_matrix)
+    return point_cloud
 
 
 def image_bytes_to_point_cloud_intrinsic_matrix(
@@ -119,7 +165,7 @@ def image_bytes_to_point_cloud_intrinsic_matrix(
 
     Args:
         rgb_bytes: Bytes, raw bytes of RGB image.
-        depth_bytes: Bytes, raw bytes of depth image.
+        depth_bytes: Bytes, raw bytes of depth image, EXR format.
         intrinsic_matrix: Numpy.ndarray, the intrinsic matrix of camera.
         local_to_world_matrix: Numpy.ndarray, the local_to_world_matrix of camera.
 
@@ -129,7 +175,6 @@ def image_bytes_to_point_cloud_intrinsic_matrix(
     image_rgb = np.frombuffer(rgb_bytes, dtype=np.uint8)
     image_rgb = cv2.imdecode(image_rgb, cv2.IMREAD_COLOR)
     image_rgb = cv2.cvtColor(image_rgb, cv2.COLOR_BGR2RGB)
-    color = o3d.geometry.Image(image_rgb)
 
     temp_file_path = os.path.join(
         tempfile.gettempdir(), f"temp_img_{int(random.uniform(10000000,99999999))}.exr"
@@ -139,45 +184,38 @@ def image_bytes_to_point_cloud_intrinsic_matrix(
     depth_exr = cv2.imread(temp_file_path, cv2.IMREAD_UNCHANGED)
     os.remove(temp_file_path)
 
-    # change .exr format to .png format
-    image_depth = (depth_exr * 1000).astype(np.uint16)
-    depth = o3d.geometry.Image(image_depth)
-
-    pcd = image_open3d_to_point_cloud_intrinsic_matrix(
-        color, depth, intrinsic_matrix, local_to_world_matrix
-    )
-    return pcd
+    return image_array_to_point_cloud_intrinsic_matrix(image_rgb, depth_exr, intrinsic_matrix, local_to_world_matrix)
 
 
-def image_array_to_point_cloud_intrinsic_matrix(
-    image_rgb: np.ndarray,
-    image_depth: np.ndarray,
-    intrinsic_matrix: np.ndarray,
-    local_to_world_matrix: np.ndarray,
-):
-    """
-    Use the RGB image and depth image, as well as the camera
-    intrinsic matrix and extrinsic matrix to generate point cloud in global coordinate.
-
-    Args:
-        image_rgb: Numpy.ndarray, in shape (H,W,3), the RGB image.
-        image_depth: Numpy.ndarray, in shape (H,W,3), the depth image.
-        intrinsic_matrix: Numpy.ndarray, the intrinsic matrix of camera.
-        local_to_world_matrix: Numpy.ndarray, the local_to_world_matrix of camera.
-
-    Return:
-        open3d.geometry.PointCloud: The point cloud.
-    """
-    color = o3d.geometry.Image(image_rgb)
-
-    image_depth = (image_depth * 1000).astype(np.uint16)
-    depth = o3d.geometry.Image(image_depth)
-
-    pcd = image_open3d_to_point_cloud_intrinsic_matrix(
-        color, depth, intrinsic_matrix, local_to_world_matrix
-    )
-
-    return pcd
+# def image_array_to_point_cloud_intrinsic_matrix(
+#     image_rgb: np.ndarray,
+#     image_depth: np.ndarray,
+#     intrinsic_matrix: np.ndarray,
+#     local_to_world_matrix: np.ndarray,
+# ):
+#     """
+#     Use the RGB image and depth image, as well as the camera
+#     intrinsic matrix and extrinsic matrix to generate point cloud in global coordinate.
+#
+#     Args:
+#         image_rgb: Numpy.ndarray, in shape (H,W,3), the RGB image.
+#         image_depth: Numpy.ndarray, in shape (H,W,3), the depth image.
+#         intrinsic_matrix: Numpy.ndarray, the intrinsic matrix of camera.
+#         local_to_world_matrix: Numpy.ndarray, the local_to_world_matrix of camera.
+#
+#     Return:
+#         open3d.geometry.PointCloud: The point cloud.
+#     """
+#     color = o3d.geometry.Image(image_rgb)
+#
+#     image_depth = (image_depth * 1000).astype(np.uint16)
+#     depth = o3d.geometry.Image(image_depth)
+#
+#     pcd = image_open3d_to_point_cloud_intrinsic_matrix(
+#         color, depth, intrinsic_matrix, local_to_world_matrix
+#     )
+#
+#     return pcd
 
 
 def image_open3d_to_point_cloud_intrinsic_matrix(
