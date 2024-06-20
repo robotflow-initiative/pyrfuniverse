@@ -1,22 +1,31 @@
-import struct
 import socket
-import threading
+import struct
+import time
+from concurrent import futures
 from sys import platform
+import grpc
 import numpy as np
+
 from pyrfuniverse.utils.locker import Locker
+import pyrfuniverse.grpc.RFUniverseGRPC_pb2_grpc as RFUniverseGRPC_pb2_grpc
+from pyrfuniverse.grpc.RFUniverseGRPC_Server import RFUniverseGrpcServer
 
 
-class RFUniverseCommunicator(threading.Thread):
+class RFUniverseCommunicator:
     def __init__(
             self,
             port: int = 5004,
             receive_data_callback=None,
             proc_type="editor",
+            backend="tcp"
     ):
+        self.backend = backend
+
+        self.grpc_server = None
+        self.rfuniverse_grpc_server = None
         self.server = None
         self.client = None
         self.connected = False
-        threading.Thread.__init__(self)
         self.read_offset = 0
         self.on_receive_data = receive_data_callback
         # self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -47,36 +56,47 @@ class RFUniverseCommunicator(threading.Thread):
             raise OSError("No available port")
 
     def online(self):
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.server.bind(("localhost", self.port))
-        print(f"Waiting for connections on port: {self.port}...")
-        self.server.listen(1)
-        self.client, _ = self.server.accept()
-        print(f"Connected successfully")
+        if self.backend == "grpc":
+            self.grpc_server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
+            self.rfuniverse_grpc_server = RFUniverseGrpcServer()
+            RFUniverseGRPC_pb2_grpc.add_RFUniverseGrpcServiceServicer_to_server(self.rfuniverse_grpc_server,
+                                                                                self.grpc_server)
+            self.grpc_server.add_insecure_port(f'localhost:{self.port}')
+            self.grpc_server.start()
+            print(f"Waiting for connections on port: {self.port}...")
+            while not self.rfuniverse_grpc_server.connected:
+                time.sleep(0.1)
+            print(f"Connected successfully")
+        else:
+            self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self.server.bind(("localhost", self.port))
+            print(f"Waiting for connections on port: {self.port}...")
+            self.server.listen(1)
+            self.client, _ = self.server.accept()
+            print(f"Connected successfully")
+            self.client.settimeout(None)
+            self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.connected = True
-        self.client.settimeout(None)
-        self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.receive_step()
 
     def close(self):
-        self.client.close()
-        self.server.close()
+        if self.client is not None:
+            self.client.close()
+        if self.server is not None:
+            self.server.close()
+        if self.grpc_server is not None:
+            self.grpc_server.stop(0)
+            self.rfuniverse_grpc_server.connected = False
         self.connected = False
-
-    def run(self):
-        while True:
-            data = self.receive_bytes()
-            objs = self.receive_object(data)
-            if self.on_receive_data is not None:
-                self.on_receive_data(objs)
 
     def sync_step(self):
         self.send_object("StepStart")
+        if platform == 'linux':
+            self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
         self.receive_step()
 
     def receive_step(self):
-        # sync_receive_objects_queue = []
         while True:
             if not self.connected:
                 raise ConnectionError("Connection closed")
@@ -88,32 +108,39 @@ class RFUniverseCommunicator(threading.Thread):
                 self.on_receive_data(objs)
 
     def receive_bytes(self):
-        data = bytearray()
-        while len(data) < 4:
-            temp_data = self.client.recv(4 - len(data))
-            assert len(temp_data) != 0
-            data.extend(temp_data)
-        assert len(data) == 4
-        length = int.from_bytes(data, byteorder="little", signed=False)
-        if length == 0:
-            return None
-        buffer = bytearray()
-        while len(buffer) < length:
-            temp_data = self.client.recv(length - len(buffer))
-            assert len(temp_data) != 0
-            buffer.extend(temp_data)
-        assert len(buffer) == length
-        return buffer
+        if self.backend == "grpc":
+            return self.rfuniverse_grpc_server.receive_queue.get()
+        else:
+            data = bytearray()
+            while len(data) < 4:
+                temp_data = self.client.recv(4 - len(data))
+                assert len(temp_data) != 0
+                data.extend(temp_data)
+            assert len(data) == 4
+            length = int.from_bytes(data, byteorder="little", signed=False)
+            if length == 0:
+                return None
+            buffer = bytearray()
+            while len(buffer) < length:
+                temp_data = self.client.recv(length - len(buffer))
+                assert len(temp_data) != 0
+                buffer.extend(temp_data)
+            assert len(buffer) == length
+            return buffer
 
     def send_bytes(self, data: bytes):
-        if not self.connected:
-            return
-        length = len(data).to_bytes(4, byteorder="little", signed=False)
-        self.client.send(length)
-        self.client.send(data)
-
-        if platform == 'linux':
-            self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
+        if self.backend == "grpc":
+            self.rfuniverse_grpc_server.send_queue.put(data)
+        else:
+            if not self.connected:
+                return
+            length = len(data).to_bytes(4, byteorder="little", signed=False)
+            send_len = 0
+            while send_len < 4:
+                send_len += self.client.send(length)
+            send_len = 0
+            while send_len < len(data):
+                send_len += self.client.send(data)
 
     def receive_object(self, data: bytes) -> list:
         self.read_offset = 0

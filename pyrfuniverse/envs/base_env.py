@@ -1,13 +1,15 @@
+import os
 import random
+import socket
 import subprocess
 from abc import ABC
-import socket
+
 import numpy as np
+
 import pyrfuniverse
 import pyrfuniverse.attributes as attr
 from pyrfuniverse.side_channel import IncomingMessage, OutgoingMessage
 from pyrfuniverse.utils.rfuniverse_communicator import RFUniverseCommunicator
-import os
 
 
 class RFUniverseBaseEnv(ABC):
@@ -38,7 +40,8 @@ class RFUniverseBaseEnv(ABC):
             proc_id=0,
             log_level=1,
             ext_attr: list = [],
-            check_version: bool = True
+            check_version: bool = True,
+            communication_backend: str = "grpc",
     ):
         # time step
         self.t = 0
@@ -76,6 +79,7 @@ class RFUniverseBaseEnv(ABC):
             port=self.port,
             receive_data_callback=self._receive_data,
             proc_type=PROC_TYPE,
+            backend=communication_backend,
         )
         self.port = self.communicator.port  # update port
         if PROC_TYPE == "release":
@@ -213,7 +217,7 @@ class RFUniverseBaseEnv(ABC):
         for i in range(count):
             if simulate:
                 self.Simulate()
-            if collect and i == count-1:
+            if collect and i == count - 1:
                 self.Collect()
             self.communicator.sync_step()
 
@@ -328,9 +332,11 @@ class RFUniverseBaseEnv(ABC):
         if self.check_version and "rfu_version" in self.data:
             rfu_version = self.data["rfu_version"].split(".")
             pyrfu_version = pyrfuniverse.__version__.split(".")
-            if rfu_version[0] != pyrfu_version[0] or rfu_version[1] != pyrfu_version[1] or rfu_version[2] != pyrfu_version[2]:
+            if rfu_version[0] != pyrfu_version[0] or rfu_version[1] != pyrfu_version[1] or rfu_version[2] != \
+                    pyrfu_version[2]:
                 rfu_version = self.data["rfu_version"]
-                raise Exception(f"pyrfuniverse version: {pyrfuniverse.__version__}\nRFUniverse version: {rfu_version}\nPlease use the version with the same first three digits. or Turn off version check when init env (pass in parameter check_version=False)")
+                raise Exception(
+                    f"pyrfuniverse version: {pyrfuniverse.__version__}\nRFUniverse version: {rfu_version}\nPlease use the version with the same first three digits. or Turn off version check when init env (pass in parameter check_version=False)")
         self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
 
     def WaitLoadDone(self) -> None:

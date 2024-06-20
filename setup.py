@@ -14,6 +14,8 @@ setup(
     packages=find_packages(),
     install_requires=[
         "numpy>=1.14.1",
+        "grpc",
+        "protobuf",
         "opencv-contrib-python",
         "requests"
     ],
