@@ -3,13 +3,12 @@ import random
 import socket
 import subprocess
 from abc import ABC
-
 import numpy as np
-
 import pyrfuniverse
 import pyrfuniverse.attributes as attr
 from pyrfuniverse.side_channel import IncomingMessage, OutgoingMessage
-from pyrfuniverse.utils.rfuniverse_communicator import RFUniverseCommunicator
+from pyrfuniverse.utils.rfuniverse_communicator_tcp import RFUniverseCommunicatorTCP
+from pyrfuniverse.utils.rfuniverse_communicator_grpc import RFUniverseCommunicatorGRPC
 
 
 class RFUniverseBaseEnv(ABC):
@@ -75,12 +74,20 @@ class RFUniverseBaseEnv(ABC):
         else:  # error
             raise ValueError(f"Executable file {executable_file} not exists")
 
-        self.communicator = RFUniverseCommunicator(
-            port=self.port,
-            receive_data_callback=self._receive_data,
-            proc_type=PROC_TYPE,
-            backend=communication_backend,
-        )
+        if communication_backend == "tcp":
+            self.communicator = RFUniverseCommunicatorTCP(
+                port=self.port,
+                receive_data_callback=self._receive_data,
+                proc_type=PROC_TYPE,
+            )
+        elif communication_backend == "grpc":
+            self.communicator = RFUniverseCommunicatorGRPC(
+                port=self.port,
+                receive_data_callback=self._receive_data,
+                proc_type=PROC_TYPE,
+            )
+        else:
+            raise ValueError(f"Unknown communication backend: {communication_backend}")
         self.port = self.communicator.port  # update port
         if PROC_TYPE == "release":
             self.process = self._start_unity_env(executable_file, self.port)
