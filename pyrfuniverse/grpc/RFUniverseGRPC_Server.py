@@ -4,7 +4,7 @@ import pyrfuniverse.grpc.RFUniverseGRPC_pb2 as RFUniverseGRPC_pb2
 import pyrfuniverse.grpc.RFUniverseGRPC_pb2_grpc as RFUniverseGRPC_pb2_grpc
 
 
-class RFUniverseGrpcServer(RFUniverseGRPC_pb2_grpc.RFUniverseGrpcServiceServicer):
+class RFUniverseGrpcServer(RFUniverseGRPC_pb2_grpc.GrpcServiceServicer):
     def __init__(self):
         super().__init__()
         self.connected = False

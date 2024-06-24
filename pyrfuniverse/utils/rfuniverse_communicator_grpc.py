@@ -25,8 +25,8 @@ class RFUniverseCommunicatorGRPC(RFUniverseCommunicatorBase):
         print(f"Waiting for connections on port: {self.port}...")
         self.grpc_server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
         self.rfuniverse_grpc_server = RFUniverseGrpcServer()
-        RFUniverseGRPC_pb2_grpc.add_RFUniverseGrpcServiceServicer_to_server(self.rfuniverse_grpc_server,
-                                                                            self.grpc_server)
+        RFUniverseGRPC_pb2_grpc.add_GrpcServiceServicer_to_server(self.rfuniverse_grpc_server,
+                                                                  self.grpc_server)
         self.grpc_server.add_insecure_port(f'localhost:{self.port}')
         self.grpc_server.start()
         while not self.rfuniverse_grpc_server.connected:

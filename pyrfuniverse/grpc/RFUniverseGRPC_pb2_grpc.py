@@ -5,7 +5,7 @@ import grpc
 import pyrfuniverse.grpc.RFUniverseGRPC_pb2 as RFUniverseGRPC__pb2
 
 
-class RFUniverseGrpcServiceStub(object):
+class GrpcServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -15,23 +15,23 @@ class RFUniverseGrpcServiceStub(object):
             channel: A grpc.Channel.
         """
         self.Link = channel.unary_unary(
-            '/RFUniverseGrpc.RFUniverseGrpcService/Link',
+            '/RFUniverse.GrpcService/Link',
             request_serializer=RFUniverseGRPC__pb2.Empty.SerializeToString,
             response_deserializer=RFUniverseGRPC__pb2.Empty.FromString,
         )
         self.CSharpToPythonStream = channel.stream_unary(
-            '/RFUniverseGrpc.RFUniverseGrpcService/CSharpToPythonStream',
+            '/RFUniverse.GrpcService/CSharpToPythonStream',
             request_serializer=RFUniverseGRPC__pb2.BinaryMessage.SerializeToString,
             response_deserializer=RFUniverseGRPC__pb2.Empty.FromString,
         )
         self.PythonToCSharpStream = channel.unary_stream(
-            '/RFUniverseGrpc.RFUniverseGrpcService/PythonToCSharpStream',
+            '/RFUniverse.GrpcService/PythonToCSharpStream',
             request_serializer=RFUniverseGRPC__pb2.Empty.SerializeToString,
             response_deserializer=RFUniverseGRPC__pb2.BinaryMessage.FromString,
         )
 
 
-class RFUniverseGrpcServiceServicer(object):
+class GrpcServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Link(self, request, context):
@@ -53,7 +53,7 @@ class RFUniverseGrpcServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_RFUniverseGrpcServiceServicer_to_server(servicer, server):
+def add_GrpcServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
         'Link': grpc.unary_unary_rpc_method_handler(
             servicer.Link,
@@ -72,12 +72,12 @@ def add_RFUniverseGrpcServiceServicer_to_server(servicer, server):
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        'RFUniverseGrpc.RFUniverseGrpcService', rpc_method_handlers)
+        'RFUniverse.GrpcService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
 # This class is part of an EXPERIMENTAL API.
-class RFUniverseGrpcService(object):
+class GrpcService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -91,7 +91,7 @@ class RFUniverseGrpcService(object):
              wait_for_ready=None,
              timeout=None,
              metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/RFUniverseGrpc.RFUniverseGrpcService/Link',
+        return grpc.experimental.unary_unary(request, target, '/RFUniverse.GrpcService/Link',
                                              RFUniverseGRPC__pb2.Empty.SerializeToString,
                                              RFUniverseGRPC__pb2.Empty.FromString,
                                              options, channel_credentials,
@@ -108,8 +108,7 @@ class RFUniverseGrpcService(object):
                              wait_for_ready=None,
                              timeout=None,
                              metadata=None):
-        return grpc.experimental.stream_unary(request_iterator, target,
-                                              '/RFUniverseGrpc.RFUniverseGrpcService/CSharpToPythonStream',
+        return grpc.experimental.stream_unary(request_iterator, target, '/RFUniverse.GrpcService/CSharpToPythonStream',
                                               RFUniverseGRPC__pb2.BinaryMessage.SerializeToString,
                                               RFUniverseGRPC__pb2.Empty.FromString,
                                               options, channel_credentials,
@@ -127,8 +126,7 @@ class RFUniverseGrpcService(object):
                              wait_for_ready=None,
                              timeout=None,
                              metadata=None):
-        return grpc.experimental.unary_stream(request, target,
-                                              '/RFUniverseGrpc.RFUniverseGrpcService/PythonToCSharpStream',
+        return grpc.experimental.unary_stream(request, target, '/RFUniverse.GrpcService/PythonToCSharpStream',
                                               RFUniverseGRPC__pb2.Empty.SerializeToString,
                                               RFUniverseGRPC__pb2.BinaryMessage.FromString,
                                               options, channel_credentials,

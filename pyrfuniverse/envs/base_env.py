@@ -40,7 +40,7 @@ class RFUniverseBaseEnv(ABC):
             log_level=1,
             ext_attr: list = [],
             check_version: bool = True,
-            communication_backend: str = "grpc",
+            communication_backend: str = "tcp",
     ):
         # time step
         self.t = 0
@@ -90,7 +90,7 @@ class RFUniverseBaseEnv(ABC):
             raise ValueError(f"Unknown communication backend: {communication_backend}")
         self.port = self.communicator.port  # update port
         if PROC_TYPE == "release":
-            self.process = self._start_unity_env(executable_file, self.port)
+            self.process = self._start_unity_env(executable_file, self.port, communication_backend)
         self.communicator.online()
         self.WaitSceneInit()
         if len(assets) > 0:
@@ -113,7 +113,7 @@ class RFUniverseBaseEnv(ABC):
                 executable_port += 1
                 continue
 
-    def _start_unity_env(self, executable_file: str, port: int) -> subprocess.Popen:
+    def _start_unity_env(self, executable_file: str, port: int, communication_backend: str) -> subprocess.Popen:
         arg = [executable_file]
         if not self.graphics:
             arg.extend(["-nographics", "-batchmode"])
@@ -122,6 +122,7 @@ class RFUniverseBaseEnv(ABC):
         else:
             proc_out = None
         arg.append(f"-port:{port}")
+        arg.append(f"-{communication_backend}")
         return subprocess.Popen(arg, stdout=proc_out, stderr=proc_out)
 
     def _receive_data(self, objs: list) -> None:
