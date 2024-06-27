@@ -20,7 +20,7 @@ def read_config():
 user_path = os.path.expanduser('~/.rfuniverse')
 if not os.path.exists(user_path):
     os.makedirs(user_path)
-config_path = os.path.join(user_path, 'config.json')
+config_path = os.path.join(user_path, 'config.json.tmp')
 with Locker('config'):
     config = read_config()
 assets_path = config['assets_path']

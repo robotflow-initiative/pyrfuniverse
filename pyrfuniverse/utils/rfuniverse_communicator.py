@@ -49,7 +49,7 @@ class RFUniverseCommunicator(threading.Thread):
         print(f"Waiting for connections on port: {self.port}...")
         self.server.listen(1)
         self.client, self.addr = self.server.accept()
-        print(f"Connected successfully")
+        print(f"Connection accepted {self.addr} -> {self.port}")
         self.connected = True
         self.client.settimeout(None)
         self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)

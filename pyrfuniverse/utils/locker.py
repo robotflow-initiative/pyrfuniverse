@@ -32,9 +32,9 @@ class Locker:
     
     def __enter__(self):
         self.fp = open(self.lck_path)
-        lock(self.fp)
+        # lock(self.fp)
 
     def __exit__(self, _type, value, tb):
-        time.sleep(0.1)
-        unlock(self.fp)
+        # time.sleep(0.1)
+        # unlock(self.fp)
         self.fp.close()

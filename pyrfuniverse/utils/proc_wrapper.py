@@ -14,10 +14,12 @@ from stable_baselines3.common.vec_env.base_vec_env import (
 )
 
 
-def _worker(remote: mp.connection.Connection, env_fn, i) -> None:
+def _worker(
+    remote: mp.connection.Connection, parent_remote: mp.connection.Connection, env_fn, i
+) -> None:
     # Import here to avoid a circular import
     from stable_baselines3.common.env_util import is_wrapped
-
+    parent_remote.close()
     env = env_fn(proc_id=i)
     while True:
         try:
@@ -107,8 +109,10 @@ class SubprocVecEnv(VecEnv):
         self.remotes, self.work_remotes = zip(*[ctx.Pipe() for _ in range(self.n_proc)])
         self.processes = []
         ids = list(range(self.n_proc))
-        for work_remote, env_fn, i in zip(self.work_remotes, env_fns, ids):
-            args = (work_remote, env_fn, i)
+        for work_remote, remote, env_fn, i in zip(
+            self.work_remotes, self.remotes, env_fns, ids
+        ):
+            args = (work_remote, remote, env_fn, i)
             # daemon=True: if the main process crashes, we should not cause things to hang
             process = ctx.Process(
                 target=_worker, args=args, daemon=True

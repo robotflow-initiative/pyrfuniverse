@@ -13,6 +13,7 @@ from pyrfuniverse.utils.rfuniverse_communicator import RFUniverseCommunicator
 import os
 import warnings
 
+warnings.filterwarnings("ignore")
 
 class RFUniverseBaseEnv(ABC):
     """
@@ -49,6 +50,7 @@ class RFUniverseBaseEnv(ABC):
         self.listen_messages = {}
         self.listen_object = {}
         self.port = port
+        self.initializing = True
 
         self.log_level = log_level
 
@@ -75,14 +77,11 @@ class RFUniverseBaseEnv(ABC):
             proc_type=PROC_TYPE,
         )
         self.port = self.communicator.port  # update port
-        _th = threading.Thread(target=self.communicator.online)
-        _th.start()
-        time.sleep(.01)
         if PROC_TYPE == "release":
             with Locker('config'): # unity process will try to modify the config file
                 self.process = self._start_unity_env(self.executable_file, self.port)
                 # print(f"Unity process {self.process.pid} started")
-        _th.join()
+        self.communicator.online()
 
         self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
         if len(self.pre_load_assets) > 0:
@@ -184,8 +183,8 @@ class RFUniverseBaseEnv(ABC):
         objs = objs[1:]
         if head in self.listen_object:
             self.listen_object[head](objs)
-        # else:
-            # warnings.warn(f"unknown object data type: {head}")
+        elif not self.initializing:
+            warnings.warn(f"unknown object data type: {head}")
 
     def _send_env_data(self, *args) -> None:
         self.communicator.send_object("Env", *args)
@@ -209,6 +208,7 @@ class RFUniverseBaseEnv(ABC):
         if not self.communicator.connected:
             raise Exception("Unity Env not connected")
         self.communicator.sync_step()
+        self.initializing = False
 
     def step(self, count: int = 1):
         """
