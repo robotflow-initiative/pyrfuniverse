@@ -1,7 +1,6 @@
 import socket
 import struct
 from abc import ABC, abstractmethod
-from sys import platform
 import numpy as np
 from pyrfuniverse.utils.locker import Locker
 
@@ -240,7 +239,7 @@ class RFUniverseCommunicatorBase(ABC):
         datas.extend(s_byte)
 
     def write_int(self, datas: bytearray, i: int):
-        datas.extend(i.to_bytes(4, byteorder="little"))
+        datas.extend(i.to_bytes(4, byteorder="little", signed=True))
 
     def write_float(self, datas: bytearray, f: float):
         datas.extend(struct.pack("f", f))

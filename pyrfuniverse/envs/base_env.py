@@ -3,10 +3,8 @@ import random
 import socket
 import subprocess
 from abc import ABC
-import numpy as np
 import pyrfuniverse
 import pyrfuniverse.attributes as attr
-from pyrfuniverse.side_channel import IncomingMessage, OutgoingMessage
 from pyrfuniverse.utils.rfuniverse_communicator_tcp import RFUniverseCommunicatorTCP
 from pyrfuniverse.utils.rfuniverse_communicator_grpc import RFUniverseCommunicatorGRPC
 
@@ -25,6 +23,7 @@ class RFUniverseBaseEnv(ABC):
         log_level: Int, the log level for Unity environment. 0 for no log, 1 for errors logs, 2 for warnings and errors, 3 for all only.
         ext_attr: List, the list of extended attributes. All extended attributes will be added to the environment.
         check_version: Bool, True for checking the version of the Unity environment and the pyrfuniverse library. False for not checking the version.
+        communication_backend: Str, Specify communication backend, Can be "tcp" or "grpc".
     """
 
     metadata = {"render.modes": ["human", "rgb_array"]}
@@ -48,7 +47,6 @@ class RFUniverseBaseEnv(ABC):
         self.process = None
         self.attrs = {}
         self.data = {}
-        self.listen_messages = {}
         self.listen_object = {}
         self.port = port
         self.check_version = check_version
@@ -134,8 +132,6 @@ class RFUniverseBaseEnv(ABC):
             self._parse_instence_data(objs)
         elif msg == "Debug":
             self._parse_debug_data(objs)
-        elif msg == "Message":
-            self._parse_message_data(objs)
         elif msg == "Object":
             self._parse_object_data(objs)
         return
@@ -176,12 +172,6 @@ class RFUniverseBaseEnv(ABC):
         else:
             print(f"unknown debug data type: {msg}")
         return
-
-    def _parse_message_data(self, objs: list) -> None:
-        msg = objs[0]
-        objs = objs[1:]
-        if msg in self.listen_messages:
-            self.listen_messages[msg](IncomingMessage(objs[0]))
 
     def _parse_object_data(self, objs: list) -> None:
         head = objs[0]
@@ -364,30 +354,6 @@ class RFUniverseBaseEnv(ABC):
             self._step(simulate=simulate, collect=collect)
         self.data.pop("pend_done")
 
-    def SendMessage(self, message: str, *args) -> None:
-        """
-        Send message to Unity.
-
-        Args:
-            message: Str, the message head.
-            *args: List, the list of parameters. We support str, bool, int, float and List[float] types.
-        """
-        msg = OutgoingMessage()
-        for i in args:
-            if type(i) == str:
-                msg.write_string(i)
-            elif type(i) == bool:
-                msg.write_bool(i)
-            elif type(i) == int:
-                msg.write_int32(i)
-            elif type(i) == float or type(i) == np.float32 or type(i) == np.float64:
-                msg.write_float32(float(i))
-            elif type(i) == list and type(i[0]) == float:
-                msg.write_float32_list(i)
-            else:
-                print(f"dont support this data type:{type(i)}")
-        self._send_message_data(message, msg.buffer)
-
     def SendObject(self, head: str, *args) -> None:
         """
         Send object to Unity.
@@ -397,26 +363,6 @@ class RFUniverseBaseEnv(ABC):
             *args: List, the list of parameters. We support str, bool, int, float and List[float] types.
         """
         self._send_object_data(head, *args)
-
-    def AddListener(self, message: str, fun):
-        """
-        Add listener.
-
-        Args:
-            message: Str, the message head.
-            fun: Callable, the callback function.
-        """
-        self.listen_messages[message] = fun
-
-    def RemoveListener(self, message: str, fun):
-        """
-        Remove listener.
-
-        Args:
-            message: Str, the message head.
-            fun: Callable, the callback function.
-        """
-        self.listen_messages.pop(message)
 
     def AddListenerObject(self, head: str, fun):
         """
@@ -428,14 +374,14 @@ class RFUniverseBaseEnv(ABC):
         """
         self.listen_object[head] = fun
 
-    def RemoveListenerObject(self, type: str):
+    def RemoveListenerObject(self, head: str):
         """
         Remove object listener.
 
         Args:
-            type: Str, the message head.
+            head: Str, the message head.
         """
-        self.listen_object.pop(type)
+        self.listen_object.pop(head)
 
     def InstanceObject(
             self, name: str, id: int = None, attr_type: type = attr.BaseAttr
