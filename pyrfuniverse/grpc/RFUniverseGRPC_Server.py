@@ -19,6 +19,7 @@ class RFUniverseGrpcServer(RFUniverseGRPC_pb2_grpc.GrpcServiceServicer):
             if not self.connected:
                 return
             self.receive_queue.put(request.data)
+        return RFUniverseGRPC_pb2.Empty()
 
     def PythonToCSharpStream(self, request, context):
         self.connected = True
