@@ -10,25 +10,21 @@ class RFUniverseCommunicatorBase(ABC):
             self,
             port: int = 5004,
             receive_data_callback=None,
-            proc_type="editor",
+            get_port=False,
     ):
         self.connected = False
         self.read_offset = 0
         self.on_receive_data = receive_data_callback
         self.port = port
-        if proc_type == "editor":
-            pass
-        elif proc_type == "release":
+        if get_port:
             self._get_port()
-        else:
-            raise ValueError(f"Unknown proc_type: {proc_type}")
 
     def _get_port(self):
         with Locker("port"):
             self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             while self.port < 65536:
                 try:
-                    self.server.bind(("localhost", self.port))
+                    self.server.bind(("0.0.0.0", self.port))
                     self.server.close()
                     return
                 except OSError:

@@ -65,9 +65,9 @@ class RFUniverseBaseEnv(ABC):
         if executable_file == "" or executable_file == "@editor":  # editor
             assert proc_id == 0, "proc_id must be 0 when using editor"
             print("Waiting for UnityEditor play...")
-            PROC_TYPE = "editor"
+            is_release = False
         elif os.path.exists(executable_file):  # release
-            PROC_TYPE = "release"
+            is_release = True
             self.port = self.port + 1 + proc_id  # default release port
         else:  # error
             raise ValueError(f"Executable file {executable_file} not exists")
@@ -76,18 +76,18 @@ class RFUniverseBaseEnv(ABC):
             self.communicator = RFUniverseCommunicatorTCP(
                 port=self.port,
                 receive_data_callback=self._receive_data,
-                proc_type=PROC_TYPE,
+                get_port=is_release,
             )
         elif communication_backend == "grpc":
             self.communicator = RFUniverseCommunicatorGRPC(
                 port=self.port,
                 receive_data_callback=self._receive_data,
-                proc_type=PROC_TYPE,
+                get_port=is_release,
             )
         else:
             raise ValueError(f"Unknown communication backend: {communication_backend}")
         self.port = self.communicator.port  # update port
-        if PROC_TYPE == "release":
+        if is_release:
             self.process = self._start_unity_env(executable_file, self.port, communication_backend)
         self.communicator.online()
         self.WaitSceneInit()

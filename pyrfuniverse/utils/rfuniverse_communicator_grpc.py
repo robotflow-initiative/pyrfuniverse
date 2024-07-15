@@ -11,12 +11,12 @@ class RFUniverseCommunicatorGRPC(RFUniverseCommunicatorBase):
             self,
             port: int = 5004,
             receive_data_callback=None,
-            proc_type="editor",
+            get_port=False,
     ):
         super().__init__(
             port=port,
             receive_data_callback=receive_data_callback,
-            proc_type=proc_type,
+            get_port=get_port,
         )
         self.grpc_server = None
         self.rfuniverse_grpc_server = None
