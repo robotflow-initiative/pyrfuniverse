@@ -1,13 +1,12 @@
+import os
 import random
+import socket
 import subprocess
 from abc import ABC
-import socket
-import numpy as np
 import pyrfuniverse
 import pyrfuniverse.attributes as attr
-from pyrfuniverse.side_channel import IncomingMessage, OutgoingMessage
-from pyrfuniverse.utils.rfuniverse_communicator import RFUniverseCommunicator
-import os
+from pyrfuniverse.utils.rfuniverse_communicator_tcp import RFUniverseCommunicatorTCP
+from pyrfuniverse.utils.rfuniverse_communicator_grpc import RFUniverseCommunicatorGRPC
 
 
 class RFUniverseBaseEnv(ABC):
@@ -24,6 +23,7 @@ class RFUniverseBaseEnv(ABC):
         log_level: Int, the log level for Unity environment. 0 for no log, 1 for errors logs, 2 for warnings and errors, 3 for all only.
         ext_attr: List, the list of extended attributes. All extended attributes will be added to the environment.
         check_version: Bool, True for checking the version of the Unity environment and the pyrfuniverse library. False for not checking the version.
+        communication_backend: Str, Specify communication backend, Can be "tcp" or "grpc".
     """
 
     metadata = {"render.modes": ["human", "rgb_array"]}
@@ -38,7 +38,8 @@ class RFUniverseBaseEnv(ABC):
             proc_id=0,
             log_level=1,
             ext_attr: list = [],
-            check_version: bool = True
+            check_version: bool = True,
+            communication_backend: str = "tcp",
     ):
         # time step
         self.t = 0
@@ -46,7 +47,6 @@ class RFUniverseBaseEnv(ABC):
         self.process = None
         self.attrs = {}
         self.data = {}
-        self.listen_messages = {}
         self.listen_object = {}
         self.port = port
         self.check_version = check_version
@@ -65,21 +65,30 @@ class RFUniverseBaseEnv(ABC):
         if executable_file == "" or executable_file == "@editor":  # editor
             assert proc_id == 0, "proc_id must be 0 when using editor"
             print("Waiting for UnityEditor play...")
-            PROC_TYPE = "editor"
+            is_release = False
         elif os.path.exists(executable_file):  # release
-            PROC_TYPE = "release"
+            is_release = True
             self.port = self.port + 1 + proc_id  # default release port
         else:  # error
             raise ValueError(f"Executable file {executable_file} not exists")
 
-        self.communicator = RFUniverseCommunicator(
-            port=self.port,
-            receive_data_callback=self._receive_data,
-            proc_type=PROC_TYPE,
-        )
+        if communication_backend == "tcp":
+            self.communicator = RFUniverseCommunicatorTCP(
+                port=self.port,
+                receive_data_callback=self._receive_data,
+                get_port=is_release,
+            )
+        elif communication_backend == "grpc":
+            self.communicator = RFUniverseCommunicatorGRPC(
+                port=self.port,
+                receive_data_callback=self._receive_data,
+                get_port=is_release,
+            )
+        else:
+            raise ValueError(f"Unknown communication backend: {communication_backend}")
         self.port = self.communicator.port  # update port
-        if PROC_TYPE == "release":
-            self.process = self._start_unity_env(executable_file, self.port)
+        if is_release:
+            self.process = self._start_unity_env(executable_file, self.port, communication_backend)
         self.communicator.online()
         self.WaitSceneInit()
         if len(assets) > 0:
@@ -102,7 +111,7 @@ class RFUniverseBaseEnv(ABC):
                 executable_port += 1
                 continue
 
-    def _start_unity_env(self, executable_file: str, port: int) -> subprocess.Popen:
+    def _start_unity_env(self, executable_file: str, port: int, communication_backend: str) -> subprocess.Popen:
         arg = [executable_file]
         if not self.graphics:
             arg.extend(["-nographics", "-batchmode"])
@@ -111,6 +120,7 @@ class RFUniverseBaseEnv(ABC):
         else:
             proc_out = None
         arg.append(f"-port:{port}")
+        arg.append(f"-{communication_backend}")
         return subprocess.Popen(arg, stdout=proc_out, stderr=proc_out)
 
     def _receive_data(self, objs: list) -> None:
@@ -122,8 +132,6 @@ class RFUniverseBaseEnv(ABC):
             self._parse_instence_data(objs)
         elif msg == "Debug":
             self._parse_debug_data(objs)
-        elif msg == "Message":
-            self._parse_message_data(objs)
         elif msg == "Object":
             self._parse_object_data(objs)
         return
@@ -164,12 +172,6 @@ class RFUniverseBaseEnv(ABC):
         else:
             print(f"unknown debug data type: {msg}")
         return
-
-    def _parse_message_data(self, objs: list) -> None:
-        msg = objs[0]
-        objs = objs[1:]
-        if msg in self.listen_messages:
-            self.listen_messages[msg](IncomingMessage(objs[0]))
 
     def _parse_object_data(self, objs: list) -> None:
         head = objs[0]
@@ -213,7 +215,7 @@ class RFUniverseBaseEnv(ABC):
         for i in range(count):
             if simulate:
                 self.Simulate()
-            if collect and i == count-1:
+            if collect and i == count - 1:
                 self.Collect()
             self.communicator.sync_step()
 
@@ -328,9 +330,11 @@ class RFUniverseBaseEnv(ABC):
         if self.check_version and "rfu_version" in self.data:
             rfu_version = self.data["rfu_version"].split(".")
             pyrfu_version = pyrfuniverse.__version__.split(".")
-            if rfu_version[0] != pyrfu_version[0] or rfu_version[1] != pyrfu_version[1] or rfu_version[2] != pyrfu_version[2]:
+            if rfu_version[0] != pyrfu_version[0] or rfu_version[1] != pyrfu_version[1] or rfu_version[2] != \
+                    pyrfu_version[2]:
                 rfu_version = self.data["rfu_version"]
-                raise Exception(f"pyrfuniverse version: {pyrfuniverse.__version__}\nRFUniverse version: {rfu_version}\nPlease use the version with the same first three digits. or Turn off version check when init env (pass in parameter check_version=False)")
+                raise Exception(
+                    f"pyrfuniverse version: {pyrfuniverse.__version__}\nRFUniverse version: {rfu_version}\nPlease use the version with the same first three digits. or Turn off version check when init env (pass in parameter check_version=False)")
         self._send_debug_data("SetPythonVersion", pyrfuniverse.__version__)
 
     def WaitLoadDone(self) -> None:
@@ -350,30 +354,6 @@ class RFUniverseBaseEnv(ABC):
             self._step(simulate=simulate, collect=collect)
         self.data.pop("pend_done")
 
-    def SendMessage(self, message: str, *args) -> None:
-        """
-        Send message to Unity.
-
-        Args:
-            message: Str, the message head.
-            *args: List, the list of parameters. We support str, bool, int, float and List[float] types.
-        """
-        msg = OutgoingMessage()
-        for i in args:
-            if type(i) == str:
-                msg.write_string(i)
-            elif type(i) == bool:
-                msg.write_bool(i)
-            elif type(i) == int:
-                msg.write_int32(i)
-            elif type(i) == float or type(i) == np.float32 or type(i) == np.float64:
-                msg.write_float32(float(i))
-            elif type(i) == list and type(i[0]) == float:
-                msg.write_float32_list(i)
-            else:
-                print(f"dont support this data type:{type(i)}")
-        self._send_message_data(message, msg.buffer)
-
     def SendObject(self, head: str, *args) -> None:
         """
         Send object to Unity.
@@ -383,26 +363,6 @@ class RFUniverseBaseEnv(ABC):
             *args: List, the list of parameters. We support str, bool, int, float and List[float] types.
         """
         self._send_object_data(head, *args)
-
-    def AddListener(self, message: str, fun):
-        """
-        Add listener.
-
-        Args:
-            message: Str, the message head.
-            fun: Callable, the callback function.
-        """
-        self.listen_messages[message] = fun
-
-    def RemoveListener(self, message: str, fun):
-        """
-        Remove listener.
-
-        Args:
-            message: Str, the message head.
-            fun: Callable, the callback function.
-        """
-        self.listen_messages.pop(message)
 
     def AddListenerObject(self, head: str, fun):
         """
@@ -414,14 +374,14 @@ class RFUniverseBaseEnv(ABC):
         """
         self.listen_object[head] = fun
 
-    def RemoveListenerObject(self, type: str):
+    def RemoveListenerObject(self, head: str):
         """
         Remove object listener.
 
         Args:
-            type: Str, the message head.
+            head: Str, the message head.
         """
-        self.listen_object.pop(type)
+        self.listen_object.pop(head)
 
     def InstanceObject(
             self, name: str, id: int = None, attr_type: type = attr.BaseAttr

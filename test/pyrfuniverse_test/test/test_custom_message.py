@@ -5,7 +5,7 @@ env = RFUniverseBaseEnv(assets=["CustomAttr"])
 
 # custom message
 custom = env.InstanceObject(name="CustomAttr", id=123456, attr_type=attr.CustomAttr)
-custom.CustomMessage(message="this is instance channel custom message")
+custom.CustomMessage(message="this is custom message")
 env.step()
 print(custom.data["custom_message"])
 

@@ -1,12 +1,15 @@
 import os
+import tempfile
 import time
 
 if os.name == "nt":
     import msvcrt
 
+
     def lock(fp):
         fp.seek(0)
         msvcrt.locking(fp.fileno(), msvcrt.LK_LOCK, 1)
+
 
     def unlock(fp):
         fp.seek(0)
@@ -15,8 +18,10 @@ if os.name == "nt":
 else:
     import fcntl
 
+
     def lock(fp):
         fcntl.flock(fp.fileno(), fcntl.LOCK_EX)
+
 
     def unlock(fp):
         fcntl.flock(fp.fileno(), fcntl.LOCK_UN)
@@ -25,7 +30,7 @@ else:
 class Locker:
     def __init__(self, lck_name: str):
         self.lck_path = os.path.join(
-            os.path.expanduser("~"), ".rfuniverse", lck_name + ".lck"
+            tempfile.gettempdir(), lck_name + ".lck"
         )
         # check if the lock file exists
         if not os.path.exists(self.lck_path):

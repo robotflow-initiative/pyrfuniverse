@@ -1,45 +1,30 @@
-import struct
 import socket
-import threading
-from sys import platform
+import struct
+from abc import ABC, abstractmethod
 import numpy as np
 from pyrfuniverse.utils.locker import Locker
 
 
-class RFUniverseCommunicator(threading.Thread):
+class RFUniverseCommunicatorBase(ABC):
     def __init__(
             self,
             port: int = 5004,
             receive_data_callback=None,
-            proc_type="editor",
+            get_port=False,
     ):
-        self.server = None
-        self.client = None
         self.connected = False
-        threading.Thread.__init__(self)
         self.read_offset = 0
         self.on_receive_data = receive_data_callback
-        # self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        # send_buffer_size = 1024 * 1024 * 10
-        # self.server.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, send_buffer_size)
-        # recv_buffer_size = 1024 * 1024 * 10
-        # self.server.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, recv_buffer_size)
         self.port = port
-        if proc_type == "editor":
-            # self.server.bind(("localhost", self.port))
-            pass
-        elif proc_type == "release":
+        if get_port:
             self._get_port()
-        else:
-            raise ValueError(f"Unknown proc_type: {proc_type}")
 
     def _get_port(self):
         with Locker("port"):
             self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             while self.port < 65536:
                 try:
-                    self.server.bind(("localhost", self.port))
+                    self.server.bind(("0.0.0.0", self.port))
                     self.server.close()
                     return
                 except OSError:
@@ -47,75 +32,37 @@ class RFUniverseCommunicator(threading.Thread):
             raise OSError("No available port")
 
     def online(self):
-        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.server.bind(("localhost", self.port))
-        print(f"Waiting for connections on port: {self.port}...")
-        self.server.listen(1)
-        self.client, _ = self.server.accept()
         print(f"Connected successfully")
         self.connected = True
-        self.client.settimeout(None)
-        self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.receive_step()
 
     def close(self):
-        self.client.close()
-        self.server.close()
         self.connected = False
-
-    def run(self):
-        while True:
-            data = self.receive_bytes()
-            objs = self.receive_object(data)
-            if self.on_receive_data is not None:
-                self.on_receive_data(objs)
 
     def sync_step(self):
         self.send_object("StepStart")
         self.receive_step()
 
     def receive_step(self):
-        # sync_receive_objects_queue = []
         while True:
             if not self.connected:
                 raise ConnectionError("Connection closed")
             data = self.receive_bytes()
             if data is not None and len(data) > 0:
-                objs = self.receive_object(data)
+                objs = self.receive_objects(data)
                 if len(objs) > 0 and objs[0] == "StepEnd":
                     break
                 self.on_receive_data(objs)
 
-    def receive_bytes(self):
-        data = bytearray()
-        while len(data) < 4:
-            temp_data = self.client.recv(4 - len(data))
-            assert len(temp_data) != 0
-            data.extend(temp_data)
-        assert len(data) == 4
-        length = int.from_bytes(data, byteorder="little", signed=False)
-        if length == 0:
-            return None
-        buffer = bytearray()
-        while len(buffer) < length:
-            temp_data = self.client.recv(length - len(buffer))
-            assert len(temp_data) != 0
-            buffer.extend(temp_data)
-        assert len(buffer) == length
-        return buffer
+    @abstractmethod
+    def receive_bytes(self) -> bytes:
+        pass
 
+    @abstractmethod
     def send_bytes(self, data: bytes):
-        if not self.connected:
-            return
-        length = len(data).to_bytes(4, byteorder="little", signed=False)
-        self.client.send(length)
-        self.client.send(data)
+        pass
 
-        if platform == 'linux':
-            self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1)
-
-    def receive_object(self, data: bytes) -> list:
+    def receive_objects(self, data: bytes) -> list:
         self.read_offset = 0
         count = self.read_int(data)
         objs = []
@@ -288,7 +235,7 @@ class RFUniverseCommunicator(threading.Thread):
         datas.extend(s_byte)
 
     def write_int(self, datas: bytearray, i: int):
-        datas.extend(i.to_bytes(4, byteorder="little"))
+        datas.extend(i.to_bytes(4, byteorder="little", signed=True))
 
     def write_float(self, datas: bytearray, f: float):
         datas.extend(struct.pack("f", f))

@@ -1,8 +1,9 @@
 import numpy as np
-from gym import spaces
-from gym.utils import seeding
+from gymnasium import spaces
+from gymnasium.utils import seeding
 import copy
 from pyrfuniverse.envs.gym_wrapper_env import RFUniverseGymWrapper
+
 
 class FrankaRoboticsEnv(RFUniverseGymWrapper):
     metadata = {"render.modes": ["human"]}
@@ -10,21 +11,21 @@ class FrankaRoboticsEnv(RFUniverseGymWrapper):
     height_offset = 0.025
 
     def __init__(
-        self,
-        max_episode_length,
-        reward_type,
-        tolerance,
-        load_object,
-        target_in_air,
-        block_gripper,
-        target_xz_range,
-        target_y_range,
-        object_xz_range,
-        seed=1234,
-        executable_file=None,
-        scene_file=None,
-        asset_bundle_file=None,
-        assets: list = [],
+            self,
+            max_episode_length,
+            reward_type,
+            tolerance,
+            load_object,
+            target_in_air,
+            block_gripper,
+            target_xz_range,
+            target_y_range,
+            object_xz_range,
+            seed=1234,
+            executable_file=None,
+            scene_file=None,
+            asset_bundle_file=None,
+            assets: list = [],
     ):
         super().__init__(executable_file, scene_file, assets=assets)
         self._step()
@@ -231,7 +232,7 @@ class FrankaRoboticsEnv(RFUniverseGymWrapper):
         gripper_joint_positions = copy.deepcopy(
             self.attrs[9658740].data["joint_positions"]
         )
-        return -1 * (gripper_joint_positions[0] *2)
+        return -1 * (gripper_joint_positions[0] * 2)
 
     def _check_success(self, obs):
         achieved_goal = obs["achieved_goal"]

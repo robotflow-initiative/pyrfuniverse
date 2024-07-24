@@ -1,6 +1,7 @@
-from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
-import pyrfuniverse.attributes as attr
 from typing import Any, SupportsFloat
+import pyrfuniverse.attributes as attr
+from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
+
 try:
     import gymnasium as gym
 except ImportError:
@@ -23,17 +24,19 @@ class RFUniverseGymWrapper(RFUniverseBaseEnv, gym.Env):
         ext_attr: List, the list of extended attributes. All extended attributes will be added to the environment.
         check_version: Bool, True for checking the version of the Unity environment and the pyrfuniverse library. False for not checking the version.
     """
+
     def __init__(
-        self,
-        executable_file: str = None,
-        scene_file: str = None,
-        assets: list = [],
-        graphics: bool = True,
-        port: int = 5004,
-        proc_id=0,
-        log_level=1,
-        ext_attr: list[type(attr.BaseAttr)] = [],
-        check_version: bool = True
+            self,
+            executable_file: str = None,
+            scene_file: str = None,
+            assets: list = [],
+            graphics: bool = True,
+            port: int = 5004,
+            proc_id=0,
+            log_level=1,
+            ext_attr: list[type(attr.BaseAttr)] = [],
+            check_version: bool = True,
+            communication_backend: str = "tcp",
     ):
         RFUniverseBaseEnv.__init__(
             self,
@@ -45,7 +48,8 @@ class RFUniverseGymWrapper(RFUniverseBaseEnv, gym.Env):
             proc_id=proc_id,
             log_level=log_level,
             ext_attr=ext_attr,
-            check_version=check_version
+            check_version=check_version,
+            communication_backend=communication_backend,
         )
 
     def env_step(self, count: int = 1, simulate: bool = True, collect: bool = True):
