@@ -27,7 +27,7 @@ class RFUniverseCommunicatorGRPC(RFUniverseCommunicatorBase):
         self.rfuniverse_grpc_server = RFUniverseGrpcServer()
         RFUniverseGRPC_pb2_grpc.add_GrpcServiceServicer_to_server(self.rfuniverse_grpc_server,
                                                                   self.grpc_server)
-        self.grpc_server.add_insecure_port(f'localhost:{self.port}')
+        self.grpc_server.add_insecure_port(f'0.0.0.0:{self.port}')
         self.grpc_server.start()
         while not self.rfuniverse_grpc_server.connected:
             time.sleep(0.1)
