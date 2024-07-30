@@ -39,10 +39,13 @@ class Locker:
         self.fp = None
 
     def __enter__(self):
-        self.fp = open(self.lck_path)
+        self.fp = open(self.lck_path, 'r+')  # Open the file in read-write mode
         lock(self.fp)
+        return self.fp
 
     def __exit__(self, _type, value, tb):
+        try:
+            unlock(self.fp)
+        finally:
+            self.fp.close()
         time.sleep(0.1)
-        unlock(self.fp)
-        self.fp.close()
