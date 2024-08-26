@@ -155,6 +155,9 @@ class RFUniverseBaseEnv(ABC):
         if this_object_id not in self.attrs:
             self.attrs[this_object_id] = attr_type(self, this_object_id)
         elif type(self.attrs[this_object_id]) != attr_type:
+            print(
+                f"ID: {this_object_id} Type: {type(self.attrs[this_object_id])}, Does not match the actual type in the simulation environment, Need to call GetAttr to get the correct type")
+            del self.attrs[this_object_id]
             self.attrs[this_object_id] = attr_type(
                 self, this_object_id, self.attrs[this_object_id].data
             )
@@ -491,7 +494,7 @@ class RFUniverseBaseEnv(ABC):
             path: Str, the URDF file path.
             id: Int, object id.
             native_ik: Bool, True for enabling native IK; False for using custom IK.When it is True, through the IKTargetDo*** interface, according to the end pose.When it is False, through the SetJoint*** interface, according to the joint movement.
-            axis: Str, import axis, This can be 'z' or 'y', depending on the URDF file
+            axis: Str, Removed
 
         Returns:
             pyrfuniverse.attributes.ControllerAttr: The object attribute intance.

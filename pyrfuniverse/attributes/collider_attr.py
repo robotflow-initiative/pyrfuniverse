@@ -25,12 +25,12 @@ class ColliderAttr(attr.GameObjectAttr):
         self._send_data("EnabledAllCollider", enabled)
 
     def SetPhysicMaterial(
-        self,
-        bounciness: float,
-        dynamicFriction: float,
-        staticFriction: float,
-        frictionCombine: int,
-        bounceCombine: int,
+            self,
+            bounciness: float,
+            dynamicFriction: float,
+            staticFriction: float,
+            frictionCombine: int,
+            bounceCombine: int,
     ):
         """
         Set the collider physical material.
@@ -76,11 +76,44 @@ class ColliderAttr(attr.GameObjectAttr):
         """
         self._send_data("SetRFMoveColliderActive", active)
 
-    def GenerateVHACDColider(self):
+    def GenerateVHACDCollider(self):
         """
         Generate convex colliders using VHACD algorithm.
         """
-        self._send_data("GenerateVHACDColider")
+        self._send_data("GenerateVHACDCollider")
+
+    def GenerateCoACDCollider(self):
+        """
+        Generate convex colliders using CoACD algorithm.
+        """
+        self._send_data("GenerateCoACDCollider")
+
+    def GenerateConvexCollider(self):
+        """
+        Generate convex colliders using Unity MeshCollider Convex.
+        """
+        self._send_data("GenerateConvexCollider")
+
+    def SetTrigger(self, trigger=True):
+        """
+        Set All Collider to Trigger or not Trigger
+
+        Args:
+            trigger (bool): Is Trigger or not Trigger
+        """
+        self._send_data("SetTrigger", trigger)
+
+    def ResetCollisionState(self):
+        """
+        Add collision state detection module and reset
+        """
+        self._send_data("ResetCollisionState")
+
+    def GetCollisionState(self):
+        """
+        Get Collision State
+        """
+        self._send_data("GetCollisionState")
 
     def AddObiCollider(self):
         """
