@@ -1,5 +1,9 @@
 import os
 import sys
+
+import cv2
+import numpy as np
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 import os.path
 from pyrfuniverse.envs.base_env import RFUniverseBaseEnv
@@ -12,7 +16,7 @@ t_shirt_path = os.path.join(mesh_path, 'Tshirt.obj')
 mesh = env.LoadCloth(
     path=t_shirt_path
 )
-mesh.SetTransform(position=[0, 1, 0])
+mesh.SetTransform(position=[0, 0.5, 0])
 env.step(200)
 mesh.GetParticles()
 env.step()
@@ -31,11 +35,10 @@ point2.DoMove([0.25, 1, 0], 2, speed_based=False)
 point2.WaitDo()
 
 while True:
-    point1.DoMove([-0.25, 1, -0.5], 1)
-    point2.DoMove([0.25, 1, -0.5], 1)
+    point1.DoMove([-0.25, 1, -0.5], 0.5)
+    point2.DoMove([0.25, 1, -0.5], 0.5)
     point2.WaitDo()
 
-    point1.DoMove([-0.25, 1, 0.5], 1)
-    point2.DoMove([0.25, 1, 0.5], 1)
+    point1.DoMove([-0.25, 1, 0.5], 0.5)
+    point2.DoMove([0.25, 1, 0.5], 0.5)
     point2.WaitDo()
-
