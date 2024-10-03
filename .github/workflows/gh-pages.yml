@@ -43,19 +43,6 @@ jobs:
           name: github-pages
           path: Doc/_build/html/
           retention-days: 1
-      - name: Create tar.gz archive
-        run: |
-          tar -czvf site.tar.gz -C Doc/_build/html .
-      - name: Upload file to bucket
-        uses: koraykoska/s3-upload-github-action@master
-        env:
-          FILE: ./site.tar.gz
-          S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
-          S3_BUCKET: ${{ secrets.S3_BUCKET }}
-          S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
-          S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
-          S3_PREFIX: mvig-robotflow/pyrfuniverse/latest
-          S3_ACL: private
 
   # Deployment job
   deploy:
@@ -68,10 +55,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
-      - name: Invoke deployment hook
-        uses: distributhor/workflow-webhook@v2
-        env:
-          webhook_url: ${{ secrets.WEBHOOK_URL }}
-          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-          webhook_auth: ${{ secrets.WEBHOOK_AUTH }}
-          data: '{ "project": "mvig-robotflow/pyrfuniverse" }'
