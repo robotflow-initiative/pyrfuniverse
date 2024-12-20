@@ -114,7 +114,7 @@ class RFUniverseBaseEnv(ABC):
     def _start_unity_env(self, executable_file: str, port: int, communication_backend: str) -> subprocess.Popen:
         arg = [executable_file]
         if not self.graphics:
-            arg.extend(["-nographics", "-batchmode"])
+            arg.extend(["-batchmode"])
         if self.log_level == 0:
             proc_out = subprocess.DEVNULL
         else:
