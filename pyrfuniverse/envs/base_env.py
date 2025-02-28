@@ -396,27 +396,14 @@ class RFUniverseBaseEnv(ABC):
 
         BaseAttr:
             "Empty",
+            "Coordinate",
 
         GameObjectAttr:
-            Basic Objects:
-                "GameObject_Box",
-                "GameObject_Capsule",
-                "GameObject_Cylinder",
-                "GameObject_Sphere",
-                "GameObject_Quad",
-            IGbison Meshes:
-                "Hainesburg_mesh_texture",
-                "Halfway_mesh_texture",
-                "Hallettsville_mesh_texture",
-                "Hambleton_mesh_texture",
-                "Hammon_mesh_texture",
-                "Hatfield_mesh_texture",
-                "Haxtun_mesh_texture",
-                "Haymarket_mesh_texture",
-                "Hendrix_mesh_texture",
-                "Hercules_mesh_texture",
-                "Highspire_mesh_texture",
-                "Hitchland_mesh_texture",
+            "GameObject_Box",
+            "GameObject_Capsule",
+            "GameObject_Cylinder",
+            "GameObject_Sphere",
+            "GameObject_Quad",
 
         ColliderAttr:
             "Collider_Box",
@@ -428,8 +415,9 @@ class RFUniverseBaseEnv(ABC):
 
         RigidbodyAttr:
             Basic Objects:
+                "MassPoint",
                 "Rigidbody_Box",
-                "GameObject_Capsule",
+                "Rigidbody_Capsule",
                 "Rigidbody_Cylinder",
                 "Rigidbody_Sphere",
             YCB dataset:
@@ -440,18 +428,22 @@ class RFUniverseBaseEnv(ABC):
                 "allegro_hand_right",
                 "bhand",
                 "svh",
+                "mano",
                 "robotiq_arg2f_85_model",
                 "dh_robotics_ag95_gripper",
                 "shadowhand",
+                "shadow_e3m5",
             robot arm:
                 "kinova_gen3",
                 "ur5",
+                "ur10",
                 "flexivArm",
                 "tobor_r300",
-            robot arm and gripper:
+            robot arm with gripper:
                 "franka_panda",
                 "kinova_gen3_robotiq85",
                 "ur5_robotiq85",
+                "ur10_shadow",
                 "tobor_r300_ag95_ag95",
                 "tobor_r300_robotiq85_robotiq85",
                 "flexivArm_ag95",
@@ -483,6 +475,12 @@ class RFUniverseBaseEnv(ABC):
 
         self.attrs[id] = attr_type(self, id)
         return self.attrs[id]
+
+    def GetBuiltinAssetsList(self) -> None:
+        """
+        Get built-in assets list that can be created by InstanceObject, After calling this method and stepping once, the result will be saved in env.data['builtin_assets_list']
+        """
+        self._send_env_data("GetBuiltinAssetsList")
 
     def LoadURDF(
             self, path: str, id: int = None, native_ik: bool = False, axis: str = "y"
